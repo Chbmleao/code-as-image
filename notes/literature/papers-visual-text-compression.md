@@ -1,6 +1,6 @@
 # Visual text compression: paper notes
 
-Compiled 2026-09-28 from arXiv abstract and HTML pages. Numbers below were read from the sources. Where a page was summarized by a fetch tool rather than read line by line (VTCBench, CodeOCR, LongCodeOCR, CodeShrink, Text or Pixels), the numbers should be spot-checked against the PDF before they go into the report; these are marked "(check)". Anything not found in the source is marked "not verified".
+Compiled 2026-09-28 from arXiv abstract and HTML pages. Numbers below were read from the sources. CodeOCR, LongCodeOCR and CodeShrink were read in full from the arXiv HTML (2026-09-28); the "(check)" marks were removed from them. Where a page was summarized by a fetch tool rather than read line by line (VTCBench, Text or Pixels), the numbers should be spot-checked against the PDF before they go into the report; these are marked "(check)". Anything not found in the source is marked "not verified" or UNVERIFIED.
 
 Project reference: pilot with Qwen2.5-VL-7B, text 13/20, image tiny font 5/20 at ~3.4x fewer tokens, mono-12 12/20 at ~1.5x fewer, failures mostly misread identifiers.
 
@@ -96,33 +96,51 @@ How it relates to us:
 
 ### 4a. CodeOCR
 
-Citation: Yuling Shi, Chaoxiang Xie, Zhensu Sun, Yeheng Chen, Chenxu Zhang, Longfei Yun, Chengcheng Wan, Hongyu Zhang, David Lo, Xiaodong Gu. "Seeing Is Coding: On the Effectiveness of Vision Language Models in Code Understanding" (arXiv listing title also uses "CodeOCR"). arXiv:2602.01785; venue reported as PACMSE, ISSTA 2026 (check). https://arxiv.org/abs/2602.01785
+Citation: Yuling Shi, Chaoxiang Xie, Zhensu Sun, Yeheng Chen, Chenxu Zhang, Longfei Yun, Chengcheng Wan, Hongyu Zhang, David Lo, Xiaodong Gu. "Seeing Is Coding: On the Effectiveness of Vision Language Models in Code Understanding" (the repo and Hugging Face page use the name CodeOCR). arXiv:2602.01785 (v1 2 Feb 2026, later versions to 14 Aug 2026). Proc. ACM Softw. Eng. vol 3 (ISSTA 2026), DOI 10.1145/3832167. https://arxiv.org/abs/2602.01785 ; code and data https://github.com/YerbaPage/CodeOCR. Read in full from the arXiv HTML.
 
-Method (check): 7 models (Qwen-3-VL 235B, GLM-4.6v, GPT-5-mini, GPT-5.1, Gemini-2.5-Pro, Gemini-3-Flash, Gemini-3-Pro). Code rendered with VS Code monospace 40 px on 2240x2240 canvases, variants plain, bold, syntax highlighted, then bilinear downsampling to 1x, 2x, 4x, 8x. Tasks: code completion (Python and Java, 200 each; edit similarity and exact match), summarization (LLM judge), type-4 clone detection (F1), code QA (accuracy). No unit tests.
+Models: 7. Open: Qwen-3-VL 235B, GLM-4.6v 108B. Proprietary: GPT-5-mini, GPT-5.1, Gemini-2.5-Pro, Gemini-3-Flash, Gemini-3-Pro. No model under 100B.
 
-Key numbers (check): Gemini-3-Flash completion ES 55.1 text to 57.1 image at 1x and 58.8 at 8x; clone detection F1 GPT-5.1 46.8 text to 62.4 image; code QA Gemini-3-Pro 74.8 text to 77.2 at 1x and 79.5 at 8x. Highlighting gives 1 to 3 point gains at 1x to 4x, little at 8x; bold can hurt at 8x.
+Rendering: 2240x2240 canvas, VS Code monospace 40 px, line height 1.0, 1% margin, Pygments plus Pillow. Variants plain, bold, syntax highlighted. Bilinear downsampling to 1x, 2x, 4x, 8x (8x is 12.5% of the text tokens). Ratio is against the text token count.
 
-Reading versus reasoning: it does a code reconstruction (transcription) experiment. Errors grow from token-level (1 vs l, 0 vs O, dropped punctuation) at 1x to 2x, to line-level, to block-level with hallucinated lines at 4x to 8x. Its main finding is that token errors often do not hurt semantic tasks (summarization, clone detection).
+Tasks and scoring: completion (200 Python and 200 Java, average about 6.1k and 5.7k tokens; EM and ES), summarization (109 examples, LLM judge CompScore by DeepSeek-V3.2), type-4 clone detection (GPTCloneBench, F1), code QA (authors' CodeQA built from repos created after Aug 2025, accuracy). Five repeated runs and Wilcoxon signed-rank tests. No unit tests, no pass@k.
 
-How it relates to us: closest paper. It shows the reading errors we saw, and separates reading from downstream accuracy via reconstruction. It uses strong proprietary and very large open models, not 7B local ones, and the tasks tolerate misread identifiers. Nobody there runs unit tests, where a single misread identifier fails the item. No psychometric comparison.
+Numbers: clone F1 GPT-5-mini 33.2 to 47.0, GPT-5.1 46.8 to 62.4 (p<0.01), text to image at 1x. Completion ES Gemini-3-Flash 55.1 to 57.1, Gemini-3-Pro 55.8 to 57.7 (p<0.05), Gemini-3-Pro 58.0 at 8x. QA Gemini-3-Pro 74.8 to 77.2 at 1x, 79.5 at 8x. Weak open models suffer: GLM-4.6v QA 72.6% falls to 39.7% at 8x (p<0.01). Highlighting helps a little at low compression. The 58.8 ES at 8x for Gemini-3-Flash in the earlier note was not re-confirmed: UNVERIFIED.
+
+Reading versus reasoning: RQ5 is a reconstruction probe. 100 fresh snippets (average 473.1 tokens), all 7 models, 1x to 8x, prompt "Transcribe the code in the image exactly". Errors are classed token, line, block, growing with compression. It is a separate task, not a per-item label of failed coding answers. No per-item analysis or item-level uncertainty beyond the tests above.
+
+How it relates to us: closest paper. It has the same reading-error story and a transcription probe. Its models are proprietary or over 100B, and its tasks tolerate misread identifiers. No unit tests, no psychometrics (0 hits for unit test, pass@ or psychometric terms in the full text).
 
 ### 4b. LongCodeOCR
 
-Citation: Jianping Zhong, Guochang Li, Chen Zhi, Junxiao Han, Zhen Qin, Xinkui Zhao, Nan Wang, Shuiguang Deng, Jianwei Yin. "Can Vision-Language Models Handle Long-Context Code? An Empirical Study on Visual Compression". arXiv:2602.00746, 31 Jan 2026. https://arxiv.org/abs/2602.00746
+Citation: Jianping Zhong, Guochang Li, Chen Zhi, Junxiao Han, Zhen Qin, Xinkui Zhao, Nan Wang, Shuiguang Deng, Jianwei Yin (Zhejiang University, Hangzhou City University, Shenzhou Aerospace Software). "Can Vision-Language Models Handle Long-Context Code? An Empirical Study on Visual Compression". arXiv:2602.00746 v1, cs.SE, 31 Jan 2026. Venue: UNVERIFIED (none stated). No code link found. https://arxiv.org/abs/2602.00746. Read in full from the arXiv HTML.
 
-Method (check): renders full code context as image sequences, instruction stays as text (this is close to our Mixed condition). Models: Qwen3-8B (text), Qwen3-VL-8B, Glyph (9B). Baselines: LongCodeZip, LLMLingua variants, RAG. Tasks: long module summarization, LongCodeQA, LCC, RepoBench-P (edit similarity and exact match; no unit tests).
+Setup: only the code context is rendered as image sequences, the instruction stays text (our Mixed condition). Models: Qwen3-8B (text baseline), Qwen3-VL-8B, Glyph (9B), all open. Baselines: LongCodeZip, LLMLingua variants, RAG, random line. GPT-4o, Llama 3.1 405B and Gemini 2.5 Pro appear only as published reference numbers, not run.
 
-Key numbers (check): average ratios 1.6x to 2.0x; RepoBench-P ES 50.22 at 2.0x versus LongCodeZip 39.48; LCC with Glyph ES 45.90, EM 13.60 at 2.0x; LongCodeQA at 1M tokens 70.00% at 12.2x versus LongCodeZip 64.00% at 3.0x. Reports sharp drops in file-level completion exact match when rendering density rises, and says visual fidelity limits symbol-level precision.
+Tasks and scoring: Long Module Summarization (139 instances over 2k tokens, CompScore), LongCodeQA (443 instances, 98 repos, accuracy), LCC and RepoBench-P (ES, EM). No unit tests, no significance tests, no repeated runs found.
 
-How it relates to us: same Mixed-style setup on code with a small VLM (8B), compared with token-pruning baselines. It uses similarity metrics and QA, not unit tests, and does not analyze error types.
+Rendering: single-column layout by default, Verdana; the sensitivity study compares Verdana with JetBrainsMono-Regular and single with two columns. Exact font size and DPI: UNVERIFIED (not extracted). Visual token estimate is H*W/(16*16*4) for Qwen3-VL-8B and H*W/(14*14*4) for Glyph. Average ratios 1.7x, 1.6x, 2.0x, 2.0x (Table 2).
+
+Numbers: summarization CompScore 87.25 versus LongCodeZip 50.40 at about 1.7x (Glyph 72.74; abstract says +36.85). QA 70.46% versus 67.61% (Glyph 64.42%). QA at 64k 80.26 versus GPT-4o 76.3 (published); at 1M Qwen3-VL-8B 72.00 versus Gemini 2.5 Pro 69.8 (published), and Glyph 70.00% at 12.2x versus LongCodeZip 64.00% at 3.0x. Table 10 (4k to 8k, 180 instances each) RepoBench-P ES 49.56, 47.98, 48.48, 51.64, 50.70 at 1x to 5x; LCC ES 42.83, 39.35, 38.95, 35.52, 35.34. Rendering ablation: RepoBench-P ES 51.63 single column versus 49.19 two column; LCC ES 39.35 to 41.75 and EM 11.11 to 12.78 with JetBrainsMono. Discussion frames a coverage-fidelity trade-off: visual is better for global tasks, worse on exactness-critical ones.
+
+Not re-confirmed from the old note, treat as UNVERIFIED: RepoBench-P ES 50.22 versus 39.48 at 2.0x, and LCC Glyph ES 45.90 / EM 13.60.
+
+Reading versus reasoning: no error-type or transcription analysis. Only the fidelity argument in the discussion.
+
+How it relates to us: Mixed-style setup on code with small open VLMs (two, 8B and 9B), compared with pruning baselines. Similarity and QA metrics, no unit tests, no psychometrics (0 hits).
 
 ### 4c. CodeShrink
 
-Citation: Wenxin Tang, Jingyu Xiao, Zhenyu Liu, Zipeng Xie, Junliang Liu, Wang Luo, Yuan Jiang, Yintong Huo, Michael Lyu. "CodeShrink: Adaptive Visual Compression for Efficient Multimodal Code Understanding". arXiv:2607.29637, 31 Jul 2026. https://arxiv.org/abs/2607.29637
+Citation: Wenxin Tang, Jingyu Xiao, Zhenyu Liu, Zipeng Xie, Junliang Liu, Wang Luo, Yuan Jiang, Yintong Huo, Michael Lyu. "CodeShrink: Adaptive Visual Compression for Efficient Multimodal Code Understanding". arXiv:2607.29637 v1, cs.CV, 31 Jul 2026. Venue: UNVERIFIED (none stated). Code https://github.com/vinsontang1/CodeShrink. https://arxiv.org/abs/2607.29637. Read in full from the arXiv HTML.
 
-Method (check): renders code without blank regions (indent and dedent markers), prunes visual tokens irrelevant to the instruction, and uses an RL-trained small agent (Qwen3.5-0.8B) to pick a per-input compression setting; downstream model Qwen3.5-27B with LoRA. Tasks: code QA, clone detection, code completion. Reports about 40% token reduction with Python QA 82.3% versus 81.0% text, up to 71.2% reduction on Java clone detection. No unit tests found.
+Method: Blank-Free Rendering (binary search for the largest font under a token budget, adaptive page count, indent markers, patch-grid alignment; example in the paper: font 22 px to 32 px at the same budget, blank coverage 41.9% to 1.2%), Dominant Token Selection to prune visual tokens, and an Adaptive Compression Configuration agent (Qwen3.5-0.8B, SFT then GRPO, 38,400 possible actions). Downstream Qwen3.5-27B with LoRA rank 16. Table III also runs Qwen3-VL-235B-A22B, GPT-5-mini and Gemini-3-Flash at 1x to 8x, 200 samples, 5 runs. Greedy decoding, seed 42.
 
-How it relates to us: motivates layout choices (whitespace wastes image area), which touches our characters-per-row factor. Fine-tuned, single downstream model.
+Tasks and scoring: code QA (300, CodeOCR's set), clone detection (200 balanced type-4, GPTCloneBench), completion (200, LongCodeCompletion), Python and Java. Accuracy, F1, ES, EM. Token reduction R = 1 - n_img^c / n_img, with baselines matched to the text token count. No unit tests, no significance tests found.
+
+Numbers: up to 71.2% token reduction (abstract). Python (Table I): CodeShrink QA 82.3 versus text-only 81.0, R 39.7; clone Acc 68.0, F1 65.9; completion ES 60.3, EM 27.5 versus text-only 55.1 and 27.0. In the same table CodeOCR scores QA 51.7 and ES 46.4 (as run by the CodeShrink authors as a baseline; setup not checked). Ablation without ACC: Python QA 81.5 to 75.0, Java clone accuracy 70.5 to 64.5. The old note said 71.2% was on Java clone detection: UNVERIFIED, the abstract gives no task.
+
+Reading versus reasoning: none. No per-item analysis.
+
+How it relates to us: layout choices (whitespace wastes image area), which touches our characters-per-row factor. Fine-tuned, one main downstream model. No psychometrics (0 hits).
 
 ### 4d. Text or Pixels? It Takes Half
 
@@ -141,9 +159,9 @@ Not covered in depth: PIXEL (Rust et al., pixel-based language model), CLIPPO (T
 ## Gaps relevant to us
 
 - No paper found that scores rendered-context coding with unit tests. Related code work uses edit similarity, exact match, QA accuracy, clone F1 or LLM judges, all of which tolerate a misread identifier that would fail a unit test.
-- Code studies use large or proprietary models (CodeOCR) or a few 8B to 9B ones (LongCodeOCR, CodeShrink). A multi-model comparison across 3 to 5 local 7B-class VLMs on code is not covered.
-- No psychometric treatment (item difficulty, reliability, item-level or model-by-item interaction) in any paper read. VTCBench compares many models but reports aggregate scores (not verified beyond the summary).
+- Code studies use large or proprietary models (CodeOCR: two open models over 100B plus five proprietary) or one or two 8B to 27B open ones (LongCodeOCR: Qwen3-VL-8B and Glyph; CodeShrink: Qwen3.5-27B fine-tuned, plus Qwen3-VL-235B). A multi-model comparison across 3 to 5 local 7B-class VLMs on code is not covered.
+- No psychometric treatment (only Wilcoxon tests and 5-run averages in CodeOCR and CodeShrink; item difficulty, reliability, item-level or model-by-item interaction) in any paper read. VTCBench compares many models but reports aggregate scores (not verified beyond the summary).
 - Reading versus reasoning: CodeOCR separates reading through a reconstruction task, and VTCBench through retrieval versus associative reasoning. Nobody labels the failures of each coding item as read error (wrong identifier in the code) versus logic error, which is what our failure analysis can add.
-- Mixed (context image, instruction text) versus all-image is only partly explored (LongCodeOCR uses mixed; a direct comparison of the two conditions on code was not found).
+- Mixed (context image, instruction text) versus all-image is only partly explored (LongCodeOCR and CodeOCR use mixed; a direct comparison of the two conditions on code was not found).
 - Font size and characters per row are treated as tuning knobs (Glyph DPI, CodeOCR downsampling, VTCBench font sizes) but not crossed systematically with model on code.
 - Compression ratios are measured against different tokenizers; we should report ratios against each model's own text token count, plus image token counts as reported by Ollama.
