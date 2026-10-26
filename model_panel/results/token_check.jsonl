@@ -1,0 +1,10 @@
+{"model": "Qwen/Qwen2.5-VL-7B-Instruct", "width": 616, "height": 1540, "text_only_tokens": 23, "image_tokens": 1212, "grid_28": 1210, "grid_32": 926, "grid_48": 412}
+{"model": "Qwen/Qwen2.5-VL-7B-Instruct", "width": 616, "height": 770, "text_only_tokens": 23, "image_tokens": 618, "grid_28": 605, "grid_32": 463, "grid_48": 206}
+{"model": "Qwen/Qwen3.5-9B", "width": 616, "height": 1540, "text_only_tokens": 16, "image_tokens": 914, "grid_28": 1210, "grid_32": 926, "grid_48": 412}
+{"model": "Qwen/Qwen3.5-9B", "width": 616, "height": 770, "text_only_tokens": 16, "image_tokens": 458, "grid_28": 605, "grid_32": 463, "grid_48": 206}
+{"model": "google/gemma-4-12B-it", "width": 616, "height": 1540, "text_only_tokens": 17, "image_tokens": 262, "grid_28": 1210, "grid_32": 926, "grid_48": 412}
+{"model": "google/gemma-4-12B-it", "width": 616, "height": 770, "text_only_tokens": 17, "image_tokens": 254, "grid_28": 605, "grid_32": 463, "grid_48": 206}
+{"model": "cyankiwi/Qwen3.5-27B-AWQ-4bit", "width": 616, "height": 1540, "text_only_tokens": 16, "image_tokens": 914, "grid_28": 1210, "grid_32": 926, "grid_48": 412}
+{"model": "cyankiwi/Qwen3.5-27B-AWQ-4bit", "width": 616, "height": 770, "text_only_tokens": 16, "image_tokens": 458, "grid_28": 605, "grid_32": 463, "grid_48": 206}
+{"model": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym", "width": 616, "height": 1540, "text_only_tokens": 561, "image_tokens": 1265, "grid_28": 1210, "grid_32": 926, "grid_48": 412}
+{"model": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym", "width": 616, "height": 770, "text_only_tokens": 561, "image_tokens": 644, "grid_28": 605, "grid_32": 463, "grid_48": 206}
