@@ -368,7 +368,7 @@ deveval/
   results/
 ```
 
-Setup scripts run on phocus4 (internet). The .sbatch files expect this same layout under
+Setup scripts run on phocus4 (internet); `../CLUSTER.md` covers the cluster itself. The .sbatch files expect this same layout under
 `/sonic_home/carlosleao/ufm7` on the cluster; data and outputs go to `/snfs2/carlosleao/ufm7`
 (subfolders `coderujb`, `deveval`, `deveval_calib`, `d4j`), and generation reuses the vLLM venv
 in `/snfs2/carlosleao/ufm8/venv`. The other scripts run anywhere with the downloaded datasets;
