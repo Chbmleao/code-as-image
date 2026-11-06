@@ -332,7 +332,8 @@ Not covered by either: context spread over several files, and diagrams or other 
 - The 9 suite_fail and 4 suite_timeout gold items may include tests that flip under load (timing).
   This is why the target-test score is the primary one.
 - DevEval at 859 items is about 6x the CoderUJB run. A stratified sample would cut generation time,
-  grading is cheap either way. Not decided.
+  grading is cheap either way. Decided Nov 4: all 859 items, with a stratified first block of 200
+  for the D-study (see docs/methodology.md).
 - One calibration run per model and item on both benchmarks; the main study's 3 seeds will show how
   much of the per-item pattern is sampling noise.
 
