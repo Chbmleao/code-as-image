@@ -23,6 +23,8 @@ The cluster directories are not git checkouts.
 | `/sonic_home/carlosleao/ufm7` | Benchmark code, same layout as `benchmarks/` |
 | `/snfs2/carlosleao/ufm8` | `venv/` (vLLM 0.32.0, torch 2.13, transformers 5.19), `hf/` (HF_HOME), `home/` and `cache/` for the GPU jobs |
 | `/snfs2/carlosleao/ufm7` | Benchmark data and outputs (`coderujb`, `deveval`, `deveval_calib`, `d4j`) and `logs/` |
+| `/sonic_home/carlosleao/ufm9/<date>-<sha>` | One read-only copy of the pipeline code per sync (`scripts/sync_cluster.sh`); jobs name the copy they run |
+| `/snfs2/carlosleao/ufm9` | `inputs/` (benchmark prompt files with sha256), `smoke/` and `block1/` run dirs, `logs/` |
 
 Big files (models, datasets, outputs) go on `/snfs2`, code on `/sonic_home`.
 
@@ -52,6 +54,17 @@ collide. It waits for `/health`, runs the Python client against
 `http://localhost:<port>/v1/chat/completions`, then stops the server. Loading the model takes
 most of a short job's time, so expect about 15 minutes even for 60 short generations.
 
+### Main study (ufm9)
+
+1. `scripts/sync_cluster.sh` copies the pipeline code to a new dated dir and prints its path.
+2. On `phocus4`, with the ufm8 venv active and `PYTHONPATH=<code>/src`, build the requests:
+   `python -m codeimg prompts --benchmark <b> --source /snfs2/carlosleao/ufm9/inputs/<file>
+   --ids <code>/manifests/<sample>/<b>.txt --out /snfs2/carlosleao/ufm9/<sample>/<b>`.
+3. `<code>/slurm/submit_generate.sh <code> /snfs2/carlosleao/ufm9/<sample> [generate args]`
+   prints one job per model and asks before submitting.
+4. `python -m codeimg answers`, then `sbatch <code>/slurm/grade_<b>.sbatch <code> ANSWERS OUT`,
+   then `python -m codeimg collect`.
+
 ## Things that have already broken
 
 - Slurm copies the `.sbatch` file when you submit, but reads the `.py` files when the job
@@ -69,3 +82,8 @@ most of a short job's time, so expect about 15 minutes even for 60 short generat
 - Grading has no Docker and no network on the compute nodes. Defects4J and the DevEval venv were
   installed on `phocus4` without root (`benchmarks/coderujb/setup_d4j.sh`,
   `benchmarks/deveval/setup_env.sh`).
+- `squeue` and `sbatch` fail over a plain `ssh phocus4 '...'` (the Slurm config is found through
+  the login profile). Use `ssh phocus4 'bash -lc "..."'`.
+- The cluster's Pillow has libraqm, which gives fractional glyph advances and so more pages than a
+  laptop without it. The renderer pins Pillow's basic layout engine. PNG bytes still differ (zlib
+  1.2.11 there, zlib-ng on the Mac) with identical pixels, so compare renders by `pixels_sha256`.

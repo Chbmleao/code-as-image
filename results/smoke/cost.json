@@ -1,0 +1,184 @@
+{
+ "basis": "smoke run, 20 answers per model and benchmark, run 0 only",
+ "concurrency": 8,
+ "models": {
+  "qwen25vl7b": {
+   "load_seconds": 331.0,
+   "gen_seconds_per_answer": {
+    "coderujb text": 1.48,
+    "coderujb image10": 1.02,
+    "coderujb image12": 1.43,
+    "coderujb image14": 1.09,
+    "deveval text": 1.06,
+    "deveval image10": 0.58,
+    "deveval image12": 0.6,
+    "deveval image14": 0.52
+   },
+   "wall_seconds_per_answer_check": [
+    2.96,
+    0.76
+   ],
+   "median_prompt_tokens": {
+    "text": 5063.5,
+    "image10": 2402.0,
+    "image12": 3383.0,
+    "image14": 4617.0
+   },
+   "median_image_tokens_per_page": {
+    "image10": 1000,
+    "image12": 921,
+    "image14": 1003
+   },
+   "gpu_hours": {
+    "block1": 0.72,
+    "full": 2.64
+   }
+  },
+  "qwen35_9b": {
+   "load_seconds": 587.0,
+   "gen_seconds_per_answer": {
+    "coderujb text": 1.71,
+    "coderujb image10": 1.08,
+    "coderujb image12": 1.24,
+    "coderujb image14": 1.41,
+    "deveval text": 1.38,
+    "deveval image10": 1.04,
+    "deveval image12": 1.77,
+    "deveval image14": 0.95
+   },
+   "wall_seconds_per_answer_check": [
+    2.64,
+    1.96
+   ],
+   "median_prompt_tokens": {
+    "text": 5468.0,
+    "image10": 1863.5,
+    "image12": 2614.0,
+    "image14": 3518.5
+   },
+   "median_image_tokens_per_page": {
+    "image10": 756,
+    "image12": 701,
+    "image14": 754
+   },
+   "gpu_hours": {
+    "block1": 1.2,
+    "full": 4.46
+   }
+  },
+  "gemma4_12b": {
+   "load_seconds": 717.0,
+   "gen_seconds_per_answer": {
+    "coderujb text": 1.2,
+    "coderujb image10": 1.66,
+    "coderujb image12": 1.53,
+    "coderujb image14": 1.26,
+    "deveval text": 1.03,
+    "deveval image10": 0.99,
+    "deveval image12": 0.95,
+    "deveval image14": 0.96
+   },
+   "wall_seconds_per_answer_check": [
+    4.45,
+    1.15
+   ],
+   "median_prompt_tokens": {
+    "text": 5939.0,
+    "image10": 977.0,
+    "image12": 1164.0,
+    "image14": 1421.0
+   },
+   "median_image_tokens_per_page": {
+    "image10": 266,
+    "image12": 266,
+    "image14": 264
+   },
+   "gpu_hours": {
+    "block1": 1.04,
+    "full": 3.65
+   }
+  },
+  "qwen35_27b": {
+   "load_seconds": 556.0,
+   "gen_seconds_per_answer": {
+    "coderujb text": 2.4,
+    "coderujb image10": 1.57,
+    "coderujb image12": 1.93,
+    "coderujb image14": 1.71,
+    "deveval text": 2.24,
+    "deveval image10": 1.41,
+    "deveval image12": 1.24,
+    "deveval image14": 1.87
+   },
+   "wall_seconds_per_answer_check": [
+    4.42,
+    2.41
+   ],
+   "median_prompt_tokens": {
+    "text": 5468.0,
+    "image10": 1863.5,
+    "image12": 2614.0,
+    "image14": 3518.5
+   },
+   "median_image_tokens_per_page": {
+    "image10": 756,
+    "image12": 701,
+    "image14": 754
+   },
+   "gpu_hours": {
+    "block1": 1.53,
+    "full": 5.84
+   }
+  },
+  "mistral24b": {
+   "load_seconds": 471.0,
+   "gen_seconds_per_answer": {
+    "coderujb text": 2.14,
+    "coderujb image10": 2.16,
+    "coderujb image12": 1.69,
+    "coderujb image14": 1.85,
+    "deveval text": 1.58,
+    "deveval image10": 1.63,
+    "deveval image12": 1.39,
+    "deveval image14": 1.55
+   },
+   "wall_seconds_per_answer_check": [
+    3.18,
+    1.62
+   ],
+   "median_prompt_tokens": {
+    "text": 5900.0,
+    "image10": 3048.0,
+    "image12": 4117.5,
+    "image14": 5394.0
+   },
+   "median_image_tokens_per_page": {
+    "image10": 1054,
+    "image12": 978,
+    "image14": 1055
+   },
+   "gpu_hours": {
+    "block1": 1.42,
+    "full": 5.42
+   }
+  }
+ },
+ "grading": {
+  "coderujb": {
+   "answers_graded": 104,
+   "cpu_seconds_per_answer": 288.4,
+   "cpu_hours_block1": 192.2,
+   "cpu_hours_full": 653.6
+  },
+  "deveval": {
+   "answers_graded": 105,
+   "cpu_seconds_per_answer": 10.7,
+   "cpu_hours_block1": 35.5,
+   "cpu_hours_full": 152.5
+  }
+ },
+ "gpu_hours_total": {
+  "block1": 5.9,
+  "full": 22.0
+ }
+}

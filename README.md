@@ -29,15 +29,36 @@ is the paired text-minus-image gap per model with a project-clustered interval. 
 | `pilot/` | First pilot: Qwen2.5-VL 7B on 20 HumanEval problems, text vs image |
 | `model_panel/` | Model choice: fit on one RTX 5090, text floor screen, image token cost |
 | `benchmarks/` | Benchmark choice, item filters, gold checks, token counts, contamination check |
+| `src/codeimg/` | The experiment pipeline (below) |
+| `configs/experiment.toml` | Every setting of the main study: sizes, runs, seed, sampling, image limit, models |
+| `manifests/` | Item ids of the smoke sample and block 1, and the page counts the smoke pick used |
+| `slurm/`, `scripts/` | Job templates, cluster sync, smoke checks and the cost estimate |
+| `results/` | Outputs small enough to commit (no reply text) |
 | `CLUSTER.md` | How to run jobs on the DCC cluster (Slurm) |
 
 ## Status
 
 - Done: proposal, model panel, benchmark selection, pilot, methodology presentation.
-- Next: the experiment pipeline (render, generate, grade) and a first block of 240 items that
-  decides between 2 and 3 runs for the rest. Then the main run, the analysis and the paper.
+- Done: the experiment pipeline and its smoke run on the cluster.
+- Next: a first block of 240 items that decides between 2 and 3 runs for the rest. Then the main
+  run, the analysis and the paper.
+
+## Pipeline
+
+`python -m codeimg <stage>`, one stage per step, each reading the previous one's files:
+
+| Stage | Does | Runs on |
+|---|---|---|
+| `prompts` | Builds the text and image requests for a manifest; renders the pages | login node |
+| `sample` | Draws the block-1 and smoke manifests from the seed | laptop |
+| `generate` | Sends every (item, condition, run) to a vLLM server, resumable | GPU node |
+| `answers` | Extracts the code from each reply into grader input | login node |
+| `codeimg.grade.coderujb`, `codeimg.grade.deveval` | The calibration graders, unchanged | CPU node |
+| `collect` | One row per answer with `passed` and `reason`; fails on any gap in the grid | login node |
 
 ## Running
 
-Nothing runs locally except the first pilot. Generation, gold checks and grading go through Slurm
-on the DCC cluster; see [`CLUSTER.md`](CLUSTER.md) and the README in each folder.
+Tests run locally: `uv run pytest` (no GPU or network). The regression tests against the
+calibration answers need the calibration files in `scratch/ufm7`, and skip without them. Everything
+else goes through Slurm on the DCC cluster; see [`CLUSTER.md`](CLUSTER.md) and the README in each
+folder.

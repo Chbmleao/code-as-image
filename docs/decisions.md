@@ -3,6 +3,45 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-06: experiment pipeline and smoke run
+
+- **Smoke answers are a pipeline check only.** 5 items per benchmark, 4 conditions, run 0, all 5
+  models (`manifests/smoke/`). Pass rates from it are not reported. DevEval passed 3 of 100, all on
+  one item; the calibration was already bimodal (13 of 30 items passed by no model), and the tails
+  show wrong code reaching the tests, not a grading fault. All 10 checks in `scripts/check_smoke.py`
+  pass (`results/smoke/checks.json`).
+- **Image limit 9, every item kept.** The longest smoke item needs 9 pages at 14 px. vLLM is
+  started with `--limit-mm-per-prompt '{"image": 9}'`; nothing is excluded for page count.
+- **The block sentence is frozen** in `configs/experiment.toml` and replaces the context block in
+  place, so text and image prompts differ only in that block.
+- **Renderer pinned to Pillow's BASIC layout engine.** With raqm (on the cluster, not on the
+  laptop) glyph advances change and one item went from 6 to 7 pages at 12 px. With BASIC all 995
+  page counts match on both machines.
+- **Renders are compared by decoded pixels (`pixels_sha256`), not PNG bytes.** The PNG bytes
+  depend on the zlib build (1.2.11 on the cluster, zlib-ng on the laptop) while the pixels are
+  identical: 58 CoderUJB and 61 DevEval pages match. Page 1 of CoderUJB 869a9afc was inspected by
+  eye at each size (pixels sha256 prefixes 48e13b7d at 10 px, 41587e44 at 12, 082b50f8 at 14).
+- **CoderUJB grading budgets pinned to 600 s per test and 1200 s per suite, on 32 CPUs.** The
+  grader defaults of 120 and 180 s timed out the gold solution of Closure 107, whose compile alone
+  takes minutes. These are the budgets the calibration ran with.
+- **Grading is verified on calibration answers.** 35 calibration answers regraded through the new
+  pipeline give the same verdict. One CoderUJB suite stage flipped (Lang 1, suite_fail to pass) on
+  the flaky StopWatchTest; the primary outcome is the trigger tests, so the check gates on the
+  verdict and only reports suite flips.
+- **The seed does not make a reply repeatable for 3 of 5 models.** The same item at seed 0 twice
+  gave identical replies for both Qwen3.5 models, but diverged after 500 to 1300 characters for
+  Qwen2.5-VL, Gemma 4 and Mistral. Seed 1 always differed. The likely cause is GPU numerics
+  (for example the second request reusing the prefix cache); not verified. Runs are still
+  independent draws, but the logged replies, not a rerun, are the record.
+- **vLLM logs are not scanned for tracebacks.** They print benign ones: torch compile-cache misses
+  that recompile, and an EngineDeadError when the job stops the server after the last reply. The
+  log check covers the generation and grading job logs.
+- **Cost from the smoke run** (`results/smoke/cost.md`, order of magnitude): about 6 GPU hours for
+  block 1 and 22 for the full study at 3 runs, plus model load (5 to 12 min per job). CoderUJB
+  grading is the slow part: about 290 s per answer per grader worker, so about 650 worker hours for
+  the full study, against 11 s for DevEval. Image tokens per page are about 1000 (Qwen2.5-VL,
+  Mistral), 750 (Qwen3.5) and 266 (Gemma 4).
+
 ## 2026-11-05: methodology presentation
 
 - **Construct narrowed.** Completing one function or method in a Java or Python repository from

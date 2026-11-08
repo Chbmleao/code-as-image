@@ -38,12 +38,18 @@ stays text, the context becomes image), and it keeps "finding the task" out of t
 rebuilt pilot, image answers mostly completed the wrong function, and the failures went away once
 the prompt named it (pilot/README.md). On 30 calibration items per benchmark the task part is a
 median of 3 to 4% of the prompt (about 150 to 180 tokens, at most 12%), estimated from its share of
-characters. The fixed sentence ("The code context for this task is in the images below.", wording
-to be frozen) is identical for every item.
+characters. The fixed sentence, "The code context for this task is in the images. In the images, ⏎
+marks a line break.", opens every image-condition prompt and is identical for every item. Each
+context code block is replaced by its pages in place, so in DevEval the pages of the code above and
+below the target sit under their own headers, as the text prompt has them.
 
 Images are rendered packed in JetBrains Mono: lines flow across rows of 616 px with a visible newline
-marker, and leading spaces are kept, so indentation survives. Pages are 616 x 1540 px, the same
-images for every model. Packed rendering is used because the project asks what saving tokens costs:
+marker, and leading spaces are kept, so indentation survives. Pages are 616 px wide and at most
+1540 px tall; when the context needs more than one page, its rows are spread evenly over the pages
+and each page is cut to the height of its rows. The pages are the same images for every model, and
+the same on every machine (src/codeimg/render.py). At most 9 pages go in one request (CoderUJB
+needs at most 4, 6 and 8 at 10, 12 and 14 px, DevEval 5, 6 and 9), so the image limit drops no
+item. Packed rendering is used because the project asks what saving tokens costs:
 in the pilot, line-per-row images matched text accuracy but saved almost no tokens on Qwen2.5-VL,
 while packed images at 14 px matched text with 64% of the text tokens. We do not designate a primary
 size: all three sizes are reported, and the comparison between sizes is itself a result (3.3).
@@ -57,8 +63,8 @@ sentence, these three sizes and temperature 0.7; no claim is made about other la
 Token counts per item, model and condition are reported descriptively.
 
 **Runs and decoding.** Three runs per (model, item, condition) cell, a fixed recorded seed per run, temperature 0.7,
-top_p 0.95, thinking off, at most 2048 output tokens, a 16,384-token context window and an empty
-system prompt. Settings are identical across conditions. The book prefers temperature 0 for a point
+top_p 0.95, thinking off, at most 2048 output tokens, a 16,384-token context window and no
+system message. Settings are identical across conditions. The book prefers temperature 0 for a point
 estimate (Principle 5, p. 167); we sample at 0.7 because repeated runs are needed to measure
 run-to-run noise as test-retest error (p. 147), and greedy decoding would make the runs identical.
 The cell score is the mean of the three runs, never the best of three (p. 285).
@@ -266,9 +272,8 @@ runs go from 3 to 2 only through the D-study rule in 3.1.
 
 ## Open items
 
-1. Page counts and the per-request image limit were computed on the packed layout with the whole
-   prompt in the image. Now only the context is rendered, so recount on the final renderer before
-   fixing the vLLM image limit (planned: 8).
+1. Resolved Nov 5: recounted on the final renderer (context only); the image limit is 9 pages per
+   request, which keeps every item (3.1).
 2. Resolved Nov 5: the contamination flag uses exact copies only, so no similarity threshold is
    needed.
 3. The R GLMM (lme4 or glmmTMB) has not been installed or tested on the cluster.
@@ -278,8 +283,8 @@ runs go from 3 to 2 only through the D-study rule in 3.1.
    to. The paper's methods section will be a shorter version of this text.
 6. The D-study margin (how close the 2-run standard error must be to the 3-run one) is not set.
    It has to be fixed before the first block is graded.
-7. The fixed sentence for the image conditions and the render script (task as text, context as
-   packed image) are not written yet. The rendering code is in pilot/run_pilot.py (render_packed).
+7. Resolved Nov 5: the fixed sentence is frozen (3.1) and the renderer and prompt builder are in
+   src/codeimg (render.py, prompts.py).
 8. A hybrid check was considered and dropped: with the task now in text, the remaining gap is
    about reading the context. A second instruction wording or font, to size prompt and format
    sensitivity, is not budgeted.
