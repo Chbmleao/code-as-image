@@ -3,6 +3,14 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-08: D-study margin
+
+- **2 runs are enough when SE(2 runs) / SE(3 runs) is at most 1.10**, per model and benchmark,
+  with the standard error of the text-minus-image gap projected from the block-1 components. Set
+  before any block-1 answer was graded. The ratio is bounded by 1.00 and sqrt(3/2) = 1.22, and
+  1.10 sits near the middle: 1.05 would keep 3 runs almost always, 1.15 would almost always cut
+  to 2.
+
 ## 2026-11-06: experiment pipeline and smoke run
 
 - **Smoke answers are a pipeline check only.** 5 items per benchmark, 4 conditions, run 0, all 5

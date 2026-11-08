@@ -80,7 +80,8 @@ We estimate the item, item:condition and run components of the gap and project t
 of delta_mb with 1, 2 and 3 runs. The number of items cancels out of the 2-run to 3-run ratio; it
 only sets how precise the components are (relative standard error of the item:condition component
 about sqrt(2/n), so about 10% at 200 items and 22% at 40) [ours]. If 2 runs give a standard error
-within a margin fixed before the block is graded (to be set, open item 6), the remaining items of
+within a margin fixed before the block is graded (the 2-run standard error at most 1.10 times the
+3-run one, set Nov 8; open item 6), the remaining items of
 that model and benchmark run twice, the block items keep their 3 runs, and the freed budget keeps
 the 10 px condition and the full DevEval set. The rule is
 part of the frozen plan. No repeated runs at temperature 0.7 exist yet: the pilot ran at
@@ -281,8 +282,9 @@ runs go from 3 to 2 only through the D-study rule in 3.1.
    here was run on image data.
 5. Resolved Nov 5: the plan was delivered as a presentation, so there is no page limit to cut
    to. The paper's methods section will be a shorter version of this text.
-6. The D-study margin (how close the 2-run standard error must be to the 3-run one) is not set.
-   It has to be fixed before the first block is graded.
+6. Resolved Nov 8, before any block-1 answer was graded: 2 runs are enough for a model and
+   benchmark when SE(2 runs) / SE(3 runs) is at most 1.10. The ratio can only fall between 1.00
+   (no run noise) and 1.22 (all noise is run noise, sqrt(3/2)), so 1.10 lets the data decide.
 7. Resolved Nov 5: the fixed sentence is frozen (3.1) and the renderer and prompt builder are in
    src/codeimg (render.py, prompts.py).
 8. A hybrid check was considered and dropped: with the task now in text, the remaining gap is
