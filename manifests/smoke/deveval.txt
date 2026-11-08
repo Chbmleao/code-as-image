@@ -1,0 +1,5 @@
+boltons.ioutils.SpooledStringIO.seek
+diffprivlib.models.forest._FittingTree.__getstate__
+falcon.response.Response.delete_header
+wikipediaapi.WikipediaPageSection.__repr__
+ydata_profiling.report.formatters.fmt_array
