@@ -1,0 +1,50 @@
+# Settings for the main study (docs/methodology.md). Changing anything here after block 1 has
+# started changes the experiment, so record it in docs/decisions.md.
+
+[experiment]
+seed = 20261105
+sizes = [10, 12, 14]
+runs = 3
+# most pages per request on the final renderer: CoderUJB 4/6/8, DevEval 5/6/9 at 10/12/14 px
+image_limit = 9
+max_model_len = 16384
+max_tokens = 2048
+concurrency = 8
+sentence = "The code context for this task is in the images. In the images, ⏎ marks a line break."
+
+# Sent on every request. vLLM fills any field left out from the repo's generation_config, which
+# would give each model different settings (model_panel/README.md, sampling table).
+[sampling]
+temperature = 0.7
+top_p = 0.95
+top_k = -1
+min_p = 0.0
+repetition_penalty = 1.0
+
+[sample]
+deveval_n = 200
+deveval_buckets = [[2000, 4000], [4000, 8000], [8000, 12000]]
+coderujb_n = 40
+smoke_n = 5
+
+[models.qwen25vl7b]
+repo = "Qwen/Qwen2.5-VL-7B-Instruct"
+vllm_args = []
+
+[models.qwen35_9b]
+repo = "Qwen/Qwen3.5-9B"
+vllm_args = []
+
+[models.gemma4_12b]
+repo = "google/gemma-4-12B-it"
+vllm_args = []
+
+[models.qwen35_27b]
+repo = "cyankiwi/Qwen3.5-27B-AWQ-4bit"
+# runs out of memory at startup without these (CLUSTER.md)
+vllm_args = ["--max-num-batched-tokens", "4096", "--max-num-seqs", "16",
+             "--mm-processor-kwargs", '{"max_pixels": 1048576}']
+
+[models.mistral24b]
+repo = "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym"
+vllm_args = []
