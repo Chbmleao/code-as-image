@@ -3,6 +3,26 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-10: D-study on block 1
+
+- **Every model and benchmark runs twice for the rest of the main run**; block items keep their 3
+  runs. SE(2 runs) / SE(3 runs) of delta_mb on CoderUJB: Qwen3.5 27B 1.035, Gemma 4 12B 1.013,
+  Mistral Small 3.2 24B 1.072, Qwen3.5 9B 1.041, Qwen2.5-VL 7B 1.085. On DevEval, in the same
+  order: 1.039, 1.014, 1.052, 1.074, 1.075. The pipeline reads the run count from `rows[].runs` in
+  `results/block1/dstudy.json`; components and intervals are in `results/block1/dstudy.md`.
+- **Moment estimators per model and benchmark, each condition with its own run variance.** Block 1
+  is balanced, so the ANOVA estimators are exact and need no R. Run noise differs by condition
+  (Mistral Small 3.2 24B on CoderUJB: 0.1167 on text, 0.0250 at 10 px), so a pooled run variance
+  would weight the conditions wrongly. The estimator was fixed in the spec before any ratio was
+  computed.
+- **The rule is applied to the point estimate of the ratio.** The Nov 8 entry did not say estimate
+  or interval; this reading was also fixed before the run. Intervals over items and over projects
+  or repositories only label a call firm or close. Three are close: Mistral Small 3.2 24B and
+  Qwen2.5-VL 7B on CoderUJB, Qwen2.5-VL 7B on DevEval.
+- **This replaces "intervals and the D-study come from the mixed model" in the entry below.** The
+  D-study does not wait for the mixed model (UFM-21).
+- **The reliability analysis of methodology 3.3 moves to its own issue**, on the full data.
+
 ## 2026-11-10: block 1 graded
 
 - **All 14,400 block-1 answers are graded**, and collect found no gaps (`results/block1/`, no reply

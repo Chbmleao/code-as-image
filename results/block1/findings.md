@@ -5,8 +5,8 @@ Block 1 of the main run (UFM-20): 200 DevEval and 40 CoderUJB items, 5 models, 4
 found no gaps. The rows are in `coderujb.collected.jsonl` and `deveval.collected.jsonl` next to
 this file (no reply text).
 
-These are raw pass rates, pooled over runs, with no intervals. The planned analysis (project
-clustered intervals, the mixed model, the D-study) is UFM-17, UFM-21 and UFM-13.
+The pass-rate tables are raw rates, pooled over runs, with no intervals. The project clustered
+intervals and the mixed model are UFM-13 and UFM-21; the D-study is in its own section below.
 
 ## Pass rates
 
@@ -97,6 +97,16 @@ The pilot (Qwen2.5-VL 7B, 20 HumanEval problems) passed 60 of 100 on text and 60
    This explains the repetition loops, not a gap of this size.
 
 The pilot shows that packed code is legible; block 1 shows that using it is a different matter.
+
+## D-study
+
+All 10 model and benchmark pairs run twice for the rest of the main run (UFM-17). The ratio of the
+gap's standard error with 2 runs to that with 3 is 1.013 to 1.085 on CoderUJB and 1.014 to 1.075 on
+DevEval, all under the 1.10 margin set on Nov 8, so the 2-run figures under Run cost apply. Three
+calls are close, with an interval that reaches past 1.10: Mistral Small 3.2 24B and Qwen2.5-VL 7B
+on CoderUJB, and Qwen2.5-VL 7B on DevEval. The rule uses the estimate, so they still run twice.
+CoderUJB has 40 block items in 10 projects, so its intervals are wider than DevEval's. Components,
+intervals and decisions are in `dstudy.md`.
 
 ## Run cost
 

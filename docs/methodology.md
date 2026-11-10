@@ -84,8 +84,9 @@ within a margin fixed before the block is graded (the 2-run standard error at mo
 3-run one, set Nov 8; open item 6), the remaining items of
 that model and benchmark run twice, the block items keep their 3 runs, and the freed budget keeps
 the 10 px condition and the full DevEval set. The rule is
-part of the frozen plan. No repeated runs at temperature 0.7 exist yet: the pilot ran at
-temperature 1e-6, and the calibration runs have one run per item.
+part of the frozen plan. The block-1 D-study is in `results/block1/dstudy.md`: moment estimators
+per model and benchmark, each condition with its own run variance, and the rule applied to the
+point estimate of the ratio.
 
 **Outcome.** Binary pass per answer: CoderUJB passes when all of the item's target JUnit tests pass
 (Defects4J v2.0.1), DevEval when all of the item's pytest ids pass. Both graders stop at the first
