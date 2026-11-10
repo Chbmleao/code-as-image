@@ -27,8 +27,9 @@ accident. The current plan is `docs/methodology.md`; this file explains how it g
   only when the whole repository is done. python-for-android (720 answers, about 17 s each, one at
   a time) needs about 3.4 h alone and did not finish inside a 4 h job while sharing the node with
   other repositories, so the job lost all its work on it. Its answers were split into 8 files of 90
-  and graded as separate jobs (23 to 27 min each). The main run needs this split, or a grader that
-  writes rows as it goes (UFM-11).
+  and graded as separate jobs (23 to 27 min each). The rest of the run has larger repositories
+  (boltons 82 items, mrjob 66), so it needs this split, or a grader that writes rows as it goes
+  (UFM-11). Details and run cost in `results/block1/findings.md`.
 
 ## 2026-11-08: D-study margin
 
