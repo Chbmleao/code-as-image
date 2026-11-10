@@ -3,6 +3,33 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-10: block 1 graded
+
+- **All 14,400 block-1 answers are graded**, and collect found no gaps (`results/block1/`, no reply
+  text). Generation had 0 errors. Pass rates on text are 22 to 52% (CoderUJB) and 30 to 58%
+  (DevEval); on images, 6 to 30% depending on model and size. These are raw rates; intervals and
+  the D-study come from the mixed model (UFM-21, UFM-17).
+- **Truncated replies count as failures.** Qwen3.5 9B hit the output limit in 39 CoderUJB and 237
+  DevEval answers, mostly repetition loops in image conditions (others: 0 to 37). A truncated
+  reply is the model's answer at the frozen budget, so it is graded like any other.
+- **The extra image failures are mostly name errors, not worse code.** On DevEval, name errors
+  (`NameError`, `AttributeError`, `ImportError`) go from about 8% of text answers to 31% of image
+  answers, while wrong results stay at about 30% and 28%. On CoderUJB, `cannot find symbol` goes
+  from about 17% to 40%. About 400 DevEval image name errors differ from a real name in the context
+  only by underscores (`determine_alterations` for `_determine_alterations`), against 2 on text.
+  The DevEval gap also doubles with length: 13 points for items of 1 to 2 pages at 14 px, 26 for
+  3 or more.
+- **Why the pilot showed no gap.** Its context was unrelated HumanEval padding the model never had
+  to read, and HumanEval is likely memorized. Block 1 needs exact names from a real repository,
+  which is where reading from images fails. The pilot measured whether code in an image is
+  legible, not whether it can be used.
+- **DevEval grading splits a repository when it is long.** The grader writes a repository's rows
+  only when the whole repository is done. python-for-android (720 answers, about 17 s each, one at
+  a time) needs about 3.4 h alone and did not finish inside a 4 h job while sharing the node with
+  other repositories, so the job lost all its work on it. Its answers were split into 8 files of 90
+  and graded as separate jobs (23 to 27 min each). The main run needs this split, or a grader that
+  writes rows as it goes (UFM-11).
+
 ## 2026-11-08: D-study margin
 
 - **2 runs are enough when SE(2 runs) / SE(3 runs) is at most 1.10**, per model and benchmark,
