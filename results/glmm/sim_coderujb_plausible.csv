@@ -1,0 +1,1625 @@
+"rep","engine","parameter","truth","estimate","converged","pdhess","seconds"
+"1","glmmTMB","sd:item",1.5,1.45011506106219,TRUE,TRUE,2.18
+"1","glmmTMB","sd:item:model",0.8,0.675418889415831,TRUE,TRUE,2.18
+"1","glmmTMB","sd:item:condition",0.5,0.4679947622692,TRUE,TRUE,2.18
+"1","glmmTMB","sd:project",0.5,6.95888083411555e-06,TRUE,TRUE,2.18
+"1","glmmTMB","sd:project:condition",0.3,0.19442419083891,TRUE,TRUE,2.18
+"1","glmmTMB","sd:cell",0.5,0.000142890813551366,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.504967258385625,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.123877574122973,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.150860324493073,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.1777597633194,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.978017637128356,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.981901794374334,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.00277523082102,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.06953633888265,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.13662799529853,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.13216697902174,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.63533146207096,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.18892565280906,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.32862220907944,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.84837759996341,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.73689975449686,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.941158109959599,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.35999704150156,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.52826675019136,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.12260627202856,TRUE,TRUE,2.18
+"1","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.66304208434048,TRUE,TRUE,2.18
+"1","glmmTMB","penalty:Qwen3.5 27B",1.5,1.69109771385392,TRUE,TRUE,2.18
+"1","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.30777688250019,TRUE,TRUE,2.18
+"1","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.12633542387755,TRUE,TRUE,2.18
+"1","glmmTMB","penalty:Qwen3.5 9B",1.6,1.52477752577743,TRUE,TRUE,2.18
+"1","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.866018635491336,TRUE,TRUE,2.18
+"1","lme4","sd:item",1.5,1.45865264181186,TRUE,NA,64.56
+"1","lme4","sd:item:model",0.8,0.67587334054207,TRUE,NA,64.56
+"1","lme4","sd:item:condition",0.5,0.469087826276987,TRUE,NA,64.56
+"1","lme4","sd:project",0.5,0.0614216156788994,TRUE,NA,64.56
+"1","lme4","sd:project:condition",0.3,0.196939630794161,TRUE,NA,64.56
+"1","lme4","sd:cell",0.5,0.063760727781993,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 27B:text",0.1,0.517745694286017,TRUE,NA,64.56
+"1","lme4","logit:Gemma 4 12B:text",-0.2,0.123873016997783,TRUE,NA,64.56
+"1","lme4","logit:Mistral Small 3.2 24B:text",-0.3,0.154377874646456,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 9B:text",-0.4,-0.187619056097149,TRUE,NA,64.56
+"1","lme4","logit:Qwen2.5-VL 7B:text",-1.3,-0.98629774431357,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 27B:image10",-1.3,-0.986673478172568,TRUE,NA,64.56
+"1","lme4","logit:Gemma 4 12B:image10",-2.5,-1.98117265318707,TRUE,NA,64.56
+"1","lme4","logit:Mistral Small 3.2 24B:image10",-2.4,-2.05588214697673,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 9B:image10",-2.6,-2.11520095901306,TRUE,NA,64.56
+"1","lme4","logit:Qwen2.5-VL 7B:image10",-2.6,-2.11421413381145,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 27B:image12",-1.7,-1.64818584500371,TRUE,NA,64.56
+"1","lme4","logit:Gemma 4 12B:image12",-2.4,-2.17095595091762,TRUE,NA,64.56
+"1","lme4","logit:Mistral Small 3.2 24B:image12",-2.4,-2.31104096291086,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 9B:image12",-2,-1.83031618533479,TRUE,NA,64.56
+"1","lme4","logit:Qwen2.5-VL 7B:image12",-1.9,-1.7208458479312,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 27B:image14",-1.2,-0.952175246581998,TRUE,NA,64.56
+"1","lme4","logit:Gemma 4 12B:image14",-2.8,-2.33928162289447,TRUE,NA,64.56
+"1","lme4","logit:Mistral Small 3.2 24B:image14",-1.7,-1.51542392981531,TRUE,NA,64.56
+"1","lme4","logit:Qwen3.5 9B:image14",-1.4,-1.10370878598777,TRUE,NA,64.56
+"1","lme4","logit:Qwen2.5-VL 7B:image14",-2,-1.64737022141782,TRUE,NA,64.56
+"1","lme4","penalty:Qwen3.5 27B",1.5,1.71342388420544,TRUE,NA,64.56
+"1","lme4","penalty:Gemma 4 12B",2.36666666666667,2.28767642599751,TRUE,NA,64.56
+"1","lme4","penalty:Mistral Small 3.2 24B",1.86666666666667,2.11516022121409,TRUE,NA,64.56
+"1","lme4","penalty:Qwen3.5 9B",1.6,1.49545625401473,TRUE,NA,64.56
+"1","lme4","penalty:Qwen2.5-VL 7B",0.866666666666666,0.84117899007325,TRUE,NA,64.56
+"2","glmmTMB","sd:item",1.5,1.38237235208785,TRUE,TRUE,2.2
+"2","glmmTMB","sd:item:model",0.8,0.671682789836187,TRUE,TRUE,2.2
+"2","glmmTMB","sd:item:condition",0.5,0.475827627497536,TRUE,TRUE,2.2
+"2","glmmTMB","sd:project",0.5,0.367916068913752,TRUE,TRUE,2.2
+"2","glmmTMB","sd:project:condition",0.3,5.14416527388037e-05,TRUE,TRUE,2.2
+"2","glmmTMB","sd:cell",0.5,0.194714951138663,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.63017366079812,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0209232480011977,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.0605673799767426,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 9B:text",-0.4,0.111063370017174,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.927569838489865,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.37798456545236,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.34017909318848,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.63761803826774,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.63711634554732,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.29510470054257,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.64504561233446,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.04526977029528,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.30135681345927,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.80270165444008,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.83071516624203,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.612961120583186,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.75033565686912,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.61542844670167,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.20570148021972,TRUE,TRUE,2.2
+"2","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.54381942935144,TRUE,TRUE,2.2
+"2","glmmTMB","penalty:Qwen3.5 27B",1.5,1.84217076025479,TRUE,TRUE,2.2
+"2","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.35767159211643,TRUE,TRUE,2.2
+"2","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.24536847945297,TRUE,TRUE,2.2
+"2","glmmTMB","penalty:Qwen3.5 9B",1.6,1.99290319675288,TRUE,TRUE,2.2
+"2","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.962309926888814,TRUE,TRUE,2.2
+"2","lme4","sd:item",1.5,1.38085476630822,FALSE,NA,68.82
+"2","lme4","sd:item:model",0.8,0.67389005423623,FALSE,NA,68.82
+"2","lme4","sd:item:condition",0.5,0.482842197240978,FALSE,NA,68.82
+"2","lme4","sd:project",0.5,0.394455000012113,FALSE,NA,68.82
+"2","lme4","sd:project:condition",0.3,0.00754353129708882,FALSE,NA,68.82
+"2","lme4","sd:cell",0.5,0.139490335962428,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 27B:text",0.1,0.637156311286493,FALSE,NA,68.82
+"2","lme4","logit:Gemma 4 12B:text",-0.2,-0.0255897228540476,FALSE,NA,68.82
+"2","lme4","logit:Mistral Small 3.2 24B:text",-0.3,0.0602697773165444,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 9B:text",-0.4,0.0960822363666353,FALSE,NA,68.82
+"2","lme4","logit:Qwen2.5-VL 7B:text",-1.3,-0.94577968772404,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 27B:image10",-1.3,-1.36561970192664,FALSE,NA,68.82
+"2","lme4","logit:Gemma 4 12B:image10",-2.5,-2.34642315486933,FALSE,NA,68.82
+"2","lme4","logit:Mistral Small 3.2 24B:image10",-2.4,-2.63490600313184,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 9B:image10",-2.6,-2.62729563218863,FALSE,NA,68.82
+"2","lme4","logit:Qwen2.5-VL 7B:image10",-2.6,-2.29400201038442,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 27B:image12",-1.7,-1.64350548842804,FALSE,NA,68.82
+"2","lme4","logit:Gemma 4 12B:image12",-2.4,-2.04154384249489,FALSE,NA,68.82
+"2","lme4","logit:Mistral Small 3.2 24B:image12",-2.4,-2.30311241910892,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 9B:image12",-2,-1.79781554626247,FALSE,NA,68.82
+"2","lme4","logit:Qwen2.5-VL 7B:image12",-1.9,-1.83417746921891,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 27B:image14",-1.2,-0.629982652519369,FALSE,NA,68.82
+"2","lme4","logit:Gemma 4 12B:image14",-2.8,-2.75386670797031,FALSE,NA,68.82
+"2","lme4","logit:Mistral Small 3.2 24B:image14",-1.7,-1.61057526001889,FALSE,NA,68.82
+"2","lme4","logit:Qwen3.5 9B:image14",-1.4,-1.20205123249267,FALSE,NA,68.82
+"2","lme4","logit:Qwen2.5-VL 7B:image14",-2,-1.53741422364067,FALSE,NA,68.82
+"2","lme4","penalty:Qwen3.5 27B",1.5,1.85019225891118,FALSE,NA,68.82
+"2","lme4","penalty:Gemma 4 12B",2.36666666666667,2.35502151225746,FALSE,NA,68.82
+"2","lme4","penalty:Mistral Small 3.2 24B",1.86666666666667,2.24313433806976,FALSE,NA,68.82
+"2","lme4","penalty:Qwen3.5 9B",1.6,1.97180304001456,FALSE,NA,68.82
+"2","lme4","penalty:Qwen2.5-VL 7B",0.866666666666666,0.942751546690626,FALSE,NA,68.82
+"3","glmmTMB","sd:item",1.5,1.47354718939753,TRUE,TRUE,2.01
+"3","glmmTMB","sd:item:model",0.8,0.751319024706333,TRUE,TRUE,2.01
+"3","glmmTMB","sd:item:condition",0.5,0.532852296827014,TRUE,TRUE,2.01
+"3","glmmTMB","sd:project",0.5,0.692914950853761,TRUE,TRUE,2.01
+"3","glmmTMB","sd:project:condition",0.3,0.296009139620596,TRUE,TRUE,2.01
+"3","glmmTMB","sd:cell",0.5,0.000154712288280474,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.0305570730312796,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0500579908352489,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.164126657328153,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.369902533021542,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.21629933609592,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.887444672830045,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.3377109699532,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.36581131652982,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.27970039632568,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.71079237287332,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.19859337736219,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.15704644873532,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.43393801561529,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.03500669355572,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.65780977158646,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.675682881994604,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.68563960206574,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.38817539936523,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.30140108180586,TRUE,TRUE,2.01
+"3","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.82238669891819,TRUE,TRUE,2.01
+"3","glmmTMB","penalty:Qwen3.5 27B",1.5,0.890016571031,TRUE,TRUE,2.01
+"3","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.34340768274951,TRUE,TRUE,2.01
+"3","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.89851491984196,TRUE,TRUE,2.01
+"3","glmmTMB","penalty:Qwen3.5 9B",1.6,1.50213352420755,TRUE,TRUE,2.01
+"3","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.847363611696733,TRUE,TRUE,2.01
+"4","glmmTMB","sd:item",1.5,1.51540317311232,TRUE,TRUE,1.53
+"4","glmmTMB","sd:item:model",0.8,0.778198717753214,TRUE,TRUE,1.53
+"4","glmmTMB","sd:item:condition",0.5,0.199039994692456,TRUE,TRUE,1.53
+"4","glmmTMB","sd:project",0.5,0.614677177922356,TRUE,TRUE,1.53
+"4","glmmTMB","sd:project:condition",0.3,0.2144344275428,TRUE,TRUE,1.53
+"4","glmmTMB","sd:cell",0.5,0.403425295165868,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.00970413584892649,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.568357297427461,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.206407080960874,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.269888666443214,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.06695247765138,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.18642596830814,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.27022200112988,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.73478965570285,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.34128374411344,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.25290664387457,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.65399363965669,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.18710481018455,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.32037733768692,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.58202523760533,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.86826914620377,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.06113181266664,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.81738839480863,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.72819635927394,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.946822971063185,TRUE,TRUE,1.53
+"4","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.94450132320031,TRUE,TRUE,1.53
+"4","glmmTMB","penalty:Qwen3.5 27B",1.5,1.29081300436156,TRUE,TRUE,1.53
+"4","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.85654777128023,TRUE,TRUE,1.53
+"4","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.72138070326036,TRUE,TRUE,1.53
+"4","glmmTMB","penalty:Qwen3.5 9B",1.6,1.35348865115077,TRUE,TRUE,1.53
+"4","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.954939893441507,TRUE,TRUE,1.53
+"5","glmmTMB","sd:item",1.5,1.6064069289644,TRUE,TRUE,2
+"5","glmmTMB","sd:item:model",0.8,0.602672178575432,TRUE,TRUE,2
+"5","glmmTMB","sd:item:condition",0.5,0.416756310622953,TRUE,TRUE,2
+"5","glmmTMB","sd:project",0.5,0.520165752283181,TRUE,TRUE,2
+"5","glmmTMB","sd:project:condition",0.3,0.354222427478404,TRUE,TRUE,2
+"5","glmmTMB","sd:cell",0.5,0.000174182895008192,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.163738887261228,TRUE,TRUE,2
+"5","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.400322540346268,TRUE,TRUE,2
+"5","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.163176761201154,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.179915557784689,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.51414077252652,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.25064351501804,TRUE,TRUE,2
+"5","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.09671331747384,TRUE,TRUE,2
+"5","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.84814776494377,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.27732790968136,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.41751780889492,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.56298646598146,TRUE,TRUE,2
+"5","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.95492344174758,TRUE,TRUE,2
+"5","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.18538400238425,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.84668487124286,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.66306896401395,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.99570149099509,TRUE,TRUE,2
+"5","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.54142445983298,TRUE,TRUE,2
+"5","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.55010150323815,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.00937200207879,TRUE,TRUE,2
+"5","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.85043856544846,TRUE,TRUE,2
+"5","glmmTMB","penalty:Qwen3.5 27B",1.5,1.43351604459276,TRUE,TRUE,2
+"5","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.79736453267187,TRUE,TRUE,2
+"5","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.69803432898757,TRUE,TRUE,2
+"5","glmmTMB","penalty:Qwen3.5 9B",1.6,1.53121270321631,TRUE,TRUE,2
+"5","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.462867673592582,TRUE,TRUE,2
+"6","glmmTMB","sd:item",1.5,1.43532386102157,TRUE,TRUE,2.07
+"6","glmmTMB","sd:item:model",0.8,0.667340299574105,TRUE,TRUE,2.07
+"6","glmmTMB","sd:item:condition",0.5,0.463474993350322,TRUE,TRUE,2.07
+"6","glmmTMB","sd:project",0.5,0.318517684414845,TRUE,TRUE,2.07
+"6","glmmTMB","sd:project:condition",0.3,0.214054281966587,TRUE,TRUE,2.07
+"6","glmmTMB","sd:cell",0.5,0.000212847295512504,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.356026062837185,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.281624293564613,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.177504913356636,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.36586571365142,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.0065759939865,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.78656323435844,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.44978689799552,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.96779816270402,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.44273131960764,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-1.91812832253787,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.33252328334903,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.97582130249792,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.77035482656839,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.41872294212691,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.30091304615425,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.83196122265453,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.22789599633807,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.18304479099107,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.74950940372743,TRUE,TRUE,2.07
+"6","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.4265065762499,TRUE,TRUE,2.07
+"6","glmmTMB","penalty:Qwen3.5 27B",1.5,1.33970864295785,TRUE,TRUE,2.07
+"6","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.49945902584178,TRUE,TRUE,2.07
+"6","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.46289434673119,TRUE,TRUE,2.07
+"6","glmmTMB","penalty:Qwen3.5 9B",1.6,1.17112217483591,TRUE,TRUE,2.07
+"6","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.541939987660839,TRUE,TRUE,2.07
+"7","glmmTMB","sd:item",1.5,1.24865655072852,TRUE,TRUE,2.04
+"7","glmmTMB","sd:item:model",0.8,0.740306382508206,TRUE,TRUE,2.04
+"7","glmmTMB","sd:item:condition",0.5,0.480662461081599,TRUE,TRUE,2.04
+"7","glmmTMB","sd:project",0.5,3.697447472404e-05,TRUE,TRUE,2.04
+"7","glmmTMB","sd:project:condition",0.3,6.90874774482355e-05,TRUE,TRUE,2.04
+"7","glmmTMB","sd:cell",0.5,0.235792261919754,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.102757825055253,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.350685077545689,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.483988572075363,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.539648626812404,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.69207614294155,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.41734393632307,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.4308109542412,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.356642306717,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.25314406578106,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.70254837947501,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-2.0626435825076,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.70692544462349,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.66288026580917,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.98947768084396,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.91769930870018,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.4472215904419,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.96506211770647,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.75210676409704,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.58045476902749,TRUE,TRUE,2.04
+"7","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.23559974013445,TRUE,TRUE,2.04
+"7","glmmTMB","penalty:Qwen3.5 27B",1.5,1.53964521136894,TRUE,TRUE,2.04
+"7","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.35024776131137,TRUE,TRUE,2.04
+"7","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.77322120679904,TRUE,TRUE,2.04
+"7","glmmTMB","penalty:Qwen3.5 9B",1.6,1.4013768784051,TRUE,TRUE,2.04
+"7","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.59320633316166,TRUE,TRUE,2.04
+"8","glmmTMB","sd:item",1.5,1.41400934666708,TRUE,TRUE,2.03
+"8","glmmTMB","sd:item:model",0.8,0.747341437811639,TRUE,TRUE,2.03
+"8","glmmTMB","sd:item:condition",0.5,0.247695952960442,TRUE,TRUE,2.03
+"8","glmmTMB","sd:project",0.5,3.97259924930258e-05,TRUE,TRUE,2.03
+"8","glmmTMB","sd:project:condition",0.3,0.358268596129934,TRUE,TRUE,2.03
+"8","glmmTMB","sd:cell",0.5,0.00031114298238804,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.181468136745225,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.612513701904055,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.679577894609756,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.897940504719471,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.63851695222876,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.78332579817751,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.90940354308849,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.39564011248002,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.95854876464656,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.43641725628598,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.76049739292387,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.27594361817096,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.41157623319118,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.01074700286774,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.36161046328405,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.76071349584085,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.17628697617311,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.82978163836012,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.57427084139281,TRUE,TRUE,2.03
+"8","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.42021549753123,TRUE,TRUE,2.03
+"8","glmmTMB","penalty:Qwen3.5 27B",1.5,1.58671075890218,TRUE,TRUE,2.03
+"8","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.17469767724013,TRUE,TRUE,2.03
+"8","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.53275476673402,TRUE,TRUE,2.03
+"8","glmmTMB","penalty:Qwen3.5 9B",1.6,1.28324836491623,TRUE,TRUE,2.03
+"8","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.767564120138324,TRUE,TRUE,2.03
+"9","glmmTMB","sd:item",1.5,1.358225770743,TRUE,TRUE,2.2
+"9","glmmTMB","sd:item:model",0.8,0.777951989961992,TRUE,TRUE,2.2
+"9","glmmTMB","sd:item:condition",0.5,0.413070441494972,TRUE,TRUE,2.2
+"9","glmmTMB","sd:project",0.5,0.678226455961806,TRUE,TRUE,2.2
+"9","glmmTMB","sd:project:condition",0.3,0.17864315967477,TRUE,TRUE,2.2
+"9","glmmTMB","sd:cell",0.5,0.000113216581555525,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.20897876653397,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.309295957870137,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.0284970520893025,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.749598547229839,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.1948354624069,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.3916529609399,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.47609585378574,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.59599148827761,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.46046338515899,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.77358675567553,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.8741070994678,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.48482645091548,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.73806471485706,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.18478494571164,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.10468173908879,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.1492551601977,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.6125700103889,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.82189195280053,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.89058317053341,TRUE,TRUE,2.2
+"9","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.99423535168463,TRUE,TRUE,2.2
+"9","glmmTMB","penalty:Qwen3.5 27B",1.5,1.68065050673577,TRUE,TRUE,2.2
+"9","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.21520148049324,TRUE,TRUE,2.2
+"9","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.4138131040677,TRUE,TRUE,2.2
+"9","glmmTMB","penalty:Qwen3.5 9B",1.6,1.42901195323817,TRUE,TRUE,2.2
+"9","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.09599915307608,TRUE,TRUE,2.2
+"10","glmmTMB","sd:item",1.5,1.28114683822532,TRUE,TRUE,2.18
+"10","glmmTMB","sd:item:model",0.8,0.592498531688213,TRUE,TRUE,2.18
+"10","glmmTMB","sd:item:condition",0.5,0.524906553543654,TRUE,TRUE,2.18
+"10","glmmTMB","sd:project",0.5,0.824508559363894,TRUE,TRUE,2.18
+"10","glmmTMB","sd:project:condition",0.3,0.255308302185381,TRUE,TRUE,2.18
+"10","glmmTMB","sd:cell",0.5,0.000123487470652022,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.14720095586911,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.160449165470658,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0169488855675529,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0238514792197013,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.18853877771563,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.3420043540869,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.91133640292409,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.80926563700539,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.33932003528443,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.32200690808323,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.61990687112003,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.17670102597837,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.23851595894172,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.91243626317498,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.2954449951336,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.09027947076407,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.48031590309681,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.63354836031625,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.39381439592222,TRUE,TRUE,2.18
+"10","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.7939038519792,TRUE,TRUE,2.18
+"10","glmmTMB","penalty:Qwen3.5 27B",1.5,1.49793118785944,TRUE,TRUE,2.18
+"10","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.34990027613708,TRUE,TRUE,2.18
+"10","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.87682776652023,TRUE,TRUE,2.18
+"10","glmmTMB","penalty:Qwen3.5 9B",1.6,1.85800541890751,TRUE,TRUE,2.18
+"10","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.948579807349716,TRUE,TRUE,2.18
+"11","glmmTMB","sd:item",1.5,1.60323258323287,TRUE,TRUE,2.41
+"11","glmmTMB","sd:item:model",0.8,0.677351122910612,TRUE,TRUE,2.41
+"11","glmmTMB","sd:item:condition",0.5,0.528252313127325,TRUE,TRUE,2.41
+"11","glmmTMB","sd:project",0.5,0.257059401023198,TRUE,TRUE,2.41
+"11","glmmTMB","sd:project:condition",0.3,0.251377588983243,TRUE,TRUE,2.41
+"11","glmmTMB","sd:cell",0.5,0.114804282903888,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.170276661851238,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.34390065862388,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.639031933561713,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.54768141937494,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.35454847788333,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.20348822615428,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.79232415933731,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.51365999015668,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-3.08024108508483,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.87275616444937,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.98050519377027,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.56442112075381,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.8723612370874,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.89191793908079,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.24115972411117,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.3783919317658,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.19646347513286,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.66562688755498,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.3502110012056,TRUE,TRUE,2.41
+"11","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.3003100727362,TRUE,TRUE,2.41
+"11","glmmTMB","penalty:Qwen3.5 27B",1.5,1.35051845537888,TRUE,TRUE,2.41
+"11","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.50716892645078,TRUE,TRUE,2.41
+"11","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.71151743803798,TRUE,TRUE,2.41
+"11","glmmTMB","penalty:Qwen3.5 9B",1.6,1.5597752557488,TRUE,TRUE,2.41
+"11","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.11686017588225,TRUE,TRUE,2.41
+"12","glmmTMB","sd:item",1.5,1.43558801264531,TRUE,TRUE,2.23
+"12","glmmTMB","sd:item:model",0.8,0.90573885882463,TRUE,TRUE,2.23
+"12","glmmTMB","sd:item:condition",0.5,0.468311933366645,TRUE,TRUE,2.23
+"12","glmmTMB","sd:project",0.5,0.336107817177408,TRUE,TRUE,2.23
+"12","glmmTMB","sd:project:condition",0.3,0.221993151226464,TRUE,TRUE,2.23
+"12","glmmTMB","sd:cell",0.5,0.34100602927624,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.101274852807398,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.00352947567107313,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.437549929199347,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.54880827200904,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.36045146207823,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.22868390335327,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.43834091821548,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.31844071234534,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.2436949824049,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.36538633968067,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.82831549073527,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.89582537669935,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.18341479071746,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.75478973032941,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.91406406041058,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.14750961479613,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.99200109505751,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.8555309122226,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.39616981451724,TRUE,TRUE,2.23
+"12","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.23744701331229,TRUE,TRUE,2.23
+"12","glmmTMB","penalty:Qwen3.5 27B",1.5,1.50277785576895,TRUE,TRUE,2.23
+"12","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.7718596543197,TRUE,TRUE,2.23
+"12","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.68157887589578,TRUE,TRUE,2.23
+"12","glmmTMB","penalty:Qwen3.5 9B",1.6,1.24940990374148,TRUE,TRUE,2.23
+"12","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.811847675722949,TRUE,TRUE,2.23
+"13","glmmTMB","sd:item",1.5,1.27684002904018,TRUE,TRUE,2.68
+"13","glmmTMB","sd:item:model",0.8,0.795137788579972,TRUE,TRUE,2.68
+"13","glmmTMB","sd:item:condition",0.5,0.485201756558718,TRUE,TRUE,2.68
+"13","glmmTMB","sd:project",0.5,0.267126459638934,TRUE,TRUE,2.68
+"13","glmmTMB","sd:project:condition",0.3,0.247892785547098,TRUE,TRUE,2.68
+"13","glmmTMB","sd:cell",0.5,0.000184111077013506,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.104303761231633,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.362030111515492,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.299804001542041,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.388143305904609,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.37265635203148,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.08346860113501,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.2766628119881,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.29134172469123,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.5809499373024,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.59486390189067,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.13085694399356,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.03611139673059,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.08009847469342,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.51909898246687,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.54825222030887,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.456966784657545,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.21848652770825,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.08910728103256,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.00634070108132,TRUE,TRUE,2.68
+"13","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.49118557171965,TRUE,TRUE,2.68
+"13","glmmTMB","penalty:Qwen3.5 27B",1.5,0.994734537827003,TRUE,TRUE,2.68
+"13","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.81505680062682,TRUE,TRUE,2.68
+"13","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.52037849193037,TRUE,TRUE,2.68
+"13","glmmTMB","penalty:Qwen3.5 9B",1.6,1.31398656771225,TRUE,TRUE,2.68
+"13","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.505444212608252,TRUE,TRUE,2.68
+"14","glmmTMB","sd:item",1.5,1.52211280784737,TRUE,TRUE,3.08
+"14","glmmTMB","sd:item:model",0.8,0.684283834051048,TRUE,TRUE,3.08
+"14","glmmTMB","sd:item:condition",0.5,0.491451488845063,TRUE,TRUE,3.08
+"14","glmmTMB","sd:project",0.5,0.746024917095395,TRUE,TRUE,3.08
+"14","glmmTMB","sd:project:condition",0.3,1.55927598411574e-06,TRUE,TRUE,3.08
+"14","glmmTMB","sd:cell",0.5,0.000157835222580582,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.454277427276952,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.151651365902924,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.157311086459313,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0918157349239798,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.06916219257137,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.14055827402323,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.23884024433524,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.32171045353754,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.43445005860438,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.60919884173545,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.52089751765816,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.37363145086001,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.07970933762645,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.3735669531517,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.35777574032088,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.20339900036693,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.62025176277599,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.63921485207203,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.975149905817609,TRUE,TRUE,3.08
+"14","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.78592411758236,TRUE,TRUE,3.08
+"14","glmmTMB","penalty:Qwen3.5 27B",1.5,1.74256235795972,TRUE,TRUE,3.08
+"14","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.25925645342082,TRUE,TRUE,3.08
+"14","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.85623379461936,TRUE,TRUE,3.08
+"14","glmmTMB","penalty:Qwen3.5 9B",1.6,1.50257323760058,TRUE,TRUE,3.08
+"14","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.848470707308195,TRUE,TRUE,3.08
+"15","glmmTMB","sd:item",1.5,1.32114887990155,TRUE,TRUE,2.28
+"15","glmmTMB","sd:item:model",0.8,0.686466074016458,TRUE,TRUE,2.28
+"15","glmmTMB","sd:item:condition",0.5,0.421216454478805,TRUE,TRUE,2.28
+"15","glmmTMB","sd:project",0.5,0.278156433532689,TRUE,TRUE,2.28
+"15","glmmTMB","sd:project:condition",0.3,0.315350187302109,TRUE,TRUE,2.28
+"15","glmmTMB","sd:cell",0.5,0.256801009359915,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.610930251988099,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.196712019025599,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.0224758537504294,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0507489685342607,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.04977289491966,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.560670996593424,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.84847600194506,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.54430852087879,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-1.91740799375976,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.14055603568209,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.31204491924504,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.49063656350877,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.19698262688252,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.66697094660805,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.85200621153497,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.960819920715461,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.46924771516414,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.52096467326859,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.08334872028489,TRUE,TRUE,2.28
+"15","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.45362210729982,TRUE,TRUE,2.28
+"15","glmmTMB","penalty:Qwen3.5 27B",1.5,1.55544219750607,TRUE,TRUE,2.28
+"15","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.46616544589826,TRUE,TRUE,2.28
+"15","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.77656112742706,TRUE,TRUE,2.28
+"15","glmmTMB","penalty:Qwen3.5 9B",1.6,1.50516025168331,TRUE,TRUE,2.28
+"15","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.765621889919295,TRUE,TRUE,2.28
+"16","glmmTMB","sd:item",1.5,1.24335569922261,TRUE,TRUE,2.64
+"16","glmmTMB","sd:item:model",0.8,0.726481110859305,TRUE,TRUE,2.64
+"16","glmmTMB","sd:item:condition",0.5,0.537575883698247,TRUE,TRUE,2.64
+"16","glmmTMB","sd:project",0.5,0.763645510240552,TRUE,TRUE,2.64
+"16","glmmTMB","sd:project:condition",0.3,0.187134211793783,TRUE,TRUE,2.64
+"16","glmmTMB","sd:cell",0.5,0.149866009633765,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.15894409674086,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.0605737557336604,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.233706164841223,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.314596661108165,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.30260788619189,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.885296866768451,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.99042456499828,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.15960079352841,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.13163443191823,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.37592070678637,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.39766666149548,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.68176809211199,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.98400408643538,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.61380948197485,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.41258814399855,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.22982872393075,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.35380771433157,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.54186530277754,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.0516529904012,TRUE,TRUE,2.64
+"16","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.75093274460238,TRUE,TRUE,2.64
+"16","glmmTMB","penalty:Qwen3.5 27B",1.5,1.32987484747242,TRUE,TRUE,2.64
+"16","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.06924054621427,TRUE,TRUE,2.64
+"16","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.66145056273922,TRUE,TRUE,2.64
+"16","glmmTMB","penalty:Qwen3.5 9B",1.6,1.28443564032326,TRUE,TRUE,2.64
+"16","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.543872645603874,TRUE,TRUE,2.64
+"17","glmmTMB","sd:item",1.5,1.38735989661096,TRUE,TRUE,2.63
+"17","glmmTMB","sd:item:model",0.8,0.643406577798154,TRUE,TRUE,2.63
+"17","glmmTMB","sd:item:condition",0.5,0.52172831515926,TRUE,TRUE,2.63
+"17","glmmTMB","sd:project",0.5,0.611958494656439,TRUE,TRUE,2.63
+"17","glmmTMB","sd:project:condition",0.3,0.241354968576573,TRUE,TRUE,2.63
+"17","glmmTMB","sd:cell",0.5,0.000120799345817923,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.0758399036142528,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.259078419653679,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0676072828409666,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.192922419379055,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.35916280239994,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.13745218767218,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.29870411286821,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.65232467514496,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.26404041867672,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.25254104427349,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.65351870095019,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.33658393863375,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.08605477433307,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.88519180340946,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.80171061109817,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.860125095233518,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.55254730671012,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.46948131962757,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.38272241919852,TRUE,TRUE,2.63
+"17","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.25816526313,TRUE,TRUE,2.63
+"17","glmmTMB","penalty:Qwen3.5 27B",1.5,1.29287189823288,TRUE,TRUE,2.63
+"17","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.6550235390577,TRUE,TRUE,2.63
+"17","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.00167964019423,TRUE,TRUE,2.63
+"17","glmmTMB","penalty:Qwen3.5 9B",1.6,1.65106246104918,TRUE,TRUE,2.63
+"17","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.744976170433944,TRUE,TRUE,2.63
+"18","glmmTMB","sd:item",1.5,1.42764372146168,TRUE,TRUE,2.58
+"18","glmmTMB","sd:item:model",0.8,0.652339933244489,TRUE,TRUE,2.58
+"18","glmmTMB","sd:item:condition",0.5,0.533264706106,TRUE,TRUE,2.58
+"18","glmmTMB","sd:project",0.5,0.200555785465758,TRUE,TRUE,2.58
+"18","glmmTMB","sd:project:condition",0.3,0.000528518761735869,TRUE,TRUE,2.58
+"18","glmmTMB","sd:cell",0.5,0.122008714552068,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.0621544974779209,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.0996735308599017,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.377677428872631,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.453644851290534,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.00359805026702,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.87078426185397,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-3.10272798457836,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.80609168635275,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.77151861246916,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.9012656957738,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-2.13643627114315,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.41172120884356,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.53091411586778,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.33260202022059,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.46844130019537,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.29648544746882,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.73484161302788,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.8562250364251,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.53428548253009,TRUE,TRUE,2.58
+"18","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.85940367001392,TRUE,TRUE,2.58
+"18","glmmTMB","penalty:Qwen3.5 27B",1.5,1.70574749601073,TRUE,TRUE,2.58
+"18","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.84943713300984,TRUE,TRUE,2.58
+"18","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.02006618400924,TRUE,TRUE,2.58
+"18","glmmTMB","penalty:Qwen3.5 9B",1.6,1.75915718711608,TRUE,TRUE,2.58
+"18","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.40610550506068,TRUE,TRUE,2.58
+"19","glmmTMB","sd:item",1.5,1.4260584177195,TRUE,TRUE,2.69
+"19","glmmTMB","sd:item:model",0.8,0.664736024070181,TRUE,TRUE,2.69
+"19","glmmTMB","sd:item:condition",0.5,0.417152305964665,TRUE,TRUE,2.69
+"19","glmmTMB","sd:project",0.5,6.50878569600236e-06,TRUE,TRUE,2.69
+"19","glmmTMB","sd:project:condition",0.3,0.450191256660231,TRUE,TRUE,2.69
+"19","glmmTMB","sd:cell",0.5,0.000368911496296091,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.00201992489556139,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.538024889459315,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.316851668701459,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.529441610322352,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.54660888706304,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.35702599035681,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.41668950622353,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.23816807109745,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.18082596103787,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.06896016281302,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.94114983311438,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.4343130311588,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.8425142367495,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.1569223260734,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.85740330769452,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.27502311034498,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.8451824182641,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.60480509898106,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.26196721676569,TRUE,TRUE,2.69
+"19","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.92190593959588,TRUE,TRUE,2.69
+"19","glmmTMB","penalty:Qwen3.5 27B",1.5,1.52641956950096,TRUE,TRUE,2.69
+"19","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.02737009575616,TRUE,TRUE,2.69
+"19","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.91164413357455,TRUE,TRUE,2.69
+"19","glmmTMB","penalty:Qwen3.5 9B",1.6,1.3371302243033,TRUE,TRUE,2.69
+"19","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.402814249638096,TRUE,TRUE,2.69
+"20","glmmTMB","sd:item",1.5,1.32646779961182,TRUE,TRUE,2.86
+"20","glmmTMB","sd:item:model",0.8,0.766875279897559,TRUE,TRUE,2.86
+"20","glmmTMB","sd:item:condition",0.5,0.475454039558667,TRUE,TRUE,2.86
+"20","glmmTMB","sd:project",0.5,4.86564318494323e-07,TRUE,TRUE,2.86
+"20","glmmTMB","sd:project:condition",0.3,0.173949558464626,TRUE,TRUE,2.86
+"20","glmmTMB","sd:cell",0.5,0.000219357242962319,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.0191927642699714,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.660167544329538,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.730415328297613,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.672417376526736,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.68842387815346,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.35182017898659,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.81162990901492,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.47779508080111,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.49713359288956,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.75174518026688,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.84065992979287,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.57016338803341,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.65325167402423,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.90143045278772,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.27720078624658,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.46507366909263,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.35397461315615,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.07741414454977,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.58100234052261,TRUE,TRUE,2.86
+"20","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.33879156756931,TRUE,TRUE,2.86
+"20","glmmTMB","penalty:Qwen3.5 27B",1.5,1.57171069022733,TRUE,TRUE,2.86
+"20","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.25175509240529,TRUE,TRUE,2.86
+"20","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.67240497149409,TRUE,TRUE,2.86
+"20","glmmTMB","penalty:Qwen3.5 9B",1.6,1.65410475220656,TRUE,TRUE,2.86
+"20","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.767488633207467,TRUE,TRUE,2.86
+"21","glmmTMB","sd:item",1.5,1.35799084369667,TRUE,TRUE,2.73
+"21","glmmTMB","sd:item:model",0.8,0.670285554033467,TRUE,TRUE,2.73
+"21","glmmTMB","sd:item:condition",0.5,0.496164660717442,TRUE,TRUE,2.73
+"21","glmmTMB","sd:project",0.5,0.370490989228231,TRUE,TRUE,2.73
+"21","glmmTMB","sd:project:condition",0.3,0.155710646852221,TRUE,TRUE,2.73
+"21","glmmTMB","sd:cell",0.5,0.000104493346701404,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.272218074199531,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.253394414515214,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.338547092268901,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.198870458298758,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.725568452661843,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.30296600118827,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.651955696987,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.00889191640617,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.41993089646199,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.22175728187847,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.66616686087155,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.30938978108622,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.00502327839704,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.50946827650861,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.25073870580891,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.997141795649414,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.54043862932934,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.55882798600908,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.26191029899641,TRUE,TRUE,2.73
+"21","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.72128780244639,TRUE,TRUE,2.73
+"21","glmmTMB","penalty:Qwen3.5 27B",1.5,1.59430962676928,TRUE,TRUE,2.73
+"21","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.75398911698273,TRUE,TRUE,2.73
+"21","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.19612815253967,TRUE,TRUE,2.73
+"21","glmmTMB","penalty:Qwen3.5 9B",1.6,1.53156603235691,TRUE,TRUE,2.73
+"21","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.00569281071608,TRUE,TRUE,2.73
+"22","glmmTMB","sd:item",1.5,1.54912356797348,TRUE,TRUE,2.55
+"22","glmmTMB","sd:item:model",0.8,0.669372910900531,TRUE,TRUE,2.55
+"22","glmmTMB","sd:item:condition",0.5,0.616850368858199,TRUE,TRUE,2.55
+"22","glmmTMB","sd:project",0.5,0.222982036641215,TRUE,TRUE,2.55
+"22","glmmTMB","sd:project:condition",0.3,1.03055351385297e-06,TRUE,TRUE,2.55
+"22","glmmTMB","sd:cell",0.5,0.000144607604426372,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.105054053884935,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.0939924394071703,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0860054655187168,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0961139903602206,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.05297987698024,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.04859245852684,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.37448250109584,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.33810685666098,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.71391372705072,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.40443417415074,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.36284501804336,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.05619690746999,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.2991731655749,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.57961298906457,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.78008119699177,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.877842217107267,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.12505155372078,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.64460569230069,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.28896097073034,TRUE,TRUE,2.55
+"22","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.89717047770096,TRUE,TRUE,2.55
+"22","glmmTMB","penalty:Qwen3.5 27B",1.5,1.20148061844409,TRUE,TRUE,2.55
+"22","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.61256942683604,TRUE,TRUE,2.55
+"22","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.00795643932681,TRUE,TRUE,2.55
+"22","glmmTMB","penalty:Qwen3.5 9B",1.6,1.76471523858832,TRUE,TRUE,2.55
+"22","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.97424873930092,TRUE,TRUE,2.55
+"23","glmmTMB","sd:item",1.5,1.32267108943585,TRUE,TRUE,2.49
+"23","glmmTMB","sd:item:model",0.8,0.740695978912276,TRUE,TRUE,2.49
+"23","glmmTMB","sd:item:condition",0.5,0.543969063502136,TRUE,TRUE,2.49
+"23","glmmTMB","sd:project",0.5,0.28364528717459,TRUE,TRUE,2.49
+"23","glmmTMB","sd:project:condition",0.3,0.237930685549475,TRUE,TRUE,2.49
+"23","glmmTMB","sd:cell",0.5,0.00166172144159924,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.263911593944491,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.256630812611748,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.620391288660026,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.580170351707103,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.82656994279763,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.18215852247397,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.34163679361782,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.32147496802726,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-3.07879066632833,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.7589782969337,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.72959002677828,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.11131952157356,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.57441751276582,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.15374722102108,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.25863865724643,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.30047968372433,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.58117404516953,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.77766454323619,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.48358256301116,TRUE,TRUE,2.49
+"23","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.06206028961156,TRUE,TRUE,2.49
+"23","glmmTMB","penalty:Qwen3.5 27B",1.5,1.14016448371437,TRUE,TRUE,2.49
+"23","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.08807930750855,TRUE,TRUE,2.49
+"23","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.60412771934973,TRUE,TRUE,2.49
+"23","glmmTMB","penalty:Qwen3.5 9B",1.6,1.65853646507975,TRUE,TRUE,2.49
+"23","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.533322471799604,TRUE,TRUE,2.49
+"24","glmmTMB","sd:item",1.5,1.4280921958619,TRUE,TRUE,2.49
+"24","glmmTMB","sd:item:model",0.8,0.831611018913404,TRUE,TRUE,2.49
+"24","glmmTMB","sd:item:condition",0.5,0.455725317629949,TRUE,TRUE,2.49
+"24","glmmTMB","sd:project",0.5,0.000125973586052072,TRUE,TRUE,2.49
+"24","glmmTMB","sd:project:condition",0.3,0.204790233527821,TRUE,TRUE,2.49
+"24","glmmTMB","sd:cell",0.5,0.165788118340859,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.137445229093222,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.325099888283589,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.330282405045888,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.118959298174526,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.42225226655244,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.04084996812771,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.12529325786966,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.21852449653884,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.18187454867787,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.22587753070866,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.61826395427274,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.28166059354985,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.32373570367127,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.77642303137651,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.03933265041055,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.16872308285252,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.74400181025792,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.87517565166208,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.43045880445821,TRUE,TRUE,2.49
+"24","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.204656693201,TRUE,TRUE,2.49
+"24","glmmTMB","penalty:Qwen3.5 27B",1.5,1.13850043932444,TRUE,TRUE,2.49
+"24","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.05855199894222,TRUE,TRUE,2.49
+"24","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.80886287891151,TRUE,TRUE,2.49
+"24","glmmTMB","penalty:Qwen3.5 9B",1.6,1.67729282999634,TRUE,TRUE,2.49
+"24","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.734370024887635,TRUE,TRUE,2.49
+"25","glmmTMB","sd:item",1.5,1.31036677314785,TRUE,TRUE,2.06
+"25","glmmTMB","sd:item:model",0.8,0.828139289751902,TRUE,TRUE,2.06
+"25","glmmTMB","sd:item:condition",0.5,0.522298944691895,TRUE,TRUE,2.06
+"25","glmmTMB","sd:project",0.5,0.858729574993627,TRUE,TRUE,2.06
+"25","glmmTMB","sd:project:condition",0.3,0.199010407352504,TRUE,TRUE,2.06
+"25","glmmTMB","sd:cell",0.5,0.180238288845569,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.496550999668539,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.595270913191745,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.681522791073568,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.5999627114946,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.8602866115312,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.38728101130814,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.58807377028015,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.34849362091609,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.650086652596,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.73512686164981,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.77765489167725,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.75337689816615,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.37295655493382,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.2184717053035,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.00678951277382,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.91669900978469,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.1829607413272,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.01873578594763,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.81616545296612,TRUE,TRUE,2.06
+"25","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.79091597119907,TRUE,TRUE,2.06
+"25","glmmTMB","penalty:Qwen3.5 27B",1.5,1.19732730458816,TRUE,TRUE,2.06
+"25","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.91286622339942,TRUE,TRUE,2.06
+"25","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.56520586285894,TRUE,TRUE,2.06
+"25","glmmTMB","penalty:Qwen3.5 9B",1.6,1.62827855879394,TRUE,TRUE,2.06
+"25","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.650657503676367,TRUE,TRUE,2.06
+"26","glmmTMB","sd:item",1.5,1.37703459887832,TRUE,TRUE,2.39
+"26","glmmTMB","sd:item:model",0.8,0.778060956120276,TRUE,TRUE,2.39
+"26","glmmTMB","sd:item:condition",0.5,0.461657855394223,TRUE,TRUE,2.39
+"26","glmmTMB","sd:project",0.5,0.771454157037922,TRUE,TRUE,2.39
+"26","glmmTMB","sd:project:condition",0.3,0.193233509856792,TRUE,TRUE,2.39
+"26","glmmTMB","sd:cell",0.5,0.00012060324003843,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.154079943735315,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.482823059764949,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.624294808354695,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.294817474480843,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.52790938545489,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.21245671867371,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.84696415753212,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.58822435563899,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.44800032596605,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.67110765538412,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.59094127691611,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.48872649109843,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.15581446673793,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.05411749390327,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.95579486855034,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.2858108823868,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.62309631853504,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.62449192444512,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.49346324551254,TRUE,TRUE,2.39
+"26","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.99730174366123,TRUE,TRUE,2.39
+"26","glmmTMB","penalty:Qwen3.5 27B",1.5,1.20898968225689,TRUE,TRUE,2.39
+"26","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.17010592929025,TRUE,TRUE,2.39
+"26","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.49854877391932,TRUE,TRUE,2.39
+"26","glmmTMB","penalty:Qwen3.5 9B",1.6,1.70370954731311,TRUE,TRUE,2.39
+"26","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.680158703743669,TRUE,TRUE,2.39
+"27","glmmTMB","sd:item",1.5,1.25956022717441,TRUE,TRUE,2.33
+"27","glmmTMB","sd:item:model",0.8,0.741333366955443,TRUE,TRUE,2.33
+"27","glmmTMB","sd:item:condition",0.5,0.313617795382171,TRUE,TRUE,2.33
+"27","glmmTMB","sd:project",0.5,2.60423402521843e-05,TRUE,TRUE,2.33
+"27","glmmTMB","sd:project:condition",0.3,0.216940312857,TRUE,TRUE,2.33
+"27","glmmTMB","sd:cell",0.5,0.000127662912198277,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.370605952776944,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0394084078414351,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.105588779604663,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.217568679012339,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.841444244735494,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.964868051576757,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.23442028403672,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.74655337914073,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.00779626436092,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.34296289752118,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.29782403211489,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.86279878752602,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.96606972793045,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.73602096334414,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.85065635792922,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.88572710935188,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.2384450673576,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.15174309728342,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.04621134920474,TRUE,TRUE,2.33
+"27","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.68317101464585,TRUE,TRUE,2.33
+"27","glmmTMB","penalty:Qwen3.5 27B",1.5,1.42007901712479,TRUE,TRUE,2.33
+"27","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.07247963846534,TRUE,TRUE,2.33
+"27","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.72704418105619,TRUE,TRUE,2.33
+"27","glmmTMB","penalty:Qwen3.5 9B",1.6,1.37910751329093,TRUE,TRUE,2.33
+"27","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.11748584529659,TRUE,TRUE,2.33
+"28","glmmTMB","sd:item",1.5,1.23362527085947,TRUE,TRUE,2.21
+"28","glmmTMB","sd:item:model",0.8,0.795125559607527,TRUE,TRUE,2.21
+"28","glmmTMB","sd:item:condition",0.5,0.599726031052971,TRUE,TRUE,2.21
+"28","glmmTMB","sd:project",0.5,0.302767285064037,TRUE,TRUE,2.21
+"28","glmmTMB","sd:project:condition",0.3,0.342190702428709,TRUE,TRUE,2.21
+"28","glmmTMB","sd:cell",0.5,0.000114382863956531,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.171202022921102,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.094473581851233,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.210458980941008,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0758988576636374,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.0229489232349,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.17398556573651,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.22235682843953,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.51737335121924,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.55166866637142,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.48558671508705,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.54098474788229,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.64643691998021,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-3.04530277255626,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.2864690092139,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.26970744172636,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.22897579277826,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.68914725651516,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.74900252759975,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.74845610933829,TRUE,TRUE,2.21
+"28","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.4425493344698,TRUE,TRUE,2.21
+"28","glmmTMB","penalty:Qwen3.5 27B",1.5,1.48585072505345,TRUE,TRUE,2.21
+"28","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.4248400864604,TRUE,TRUE,2.21
+"28","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.22676723618408,TRUE,TRUE,2.21
+"28","glmmTMB","penalty:Qwen3.5 9B",1.6,2.11963240397757,TRUE,TRUE,2.21
+"28","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.37633224052617,TRUE,TRUE,2.21
+"29","glmmTMB","sd:item",1.5,1.42568858288291,TRUE,TRUE,2.2
+"29","glmmTMB","sd:item:model",0.8,0.852056449439639,TRUE,TRUE,2.2
+"29","glmmTMB","sd:item:condition",0.5,0.45032524219679,TRUE,TRUE,2.2
+"29","glmmTMB","sd:project",0.5,3.537494200726e-07,TRUE,TRUE,2.2
+"29","glmmTMB","sd:project:condition",0.3,0.316602491159399,TRUE,TRUE,2.2
+"29","glmmTMB","sd:cell",0.5,0.000157025236672024,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.0785197308769493,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.417829985508128,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.344770109290855,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.54706386875476,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.47525962488892,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.29490331536869,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.25566531342071,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.32166961487561,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.32158040823742,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.32948644814163,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.67736350606027,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.44858321580922,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.48929002862435,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.11422743994947,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.99864096438544,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.33331726651962,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.03361437249114,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.936115080853,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.74971431076144,TRUE,TRUE,2.2
+"29","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.21101192494807,TRUE,TRUE,2.2
+"29","glmmTMB","penalty:Qwen3.5 27B",1.5,1.51371442685981,TRUE,TRUE,2.2
+"29","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.1614576483989,TRUE,TRUE,2.2
+"29","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.9042547988268,TRUE,TRUE,2.2
+"29","glmmTMB","penalty:Qwen3.5 9B",1.6,1.51477685089469,TRUE,TRUE,2.2
+"29","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.704453487602791,TRUE,TRUE,2.2
+"30","glmmTMB","sd:item",1.5,1.5709370499068,TRUE,TRUE,2.1
+"30","glmmTMB","sd:item:model",0.8,0.665575785818375,TRUE,TRUE,2.1
+"30","glmmTMB","sd:item:condition",0.5,0.435986769375903,TRUE,TRUE,2.1
+"30","glmmTMB","sd:project",0.5,0.706792782475686,TRUE,TRUE,2.1
+"30","glmmTMB","sd:project:condition",0.3,0.295482826850797,TRUE,TRUE,2.1
+"30","glmmTMB","sd:cell",0.5,0.000110796744402489,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.0561459597575471,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.297909547271359,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.429935934013325,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.747385160607718,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.22340135098427,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.56149461331961,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.80652398264606,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.87307427055218,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-3.14629514594216,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.39247203061278,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.70867710573715,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-3.11902158347429,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.87843181581492,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.06905336881549,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.74874051721436,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.28222434865626,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.01452621947777,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.85279252163372,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.29783834315556,TRUE,TRUE,2.1
+"30","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.6960954777644,TRUE,TRUE,2.1
+"30","glmmTMB","penalty:Qwen3.5 27B",1.5,1.46131939614679,TRUE,TRUE,2.1
+"30","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.68211438126135,TRUE,TRUE,2.1
+"30","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.10483026865362,TRUE,TRUE,2.1
+"30","glmmTMB","penalty:Qwen3.5 9B",1.6,1.42367712536335,TRUE,TRUE,2.1
+"30","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.722367990879572,TRUE,TRUE,2.1
+"31","glmmTMB","sd:item",1.5,1.5057996233046,TRUE,TRUE,2.19
+"31","glmmTMB","sd:item:model",0.8,0.685531166503222,TRUE,TRUE,2.19
+"31","glmmTMB","sd:item:condition",0.5,0.511021331556832,TRUE,TRUE,2.19
+"31","glmmTMB","sd:project",0.5,0.000595450705841994,TRUE,TRUE,2.19
+"31","glmmTMB","sd:project:condition",0.3,4.41320857552625e-05,TRUE,TRUE,2.19
+"31","glmmTMB","sd:cell",0.5,0.30108729114634,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.190581086037105,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.124790063623381,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.0133231596860742,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.0814185373349188,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.13343802966141,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.993859553491216,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.75650473066449,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.7721546804899,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.52076292559249,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.41777237074502,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.28273785047946,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.88563666691845,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.76957493959755,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.72342848823213,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.48041795955334,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.921812140079071,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.61708708773433,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.71790039920211,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.24699601365719,TRUE,TRUE,2.19
+"31","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.81414835222546,TRUE,TRUE,2.19
+"31","glmmTMB","penalty:Qwen3.5 27B",1.5,1.25671760072035,TRUE,TRUE,2.19
+"31","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.54453289206247,TRUE,TRUE,2.19
+"31","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.09986649944926,TRUE,TRUE,2.19
+"31","glmmTMB","penalty:Qwen3.5 9B",1.6,1.74897727182569,TRUE,TRUE,2.19
+"31","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.770674864513194,TRUE,TRUE,2.19
+"32","glmmTMB","sd:item",1.5,1.3309793589624,TRUE,TRUE,2.33
+"32","glmmTMB","sd:item:model",0.8,0.647879235932772,TRUE,TRUE,2.33
+"32","glmmTMB","sd:item:condition",0.5,0.553711129306703,TRUE,TRUE,2.33
+"32","glmmTMB","sd:project",0.5,0.435882417067196,TRUE,TRUE,2.33
+"32","glmmTMB","sd:project:condition",0.3,0.301345789668985,TRUE,TRUE,2.33
+"32","glmmTMB","sd:cell",0.5,0.000965216985201895,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.365739524840744,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.60235025695321,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.419892768956941,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.620100723887611,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.64217149795703,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.963132011649639,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.09491156263065,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.21246051845734,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.35245577757773,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.56183267526914,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.54588863492555,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.42377482102488,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.14190419798332,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.90214498084105,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.07775605547573,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.06820422899627,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.40975229859604,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.5094074924199,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.1591927480748,TRUE,TRUE,2.33
+"32","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.02915126401148,TRUE,TRUE,2.33
+"32","glmmTMB","penalty:Qwen3.5 27B",1.5,0.82666876701641,TRUE,TRUE,2.33
+"32","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.70712930379731,TRUE,TRUE,2.33
+"32","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.53469796732991,TRUE,TRUE,2.33
+"32","glmmTMB","penalty:Qwen3.5 9B",1.6,1.18449711161025,TRUE,TRUE,2.33
+"32","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.580741833628416,TRUE,TRUE,2.33
+"33","glmmTMB","sd:item",1.5,1.29144944503238,TRUE,TRUE,1.95
+"33","glmmTMB","sd:item:model",0.8,0.853040999323687,TRUE,TRUE,1.95
+"33","glmmTMB","sd:item:condition",0.5,0.534570730446191,TRUE,TRUE,1.95
+"33","glmmTMB","sd:project",0.5,0.536762384676867,TRUE,TRUE,1.95
+"33","glmmTMB","sd:project:condition",0.3,0.0884114919709798,TRUE,TRUE,1.95
+"33","glmmTMB","sd:cell",0.5,0.273401620624595,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.0303584258667474,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.357584132086985,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.395850685884819,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.183727110533089,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.24496668380928,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.19337202915867,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.63708453182695,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.99871151378282,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.24561357659351,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.97666522903238,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.46905737941275,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.68006277757483,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.55175868393417,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.12135920330507,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.82821967280984,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.27344576136885,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.18361146783436,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.95687457751449,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.70924966835869,TRUE,TRUE,1.95
+"33","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.1362559786591,TRUE,TRUE,1.95
+"33","glmmTMB","penalty:Qwen3.5 27B",1.5,1.28159996411334,TRUE,TRUE,1.95
+"33","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.47600212699173,TRUE,TRUE,1.95
+"33","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.77326423919234,TRUE,TRUE,1.95
+"33","glmmTMB","penalty:Qwen3.5 9B",1.6,1.84168037221933,TRUE,TRUE,1.95
+"33","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.06874694302449,TRUE,TRUE,1.95
+"34","glmmTMB","sd:item",1.5,1.40563168548285,TRUE,TRUE,2.53
+"34","glmmTMB","sd:item:model",0.8,0.778167459719678,TRUE,TRUE,2.53
+"34","glmmTMB","sd:item:condition",0.5,0.450284032079434,TRUE,TRUE,2.53
+"34","glmmTMB","sd:project",0.5,0.275942867147217,TRUE,TRUE,2.53
+"34","glmmTMB","sd:project:condition",0.3,0.145432699903347,TRUE,TRUE,2.53
+"34","glmmTMB","sd:cell",0.5,0.000210450472240739,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.25838126030694,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.43755683603642,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.640015973172553,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.595303167490776,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.46178479951762,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.29282848823829,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.58771829461367,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.74892935451449,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.81260856144269,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-3.04314774141834,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.64900374324174,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.49496202000504,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.8623681122326,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.08018210134352,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.02313396418996,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.55133856202149,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.95632633772082,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.58199858779526,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.70694318446265,TRUE,TRUE,2.53
+"34","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.12934991889653,TRUE,TRUE,2.53
+"34","glmmTMB","penalty:Qwen3.5 27B",1.5,1.2393423375269,TRUE,TRUE,2.53
+"34","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.24211204807676,TRUE,TRUE,2.53
+"34","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.75774937834156,TRUE,TRUE,2.53
+"34","glmmTMB","penalty:Qwen3.5 9B",1.6,1.60460811492551,TRUE,TRUE,2.53
+"34","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.936759075317322,TRUE,TRUE,2.53
+"35","glmmTMB","sd:item",1.5,1.35558567878168,TRUE,TRUE,2.28
+"35","glmmTMB","sd:item:model",0.8,0.673458584172279,TRUE,TRUE,2.28
+"35","glmmTMB","sd:item:condition",0.5,0.276960107391722,TRUE,TRUE,2.28
+"35","glmmTMB","sd:project",0.5,0.590284761783711,TRUE,TRUE,2.28
+"35","glmmTMB","sd:project:condition",0.3,0.237911060018745,TRUE,TRUE,2.28
+"35","glmmTMB","sd:cell",0.5,0.160209197004268,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.262419686418984,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.319802893342911,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.90628628143025,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.403191751440507,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.38579836253281,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.40447944921769,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.25342122721695,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.26510688377907,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.4380271671027,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.34392983390062,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.37555099642502,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.88543225693054,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.65679137810594,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.71873649888185,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.79234785877639,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.46717260700677,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.59742213126603,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.06798264525416,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.66769189468995,TRUE,TRUE,2.28
+"35","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.2696359282801,TRUE,TRUE,2.28
+"35","glmmTMB","penalty:Qwen3.5 27B",1.5,1.67815403730215,TRUE,TRUE,2.28
+"35","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.92562231179493,TRUE,TRUE,2.28
+"35","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.42367402094947,TRUE,TRUE,2.28
+"35","glmmTMB","penalty:Qwen3.5 9B",1.6,1.538293435451,TRUE,TRUE,2.28
+"35","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.749506177786225,TRUE,TRUE,2.28
+"36","glmmTMB","sd:item",1.5,1.52165116309869,TRUE,TRUE,2.68
+"36","glmmTMB","sd:item:model",0.8,0.676491864998735,TRUE,TRUE,2.68
+"36","glmmTMB","sd:item:condition",0.5,0.430140660135259,TRUE,TRUE,2.68
+"36","glmmTMB","sd:project",0.5,0.208827330206414,TRUE,TRUE,2.68
+"36","glmmTMB","sd:project:condition",0.3,0.31251582034368,TRUE,TRUE,2.68
+"36","glmmTMB","sd:cell",0.5,0.000242708798903126,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.438450260954134,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.0208010831844333,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0751690371035058,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 9B:text",-0.4,0.0196051646322977,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.841233069381306,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.527362675803372,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.48338216198684,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.6652359675136,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.01193446989108,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-1.6359763692904,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.24330721197969,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.68316134233064,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.80058832939864,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.35302017890355,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.56590544516198,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.683444624047862,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.37380658418703,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.35421859816495,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.23293045902044,TRUE,TRUE,2.68
+"36","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.20947023875896,TRUE,TRUE,2.68
+"36","glmmTMB","penalty:Qwen3.5 27B",1.5,1.25648843156444,TRUE,TRUE,2.68
+"36","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.86758444601927,TRUE,TRUE,2.68
+"36","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.53151192792222,TRUE,TRUE,2.68
+"36","glmmTMB","penalty:Qwen3.5 9B",1.6,1.55223353390398,TRUE,TRUE,2.68
+"36","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.629217615022473,TRUE,TRUE,2.68
+"37","glmmTMB","sd:item",1.5,1.43044930270907,TRUE,TRUE,2.63
+"37","glmmTMB","sd:item:model",0.8,0.688387656307365,TRUE,TRUE,2.63
+"37","glmmTMB","sd:item:condition",0.5,0.490199396810278,TRUE,TRUE,2.63
+"37","glmmTMB","sd:project",0.5,0.505396466017199,TRUE,TRUE,2.63
+"37","glmmTMB","sd:project:condition",0.3,0.324239916666913,TRUE,TRUE,2.63
+"37","glmmTMB","sd:cell",0.5,0.000117638279971088,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.175440398740251,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.181495781587271,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0659999288420886,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.396574201364004,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.19519949914863,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.0938895117254,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.36844469158414,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.01516517806745,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.30681134397948,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.35465825798666,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.47265906857717,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.79453131547355,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.37101966595881,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.88127849389914,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.80859901281505,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.952594435883137,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.76873087245795,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.31971893961667,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.852512727544182,TRUE,TRUE,2.63
+"37","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.76133984989825,TRUE,TRUE,2.63
+"37","glmmTMB","penalty:Qwen3.5 27B",1.5,1.34848807080215,TRUE,TRUE,2.63
+"37","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.46240651158461,TRUE,TRUE,2.63
+"37","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.83596799903889,TRUE,TRUE,2.63
+"37","glmmTMB","penalty:Qwen3.5 9B",1.6,1.28362665377693,TRUE,TRUE,2.63
+"37","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.779666207751356,TRUE,TRUE,2.63
+"38","glmmTMB","sd:item",1.5,1.34635921130029,TRUE,TRUE,2.95
+"38","glmmTMB","sd:item:model",0.8,0.680933417085199,TRUE,TRUE,2.95
+"38","glmmTMB","sd:item:condition",0.5,0.375073944427367,TRUE,TRUE,2.95
+"38","glmmTMB","sd:project",0.5,3.75061802648857e-06,TRUE,TRUE,2.95
+"38","glmmTMB","sd:project:condition",0.3,0.164427224079948,TRUE,TRUE,2.95
+"38","glmmTMB","sd:cell",0.5,0.000135721482429429,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.359230494860724,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.164656416287281,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.128637015310573,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 9B:text",-0.4,0.0501131151680778,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.94650679285255,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.984280332511052,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.86214683258857,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-1.52647309189825,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-1.86328900773266,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.36654493237119,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.29482523415865,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.04588194012997,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.05794086236616,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.86049368937741,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.21764136724806,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.757085307579207,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.25656523021761,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.3556927532414,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.703658871138336,TRUE,TRUE,2.95
+"38","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.22718247584142,TRUE,TRUE,2.95
+"38","glmmTMB","penalty:Qwen3.5 27B",1.5,1.37129411961036,TRUE,TRUE,2.95
+"38","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.21952108393267,TRUE,TRUE,2.95
+"38","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.77533925114584,TRUE,TRUE,2.95
+"38","glmmTMB","penalty:Qwen3.5 9B",1.6,1.52592697125088,TRUE,TRUE,2.95
+"38","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.657282798967675,TRUE,TRUE,2.95
+"39","glmmTMB","sd:item",1.5,1.3310073014749,TRUE,TRUE,2.66
+"39","glmmTMB","sd:item:model",0.8,0.822336143595023,TRUE,TRUE,2.66
+"39","glmmTMB","sd:item:condition",0.5,0.52550883203935,TRUE,TRUE,2.66
+"39","glmmTMB","sd:project",0.5,0.616049974874853,TRUE,TRUE,2.66
+"39","glmmTMB","sd:project:condition",0.3,0.196852933263414,TRUE,TRUE,2.66
+"39","glmmTMB","sd:cell",0.5,0.0444765922614597,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.288561278021521,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.283921344471878,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.747166806593491,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.582228691757855,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.65390130858489,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.26208153471743,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.58674180942689,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.41301891445382,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.46866881284134,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.70137383042336,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.73752667858567,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.45109647069852,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.41760460043634,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.86563906572769,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.13197893405138,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.45002609768887,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.92433980274159,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.78572306096867,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.58913632985694,TRUE,TRUE,2.66
+"39","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.06970997369074,TRUE,TRUE,2.66
+"39","glmmTMB","penalty:Qwen3.5 27B",1.5,1.1946501589758,TRUE,TRUE,2.66
+"39","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.37013801648379,TRUE,TRUE,2.66
+"39","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.45828205202612,TRUE,TRUE,2.66
+"39","glmmTMB","penalty:Qwen3.5 9B",1.6,1.3922527110508,TRUE,TRUE,2.66
+"39","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.647119604136936,TRUE,TRUE,2.66
+"40","glmmTMB","sd:item",1.5,1.40341417633798,TRUE,TRUE,3.04
+"40","glmmTMB","sd:item:model",0.8,0.727187671730836,TRUE,TRUE,3.04
+"40","glmmTMB","sd:item:condition",0.5,0.42248385146865,TRUE,TRUE,3.04
+"40","glmmTMB","sd:project",0.5,0.530324502720398,TRUE,TRUE,3.04
+"40","glmmTMB","sd:project:condition",0.3,0.236593160712948,TRUE,TRUE,3.04
+"40","glmmTMB","sd:cell",0.5,0.00753409654435678,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.14378141510643,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.870165055809265,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.632207494695906,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.785771837056854,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.39833309485893,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.65801405928735,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.78814830514975,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.51035238035947,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.7462625870452,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.97903844516872,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-2.033075604053,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.61809284321663,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.23769576216311,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.1991275557496,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.54239989914584,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.46753369330516,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.20156410450921,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.02469658919222,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.75434942823259,TRUE,TRUE,3.04
+"40","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.19475638455024,TRUE,TRUE,3.04
+"40","glmmTMB","penalty:Qwen3.5 27B",1.5,1.57575970377541,TRUE,TRUE,3.04
+"40","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,1.99910336181593,TRUE,TRUE,3.04
+"40","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.62537408254236,TRUE,TRUE,3.04
+"40","glmmTMB","penalty:Qwen3.5 9B",1.6,1.44747468661894,TRUE,TRUE,3.04
+"40","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.840398481429336,TRUE,TRUE,3.04
+"41","glmmTMB","sd:item",1.5,1.45730247544015,TRUE,TRUE,3.07
+"41","glmmTMB","sd:item:model",0.8,0.774899011811058,TRUE,TRUE,3.07
+"41","glmmTMB","sd:item:condition",0.5,0.620191704554884,TRUE,TRUE,3.07
+"41","glmmTMB","sd:project",0.5,0.163047235566252,TRUE,TRUE,3.07
+"41","glmmTMB","sd:project:condition",0.3,1.9458515444517e-06,TRUE,TRUE,3.07
+"41","glmmTMB","sd:cell",0.5,0.000265707454449896,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.121231290885899,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.149999129853112,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.237704895153343,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.547989632557398,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.37177241997112,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.4458758718886,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.60530784842298,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.32722068124075,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.49916858950232,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.73927312555255,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.48299802115811,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.63109840833096,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.16674416080253,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.91851198717494,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.93271441681685,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.31344279774357,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.66527472982464,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.56637582037044,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.23586483735243,TRUE,TRUE,3.07
+"41","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.2090798429107,TRUE,TRUE,3.07
+"41","glmmTMB","penalty:Qwen3.5 27B",1.5,1.53533685448266,TRUE,TRUE,3.07
+"41","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.48389453233975,TRUE,TRUE,3.07
+"41","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.78240865898456,TRUE,TRUE,3.07
+"41","glmmTMB","penalty:Qwen3.5 9B",1.6,1.3365255054525,TRUE,TRUE,3.07
+"41","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.921916708455581,TRUE,TRUE,3.07
+"42","glmmTMB","sd:item",1.5,1.42491945042098,TRUE,TRUE,2.86
+"42","glmmTMB","sd:item:model",0.8,0.650331136038291,TRUE,TRUE,2.86
+"42","glmmTMB","sd:item:condition",0.5,0.434614306038558,TRUE,TRUE,2.86
+"42","glmmTMB","sd:project",0.5,0.401556331060618,TRUE,TRUE,2.86
+"42","glmmTMB","sd:project:condition",0.3,0.405520184759093,TRUE,TRUE,2.86
+"42","glmmTMB","sd:cell",0.5,0.0001015432034836,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.29060822106891,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0279129721191403,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.0289893868732805,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.37888476245832,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.07826207961729,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.971031288126419,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.18149742866656,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.31921781705522,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.58029247337524,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.37340934384688,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.78812115461376,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.33900096270875,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.21618759888906,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.05681716527693,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.98231253523826,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.914542473269808,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.59099001971952,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.52975671603816,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.22922563392321,TRUE,TRUE,2.86
+"42","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.05561342640521,TRUE,TRUE,2.86
+"42","glmmTMB","penalty:Qwen3.5 27B",1.5,1.51517319307224,TRUE,TRUE,2.86
+"42","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.34258316491247,TRUE,TRUE,2.86
+"42","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.99273132378753,TRUE,TRUE,2.86
+"42","glmmTMB","penalty:Qwen3.5 9B",1.6,1.57656032840014,TRUE,TRUE,2.86
+"42","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.0588496888795,TRUE,TRUE,2.86
+"43","glmmTMB","sd:item",1.5,1.52273543531548,TRUE,TRUE,2.86
+"43","glmmTMB","sd:item:model",0.8,0.753342644885621,TRUE,TRUE,2.86
+"43","glmmTMB","sd:item:condition",0.5,0.609556980662558,TRUE,TRUE,2.86
+"43","glmmTMB","sd:project",0.5,1.33086625934524e-05,TRUE,TRUE,2.86
+"43","glmmTMB","sd:project:condition",0.3,0.207131224004105,TRUE,TRUE,2.86
+"43","glmmTMB","sd:cell",0.5,9.66330700415402e-05,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.345161830672938,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0699198251410852,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.506271336691692,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.237296689123125,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.53983251402957,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.04479644528018,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-1.98789759529999,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.28733342994181,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.64143403411005,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.58392897374045,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-0.934876123752226,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.01639470074109,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.35277616963058,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.76816366989718,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.66156273539863,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.19180909196645,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.29017219285627,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.29390439758881,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-0.755370287757146,TRUE,TRUE,2.86
+"43","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.78212678337086,TRUE,TRUE,2.86
+"43","glmmTMB","penalty:Qwen3.5 27B",1.5,1.40232238433922,TRUE,TRUE,2.86
+"43","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.02823500449136,TRUE,TRUE,2.86
+"43","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.47173332902871,TRUE,TRUE,2.86
+"43","glmmTMB","penalty:Qwen3.5 9B",1.6,1.48435930813167,TRUE,TRUE,2.86
+"43","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.469373650140412,TRUE,TRUE,2.86
+"44","glmmTMB","sd:item",1.5,1.3293120401471,TRUE,TRUE,2.01
+"44","glmmTMB","sd:item:model",0.8,0.752997943027322,TRUE,TRUE,2.01
+"44","glmmTMB","sd:item:condition",0.5,0.58437065389859,TRUE,TRUE,2.01
+"44","glmmTMB","sd:project",0.5,0.541524615122203,TRUE,TRUE,2.01
+"44","glmmTMB","sd:project:condition",0.3,0.286637957623992,TRUE,TRUE,2.01
+"44","glmmTMB","sd:cell",0.5,0.100124523593875,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.182293268273655,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.0435949746112885,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.571445916424197,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.498702396227831,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.19517316117348,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.52599377281125,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.34333420886199,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.27397378876139,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.60259767400099,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.29265983277085,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.39998478111454,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.0528891211113,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.83235465812872,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.22907473527362,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.60033606171392,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.30985401068484,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.05536878166252,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.78541933202,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.50321490686136,TRUE,TRUE,2.01
+"44","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.73332210395363,TRUE,TRUE,2.01
+"44","glmmTMB","penalty:Qwen3.5 27B",1.5,1.5942374564772,TRUE,TRUE,2.01
+"44","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.44026906260065,TRUE,TRUE,2.01
+"44","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.72580334321251,TRUE,TRUE,2.01
+"44","glmmTMB","penalty:Qwen3.5 9B",1.6,1.61292670915083,TRUE,TRUE,2.01
+"44","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.680266171639317,TRUE,TRUE,2.01
+"45","glmmTMB","sd:item",1.5,1.34521079288496,TRUE,TRUE,2.05
+"45","glmmTMB","sd:item:model",0.8,0.698744871153729,TRUE,TRUE,2.05
+"45","glmmTMB","sd:item:condition",0.5,0.403735500053047,TRUE,TRUE,2.05
+"45","glmmTMB","sd:project",0.5,0.728453126013977,TRUE,TRUE,2.05
+"45","glmmTMB","sd:project:condition",0.3,0.24627714442296,TRUE,TRUE,2.05
+"45","glmmTMB","sd:cell",0.5,0.251857060189803,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.209157635105785,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.125796809307456,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.104081270848335,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.150481419677338,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.911455744822722,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.07083330235799,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.52899942612254,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.09937986733938,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.45613532909941,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.41718162644596,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.75502061810191,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-1.59584490348801,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.73940868645388,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.48623731654702,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.57955496138936,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.06712569287858,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.59767598087188,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.42853445405143,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.17928721433327,TRUE,TRUE,2.05
+"45","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.74355353692365,TRUE,TRUE,2.05
+"45","glmmTMB","penalty:Qwen3.5 27B",1.5,1.50681750621861,TRUE,TRUE,2.05
+"45","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.11504329418669,TRUE,TRUE,2.05
+"45","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.85985560679656,TRUE,TRUE,2.05
+"45","glmmTMB","penalty:Qwen3.5 9B",1.6,1.55673853364923,TRUE,TRUE,2.05
+"45","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.0019742967636,TRUE,TRUE,2.05
+"46","glmmTMB","sd:item",1.5,1.5123837445517,TRUE,TRUE,2.67
+"46","glmmTMB","sd:item:model",0.8,0.611679855576111,TRUE,TRUE,2.67
+"46","glmmTMB","sd:item:condition",0.5,0.446457491897975,TRUE,TRUE,2.67
+"46","glmmTMB","sd:project",0.5,2.64588273031736e-05,TRUE,TRUE,2.67
+"46","glmmTMB","sd:project:condition",0.3,0.277613258275709,TRUE,TRUE,2.67
+"46","glmmTMB","sd:cell",0.5,0.000145557279814488,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.349191389162902,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.110630976644604,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.233579747334321,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 9B:text",-0.4,0.0965925448185503,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.19595259683218,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.24228358565543,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.3377952485569,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.43223540762947,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.29111625077026,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.12905339085084,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.61334835431949,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.19109049784433,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.49859780962437,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.7384953312314,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.91947559082384,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.29221525727087,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.65113864501774,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.11218253345424,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.40033634149719,TRUE,TRUE,2.67
+"46","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.04632001080447,TRUE,TRUE,2.67
+"46","glmmTMB","penalty:Qwen3.5 27B",1.5,1.73180712157816,TRUE,TRUE,2.67
+"46","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.28271048716172,TRUE,TRUE,2.67
+"46","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.11409216956837,TRUE,TRUE,2.67
+"46","glmmTMB","penalty:Qwen3.5 9B",1.6,1.90657518598484,TRUE,TRUE,2.67
+"46","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.835663733994199,TRUE,TRUE,2.67
+"47","glmmTMB","sd:item",1.5,1.45546113873658,TRUE,TRUE,2.27
+"47","glmmTMB","sd:item:model",0.8,0.855001397588492,TRUE,TRUE,2.27
+"47","glmmTMB","sd:item:condition",0.5,0.465342940320987,TRUE,TRUE,2.27
+"47","glmmTMB","sd:project",0.5,0.529656992607208,TRUE,TRUE,2.27
+"47","glmmTMB","sd:project:condition",0.3,0.254347486073849,TRUE,TRUE,2.27
+"47","glmmTMB","sd:cell",0.5,0.181026873604536,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.277599965474842,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.0021752617260819,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.0317866972769437,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.112959837341718,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.847164949111388,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.27955892744596,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.07735014978827,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.29082895441366,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.13186911643133,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.48231718657958,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.26916941388668,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.11234981876128,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-1.73421656273853,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.28425050989039,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.63831456850703,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.838450016872172,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.62249857530445,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.1944220610295,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.19729114455231,TRUE,TRUE,2.27
+"47","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.79908344537138,TRUE,TRUE,2.27
+"47","glmmTMB","penalty:Qwen3.5 27B",1.5,1.40665941820978,TRUE,TRUE,2.27
+"47","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.27290810967742,TRUE,TRUE,2.27
+"47","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.77160922333751,TRUE,TRUE,2.27
+"47","glmmTMB","penalty:Qwen3.5 9B",1.6,1.42484375294963,TRUE,TRUE,2.27
+"47","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,1.12607345104127,TRUE,TRUE,2.27
+"48","glmmTMB","sd:item",1.5,1.51628278470341,TRUE,TRUE,2.63
+"48","glmmTMB","sd:item:model",0.8,0.706981242875108,TRUE,TRUE,2.63
+"48","glmmTMB","sd:item:condition",0.5,0.384950932690849,TRUE,TRUE,2.63
+"48","glmmTMB","sd:project",0.5,0.448892352668154,TRUE,TRUE,2.63
+"48","glmmTMB","sd:project:condition",0.3,0.380629473351171,TRUE,TRUE,2.63
+"48","glmmTMB","sd:cell",0.5,0.000122939404883503,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.436706091189491,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.244834794167968,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,0.108493888035172,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.165594825831485,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-0.879131270687225,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-0.833317790226422,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.03994565279535,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.07507803081334,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-1.93810431105836,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.2121063358282,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.30920319865643,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.44311547616143,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.38515019206019,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.59317868539176,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.5117965250312,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.00187969655553,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.75034033557908,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.89538330453238,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.08172227281347,TRUE,TRUE,2.63
+"48","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.73877176806204,TRUE,TRUE,2.63
+"48","glmmTMB","penalty:Qwen3.5 27B",1.5,1.48483965300229,TRUE,TRUE,2.63
+"48","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.65596861567992,TRUE,TRUE,2.63
+"48","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.22703106383714,TRUE,TRUE,2.63
+"48","glmmTMB","penalty:Qwen3.5 9B",1.6,1.37207359725638,TRUE,TRUE,2.63
+"48","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.94176027228659,TRUE,TRUE,2.63
+"49","glmmTMB","sd:item",1.5,1.3904783660018,TRUE,TRUE,2.83
+"49","glmmTMB","sd:item:model",0.8,0.678777437875912,TRUE,TRUE,2.83
+"49","glmmTMB","sd:item:condition",0.5,0.536499042937943,TRUE,TRUE,2.83
+"49","glmmTMB","sd:project",0.5,0.000590080536430029,TRUE,TRUE,2.83
+"49","glmmTMB","sd:project:condition",0.3,0.0799433521505811,TRUE,TRUE,2.83
+"49","glmmTMB","sd:cell",0.5,0.24882806842729,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 27B:text",0.1,0.440595431597835,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Gemma 4 12B:text",-0.2,0.146152542562001,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.212674308497029,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.684440408789384,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.21398005584565,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.42512170461774,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.00520684024949,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.54912804709549,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-2.402913524137,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.51265959404699,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-1.61229892228104,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.00146789897537,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.51894993598026,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 9B:image12",-2,-1.88554246564666,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-2.14695445095559,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-0.900354341973524,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-2.38744637703811,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-1.66561448035146,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.16987455783681,TRUE,TRUE,2.83
+"49","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-1.71653014370525,TRUE,TRUE,2.83
+"49","glmmTMB","penalty:Qwen3.5 27B",1.5,1.7531870878886,TRUE,TRUE,2.83
+"49","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.27752624798299,TRUE,TRUE,2.83
+"49","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,2.03188984597871,TRUE,TRUE,2.83
+"49","glmmTMB","penalty:Qwen3.5 9B",1.6,1.1350031070841,TRUE,TRUE,2.83
+"49","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.911401340390288,TRUE,TRUE,2.83
+"50","glmmTMB","sd:item",1.5,1.49919310872236,TRUE,TRUE,2.36
+"50","glmmTMB","sd:item:model",0.8,0.778740256160057,TRUE,TRUE,2.36
+"50","glmmTMB","sd:item:condition",0.5,0.495636948342361,TRUE,TRUE,2.36
+"50","glmmTMB","sd:project",0.5,0.257935824668479,TRUE,TRUE,2.36
+"50","glmmTMB","sd:project:condition",0.3,0.367231866357766,TRUE,TRUE,2.36
+"50","glmmTMB","sd:cell",0.5,0.00011141596942622,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 27B:text",0.1,-0.47438496411024,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Gemma 4 12B:text",-0.2,-0.776957708053961,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Mistral Small 3.2 24B:text",-0.3,-0.717369120522436,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 9B:text",-0.4,-0.684371929293575,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen2.5-VL 7B:text",-1.3,-1.58282489046623,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 27B:image10",-1.3,-1.27330628887977,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Gemma 4 12B:image10",-2.5,-2.74540646859815,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Mistral Small 3.2 24B:image10",-2.4,-2.45362639557866,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 9B:image10",-2.6,-3.01664704269826,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen2.5-VL 7B:image10",-2.6,-2.92849381190103,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 27B:image12",-1.7,-2.37162682337887,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Gemma 4 12B:image12",-2.4,-2.8324442778291,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Mistral Small 3.2 24B:image12",-2.4,-2.49989709028168,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 9B:image12",-2,-2.2705052972975,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen2.5-VL 7B:image12",-1.9,-1.70770642830939,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 27B:image14",-1.2,-1.69799674931074,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Gemma 4 12B:image14",-2.8,-3.4367231637588,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Mistral Small 3.2 24B:image14",-1.7,-2.30973957901903,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen3.5 9B:image14",-1.4,-1.96421003606797,TRUE,TRUE,2.36
+"50","glmmTMB","logit:Qwen2.5-VL 7B:image14",-2,-2.14043175111173,TRUE,TRUE,2.36
+"50","glmmTMB","penalty:Qwen3.5 27B",1.5,1.30659165641289,TRUE,TRUE,2.36
+"50","glmmTMB","penalty:Gemma 4 12B",2.36666666666667,2.22790026200805,TRUE,TRUE,2.36
+"50","glmmTMB","penalty:Mistral Small 3.2 24B",1.86666666666667,1.70371856777069,TRUE,TRUE,2.36
+"50","glmmTMB","penalty:Qwen3.5 9B",1.6,1.73274886272767,TRUE,TRUE,2.36
+"50","glmmTMB","penalty:Qwen2.5-VL 7B",0.866666666666666,0.676052439974487,TRUE,TRUE,2.36
+"block1","glmmTMB","sd:item",1.5,4.0046547088217,TRUE,TRUE,0.45
+"block1","glmmTMB","sd:item:model",0.8,1.29143609706174,TRUE,TRUE,0.45
+"block1","glmmTMB","sd:item:condition",0.5,0.985072813859913,TRUE,TRUE,0.45
+"block1","glmmTMB","sd:project",0.5,0.000247111096391768,TRUE,TRUE,0.45
+"block1","glmmTMB","sd:project:condition",0.3,1.82036123352445e-05,TRUE,TRUE,0.45
+"block1","glmmTMB","sd:cell",0.5,1.43823708973215,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:item",NA,40,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:item:model",NA,200,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:item:condition",NA,160,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:project",NA,10,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:project:condition",NA,40,TRUE,TRUE,0.45
+"block1","glmmTMB","levels:cell",NA,800,TRUE,TRUE,0.45

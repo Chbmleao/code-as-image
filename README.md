@@ -32,6 +32,7 @@ is the paired text-minus-image gap per model with a project-clustered interval. 
 | `src/codeimg/` | The experiment pipeline (below) |
 | `configs/experiment.toml` | Every setting of the main study: sizes, runs, seed, sampling, image limit, models |
 | `manifests/` | Item ids of the smoke sample and block 1, and the page counts the smoke pick used |
+| `analysis/` | R environment (pinned versions) and the GLMM check on simulated data |
 | `slurm/`, `scripts/` | Job templates, cluster sync, smoke checks and the cost estimate |
 | `results/` | Outputs small enough to commit (no reply text) |
 | `CLUSTER.md` | How to run jobs on the DCC cluster (Slurm) |
