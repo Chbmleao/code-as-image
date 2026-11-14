@@ -87,3 +87,21 @@ most of a short job's time, so expect about 15 minutes even for 60 short generat
 - The cluster's Pillow has libraqm, which gives fractional glyph advances and so more pages than a
   laptop without it. The renderer pins Pillow's basic layout engine. PNG bytes still differ (zlib
   1.2.11 there, zlib-ng on the Mac) with identical pixels, so compare renders by `pixels_sha256`.
+- /snfs2 can stop taking writes for everyone. On Nov 12 jobs crashed with `No space left on
+  device` at 96% used, then creating any file gave `Remote I/O error` for about 4 hours while
+  reads still worked. Test with a one-line write before resubmitting; `/sonic_home` (160G quota)
+  and the node's `/tmp` kept working, so grades and logs can go there.
+- Until Nov 14 the grading sbatch files ended with `echo end`, so Slurm reported COMPLETED even
+  when the grader crashed. They now exit with the grader's status, but still check the row count
+  and the log for a Traceback before trusting a job.
+- The 3 gorgonas nodes can be held for days by other users' jobs with no time limit, and
+  medusas_shr can have free CPUs but no free memory. A chain of 1:30 jobs on gorgonas_dev
+  (`--dependency=afterany` on the one before) keeps a resumable grader going. `afterany` treats a
+  cancelled job as done, so to shorten a chain cancel from the last job back.
+- DevEval tests ran 3 to 5 times slower than in block 1 while the shared disks were busy (pytest
+  waiting on NFS reads, CPU nearly idle). The last job, on Nov 13, ran about 4 times faster than
+  the chain before it.
+- `sbatch` can print `Batch job submission failed: Unexpected message received` and still create
+  the job. Run `squeue` before submitting again.
+- A job that ends in NODE_FAIL can sit in CG for a long time, and a `--dependency=singleton` job
+  with the same name waits for it. If the failed job never ran, submit under another name.

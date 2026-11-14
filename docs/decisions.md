@@ -3,6 +3,30 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-13: the rest of the main run
+
+- **The main run is complete: 44,600 answers** (block 1 plus 755 items at 2 runs), in
+  `results/full/` with no reply text. No missing, extra or duplicate key, no null `passed`, and
+  every seed equals its run. Raw rates and cost are in `results/full/findings.md`.
+- **The DevEval grader writes each answer's row as soon as it is graded** and skips rows already
+  written, instead of writing a repository when it is done. This replaces the repository split of
+  Nov 10. It let grading run as a chain of 1:30 jobs on gorgonas_dev while the long partitions
+  were full: 16 jobs hit their limit and each next one resumed where the last stopped.
+- **The run count comes from `results/block1/dstudy.json`** (`generate` and `collect`
+  `--runs-from`), and the rest manifest is drawn by `scripts/rest_manifest.py` (every final item
+  not in block 1). Run r is sent with seed r, as in block 1; no (item, condition, run) key repeats
+  a block-1 key, since no item is in both parts.
+- **The code that ran is identified by the hash of its file listing**, not the commit:
+  `sync_cluster.sh` writes the sorted sha256 of every synced file, and the run log records that
+  hash next to the commit, because the tree was not committed when the run started.
+- **CoderUJB grades for 3 models were finished on `/sonic_home`** after /snfs2 stopped taking
+  writes on Nov 12. The complete rows were copied there and the grader resumed from them; one torn
+  last line was dropped. `collect` reads the grades from both places.
+- **Re-score gate: any verdict mismatch not explained by a DevEval timeout or a known flaky test
+  blocks Done until explained** (user, Nov 13). The re-score samples 20 CoderUJB and 50 DevEval
+  graded answers with a fixed seed, extracts and grades them again from the saved replies, and
+  never changes the table.
+
 ## 2026-11-10: D-study on block 1
 
 - **Every model and benchmark runs twice for the rest of the main run**; block items keep their 3
