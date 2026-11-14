@@ -19,4 +19,6 @@ export PATH=$W/venv/bin:$PATH HOME=$RUN XDG_CACHE_HOME=$RUN/.cache PYTHONDONTWRI
 python --version
 python -I "$C/slurm/launch.py" codeimg.grade.deveval "$ANS" "$W/src/Source_Code" \
   "$RUN/Source_Code" "$OUT" 14
-echo "end $(date -Is)"
+rc=$?
+echo "end $(date -Is) exit $rc"
+exit $rc

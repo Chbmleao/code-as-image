@@ -28,4 +28,6 @@ java -version 2>&1 | head -1
 python3 --version
 echo "cpus $(nproc), budgets test $UJB_TEST_BUDGET suite $UJB_SUITE_BUDGET"
 python3 -I "$C/slurm/launch.py" codeimg.grade.coderujb "$ANS" "$WORK" "$OUT" 8
-echo "end $(date -Is)"
+rc=$?
+echo "end $(date -Is) exit $rc"
+exit $rc
