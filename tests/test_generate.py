@@ -122,6 +122,44 @@ def test_probe_sends_the_image_message_without_images(client, tmp_path):
     assert Fake.seen[-1]["messages"][0]["content"] == [{"type": "text", "text": "sentence"}]
 
 
+@pytest.fixture
+def server():
+    srv = HTTPServer(("127.0.0.1", 0), Fake)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    Fake.seen.clear()
+    yield srv.server_port
+    srv.shutdown()
+
+
+def run_main(tmp_path, port, dstudy_rows, monkeypatch):
+    monkeypatch.delenv("SLURM_JOB_ID", raising=False)
+    reqs, ds = tmp_path / "requests.jsonl", tmp_path / "dstudy.json"
+    reqs.write_text(json.dumps(req("a", "hi")) + "\n")
+    ds.write_text(json.dumps({"rows": dstudy_rows}))
+    out = str(tmp_path / "gen.jsonl")
+    generate.main(["--model", "qwen25vl7b", "--requests", str(reqs), "--out", out,
+                   "--port", str(port), "--runs-from", str(ds)])
+    return out
+
+
+def test_runs_from_sets_the_runs_and_seeds(tmp_path, server, monkeypatch):
+    repo = config.load()["models"]["qwen25vl7b"]["repo"]
+    out = run_main(tmp_path, server, [{"benchmark": "deveval", "model": repo, "runs": 2},
+                                      {"benchmark": "coderujb", "model": repo, "runs": 3}],
+                   monkeypatch)
+    assert sorted((r["run"], r["seed"]) for r in read_jsonl(out)) == [(0, 0), (1, 1)]
+    with open(out + ".meta.local.json") as f:
+        meta = json.load(f)
+    assert (meta["runs"], meta["seeds"]) == (2, [0, 1])
+
+
+def test_runs_from_without_a_row_stops_before_any_request(tmp_path, server, monkeypatch):
+    with pytest.raises(SystemExit, match="no deveval row"):
+        run_main(tmp_path, server, [{"benchmark": "coderujb", "model": "x", "runs": 2}],
+                 monkeypatch)
+    assert Fake.seen == []
+
+
 def test_images_are_sent_as_data_urls_in_message_order(client, tmp_path):
     for name, data in (("p1.png", b"one"), ("p2.png", b"two")):
         (tmp_path / name).write_bytes(data)

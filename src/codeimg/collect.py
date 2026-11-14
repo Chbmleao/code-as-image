@@ -29,10 +29,12 @@ def grade_fields(bench, g):
 
 
 def collect(bench, models, requests, runs, gen_rows, answers, skipped, grades):
-    """(rows, problems)."""
+    """(rows, problems). runs is one count for every model or {model repo: count}."""
     key_field = "task_id" if bench == "coderujb" else "key"
+    if isinstance(runs, int):
+        runs = dict.fromkeys(models, runs)
     expected = {answer_key(m, q["id"], q["condition"], r)
-                for m in models for q in requests for r in range(runs)}
+                for m in models for q in requests for r in range(runs[m])}
     gen, problems = {}, []
     for g in gen_rows:
         k = answer_key(g["model"], g["id"], g["condition"], g["run"])
@@ -83,7 +85,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(prog="codeimg collect", description=__doc__.split("\n")[0])
     ap.add_argument("--benchmark", required=True, choices=["coderujb", "deveval"])
     ap.add_argument("--requests", required=True)
-    ap.add_argument("--runs", type=int, help="default: experiment.runs")
+    runs_arg = ap.add_mutually_exclusive_group()
+    runs_arg.add_argument("--runs", type=int, help="default: experiment.runs")
+    runs_arg.add_argument("--runs-from", help="D-study JSON with the runs per benchmark and model")
     ap.add_argument("--gen", nargs="+", required=True)
     ap.add_argument("--answers", required=True, help="dir with answers.jsonl and skipped.jsonl")
     ap.add_argument("--grades", nargs="+", required=True)
@@ -91,8 +95,14 @@ def main(argv=None):
     args = ap.parse_args(argv)
     cfg = config.load()
     models = [m["repo"] for m in cfg["models"].values()]
+    runs = args.runs or cfg["experiment"]["runs"]
+    if args.runs_from:
+        try:
+            runs = config.runs_from(args.runs_from, args.benchmark, models)
+        except ValueError as e:
+            sys.exit(str(e))
     rows, problems = collect(
-        args.benchmark, models, read_jsonl(args.requests), args.runs or cfg["experiment"]["runs"],
+        args.benchmark, models, read_jsonl(args.requests), runs,
         [r for p in args.gen for r in read_jsonl(p)],
         read_jsonl(f"{args.answers}/answers.jsonl"), read_jsonl(f"{args.answers}/skipped.jsonl"),
         [r for p in args.grades for r in read_jsonl(p)])

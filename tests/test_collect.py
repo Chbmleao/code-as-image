@@ -1,7 +1,15 @@
+import json
+import os
+
+import pytest
+from conftest import ROOT
+
+from codeimg import config
 from codeimg.answers import answer_key
 from codeimg.collect import collect
 
 M = "org/m"
+DSTUDY = os.path.join(ROOT, "results", "block1", "dstudy.json")
 REQS = [{"id": "i", "condition": "text"}]
 
 
@@ -48,3 +56,32 @@ def test_gaps_and_duplicates_are_problems():
     assert any("duplicate generation" in p for p in problems)
     assert any(f"no generation row for {k(1)}" in p for p in problems)
     assert any("answer with no grade" in p for p in problems)
+
+
+def test_runs_per_model():
+    other = "org/other"
+    gens = [gen(0), gen(1), {**gen(0), "model": other}]
+    answers = [{"key": k(0), "defines_target": True}, {"key": k(1), "defines_target": True},
+               {"key": answer_key(other, "i", "text", 0), "defines_target": True}]
+    grades = [{"key": a["key"], "result": "Pass", "seconds": 1} for a in answers]
+    rows, problems = collect("deveval", [M, other], REQS, {M: 2, other: 2}, gens, answers, [],
+                             grades)
+    assert len(rows) == 3
+    assert problems == [f"no generation row for {answer_key(other, 'i', 'text', 1)}"]
+
+
+def test_runs_from_reads_the_dstudy_rows(tmp_path):
+    path = tmp_path / "dstudy.json"
+    path.write_text(json.dumps({"rows": [
+        {"benchmark": "deveval", "model": M, "runs": 2},
+        {"benchmark": "coderujb", "model": M, "runs": 3}]}))
+    assert config.runs_from(str(path), "deveval", [M]) == {M: 2}
+    assert config.runs_from(str(path), "coderujb", [M]) == {M: 3}
+    with pytest.raises(ValueError, match="no deveval row for org/other"):
+        config.runs_from(str(path), "deveval", [M, "org/other"])
+
+
+def test_committed_dstudy_covers_every_model():
+    models = [m["repo"] for m in config.load()["models"].values()]
+    for bench in ("coderujb", "deveval"):
+        assert config.runs_from(DSTUDY, bench, models) == dict.fromkeys(models, 2)

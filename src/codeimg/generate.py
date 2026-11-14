@@ -177,14 +177,24 @@ def main(argv=None):
     ap.add_argument("--requests", required=True, help="requests.jsonl from codeimg prompts")
     ap.add_argument("--out", required=True, help="output JSONL, one per (model, benchmark)")
     ap.add_argument("--port", type=int, required=True)
-    ap.add_argument("--runs", type=int, help="default: experiment.runs")
+    runs_arg = ap.add_mutually_exclusive_group()
+    runs_arg.add_argument("--runs", type=int, help="default: experiment.runs")
+    runs_arg.add_argument("--runs-from", help="D-study JSON with the runs per benchmark and model")
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--seed-check", action="store_true")
     args = ap.parse_args(argv)
     cfg = config.load()
     repo = cfg["models"][args.model]["repo"]
-    runs = args.runs or cfg["experiment"]["runs"]
     requests = read_rows(args.requests)
+    runs = args.runs or cfg["experiment"]["runs"]
+    if args.runs_from:
+        benchmarks = {q["benchmark"] for q in requests}
+        if len(benchmarks) != 1:
+            sys.exit(f"--runs-from needs one benchmark per requests file, got {sorted(benchmarks)}")
+        try:
+            runs = config.runs_from(args.runs_from, benchmarks.pop(), [repo])[repo]
+        except ValueError as e:
+            sys.exit(str(e))
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     client = Client(f"http://localhost:{args.port}/v1/chat/completions", repo, cfg,
                     os.path.dirname(os.path.abspath(args.requests)))
