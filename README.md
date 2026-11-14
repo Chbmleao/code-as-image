@@ -51,10 +51,13 @@ is the paired text-minus-image gap per model with a project-clustered interval. 
 |---|---|---|
 | `prompts` | Builds the text and image requests for a manifest; renders the pages | login node |
 | `sample` | Draws the block-1 and smoke manifests from the seed | laptop |
-| `generate` | Sends every (item, condition, run) to a vLLM server, resumable | GPU node |
+| `generate` | Sends every (item, condition, run) to a vLLM server, resumable; `--runs-from` takes the run count from the D-study | GPU node |
 | `answers` | Extracts the code from each reply into grader input | login node |
-| `codeimg.grade.coderujb`, `codeimg.grade.deveval` | The calibration graders, unchanged | CPU node |
+| `codeimg.grade.coderujb`, `codeimg.grade.deveval` | The calibration graders; the DevEval one writes each row as soon as its answer is graded | CPU node |
 | `collect` | One row per answer with `passed` and `reason`; fails on any gap in the grid | login node |
+
+`scripts/rest_manifest.py` writes the rest manifests (every final item not in block 1), and
+`scripts/full_table.py` joins block 1 and the rest into `results/full/` and checks the table.
 
 ## Running
 
