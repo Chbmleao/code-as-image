@@ -27,7 +27,8 @@ target-version = "py39"
 extend-exclude = ["benchmarks", "model_panel", "pilot", "scratch"]
 
 [tool.ruff.lint.per-file-ignores]
-# code moved from benchmarks/ without changes, which tests/test_grade.py checks
+# code moved from benchmarks/, which tests/test_grade.py holds to the calibration code (the DevEval
+# grader's loop is ours, but its run_item and splice are still the calibration's)
 "src/codeimg/grade/*" = ["ALL"]
 "src/codeimg/answers/coderujb.py" = ["ALL"]
 "src/codeimg/answers/deveval.py" = ["ALL"]
