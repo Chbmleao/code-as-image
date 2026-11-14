@@ -278,7 +278,10 @@ runs go from 3 to 2 only through the D-study rule in 3.1.
    request, which keeps every item (3.1).
 2. Resolved Nov 5: the contamination flag uses exact copies only, so no similarity threshold is
    needed.
-3. The R GLMM (lme4 or glmmTMB) has not been installed or tested on the cluster.
+3. Resolved Nov 13: R 4.5 with glmmTMB and lme4 is pinned in `analysis/` and validated on the Mac
+   on simulated data with the real design (`results/glmm/glmm.md`); a glmmTMB fit takes 2 to
+   8 s on CoderUJB and 30 to 60 s on DevEval (medians with 6 running at once; the slowest took
+   644 s) and at most 0.75 GB, so no cluster install was needed.
 4. The power and coverage numbers come from simulations with assumed variance components. Nothing
    here was run on image data.
 5. Resolved Nov 5: the plan was delivered as a presentation, so there is no page limit to cut

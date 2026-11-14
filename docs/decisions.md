@@ -27,6 +27,32 @@ accident. The current plan is `docs/methodology.md`; this file explains how it g
   graded answers with a fixed seed, extracts and grades them again from the saved replies, and
   never changes the table.
 
+## 2026-11-13: mixed model checked
+
+- **The 3.3 model fits and recovers the known components on simulated data with the real design**
+  (859 DevEval and 136 CoderUJB items, 3 runs for block items and 2 for the rest, so most cells
+  now have 2 runs). It was simulated twice, 50 replications per benchmark each: once with
+  plausible standard deviations and once with the block-1 estimates. Every gated check passes
+  (convergence, item, item:model and item:condition SDs within 20%, text cell logits and
+  size-averaged penalties within 0.15 logit; also project and project:condition on DevEval in
+  the plausible scenario and project:condition on DevEval in the block-1 one). Tables are in
+  `results/glmm/glmm.md`; the model is unchanged.
+- **What is biased.** The gated SDs come out 5 to 15% low. The size-averaged penalty comes out
+  0.03 to 0.13 logit too small (toward no penalty) for every model in both scenarios. The cell SD
+  cannot be recovered with 2 or 3 runs: near 0 at a truth of 0.5, 30 to 35% low at 1.3 to 1.4,
+  so the overdispersion term of 3.3 is weakly identified with 2-run cells.
+- **The block-1 fit gives item SDs of 4.0 (CoderUJB) and 4.8 (DevEval)**, about 3 times the
+  plausible 1.5, and a project SD of 0 on both. That is why the second scenario exists.
+- **glmmTMB is the engine; lme4 is a cross-check.** On the same 2 replications lme4 agreed
+  within 0.05 on DevEval, but it stopped at its iteration limit on 3 of 4 refits. Run alone, an
+  lme4 fit took 41 s on CoderUJB and 228 s on DevEval, against 2 s and 11 s for glmmTMB.
+- **It runs on the Mac, no cluster install.** In the block-1 scenario a DevEval fit takes a
+  median 57 s and a mean 132 s with 6 in parallel (slowest 644 s), 33 s alone, with 0.75 GB
+  peak (1.1 GB when an lme4 refit runs in the same process); CoderUJB takes about 10 s and 0.5 GB.
+- **TMB is pinned to 1.9.19** because glmmTMB 1.1.14 was built against it (1.9.23 warned of a
+  version mismatch). Installing that pin moved R from 4.4 to 4.5.3. All versions are in
+  `analysis/conda-osx-arm64.lock`.
+
 ## 2026-11-10: D-study on block 1
 
 - **Every model and benchmark runs twice for the rest of the main run**; block items keep their 3
