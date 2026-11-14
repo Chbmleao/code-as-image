@@ -6,11 +6,15 @@ Times are local (UTC-3). Run dir `/snfs2/carlosleao/ufm9/rest`.
 
 | Code dir | Head | files_sha256 |
 |---|---|---|
-| `/sonic_home/carlosleao/ufm9/20261110-1339-f64d32a-dirty` | f64d32a8720fd786e4371592830ac4c0e8385729 plus uncommitted changes | 1bca9a46d0224ea610aa3e2e18b44e349d5cb930c6234ad6e9629ca5b124371b |
+| `/sonic_home/carlosleao/ufm9/20261110-1339-f64d32a-dirty` | 8e6aee516de8bf7ceff0e6aa95eac1388e5e8751 plus uncommitted changes | 1bca9a46d0224ea610aa3e2e18b44e349d5cb930c6234ad6e9629ca5b124371b |
 
 `files_sha256` is the sha256 of `CODE_FILES.sha256`, the sorted sha256 listing of every synced
 file (`scripts/sync_cluster.sh`). `sha256sum -c CODE_FILES.sha256` passed on the cluster copy, and
 the hash of the listing matched `CODE_VERSION`.
+
+On Nov 14 the history was rewritten to change the author email, which changed every commit
+hash but no file. The head was f64d32a8720fd786e4371592830ac4c0e8385729 when the code was
+synced, and that is the hash in the dir name and in the cluster's `CODE_VERSION`.
 
 ## Software
 
