@@ -1,0 +1,16 @@
+{
+ "coderujb": {
+  "sampled": 20,
+  "regraded": 20,
+  "missing": [],
+  "verdict_mismatches": [],
+  "extraction_differs": []
+ },
+ "deveval": {
+  "sampled": 50,
+  "regraded": 50,
+  "missing": [],
+  "verdict_mismatches": [],
+  "extraction_differs": []
+ }
+}
