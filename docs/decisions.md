@@ -3,6 +3,46 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-14: reliability on the full data
+
+- **The reliability components are fitted on the observed 0/1 pass of each run**, not the logit
+  scale, so rho and G read on the scale the pass rates are reported on. One Gaussian model per
+  benchmark and condition, MCMCglmm 2.36 (added to `analysis/environment.yml`), with model,
+  project or repository, item, model:project and model:item as random terms and the residual as the
+  run (`analysis/reliability.R`). Main prior: half-Cauchy(0.5) on each SD (parameter expanded);
+  sensitivity prior: inverse-gamma (V = 1, nu = 0.002).
+- **The project and model:project terms were added** to the model x item design of 3.3, because
+  items are clustered in projects and repositories and the resample treats them as the unit. The
+  relative error of G counts model:project once per cluster.
+- **G is reported twice**: random-model G from s2_model, which rests on 4 df and depends on the
+  prior, and finite-population G from the variance of the five model effects in the same draw. No G
+  moved by more than 5% between priors; s2_model did move in CoderUJB text, CoderUJB image14 and
+  DevEval text, which is why the finite line is the one the paper cites.
+- **Ranks use item-weighted pass rates** (each item's score is the mean of its runs). They differ
+  from the pooled rates of `results/full/findings.md` by at most 0.0061, and in 7 of 40 cells at
+  whole-percent rounding. A test checks that the pooled rates of the reliability input equal
+  `results/full/checks.json`.
+- **3.3 says "the three runs"; block-1 items have 3 and the rest 2** (the Nov 13 run count). The
+  model takes the unbalanced design as is, G uses the mean of 1/runs, and rho is reported for 1, 2
+  and 3 runs.
+- **Rank stability uses the joint cluster resample in `scripts/resample.py`** (2000 draws, seed
+  20261114), so the main analysis can use the same draws.
+- **8 of 16 fits needed the automatic rerun at 3 times the length** to pass the gate (PSRF at most
+  1.05, ESS at least 400): CoderUJB text, image10, image12 and image14 with the inverse-gamma prior,
+  CoderUJB image14 main, DevEval text with both priors and DevEval image14 main. All 16 pass.
+- **The simulation check missed one of six components and was not reseeded.** On one simulated
+  dataset with the CoderUJB text design, s2_model_project (truth 0.005) came out 0.0112 (0.0052 to
+  0.0227); the other five were covered. The realized variance of the simulated effects was 0.0046,
+  the inverse-gamma prior gave 0.0106 (0.0048 to 0.0215), and the columns are matched by name, so we
+  read it as sampling error in a term that is hard to separate from model:item when projects are
+  small, not a wiring bug. On the real data model:project is small (0.0004 to 0.0023), so it moves
+  G little either way.
+- **Headline numbers** (`results/reliability/findings.md`): single-run reliability 0.59 to 0.68 on
+  CoderUJB and 0.67 to 0.76 on DevEval; 2-run, the design of 96 of 136 CoderUJB and 659 of 859
+  DevEval items, 0.74 to 0.81 and 0.80 to 0.86; finite G 0.85 to 0.94
+  on CoderUJB except image12 (0.61, 0.01 to 0.86) and 0.92 to 0.98 on DevEval. Qwen3.5 27B is first
+  everywhere; the middle three models swap between text and image.
+
 ## 2026-11-13: the rest of the main run
 
 - **The main run is complete: 44,600 answers** (block 1 plus 755 items at 2 runs), in
