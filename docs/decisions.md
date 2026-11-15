@@ -3,6 +3,53 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-14: Claude extension pre-registered
+
+- **Claude Sonnet 5.5 and Opus 5.5 are added as an exploratory extension**, with the rules in the
+  methodology addendum. This entry and the addendum are committed before the first Claude request,
+  so they are the pre-registration. The 5-model analysis of 3.3 is not changed and is reported
+  first.
+- **Every setting the API allows is the main run's; every one it does not, or that thinking would
+  make unequal, is a reported deviation.** On anthropic-version 2026-10-21 sending temperature,
+  top_p or top_k returns a 400, even at the default value, and there is no seed. Both models
+  therefore sample at temperature 1.0, and run-to-run spread is not comparable with the open models.
+- **Effort `low` for both, the least thinking each model allows.** Sonnet's
+  `thinking: {type: "between_tools"}` gives no thinking before the answer. Opus returns a 400 for
+  `thinking: disabled` at every effort, so it thinks at `low`.
+- **Opus gets max_tokens 16,000 and fails a reply over 2,048 non-thinking tokens.** Its thinking
+  counts toward max_tokens, so 2048 would cut answers for a reason the open models never had. The
+  API reports thinking tokens in usage, so the open models' answer budget can still be applied.
+  Failing those replies before grading is simpler to audit than cutting the text at 2,048 Claude
+  tokens; in the main run only 38 of 1,335 truncated replies passed, so the two rules differ
+  little.
+- **Replies stopped at max_tokens are graded, and refusals fail.** The first follows the Nov 10
+  rule for the open models. A refusal is the model's answer to the item, so it is a failure, not a
+  missing cell; Batch API refusals come back as `succeeded` with `stop_reason: "refusal"`, and
+  fallbacks are not supported in batches.
+- **No item is excluded up front and request errors are not failures.** The open models excluded
+  none and had no request errors. A request still failing after 3 resubmissions is left out of
+  scoring, because an API error says nothing about the model. Billing and spend-limit errors do not
+  use up the 3, so the state of the account cannot drop items.
+- **2 runs on every item, set by budget.** The open models have 3 on the 240 block-1 items; the
+  D-study rule of 3.1 is not applied to Claude. One run would widen the gap intervals by about 4
+  to 21% (block-1 1-run to 2-run standard error ratios; Claude's run noise at temperature 1.0 may
+  differ).
+- **Claude gaps get their own Holm family of 4**, so adding models does not change the 10
+  confirmatory tests. The 7-model line uses runs 0 and 1 for every model, because the analysis code
+  assumes the same runs per item across models. G and run reliability stay 5-model only, because a
+  pooled run variance would mix temperature 1.0 with 0.7.
+- **Open vs closed is a GLMM contrast, not a fixed term.** A closed/open term would be aliased with
+  the model fixed effects, so Claude's mean image-minus-text effect minus the open models' mean is
+  reported per benchmark with a Wald interval and no test.
+- **Only the Max plan's monthly API credit is spent.** The Console read on Nov 14 showed the Start
+  tier, one unused US$100 grant (expires 2026-12-09 00:00 UTC), $0 purchased balance and no payment
+  method, so usage cannot go past the credit. The next grant is due Dec 7. The organization's
+  monthly spend limit shows $1; whether it blocks credit usage is not documented and was not tested,
+  and it stays for now (the smoke will show it). Raising it to the credit amount needs no new entry
+  and is logged. Estimated cost at batch prices, with Qwen3.5 27B token counts as a proxy: Sonnet
+  about US$50 to 137 and Opus about US$100 to 275 for 2 runs, so the runs span several grants. There
+  is no cutoff date; the analysis waits for all 4 runs.
+
 ## 2026-11-14: reliability on the full data
 
 - **The reliability components are fitted on the observed 0/1 pass of each run**, not the logit
