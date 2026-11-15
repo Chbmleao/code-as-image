@@ -97,7 +97,7 @@ def write_toy(tmp_path, draws_fields=rel.DRAW_FIELDS):
                     for (i, p), runs in zip(ITEMS, by["text" if c == "text" else "image"]):
                         for r, y in enumerate(runs):
                             w.writerow([m, i, p, c, r, y])
-        with open(scratch / f"draws_{b}.csv", "w", newline="") as f:
+        with open(out / f"draws_{b}.csv", "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(list(draws_fields) + ["a1", "a2"])
             for c in ds.CONDITIONS:

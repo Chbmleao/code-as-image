@@ -6,7 +6,7 @@
 #     analysis/reliability.R [--bench coderujb|deveval] [--prior main|ig] [--workers 6] [--sim]
 #     [--in scratch/reliability] [--out results/reliability]
 #
-# Writes <in>/draws_<bench>.csv (every kept draw of the 6 variance components and the 5 model
+# Writes <out>/draws_<bench>.csv (every kept draw of the 6 variance components and the 5 model
 # effects, per condition, prior and chain) and merges the gate of each fit into
 # <out>/mcmc_diagnostics.csv. --sim fits one simulated dataset with the CoderUJB design instead and
 # writes <out>/sim_check.csv. Versions are in analysis/conda-osx-arm64.lock.
@@ -170,7 +170,7 @@ main_fits <- function() {
   for (b in unique(fits$bench)) {
     s <- which(fits$bench == b)
     new <- do.call(rbind, lapply(s, function(f) draws_frame(fits[f, ], res$chains[[f]])))
-    f <- file.path(in_dir, paste0("draws_", b, ".csv"))
+    f <- file.path(out_dir, paste0("draws_", b, ".csv"))
     old <- if (file.exists(f)) read.csv(f, stringsAsFactors = FALSE, check.names = FALSE) else new[0, ]
     old <- old[!paste(old$condition, old$prior) %in% paste(new$condition, new$prior), ]
     write.csv(rbind(old, new), f, row.names = FALSE)

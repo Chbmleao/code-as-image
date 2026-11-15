@@ -3,7 +3,7 @@
   prep    re-checks the collected rows against the expected grid (full_table.expected_keys and
           check, block-1 items at 3 runs and the rest at 2) and writes <scratch>/<b>_answers.csv
           (model, item, project, condition, run, passed) for analysis/reliability.R.
-  report  reads those CSVs and what analysis/reliability.R wrote (<scratch>/draws_<b>.csv,
+  report  reads those CSVs and what analysis/reliability.R wrote (<out>/draws_<b>.csv,
           <out>/mcmc_diagnostics.csv, <out>/sim_check.csv) and writes <out>/reliability.json and
           <out>/findings.md: the variance components, Spearman-Brown reliability of the item
           scores for 1 to 3 runs, the empirical run-to-run correlation, the two G coefficients for
@@ -376,7 +376,7 @@ def build(scratch, out_dir, benches=ds.BENCHES):
     }
     for b in benches:
         data = load_answers(os.path.join(scratch, f"{b}_answers.csv"))
-        draws = load_draws(os.path.join(scratch, f"draws_{b}.csv"))
+        draws = load_draws(os.path.join(out_dir, f"draws_{b}.csv"))
         d = design_terms(data["projects"], data["runs"])
         groups = ds.clusters(b, data["items"], dict(zip(data["items"], data["projects"])))
         report["benchmarks"][b] = {
