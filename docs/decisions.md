@@ -43,7 +43,8 @@ accident. The current plan is `docs/methodology.md`; this file explains how it g
   length, gate not checked) its interval covered the truth 20 times, median of medians 0.0046, and
   117 of 120 component intervals covered. The same 20 runs put s2_model's median of medians at
   0.0139 against 0.01, the 4-df upward pull that keeps random-model G a secondary line. The probe
-  script was not kept in the repo. On the real data model:project is small (0.0004 to 0.0023).
+  is `analysis/reliability_sim_probe.R`. On the real data model:project is small (0.0004 to
+  0.0023).
 - **Headline numbers** (`results/reliability/findings.md`): single-run reliability 0.59 to 0.68 on
   CoderUJB and 0.67 to 0.76 on DevEval; 2-run, the design of 96 of 136 CoderUJB and 659 of 859
   DevEval items, 0.74 to 0.81 and 0.80 to 0.86; finite G 0.85 to 0.94
