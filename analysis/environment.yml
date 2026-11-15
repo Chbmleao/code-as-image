@@ -7,3 +7,4 @@ dependencies:
   - r-lme4=2.0_6
   - r-tmb=1.9.19
   - r-matrix=1.7_5
+  - r-mcmcglmm=2.36
