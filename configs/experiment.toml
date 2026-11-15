@@ -48,3 +48,32 @@ vllm_args = ["--max-num-batched-tokens", "4096", "--max-num-seqs", "16",
 [models.mistral24b]
 repo = "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym"
 vllm_args = []
+
+# The Claude extension (docs/methodology.md, addendum). Kept out of [models], so the 5-model grid of
+# collect, full_table, dstudy and the R scripts does not change. Prices are the Batch API's, US$ per
+# million tokens, on 2026-11-14.
+[claude]
+anthropic_version = "2026-10-21"
+answer_budget = 2048
+resubmissions = 3
+batch_requests = 100000
+# under the 256 MB batch limit, with room for the JSON around the requests
+batch_bytes = 200000000
+
+[claude.sonnet]
+model = "claude-sonnet-5-5"
+max_tokens = 2048
+effort = "low"
+thinking = { type = "between_tools" }
+over_budget = false
+price_in = 1.0
+price_out = 5.0
+
+[claude.opus]
+model = "claude-opus-5-5"
+max_tokens = 16000
+effort = "low"
+thinking = { type = "adaptive" }
+over_budget = true
+price_in = 2.0
+price_out = 10.0
