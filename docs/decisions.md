@@ -3,6 +3,24 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-14: Claude smoke projection
+
+- **The smoke batches are projected from token counts, not from measured cost.** The budget rule
+  takes the cost per request from the smoke, so it has nothing to measure for the smoke itself.
+  Before each smoke batch, input tokens come from the count_tokens endpoint (free) for the model
+  that will run, every reply is counted at its full max_tokens, both at Batch prices, and the sum is
+  multiplied by 1.1. This is a ceiling; the run log keeps it next to the measured cost.
+- **The smoke is the main run's smoke manifest at run 0**: 5 items per benchmark in all 4
+  conditions, 40 requests per model, one batch per model. Sonnet's batch ends before Opus's is
+  submitted, so whether the $1 spend limit blocks credit usage can be read from one batch.
+- **The client runs on the laptop with page images copied from the cluster**, not re-rendered, so
+  Claude gets the same PNG bytes as the open models.
+- **If the code is not committed when a batch is submitted**, the run log records HEAD and a
+  sha256 of the uncommitted changes (`git diff HEAD` plus untracked files) next to the commit hash,
+  as the main run did with its file-listing hash (Nov 13).
+- **A cut batch takes the cheapest pending requests first**, since the addendum cuts to the largest
+  number of requests that fits. Nothing is dropped: the rest go in a later batch.
+
 ## 2026-11-14: Claude extension pre-registered
 
 - **Claude Sonnet 5.5 and Opus 5.5 are added as an exploratory extension**, with the rules in the
