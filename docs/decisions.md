@@ -33,10 +33,17 @@ accident. The current plan is `docs/methodology.md`; this file explains how it g
 - **The simulation check missed one of six components and was not reseeded.** On one simulated
   dataset with the CoderUJB text design, s2_model_project (truth 0.005) came out 0.0112 (0.0052 to
   0.0227); the other five were covered. The realized variance of the simulated effects was 0.0046,
-  the inverse-gamma prior gave 0.0106 (0.0048 to 0.0215), and the columns are matched by name, so we
-  read it as sampling error in a term that is hard to separate from model:item when projects are
-  small, not a wiring bug. On the real data model:project is small (0.0004 to 0.0023), so it moves
-  G little either way.
+  the inverse-gamma prior gave 0.0106 (0.0048 to 0.0215), and REML (lme4) on the same dataset gave
+  0.0105, so the prior and the sampler are not the cause. The cause is the draw: in Compress,
+  Closure and Math the simulated model:item effects of one model happened to lean the same way, so
+  their mean per model and project was 2.1 to 3.3 times its expected size, a real model x project
+  pattern in that dataset. Dropping the four 1-item projects left the estimate at 0.0104, so small
+  projects are not the cause. Over 500 simulated datasets REML is unbiased for this term (mean
+  0.0049) and 0.0112 or more comes up in 1% of them; over 20 MCMCglmm datasets (main prior, base
+  length, gate not checked) its interval covered the truth 20 times, median of medians 0.0046, and
+  117 of 120 component intervals covered. The same 20 runs put s2_model's median of medians at
+  0.0139 against 0.01, the 4-df upward pull that keeps random-model G a secondary line. The probe
+  script was not kept in the repo. On the real data model:project is small (0.0004 to 0.0023).
 - **Headline numbers** (`results/reliability/findings.md`): single-run reliability 0.59 to 0.68 on
   CoderUJB and 0.67 to 0.76 on DevEval; 2-run, the design of 96 of 136 CoderUJB and 659 of 859
   DevEval items, 0.74 to 0.81 and 0.80 to 0.86; finite G 0.85 to 0.94
