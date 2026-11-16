@@ -3,6 +3,24 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-16: second Console organization for Opus run 1
+
+- **The rest of Opus run 1 is paid from the Max plan's monthly API credit of a second Console
+  organization**, under the same conditions as the first. The Console read on Nov 16 showed US$100
+  of promotional credit available, a $0 purchased balance, no payment method, $0 spent this month
+  and a monthly spend limit of $100. Auto-reload is not shown, and with no payment method it has
+  nothing to charge. The first organization's grant ran out on Nov 15 after 64 requests of Opus run
+  1 (US$99.95 of 100 spent). Waiting for its next grant on Dec 7 would hold the analysis three weeks.
+  Model ids, settings, anthropic-version and Batch prices are the same, and the returned model id
+  is logged per reply, so the organization does not change what is measured.
+- **The budget rule reads the second organization's balance.** All batches of the first
+  organization have ended and been billed, so none counts as unbilled there.
+- **Which organization ran a batch is read from the run log**: every Claude batch recorded before
+  this entry ran in the first organization, and every batch whose code commit is this entry or a
+  later one runs in the second.
+- **The first organization's monthly spend limit was raised from $1 to $100** before Sonnet run 0
+  (first batch 2026-11-15 13:34 UTC). It is logged here, as the Nov 14 entry requires.
+
 ## 2026-11-14: Claude smoke projection
 
 - **The smoke batches are projected from token counts, not from measured cost.** The budget rule
