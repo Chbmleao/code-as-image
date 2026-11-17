@@ -3,6 +3,42 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-17: Claude extension analysis
+
+The addendum's analyses ran on the collected Claude tables (UFM-27). `results/claude/findings.md`
+holds every Claude number and a paragraph for the paper; the JSON and figures it reads are in
+`results/claude/analysis/`. Everything in it is exploratory. The 5-model outputs did not change:
+`gaps`, `contamination` and `report` of the 5-model analysis were rerun into a scratch folder and
+their files compared byte for byte with `results/analysis/`. The 5-model GLMM was not rerun.
+
+- **Claude gaps: `gaps --models claude`.** The same `benchmark_gaps` code on the Claude table
+  alone, minus the 5-model-only parts (pooled gap, ranks, length moderator, all/none shares, items
+  no model passes). Holm over the 4 size-averaged gaps; one BH set of 40 over the 12 per-size
+  gaps, the 12 size differences and the 16 gaps without flagged items, as the addendum puts them
+  together.
+- **Deviation: a short Claude cell stops the command.** The addendum drops a short cell's item
+  from that condition. The collected tables have no short cell, so that rule is not built; the
+  request_error sensitivity line therefore equals the main line.
+- **Deviation: the token ratio is the median per-item ratio**, as the open models' size curve
+  uses. The addendum's wording is the item mean; both are written, the median is the one plotted.
+  The two differ by under 0.01 here.
+- **Contamination for the Claude gaps** uses the copies of every text run of the other 6 models,
+  the other Claude model included. A model's own exact copies never flag it; they are counted
+  apart. The matched random removal bins on the 2 Claude models' mean text score. On CoderUJB
+  only 10 (Sonnet) and 30 (Opus) of 136 items are unflagged, so the control cannot match the
+  flagged set there; `findings.md` says so next to the table.
+- **Replies come from the run directory** (`replies --run-dir`), since the collected rows carry
+  no stop reason and no thinking count. Each gen row joins to its one succeeded result in the run
+  log; the command stops if the rows, fail reasons or max_tokens counts disagree with the
+  collected table. Claude output tokens there leave thinking out.
+- **c is computed in Python** from `glmm_contrast_cov.csv`, which `analysis/glmm_main.R` now
+  writes (L V L' of the logit contrasts, unrounded). Nothing else in the R script changed. A
+  one-off R refit of the 7-model GLMM gave the same c and SE (difference under 1e-6).
+- **The 7-model report is `results/claude/findings.md`**, one level up from the analysis folder,
+  and it replaces the line's own `findings.md` planned in the entry below.
+- **The fits ran locally**: the 7-model GLMM took 45 s on CoderUJB and 434 s for both benchmarks,
+  so the cluster was not needed.
+
 ## 2026-11-17: model set option for the 7-model line
 
 `scripts/analysis.py` takes `--models main|all` on `prep`, `contamination` and `report`, and a new
