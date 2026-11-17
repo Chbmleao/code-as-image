@@ -9,9 +9,10 @@
 #     analysis/glmm_main.R [--bench coderujb|deveval] [--workers 5] [--in scratch/analysis]
 #     [--out results/analysis] [--folds 10] [--sims 1000]
 #
-# Writes <out>/glmm.json, <out>/glmm_item_flags.csv and <out>/glmm_item_model.csv. Fit times go
-# to stderr only, so a rerun writes identical files. The script stops, writing nothing, when a
-# main fit does not converge or one of the built-in checks fails.
+# Writes <out>/glmm.json, <out>/glmm_item_flags.csv, <out>/glmm_item_model.csv and
+# <out>/glmm_contrast_cov.csv (L V L' of the logit contrasts, unrounded). Fit times go to stderr
+# only, so a rerun writes identical files. The script stops, writing nothing, when a main fit does
+# not converge or one of the built-in checks fails.
 suppressPackageStartupMessages({
   library(glmmTMB)
   library(parallel)
@@ -140,6 +141,14 @@ contrasts_of <- function(fit, g) {
   list(L = L, V = V, beta = beta,
        table = data.frame(model = rownames(L), est = est, se = se, lo = est - q * se,
                           hi = est + q * se, stringsAsFactors = FALSE, row.names = NULL))
+}
+
+# every entry of L V L', so a contrast across models (open vs closed) gets its SE outside R
+contrast_cov <- function(b, cc) {
+  S <- cc$L %*% cc$V %*% t(cc$L)
+  data.frame(benchmark = b, model_a = rep(rownames(S), times = ncol(S)),
+             model_b = rep(colnames(S), each = nrow(S)), cov = as.vector(S),
+             stringsAsFactors = FALSE)
 }
 
 wald_equal <- function(cc, ref) {
@@ -423,7 +432,7 @@ run_bench <- function(b) {
                     ratio_probit = sd_probit[["item:condition"]] / sd_probit[["item"]]),
       item_flags = fl$summary,
       checks = checks),
-    flags = fl$flags, modes = fl$modes)
+    flags = fl$flags, modes = fl$modes, cov = contrast_cov(b, cc))
 }
 
 rnd <- function(x, key = "") {
@@ -455,4 +464,6 @@ write.csv(rnd(do.call(rbind, lapply(results, `[[`, "flags"))),
           file.path(out_dir, "glmm_item_flags.csv"), row.names = FALSE)
 write.csv(rnd(do.call(rbind, lapply(results, `[[`, "modes"))),
           file.path(out_dir, "glmm_item_model.csv"), row.names = FALSE)
+write.csv(do.call(rbind, lapply(results, `[[`, "cov")),
+          file.path(out_dir, "glmm_contrast_cov.csv"), row.names = FALSE)
 log_line("wrote %s", out_dir)
