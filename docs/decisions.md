@@ -3,6 +3,39 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-16: main analysis
+
+Deviations from 3.3, which stays frozen. The commands are in `scripts/analysis.py` and
+`analysis/glmm_main.R`; the numbers are in `results/analysis/findings.md`.
+
+- **The M-1 df test of equal penalties is a Wald test** on the delta-method contrasts, not an LRT.
+  The contrast is a mean over sizes of fixed-effect differences, and constraining it to be equal
+  across models needs a reparametrized fit per constraint; the Wald test uses the one fit. A
+  check in the script confirms the statistic does not change with the reference model.
+- **The common slope is also reported divided by r**, the correlation between the text logits of
+  run 0 and run 1. Text logits from one run are noisy, which pulls the raw slope toward 0; the
+  raw slope and R^2 stay in the table.
+- **Context length is by the three length buckets only**, with no spline. The buckets are the
+  `[sample].deveval_buckets` ranges as [lo, hi), applied to both benchmarks.
+- **The token ratio is measured** from the `prompt_tokens` of run 0 (median over items of image
+  over text), not taken from the estimates in `docs/notes/token_costs.md`.
+- **"Three runs" is 2 or 3 per cell** (block-1 items have 3, the rest 2, the Nov 13 run count).
+  Each cell's score is the mean of its runs, so every item weighs the same in the rates and gaps.
+- **The held-out log-likelihood is integrated with Laplace**, not Monte Carlo. Each held-out
+  cluster is scored by glmmTMB at the training fit's parameters (all fixed, nothing re-estimated),
+  the same approximation the fit and the LRT use. Plain Monte Carlo over the random effects did not
+  work: on the largest DevEval repository (82 items) two seeds at 2000 draws differed by about 285
+  log units, and at 20000 draws the full-minus-reduced difference still changed sign between
+  seeds, while sitting about 3300 log units below the Laplace value. The built-in check (d) is now
+  that this Laplace evaluation on the fitted data returns the fit's own log-likelihood.
+- **The model set is read from `configs/experiment.toml`** by one function, so the Claude
+  extension reruns the same commands with a different config into a different folder. Only the
+  run with the five open models in `results/analysis/` is the confirmatory family.
+- **The contamination inputs were not copied with rsync of the full answer files.** The text rows
+  were streamed over ssh into `scratch/contamination/` (gitignored), nothing was written on the
+  cluster, and the DevEval reference is rebuilt from `Source_Code` lines `body_position`, the same
+  splice `grade_answers.py` uses. The command fails if a graded text answer has no reply there.
+
 ## 2026-11-14: reliability on the full data
 
 - **The reliability components are fitted on the observed 0/1 pass of each run**, not the logit
