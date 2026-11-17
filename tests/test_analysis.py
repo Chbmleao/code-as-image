@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 import random
+from collections import Counter
 
 import pytest
 from conftest import ROOT, need
@@ -473,17 +474,33 @@ def _line_report_inputs(models):
     return {"ranks": ranks, "glmm": glmm, "contamination": cont}
 
 
+def _main_reports():
+    with open(os.path.join(ROOT, "results", "analysis", "glmm.json")) as f:
+        glmm = json.load(f)
+    with open(os.path.join(ROOT, "results", "analysis", "gaps.json")) as f:
+        gaps = json.load(f)
+    return gaps, glmm
+
+
+def _line_text(inputs):
+    gaps5, glmm5 = _main_reports()
+    an.check_line(inputs)
+    return "\n".join(an.line_sections(inputs, glmm5) + an.rank_and_flag_sections(inputs, gaps5))
+
+
 def test_the_line_report_takes_its_counts_from_the_inputs():
     need(os.path.join(ROOT, "results", "analysis", "glmm.json"))
-    seven = an.line_findings(_line_report_inputs([f"M{k}" for k in range(7)]))
-    three = an.line_findings(_line_report_inputs([f"M{k}" for k in range(3)]))
-    assert seven.startswith("# 7-model line") and three.startswith("# 3-model line")
+    seven = _line_text(_line_report_inputs([f"M{k}" for k in range(7)]))
+    three = _line_text(_line_report_inputs([f"M{k}" for k in range(3)]))
+    assert seven.startswith("## 7-model line") and three.startswith("## 3-model line")
     assert "other 6 models" in seven and "other 2 models" in three
     assert "on 6 df" in seven and "on 2 df" in three
     assert "runs 0 and 1 only" in seven and "use 123 joint cluster draws" in seven
     assert "CoderUJB 0, DevEval 4" in seven and "859 items in 79 clusters, 4 dropped." in seven
     assert "Item flags" not in seven
     assert "| M6 |" in seven and "| M6 |" not in three
+    # the 5-model column comes from results/analysis
+    assert "| 5-model | 7-model |" in seven and "5-model ranks, every run" in seven
 
 
 def test_the_line_report_fails_when_its_inputs_disagree():
@@ -492,18 +509,18 @@ def test_the_line_report_fails_when_its_inputs_disagree():
     inputs["ranks"]["benchmarks"]["deveval"]["n_items"] -= 1
     with pytest.raises(ValueError, match=r"glmm.json \(2 models, 859 items\) does not match "
                                          r"ranks.json \(2 models, 858 items\)"):
-        an.line_findings(inputs)
+        an.check_line(inputs)
     # a 5-model fit has the line's item count when nothing is dropped
     inputs = _line_report_inputs([f"M{k}" for k in range(7)])
     for v in inputs["glmm"]["benchmarks"].values():
         v["models"] = v["models"][:5]
     with pytest.raises(ValueError, match=r"\(5 models, 136 items\) does not match ranks.json "
                                          r"\(7 models"):
-        an.line_findings(inputs)
+        an.check_line(inputs)
     inputs = _line_report_inputs(["M0", "M1"])
     del inputs["contamination"]["benchmarks"]["coderujb"]["flagged"]["M1"]
     with pytest.raises(ValueError, match="contamination.json does not flag"):
-        an.line_findings(inputs)
+        an.check_line(inputs)
 
 
 def test_an_open_grid_problem_fails_before_the_trim(monkeypatch):
@@ -523,13 +540,16 @@ def test_an_open_grid_problem_fails_before_the_trim(monkeypatch):
     (["report", "--models", "all"], "out", an.ALL_OUT),
     (["contamination", "--answers", "x"], "out", an.OUT),
     (["contamination", "--answers", "x", "--models", "all"], "out", an.ALL_OUT),
+    (["gaps"], "out", an.OUT),
+    (["gaps", "--models", "claude", "--answers", "x"], "out", an.ALL_OUT),
+    (["replies", "--run-dir", "x"], "out", an.ALL_OUT),
 ])
 def test_default_folders_follow_the_model_set(monkeypatch, argv, key, want):
     got = {}
     monkeypatch.setitem(an.COMMANDS, argv[0], lambda args: got.update(vars(args)))
     an.main(argv)
     assert got[key] == want
-    if argv[0] != "report":
+    if argv[0] not in ("report", "replies"):
         assert (got["full"], got["claude_full"]) == (an.FULL, an.CLAUDE_FULL)
 
 
@@ -617,3 +637,380 @@ def test_line_contamination_runs_through_the_command(tmp_path, monkeypatch):
     flags = rel.read_csv(str(out / "contamination_flags.csv"), an.FLAG_FIELDS)
     assert [(r["item"], r["copied_by"], r["run"]) for r in flags] == [
         (copied["id"], copied["model"], "2")]
+
+
+CLAUDE_CFG = {**LINE_CFG, "sample": {"deveval_buckets": [[0, 10 ** 6]]}}
+ITEMS8 = [(i, f"p{k % 4}", 2) for k, i in enumerate("ABCDEFGH")]
+
+
+def claude_tables(seed=3):
+    """Random Claude verdicts on 8 items in 4 projects for both benchmarks, with prompt tokens
+    that differ per item, so the token ratio has a median and a mean that differ."""
+    rng = random.Random(seed)
+    out = {}
+    for b in rel.ds.BENCHES:
+        out[b] = [{**claude_row(m, i, c, r, rng.random() < (0.8 if c == "text" else 0.6)),
+                   "benchmark": b,
+                   "prompt_tokens": 1000 + 10 * k if c == "text" else 400 + k * k + int(c[5:])}
+                  for m in CLAUDE for k, (i, _, _) in enumerate(ITEMS8) for c in CONDS
+                  for r in range(2)]
+    return out
+
+
+def claude_inputs(seed=3):
+    return {b: (an.load_claude(b, rows, ITEMS8, CLAUDE_CFG), {i: 100 for i, _, _ in ITEMS8})
+            for b, rows in claude_tables(seed).items()}
+
+
+def claude_copies():
+    """Open model A copies item A, Claude one copies B, and a model outside the seven copies C."""
+    seven = an.model_set(CLAUDE_CFG, "all")
+    out = {}
+    for b in rel.ds.BENCHES:
+        c = {(m, i, r): False for m in seven for i, _, _ in ITEMS8 for r in range(2)}
+        c[(seven[0], "A", 0)] = True
+        c[(CLAUDE[0], "B", 1)] = True
+        c[("zz/other", "C", 0)] = True
+        out[b] = c
+    return out
+
+
+def claude_report():
+    return an.claude_gaps_report(CLAUDE_CFG, claude_inputs(), claude_copies(), n_boot=20,
+                                 n_draws=10)
+
+
+def test_the_claude_set_is_the_claude_models_alone():
+    assert an.model_set(CLAUDE_CFG, "claude") == CLAUDE
+
+
+def test_claude_gaps_have_their_own_holm_and_one_bh_set_of_40():
+    rep = claude_report()
+    found = list(rep["benchmarks"].values())
+    main = [r for v in found for r in v["main"]]
+    assert len(main) == rep["settings"]["holm_rows"] == 4
+    assert [r["holm"] for r in main] == an.st.holm([r["cluster"]["p"] for r in main])
+    family = ([r for k in ("sizes", "size_diffs") for v in found for r in v[k]]
+              + [r for v in found for r in v["contamination"]["gaps"]])
+    assert len(family) == rep["settings"]["bh_set"]["rows"] == 40
+    assert [r["bh"] for r in family] == an.st.bh([r["cluster"]["p"] for r in family])
+    for v in found:
+        assert not set(an.CLAUDE_DROPPED) & set(v)
+
+
+def test_the_claude_token_ratio_mean_is_the_item_mean():
+    data, _ = claude_inputs()["deveval"]
+    v = claude_report()["benchmarks"]["deveval"]
+    m = CLAUDE[0]
+    ratios = sorted((400 + k * k + 12) / (1000 + 10 * k) for k in range(8))
+    assert v["token_ratio_mean"][m]["image12"] == pytest.approx(sum(ratios) / 8)
+    assert v["token_ratio"][m]["image12"] == ratios[3]
+    assert v["request_errors"][m] == dict.fromkeys(CONDS, 0)
+    assert data["models"] == CLAUDE
+
+
+def test_claude_flags_come_from_any_other_of_the_seven_models():
+    for v in claude_report()["benchmarks"].values():
+        k = v["contamination"]
+        # A from an open model flags both; B, copied by Claude one, flags only Claude two; the
+        # copy by a model outside the seven flags nothing
+        assert k["flagged"] == {CLAUDE[0]: 1, CLAUDE[1]: 2}
+        assert k["own_copies"] == {CLAUDE[0]: {"answers": 1, "items": 1},
+                                   CLAUDE[1]: {"answers": 0, "items": 0}}
+        removed = {(r["model"], r["gap"]): r["removed"] for r in k["gaps"]}
+        assert len(k["gaps"]) == 8 and removed[(CLAUDE[1], "mean")] == 2
+        assert [r["model"] for r in k["flagged_only"]] == CLAUDE
+        assert set(k["control"]) == set(CLAUDE)
+        assert all("shortfall" in c for c in k["control"].values())
+
+
+def test_a_short_claude_cell_stops_the_claude_gaps():
+    rows = claude_tables()["deveval"]
+    rows[5].update(passed=None, reason="request_error")
+    with pytest.raises(ValueError, match="1 Claude cell"):
+        an.load_claude("deveval", rows, ITEMS8, CLAUDE_CFG)
+
+
+def test_a_claude_text_answer_without_a_reply_stops_the_claude_gaps():
+    copies = claude_copies()
+    del copies["deveval"][(CLAUDE[1], "D", 1)]
+    with pytest.raises(ValueError, match="1 graded text answer"):
+        an.claude_gaps_report(CLAUDE_CFG, claude_inputs(), copies, n_boot=20, n_draws=10)
+
+
+@pytest.mark.parametrize("argv", [["gaps", "--models", "claude"], ["gaps", "--answers", "x"]])
+def test_answers_goes_with_the_claude_gaps_only(argv):
+    with pytest.raises(SystemExit):
+        an.main(argv)
+
+
+def test_the_claude_gaps_write_no_figures(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
+    monkeypatch.setattr(an, "read_claude", lambda cfg, path: claude_inputs())
+    monkeypatch.setattr(an, "text_copies", lambda b, path, parts: claude_copies()[b])
+    monkeypatch.setattr(an.rs, "N_BOOT", 20)
+    an.main(["gaps", "--models", "claude", "--answers", "x", "--out", str(tmp_path)])
+    assert os.listdir(tmp_path) == ["gaps.json"]
+
+
+def fake_run():
+    """Claude replies on items A and B, run 0, with one of each event: a refusal and a max_tokens
+    stop for Claude one (text), a reply with thinking and cache tokens and a request_error for
+    Claude two (image10), and an over_budget reply for Claude two (text)."""
+    collected, gens, logs = [], {}, {}
+    for short, m in (("one", CLAUDE[0]), ("two", CLAUDE[1])):
+        gens[short], logs[short] = [], []
+        for i in "AB":
+            for c in CONDS:
+                collected.append(claude_row(m, i, c, 0, True))
+                gens[short].append({"id": i, "condition": c, "run": 0, "fail_reason": None})
+                logs[short].append({"kind": "result", "key": ["deveval", i, c, 0],
+                                    "type": "succeeded", "stop_reason": "end_turn",
+                                    "stop_details": None,
+                                    "usage": {"input_tokens": 10, "output_tokens": 100,
+                                              "thinking_tokens": 0,
+                                              "cache_creation_input_tokens": 0,
+                                              "cache_read_input_tokens": 0}})
+        logs[short].append({"kind": "batch"})
+
+    def at(table, short, i, c):
+        rows = table[short] if isinstance(table, dict) else table
+        model = {"one": CLAUDE[0], "two": CLAUDE[1]}[short]
+        return next(r for r in rows if r.get("model", model) == model
+                    and (r.get("id") or r["key"][1]) == i
+                    and (r.get("condition") or r["key"][2]) == c)
+
+    at(logs, "one", "A", "text").update(stop_reason="refusal", stop_details={"category": "cyber"})
+    at(logs, "one", "B", "text")["stop_reason"] = "max_tokens"
+    at(collected, "one", "B", "text")["truncated"] = True
+    at(logs, "two", "A", "image10")["usage"].update(
+        thinking_tokens=30, cache_creation_input_tokens=7, cache_read_input_tokens=5)
+    logs["two"].remove(at(logs, "two", "B", "image10"))
+    at(gens, "two", "B", "image10")["fail_reason"] = "request_error"
+    at(collected, "two", "B", "image10").update(passed=None, reason="request_error")
+    at(gens, "two", "A", "text")["fail_reason"] = "over_budget"
+    at(collected, "two", "A", "text").update(passed=False, reason="over_budget")
+    return collected, gens, logs, at
+
+
+def write_run(path, gens, logs):
+    os.makedirs(path / "deveval" / "gen")
+    os.makedirs(path / "claude")
+    for short in gens:
+        with open(path / "deveval" / "gen" / f"claude_{short}.jsonl", "w") as f:
+            f.writelines(json.dumps(r) + "\n" for r in gens[short])
+        with open(path / "claude" / f"{short}.log.jsonl", "w") as f:
+            f.writelines(json.dumps(r) + "\n" for r in logs[short])
+
+
+def replies_of(path, collected):
+    return an.replies_report(LINE_CFG, str(path), {"deveval": collected}, benches=("deveval",))
+
+
+def test_replies_count_each_event_per_model_and_condition(tmp_path):
+    collected, gens, logs, _ = fake_run()
+    write_run(tmp_path, gens, logs)
+    rep = replies_of(tmp_path, collected)["benchmarks"]["deveval"]
+    one, two = rep[CLAUDE[0]], rep[CLAUDE[1]]
+    assert (one["text"]["replies"], one["text"]["refusals"], one["text"]["max_tokens"]) == (
+        2, {"cyber": 1}, 1)
+    assert one["image10"]["refusals"] == {} and one["image10"]["max_tokens"] == 0
+    x = two["image10"]
+    assert (x["replies"], x["request_errors"], x["with_thinking"]) == (2, 1, 1)
+    assert x["thinking_share"] == pytest.approx(0.3)
+    assert x["output_tokens"]["median"] == x["output_tokens"]["mean"] == 70
+    assert (x["cache_creation_tokens"], x["cache_read_tokens"]) == (7, 5)
+    assert two["text"]["over_budget"] == 1 and two["image12"]["over_budget"] == 0
+    assert two["image12"]["thinking_share"] == 0 and two["image12"]["other_stops"] == {}
+
+
+def test_replies_stop_when_a_reply_has_no_succeeded_result(tmp_path):
+    collected, gens, logs, at = fake_run()
+    logs["one"].remove(at(logs, "one", "A", "image14"))
+    write_run(tmp_path, gens, logs)
+    with pytest.raises(ValueError, match="has 0 succeeded results"):
+        replies_of(tmp_path, collected)
+
+
+def test_replies_stop_when_the_gen_rows_differ_from_the_collected_ones(tmp_path):
+    collected, gens, logs, at = fake_run()
+    gens["two"].remove(at(gens, "two", "B", "text"))
+    write_run(tmp_path, gens, logs)
+    with pytest.raises(ValueError, match="key for key"):
+        replies_of(tmp_path, collected)
+
+
+def test_replies_stop_when_a_fail_reason_differs_from_the_collected_reason(tmp_path):
+    collected, gens, logs, at = fake_run()
+    at(gens, "one", "A", "image12")["fail_reason"] = "over_budget"
+    write_run(tmp_path, gens, logs)
+    with pytest.raises(ValueError, match="gen fail_reason over_budget but the collected reason "
+                                         "is pass"):
+        replies_of(tmp_path, collected)
+
+
+def test_replies_stop_when_max_tokens_differs_from_the_truncated_count(tmp_path):
+    collected, gens, logs, at = fake_run()
+    at(collected, "one", "B", "text")["truncated"] = False
+    write_run(tmp_path, gens, logs)
+    with pytest.raises(ValueError, match="1 replies at max_tokens but 0 truncated"):
+        replies_of(tmp_path, collected)
+
+
+C_MODELS = ["o1", "o2", "o3", "c1", "c2"]
+
+
+def c_glmm(ses=(0.1, 0.2, 0.3, 0.4, 0.5)):
+    est = [-1.0, -2.0, -3.0, -0.5, -0.1]
+    return {"models": C_MODELS, "contrast": [{"model": m, "est": e, "se": s}
+                                             for m, e, s in zip(C_MODELS, est, ses)]}
+
+
+def c_cov(ses=(0.1, 0.2, 0.3, 0.4, 0.5), off=0.001):
+    return {(a, b): (ses[i] ** 2 if a == b else off) for i, a in enumerate(C_MODELS)
+            for b in C_MODELS}
+
+
+def test_c_is_the_claude_mean_minus_the_open_mean():
+    c = an.open_closed(c_glmm(), c_cov(), {"c1", "c2"})
+    # (-0.5 - 0.1) / 2 - (-1 - 2 - 3) / 3
+    assert c["est"] == pytest.approx(1.7)
+    w = [-1 / 3] * 3 + [1 / 2] * 2
+    want = an.st.wald_contrast([-1.0, -2.0, -3.0, -0.5, -0.1],
+                               [[c_cov()[(a, b)] for b in C_MODELS] for a in C_MODELS], w)
+    assert c["se"] == pytest.approx(want["se"]) and (c["closed"], c["open"]) == (2, 3)
+    assert an.c_reading(c) == "Claude loses less (interval above 0)"
+
+
+def test_c_needs_every_contrast_and_both_kinds_of_model():
+    v = c_glmm()
+    v["contrast"].pop()
+    with pytest.raises(ValueError, match="no logit contrast for c2"):
+        an.open_closed(v, c_cov(), {"c1", "c2"})
+    with pytest.raises(ValueError, match="needs Claude and open models"):
+        an.open_closed(c_glmm(), c_cov(), set())
+
+
+def write_cov(path, cov):
+    rows = [("coderujb", a, b, x) for (a, b), x in cov.items()]
+    rel.gc.write_csv(str(path), an.COV_FIELDS, rows)
+
+
+@pytest.mark.parametrize("change, problem", [
+    (lambda cov: cov.pop(("o1", "c2")), "has no entry for"),
+    (lambda cov: cov.update({("o1", "c2"): 0.002}), "is not symmetric"),
+    (lambda cov: cov.update({("c1", "c1"): 0.17}), "does not match the glmm.json SE"),
+])
+def test_a_bad_covariance_file_stops_the_report(tmp_path, change, problem):
+    glmm = {"benchmarks": {"coderujb": c_glmm()}}
+    cov = c_cov()
+    write_cov(tmp_path / "cov.csv", cov)
+    assert an.read_cov(str(tmp_path / "cov.csv"), glmm)["coderujb"] == cov
+    change(cov)
+    write_cov(tmp_path / "cov.csv", cov)
+    with pytest.raises(ValueError, match=problem):
+        an.read_cov(str(tmp_path / "cov.csv"), glmm)
+    with pytest.raises(ValueError, match="is missing; rerun analysis/glmm_main.R"):
+        an.read_cov(str(tmp_path / "none.csv"), glmm)
+
+
+def test_the_claude_flag_counts_must_match_the_line_flags():
+    g = claude_report()
+    line_c = {"benchmarks": {b: {"flagged": {CLAUDE[0]: 1, CLAUDE[1]: 2, "M0": 9}}
+                             for b in g["benchmarks"]}}
+    an.check_claude_flags(g, line_c)
+    line_c["benchmarks"]["deveval"]["flagged"][CLAUDE[1]] = 3
+    with pytest.raises(ValueError, match="deveval: the Claude flag counts of gaps.json"):
+        an.check_claude_flags(g, line_c)
+
+
+def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatch):
+    out = tmp_path / "claude" / "analysis"
+    out.mkdir(parents=True)
+    got = {}
+    monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
+    monkeypatch.setattr(an, "read_report_inputs", lambda path, wanted: {"gaps": {}, "glmm": {}})
+    monkeypatch.setattr(an, "read_cov", lambda path, glmm: got.update(cov=path))
+    monkeypatch.setattr(an, "claude_findings", lambda *a: "text\n")
+    monkeypatch.setattr(an, "claude_figures", lambda g, g5, path: got.update(figures=path))
+    an.main(["report", "--models", "all", "--out", str(out)])
+    assert (tmp_path / "claude" / "findings.md").read_text() == "text\n"
+    assert not (out / "findings.md").exists()
+    assert got == {"cov": str(out / "glmm_contrast_cov.csv"), "figures": str(out / "figures")}
+
+
+def test_the_paper_paragraph_takes_its_values_and_directions_from_the_inputs():
+    g = claude_report()
+    g5 = {"benchmarks": {b: {"main": [{"est": -0.30}, {"est": -0.12}]} for b in g["benchmarks"]}}
+    gl = {"benchmarks": {b: {"wald": {"stat": 12.34, "df": 6, "p": 0.0123}}
+                         for b in g["benchmarks"]}}
+
+    def text(c):
+        return an.paper_paragraph(g, g5, gl, {b: dict(c) for b in g["benchmarks"]})
+
+    up = text({"est": 0.5, "lo": 0.2, "hi": 0.8})
+    r = g["benchmarks"]["deveval"]["main"][1]
+    assert f"{an.pp(r['est'])} pp" in up and "0.50 [0.20, 0.80]" in up
+    assert "-30.0 to -12.0 pp" in up and "on 6 df" in up and "chi2 12.3, p 0.0123" in up
+    assert "Claude loses less" in up and "loses more" not in up
+    down = text({"est": -0.5, "lo": -0.8, "hi": -0.2})
+    assert "Claude loses more" in down and "loses less" not in down
+    both = text({"est": 0.1, "lo": -0.2, "hi": 0.4})
+    assert "the interval includes 0" in both and "loses" not in both
+    k = sum(an.excludes_zero(r["cluster"]["lo"], r["cluster"]["hi"])
+            for v in g["benchmarks"].values() for r in v["main"])
+    assert ("all 4 cluster intervals exclude 0" if k == 4
+            else f"{k} of the 4 cluster intervals exclude 0") in up
+
+
+def test_claude_removal_checks_bin_on_the_claude_text_score():
+    inputs = claude_inputs()
+    rep = claude_report()["benchmarks"]
+    assert sum(len(v["contamination"]["gaps"]) for v in rep.values()) == 16
+    for b, (data, lengths) in inputs.items():
+        k = rep[b]["contamination"]
+        y = an.scores(data)
+        items = data["items"]
+        text = [an.mean([y[m]["text"][j] for m in CLAUDE]) for j in range(len(items))]
+        bins = list(zip(an.equal_groups(text, items, an.CONTROL["bins"][0]),
+                        an.equal_groups([lengths[i] for i in items], items,
+                                        an.CONTROL["bins"][1])))
+        m = CLAUDE[1]
+        flagged, rest = [0, 1], list(range(2, 8))
+        need = Counter(bins[j] for j in flagged)
+        have = Counter(bins[j] for j in rest)
+        short = {str(x): need[x] - have[x] for x in sorted(need) if need[x] > have[x]}
+        c = k["control"][m]
+        assert (c["flagged"], c["shortfall"]) == (2, short)
+        assert c["removed_per_draw"] == 2 - sum(short.values())
+        d = an.differences(y[m], data["conditions"][1:], "text")
+        row = next(r for r in k["flagged_only"] if r["model"] == m)
+        assert row["text_flagged"] == pytest.approx(an.mean([y[m]["text"][j] for j in flagged]))
+        assert row["text_rest"] == pytest.approx(an.mean([y[m]["text"][j] for j in rest]))
+        assert row["gap_rest"] == pytest.approx(an.mean([d[j] for j in rest]))
+        mean_row = next(r for r in k["gaps"] if r["model"] == m and r["gap"] == "mean")
+        assert mean_row["all_items"] == pytest.approx(an.mean(d))
+        assert mean_row["est"] == pytest.approx(an.mean([d[j] for j in rest]))
+        assert mean_row["removed"] == 2
+
+
+def test_a_control_with_one_possible_draw_says_it_carries_no_information():
+    c = {"flagged": 126, "removed_per_draw": 10}
+    assert "carry no information" in an.control_note("S", c, 136)
+    assert "carry no information" not in an.control_note("S", {**c, "removed_per_draw": 9}, 136)
+
+
+def test_the_paper_paragraph_names_item_level_intervals_that_include_zero():
+    g = claude_report()
+    g5 = {"benchmarks": {b: {"main": [{"est": -0.30}]} for b in g["benchmarks"]}}
+    gl = {"benchmarks": {b: {"wald": {"stat": 1.0, "df": 6, "p": 0.5}} for b in g["benchmarks"]}}
+    cs = {b: {"est": 0.5, "lo": 0.2, "hi": 0.8} for b in g["benchmarks"]}
+    for v in g["benchmarks"].values():
+        for r in v["main"]:
+            r["item"] = {**r["item"], "lo": -0.04, "hi": -0.01}
+    assert "item-level interval includes 0" not in an.paper_paragraph(g, g5, gl, cs)
+    r = g["benchmarks"]["deveval"]["main"][1]
+    r["item"] = {**r["item"], "lo": -0.043, "hi": 0.004}
+    text = an.paper_paragraph(g, g5, gl, cs)
+    assert (f"item-level interval includes 0 for {r['model']} on DevEval "
+            f"{an.interval(-0.043, 0.004)}.") in text
