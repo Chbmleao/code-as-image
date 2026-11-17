@@ -1,0 +1,1916 @@
+{
+ "settings": {
+  "models": [
+   "Claude Sonnet 5.5",
+   "Claude Opus 5.5"
+  ],
+  "runs": [
+   0,
+   1
+  ],
+  "seed": 20261114,
+  "n_boot": 2000,
+  "level": 0.95,
+  "interval": "CR1 cluster t with G - 1 df; item line: paired t",
+  "short_cell": "stops the command",
+  "token_ratio": "median per-item ratio, as the open models; token_ratio_mean is the item mean",
+  "control_draws": 1000,
+  "control_seed": 20261118,
+  "bins": [
+   5,
+   3
+  ],
+  "holm_rows": 4,
+  "bh_set": {
+   "rows": 40,
+   "covers": "the per-size gaps, the size differences and the gaps without flagged items"
+  }
+ },
+ "benchmarks": {
+  "coderujb": {
+   "n_items": 136,
+   "n_clusters": 14,
+   "rates": {
+    "text": {
+     "Claude Sonnet 5.5": 0.974265,
+     "Claude Opus 5.5": 0.974265
+    },
+    "image10": {
+     "Claude Sonnet 5.5": 0.889706,
+     "Claude Opus 5.5": 0.952206
+    },
+    "image12": {
+     "Claude Sonnet 5.5": 0.930147,
+     "Claude Opus 5.5": 0.963235
+    },
+    "image14": {
+     "Claude Sonnet 5.5": 0.915441,
+     "Claude Opus 5.5": 0.948529
+    },
+    "image": {
+     "Claude Sonnet 5.5": 0.911765,
+     "Claude Opus 5.5": 0.954657
+    }
+   },
+   "main": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "est": -0.0625,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.021016,
+      "lo": -0.107903,
+      "hi": -0.017097,
+      "p": 0.0108
+     },
+     "item": {
+      "df": 135,
+      "se": 0.015455,
+      "lo": -0.093065,
+      "hi": -0.031935,
+      "p": 8.79e-05
+     },
+     "holm": 0.0323
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "est": -0.019608,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.007915,
+      "lo": -0.036707,
+      "hi": -0.002509,
+      "p": 0.0277
+     },
+     "item": {
+      "df": 135,
+      "se": 0.011805,
+      "lo": -0.042955,
+      "hi": 0.00374,
+      "p": 0.0991
+     },
+     "holm": 0.0402
+    }
+   ],
+   "sizes": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image10",
+     "est": -0.084559,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.032843,
+      "lo": -0.155513,
+      "hi": -0.013605,
+      "p": 0.0231
+     },
+     "item": {
+      "df": 135,
+      "se": 0.021233,
+      "lo": -0.126552,
+      "hi": -0.042566,
+      "p": 0.000111
+     },
+     "bh": 0.0439
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image12",
+     "est": -0.044118,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.021607,
+      "lo": -0.090798,
+      "hi": 0.002562,
+      "p": 0.062
+     },
+     "item": {
+      "df": 135,
+      "se": 0.01606,
+      "lo": -0.075879,
+      "hi": -0.012357,
+      "p": 0.00683
+     },
+     "bh": 0.103
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image14",
+     "est": -0.058824,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.020028,
+      "lo": -0.102092,
+      "hi": -0.015555,
+      "p": 0.0116
+     },
+     "item": {
+      "df": 135,
+      "se": 0.020251,
+      "lo": -0.098874,
+      "hi": -0.018773,
+      "p": 0.0043
+     },
+     "bh": 0.0272
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image10",
+     "est": -0.022059,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.018549,
+      "lo": -0.062131,
+      "hi": 0.018013,
+      "p": 0.256
+     },
+     "item": {
+      "df": 135,
+      "se": 0.016393,
+      "lo": -0.054479,
+      "hi": 0.010361,
+      "p": 0.181
+     },
+     "bh": 0.31
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image12",
+     "est": -0.011029,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.006565,
+      "lo": -0.025211,
+      "hi": 0.003153,
+      "p": 0.117
+     },
+     "item": {
+      "df": 135,
+      "se": 0.012202,
+      "lo": -0.035161,
+      "hi": 0.013102,
+      "p": 0.368
+     },
+     "bh": 0.167
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image14",
+     "est": -0.025735,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.009085,
+      "lo": -0.045363,
+      "hi": -0.006108,
+      "p": 0.0141
+     },
+     "item": {
+      "df": 135,
+      "se": 0.015052,
+      "lo": -0.055504,
+      "hi": 0.004034,
+      "p": 0.0896
+     },
+     "bh": 0.0297
+    }
+   ],
+   "size_diffs": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image12-image10",
+     "est": 0.040441,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.01408,
+      "lo": 0.010023,
+      "hi": 0.070859,
+      "p": 0.0131
+     },
+     "item": {
+      "df": 135,
+      "se": 0.018119,
+      "lo": 0.004607,
+      "hi": 0.076275,
+      "p": 0.0273
+     },
+     "bh": 0.0291
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image14-image10",
+     "est": 0.025735,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.034541,
+      "lo": -0.048886,
+      "hi": 0.100357,
+      "p": 0.469
+     },
+     "item": {
+      "df": 135,
+      "se": 0.023524,
+      "lo": -0.020788,
+      "hi": 0.072258,
+      "p": 0.276
+     },
+     "bh": 0.537
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image14-image12",
+     "est": -0.014706,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.021761,
+      "lo": -0.061717,
+      "hi": 0.032305,
+      "p": 0.511
+     },
+     "item": {
+      "df": 135,
+      "se": 0.018033,
+      "lo": -0.05037,
+      "hi": 0.020958,
+      "p": 0.416
+     },
+     "bh": 0.568
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image12-image10",
+     "est": 0.011029,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.021534,
+      "lo": -0.035493,
+      "hi": 0.057551,
+      "p": 0.617
+     },
+     "item": {
+      "df": 135,
+      "se": 0.016057,
+      "lo": -0.020726,
+      "hi": 0.042784,
+      "p": 0.493
+     },
+     "bh": 0.667
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image14-image10",
+     "est": -0.003676,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.017765,
+      "lo": -0.042055,
+      "hi": 0.034702,
+      "p": 0.839
+     },
+     "item": {
+      "df": 135,
+      "se": 0.015211,
+      "lo": -0.03376,
+      "hi": 0.026407,
+      "p": 0.809
+     },
+     "bh": 0.845
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image14-image12",
+     "est": -0.014706,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.008121,
+      "lo": -0.032251,
+      "hi": 0.002839,
+      "p": 0.0933
+     },
+     "item": {
+      "df": 135,
+      "se": 0.013749,
+      "lo": -0.041897,
+      "hi": 0.012485,
+      "p": 0.287
+     },
+     "bh": 0.143
+    }
+   ],
+   "tokens": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "median": 6848,
+      "q1": 4335,
+      "q3": 11395
+     },
+     "image10": {
+      "median": 2057,
+      "q1": 1374,
+      "q3": 3101
+     },
+     "image12": {
+      "median": 2864,
+      "q1": 1861,
+      "q3": 4402
+     },
+     "image14": {
+      "median": 3854,
+      "q1": 2445,
+      "q3": 5967
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "median": 6850,
+      "q1": 4337,
+      "q3": 11397
+     },
+     "image10": {
+      "median": 2059,
+      "q1": 1376,
+      "q3": 3103
+     },
+     "image12": {
+      "median": 2866,
+      "q1": 1863,
+      "q3": 4404
+     },
+     "image14": {
+      "median": 3856,
+      "q1": 2447,
+      "q3": 5969
+     }
+    }
+   },
+   "token_ratio": {
+    "Claude Sonnet 5.5": {
+     "image10": 0.296693,
+     "image12": 0.41367,
+     "image14": 0.556307,
+     "mean_over_sizes": 0.422223
+    },
+    "Claude Opus 5.5": {
+     "image10": 0.297124,
+     "image12": 0.413759,
+     "image14": 0.556447,
+     "mean_over_sizes": 0.422443
+    }
+   },
+   "lopo": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "left_out": "Math",
+     "est": -0.073333,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.025155,
+      "lo": -0.128142,
+      "hi": -0.018525,
+      "p": 0.013
+     },
+     "item": {
+      "df": 99,
+      "se": 0.020145,
+      "lo": -0.113306,
+      "hi": -0.033361,
+      "p": 0.000435
+     }
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "left_out": "Math",
+     "est": -0.023333,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.010086,
+      "lo": -0.045308,
+      "hi": -0.001359,
+      "p": 0.0392
+     },
+     "item": {
+      "df": 99,
+      "se": 0.014019,
+      "lo": -0.051149,
+      "hi": 0.004483,
+      "p": 0.0992
+     }
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "left_out": "Closure",
+     "est": -0.047198,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.017882,
+      "lo": -0.08616,
+      "hi": -0.008235,
+      "p": 0.0216
+     },
+     "item": {
+      "df": 112,
+      "se": 0.016157,
+      "lo": -0.079211,
+      "hi": -0.015185,
+      "p": 0.00422
+     }
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "left_out": "Closure",
+     "est": -0.017699,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.009105,
+      "lo": -0.037538,
+      "hi": 0.00214,
+      "p": 0.0757
+     },
+     "item": {
+      "df": 112,
+      "se": 0.010758,
+      "lo": -0.039014,
+      "hi": 0.003616,
+      "p": 0.103
+     }
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "left_out": "Lang",
+     "est": -0.055072,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.023343,
+      "lo": -0.105933,
+      "hi": -0.004212,
+      "p": 0.0361
+     },
+     "item": {
+      "df": 114,
+      "se": 0.015504,
+      "lo": -0.085785,
+      "hi": -0.02436,
+      "p": 0.000557
+     }
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "left_out": "Lang",
+     "est": -0.02029,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.009421,
+      "lo": -0.040816,
+      "hi": 0.000236,
+      "p": 0.0523
+     },
+     "item": {
+      "df": 114,
+      "se": 0.013678,
+      "lo": -0.047386,
+      "hi": 0.006806,
+      "p": 0.141
+     }
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "left_out": "Chart",
+     "est": -0.067493,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.023145,
+      "lo": -0.117922,
+      "hi": -0.017065,
+      "p": 0.0129
+     },
+     "item": {
+      "df": 120,
+      "se": 0.017229,
+      "lo": -0.101605,
+      "hi": -0.033382,
+      "p": 0.000149
+     }
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "left_out": "Chart",
+     "est": -0.020661,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.008945,
+      "lo": -0.040151,
+      "hi": -0.001171,
+      "p": 0.0395
+     },
+     "item": {
+      "df": 120,
+      "se": 0.013204,
+      "lo": -0.046805,
+      "hi": 0.005483,
+      "p": 0.12
+     }
+    }
+   ],
+   "floor_ceiling": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "none": 0.022059,
+      "all": 0.970588
+     },
+     "image10": {
+      "none": 0.066176,
+      "all": 0.845588
+     },
+     "image12": {
+      "none": 0.044118,
+      "all": 0.904412
+     },
+     "image14": {
+      "none": 0.058824,
+      "all": 0.889706
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "none": 0.007353,
+      "all": 0.955882
+     },
+     "image10": {
+      "none": 0.029412,
+      "all": 0.933824
+     },
+     "image12": {
+      "none": 0.007353,
+      "all": 0.933824
+     },
+     "image14": {
+      "none": 0.014706,
+      "all": 0.911765
+     }
+    }
+   },
+   "scoring": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image10": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image12": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image14": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image10": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image12": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     },
+     "image14": {
+      "answers": 272,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0
+     }
+    }
+   },
+   "token_ratio_mean": {
+    "Claude Sonnet 5.5": {
+     "image10": 0.298201,
+     "image12": 0.414695,
+     "image14": 0.554818,
+     "mean_over_sizes": 0.422571
+    },
+    "Claude Opus 5.5": {
+     "image10": 0.298428,
+     "image12": 0.414884,
+     "image14": 0.554961,
+     "mean_over_sizes": 0.422758
+    }
+   },
+   "request_errors": {
+    "Claude Sonnet 5.5": {
+     "text": 0,
+     "image10": 0,
+     "image12": 0,
+     "image14": 0
+    },
+    "Claude Opus 5.5": {
+     "text": 0,
+     "image10": 0,
+     "image12": 0,
+     "image14": 0
+    }
+   },
+   "contamination": {
+    "flagged": {
+     "Claude Sonnet 5.5": 126,
+     "Claude Opus 5.5": 106
+    },
+    "own_copies": {
+     "Claude Sonnet 5.5": {
+      "answers": 202,
+      "items": 106
+     },
+     "Claude Opus 5.5": {
+      "answers": 243,
+      "items": 126
+     }
+    },
+    "gaps": [
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "mean",
+      "removed": 126,
+      "est": -0.2,
+      "n": 10,
+      "cluster": {
+       "clusters": 6,
+       "df": 5,
+       "se": 0.06261,
+       "lo": -0.360944,
+       "hi": -0.039056,
+       "p": 0.0241
+      },
+      "item": {
+       "df": 9,
+       "se": 0.059835,
+       "lo": -0.335357,
+       "hi": -0.064643,
+       "p": 0.00863
+      },
+      "all_items": -0.0625,
+      "bh": 0.0439
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image10",
+      "removed": 126,
+      "est": -0.25,
+      "n": 10,
+      "cluster": {
+       "clusters": 6,
+       "df": 5,
+       "se": 0.07746,
+       "lo": -0.449116,
+       "hi": -0.050884,
+       "p": 0.0233
+      },
+      "item": {
+       "df": 9,
+       "se": 0.134371,
+       "lo": -0.553968,
+       "hi": 0.053968,
+       "p": 0.0957
+      },
+      "all_items": -0.084559,
+      "bh": 0.0439
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image12",
+      "removed": 126,
+      "est": -0.1,
+      "n": 10,
+      "cluster": {
+       "clusters": 6,
+       "df": 5,
+       "se": 0.040988,
+       "lo": -0.205363,
+       "hi": 0.005363,
+       "p": 0.0587
+      },
+      "item": {
+       "df": 9,
+       "se": 0.066667,
+       "lo": -0.25081,
+       "hi": 0.05081,
+       "p": 0.168
+      },
+      "all_items": -0.044118,
+      "bh": 0.102
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image14",
+      "removed": 126,
+      "est": -0.25,
+      "n": 10,
+      "cluster": {
+       "clusters": 6,
+       "df": 5,
+       "se": 0.122474,
+       "lo": -0.564831,
+       "hi": 0.064831,
+       "p": 0.0967
+      },
+      "item": {
+       "df": 9,
+       "se": 0.111803,
+       "lo": -0.502917,
+       "hi": 0.002917,
+       "p": 0.0522
+      },
+      "all_items": -0.058824,
+      "bh": 0.143
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "mean",
+      "removed": 106,
+      "est": -0.044444,
+      "n": 30,
+      "cluster": {
+       "clusters": 10,
+       "df": 9,
+       "se": 0.030537,
+       "lo": -0.113523,
+       "hi": 0.024634,
+       "p": 0.18
+      },
+      "item": {
+       "df": 29,
+       "se": 0.044444,
+       "lo": -0.135344,
+       "hi": 0.046455,
+       "p": 0.326
+      },
+      "all_items": -0.019608,
+      "bh": 0.243
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image10",
+      "removed": 106,
+      "est": -0.066667,
+      "n": 30,
+      "cluster": {
+       "clusters": 10,
+       "df": 9,
+       "se": 0.04614,
+       "lo": -0.171044,
+       "hi": 0.03771,
+       "p": 0.182
+      },
+      "item": {
+       "df": 29,
+       "se": 0.057402,
+       "lo": -0.184067,
+       "hi": 0.050734,
+       "p": 0.255
+      },
+      "all_items": -0.022059,
+      "bh": 0.243
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image12",
+      "removed": 106,
+      "est": -0.016667,
+      "n": 30,
+      "cluster": {
+       "clusters": 10,
+       "df": 9,
+       "se": 0.018684,
+       "lo": -0.058934,
+       "hi": 0.0256,
+       "p": 0.396
+      },
+      "item": {
+       "df": 29,
+       "se": 0.044743,
+       "lo": -0.108176,
+       "hi": 0.074843,
+       "p": 0.712
+      },
+      "all_items": -0.011029,
+      "bh": 0.465
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image14",
+      "removed": 106,
+      "est": -0.05,
+      "n": 30,
+      "cluster": {
+       "clusters": 10,
+       "df": 9,
+       "se": 0.036768,
+       "lo": -0.133174,
+       "hi": 0.033174,
+       "p": 0.207
+      },
+      "item": {
+       "df": 29,
+       "se": 0.05,
+       "lo": -0.152261,
+       "hi": 0.052261,
+       "p": 0.326
+      },
+      "all_items": -0.025735,
+      "bh": 0.26
+     }
+    ],
+    "control": {
+     "Claude Sonnet 5.5": {
+      "observed_change": -0.1375,
+      "lo": 0.010913,
+      "hi": 0.010913,
+      "share_at_or_below": 0.0,
+      "flagged": 126,
+      "removed_per_draw": 10,
+      "shortfall": {
+       "(0, 0)": 7,
+       "(0, 1)": 4,
+       "(0, 2)": 11,
+       "(1, 0)": 9,
+       "(1, 1)": 9,
+       "(1, 2)": 7,
+       "(2, 0)": 11,
+       "(2, 1)": 7,
+       "(2, 2)": 9,
+       "(3, 0)": 6,
+       "(3, 1)": 7,
+       "(3, 2)": 8,
+       "(4, 0)": 11,
+       "(4, 1)": 6,
+       "(4, 2)": 4
+      }
+     },
+     "Claude Opus 5.5": {
+      "observed_change": -0.024837,
+      "lo": 0.007147,
+      "hi": 0.007147,
+      "share_at_or_below": 0.0,
+      "flagged": 106,
+      "removed_per_draw": 29,
+      "shortfall": {
+       "(0, 0)": 1,
+       "(0, 2)": 9,
+       "(1, 0)": 7,
+       "(1, 1)": 9,
+       "(2, 0)": 5,
+       "(2, 1)": 7,
+       "(2, 2)": 7,
+       "(3, 0)": 4,
+       "(3, 1)": 7,
+       "(3, 2)": 6,
+       "(4, 0)": 5,
+       "(4, 1)": 6,
+       "(4, 2)": 4
+      }
+     }
+    },
+    "flagged_only": [
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "est": -0.051587,
+      "n": 126,
+      "cluster": {
+       "clusters": 13,
+       "df": 12,
+       "se": 0.018197,
+       "lo": -0.091236,
+       "hi": -0.011939,
+       "p": 0.015
+      },
+      "item": {
+       "df": 125,
+       "se": 0.015653,
+       "lo": -0.082567,
+       "hi": -0.020608,
+       "p": 0.00128
+      },
+      "text_flagged": 0.980159,
+      "text_rest": 0.9,
+      "gap_rest": -0.2
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "est": -0.012579,
+      "n": 106,
+      "cluster": {
+       "clusters": 12,
+       "df": 11,
+       "se": 0.004192,
+       "lo": -0.021805,
+       "hi": -0.003352,
+       "p": 0.0121
+      },
+      "item": {
+       "df": 105,
+       "se": 0.008565,
+       "lo": -0.029562,
+       "hi": 0.004405,
+       "p": 0.145
+      },
+      "text_flagged": 0.990566,
+      "text_rest": 0.916667,
+      "gap_rest": -0.044444
+     }
+    ]
+   }
+  },
+  "deveval": {
+   "n_items": 859,
+   "n_clusters": 79,
+   "rates": {
+    "text": {
+     "Claude Sonnet 5.5": 0.854482,
+     "Claude Opus 5.5": 0.927823
+    },
+    "image10": {
+     "Claude Sonnet 5.5": 0.761932,
+     "Claude Opus 5.5": 0.902794
+    },
+    "image12": {
+     "Claude Sonnet 5.5": 0.793364,
+     "Claude Opus 5.5": 0.903958
+    },
+    "image14": {
+     "Claude Sonnet 5.5": 0.824796,
+     "Claude Opus 5.5": 0.924913
+    },
+    "image": {
+     "Claude Sonnet 5.5": 0.793364,
+     "Claude Opus 5.5": 0.910555
+    }
+   },
+   "main": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "est": -0.061118,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009736,
+      "lo": -0.080501,
+      "hi": -0.041734,
+      "p": 1.8e-08
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008528,
+      "lo": -0.077855,
+      "hi": -0.04438,
+      "p": 1.65e-12
+     },
+     "holm": 7.2e-08
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "est": -0.017268,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.007277,
+      "lo": -0.031755,
+      "hi": -0.002781,
+      "p": 0.0201
+     },
+     "item": {
+      "df": 858,
+      "se": 0.005552,
+      "lo": -0.028165,
+      "hi": -0.006372,
+      "p": 0.00193
+     },
+     "holm": 0.0402
+    }
+   ],
+   "sizes": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image10",
+     "est": -0.092549,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.011654,
+      "lo": -0.115751,
+      "hi": -0.069348,
+      "p": 1.22e-11
+     },
+     "item": {
+      "df": 858,
+      "se": 0.011554,
+      "lo": -0.115227,
+      "hi": -0.069872,
+      "p": 3.73e-15
+     },
+     "bh": 4.89e-10
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image12",
+     "est": -0.061118,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.012068,
+      "lo": -0.085144,
+      "hi": -0.037092,
+      "p": 2.68e-06
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010023,
+      "lo": -0.08079,
+      "hi": -0.041445,
+      "p": 1.63e-09
+     },
+     "bh": 3.57e-05
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "size": "image14",
+     "est": -0.029686,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009869,
+      "lo": -0.049333,
+      "hi": -0.010039,
+      "p": 0.00354
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008755,
+      "lo": -0.046869,
+      "hi": -0.012502,
+      "p": 0.000729
+     },
+     "bh": 0.0101
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image10",
+     "est": -0.025029,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009386,
+      "lo": -0.043714,
+      "hi": -0.006344,
+      "p": 0.00931
+     },
+     "item": {
+      "df": 858,
+      "se": 0.0072,
+      "lo": -0.039162,
+      "hi": -0.010897,
+      "p": 0.000534
+     },
+     "bh": 0.0233
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image12",
+     "est": -0.023865,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.007909,
+      "lo": -0.039611,
+      "hi": -0.008119,
+      "p": 0.00344
+     },
+     "item": {
+      "df": 858,
+      "se": 0.006868,
+      "lo": -0.037344,
+      "hi": -0.010386,
+      "p": 0.000536
+     },
+     "bh": 0.0101
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "size": "image14",
+     "est": -0.00291,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.006679,
+      "lo": -0.016208,
+      "hi": 0.010387,
+      "p": 0.664
+     },
+     "item": {
+      "df": 858,
+      "se": 0.006024,
+      "lo": -0.014733,
+      "hi": 0.008913,
+      "p": 0.629
+     },
+     "bh": 0.699
+    }
+   ],
+   "size_diffs": [
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image12-image10",
+     "est": 0.031432,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009293,
+      "lo": 0.01293,
+      "hi": 0.049933,
+      "p": 0.00113
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010131,
+      "lo": 0.011547,
+      "hi": 0.051317,
+      "p": 0.00198
+     },
+     "bh": 0.00563
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image14-image10",
+     "est": 0.062864,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.010884,
+      "lo": 0.041196,
+      "hi": 0.084531,
+      "p": 1.49e-07
+     },
+     "item": {
+      "df": 858,
+      "se": 0.009857,
+      "lo": 0.043518,
+      "hi": 0.08221,
+      "p": 2.93e-10
+     },
+     "bh": 2.98e-06
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "repo": "claude-sonnet-5-5",
+     "pair": "image14-image12",
+     "est": 0.031432,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008863,
+      "lo": 0.013787,
+      "hi": 0.049077,
+      "p": 0.000664
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008806,
+      "lo": 0.014148,
+      "hi": 0.048715,
+      "p": 0.000378
+     },
+     "bh": 0.00443
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image12-image10",
+     "est": 0.001164,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.005918,
+      "lo": -0.010618,
+      "hi": 0.012946,
+      "p": 0.845
+     },
+     "item": {
+      "df": 858,
+      "se": 0.006691,
+      "lo": -0.011969,
+      "hi": 0.014297,
+      "p": 0.862
+     },
+     "bh": 0.845
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image14-image10",
+     "est": 0.022119,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.006686,
+      "lo": 0.008808,
+      "hi": 0.035429,
+      "p": 0.00142
+     },
+     "item": {
+      "df": 858,
+      "se": 0.00685,
+      "lo": 0.008675,
+      "hi": 0.035563,
+      "p": 0.00129
+     },
+     "bh": 0.00632
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "repo": "claude-opus-5-5",
+     "pair": "image14-image12",
+     "est": 0.020955,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.005427,
+      "lo": 0.010151,
+      "hi": 0.031758,
+      "p": 0.000231
+     },
+     "item": {
+      "df": 858,
+      "se": 0.006066,
+      "lo": 0.009048,
+      "hi": 0.032861,
+      "p": 0.000579
+     },
+     "bh": 0.00185
+    }
+   ],
+   "tokens": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "median": 6145,
+      "q1": 4522,
+      "q3": 9406
+     },
+     "image10": {
+      "median": 1871,
+      "q1": 1464,
+      "q3": 2746
+     },
+     "image12": {
+      "median": 2554,
+      "q1": 1999,
+      "q3": 3843
+     },
+     "image14": {
+      "median": 3376,
+      "q1": 2606,
+      "q3": 5155
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "median": 6147,
+      "q1": 4524,
+      "q3": 9408
+     },
+     "image10": {
+      "median": 1873,
+      "q1": 1466,
+      "q3": 2748
+     },
+     "image12": {
+      "median": 2556,
+      "q1": 2001,
+      "q3": 3845
+     },
+     "image14": {
+      "median": 3378,
+      "q1": 2608,
+      "q3": 5157
+     }
+    }
+   },
+   "token_ratio": {
+    "Claude Sonnet 5.5": {
+     "image10": 0.300885,
+     "image12": 0.415195,
+     "image14": 0.551765,
+     "mean_over_sizes": 0.422615
+    },
+    "Claude Opus 5.5": {
+     "image10": 0.301148,
+     "image12": 0.415507,
+     "image14": 0.551935,
+     "mean_over_sizes": 0.422863
+    }
+   },
+   "lopo": [],
+   "floor_ceiling": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "none": 0.119907,
+      "all": 0.828871
+     },
+     "image10": {
+      "none": 0.21071,
+      "all": 0.734575
+     },
+     "image12": {
+      "none": 0.181607,
+      "all": 0.768335
+     },
+     "image14": {
+      "none": 0.146682,
+      "all": 0.796275
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "none": 0.043073,
+      "all": 0.898719
+     },
+     "image10": {
+      "none": 0.0617,
+      "all": 0.867288
+     },
+     "image12": {
+      "none": 0.062864,
+      "all": 0.87078
+     },
+     "image14": {
+      "none": 0.050058,
+      "all": 0.899884
+     }
+    }
+   },
+   "scoring": {
+    "Claude Sonnet 5.5": {
+     "text": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.000582,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     },
+     "image10": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     },
+     "image12": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     },
+     "image14": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     }
+    },
+    "Claude Opus 5.5": {
+     "text": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.011641
+     },
+     "image10": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.004075
+     },
+     "image12": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.004075
+     },
+     "image14": {
+      "answers": 1718,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.004075
+     }
+    }
+   },
+   "token_ratio_mean": {
+    "Claude Sonnet 5.5": {
+     "image10": 0.304715,
+     "image12": 0.418267,
+     "image14": 0.555034,
+     "mean_over_sizes": 0.426005
+    },
+    "Claude Opus 5.5": {
+     "image10": 0.304947,
+     "image12": 0.418461,
+     "image14": 0.555183,
+     "mean_over_sizes": 0.426197
+    }
+   },
+   "request_errors": {
+    "Claude Sonnet 5.5": {
+     "text": 0,
+     "image10": 0,
+     "image12": 0,
+     "image14": 0
+    },
+    "Claude Opus 5.5": {
+     "text": 0,
+     "image10": 0,
+     "image12": 0,
+     "image14": 0
+    }
+   },
+   "contamination": {
+    "flagged": {
+     "Claude Sonnet 5.5": 673,
+     "Claude Opus 5.5": 492
+    },
+    "own_copies": {
+     "Claude Sonnet 5.5": {
+      "answers": 916,
+      "items": 487
+     },
+     "Claude Opus 5.5": {
+      "answers": 1262,
+      "items": 670
+     }
+    },
+    "gaps": [
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "mean",
+      "removed": 673,
+      "est": -0.087814,
+      "n": 186,
+      "cluster": {
+       "clusters": 46,
+       "df": 45,
+       "se": 0.027175,
+       "lo": -0.142548,
+       "hi": -0.033079,
+       "p": 0.00231
+      },
+      "item": {
+       "df": 185,
+       "se": 0.024182,
+       "lo": -0.135521,
+       "hi": -0.040106,
+       "p": 0.000365
+      },
+      "all_items": -0.061118,
+      "bh": 0.00839
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image10",
+      "removed": 673,
+      "est": -0.120968,
+      "n": 186,
+      "cluster": {
+       "clusters": 46,
+       "df": 45,
+       "se": 0.028673,
+       "lo": -0.178719,
+       "hi": -0.063217,
+       "p": 0.000117
+      },
+      "item": {
+       "df": 185,
+       "se": 0.029541,
+       "lo": -0.179248,
+       "hi": -0.062688,
+       "p": 6.31e-05
+      },
+      "all_items": -0.092549,
+      "bh": 0.00117
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image12",
+      "removed": 673,
+      "est": -0.091398,
+      "n": 186,
+      "cluster": {
+       "clusters": 46,
+       "df": 45,
+       "se": 0.032298,
+       "lo": -0.15645,
+       "hi": -0.026345,
+       "p": 0.00694
+      },
+      "item": {
+       "df": 185,
+       "se": 0.026654,
+       "lo": -0.143983,
+       "hi": -0.038813,
+       "p": 0.000747
+      },
+      "all_items": -0.061118,
+      "bh": 0.0185
+     },
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "gap": "image14",
+      "removed": 673,
+      "est": -0.051075,
+      "n": 186,
+      "cluster": {
+       "clusters": 46,
+       "df": 45,
+       "se": 0.029251,
+       "lo": -0.10999,
+       "hi": 0.00784,
+       "p": 0.0876
+      },
+      "item": {
+       "df": 185,
+       "se": 0.024859,
+       "lo": -0.100119,
+       "hi": -0.002031,
+       "p": 0.0413
+      },
+      "all_items": -0.029686,
+      "bh": 0.14
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "mean",
+      "removed": 492,
+      "est": -0.037239,
+      "n": 367,
+      "cluster": {
+       "clusters": 67,
+       "df": 66,
+       "se": 0.011602,
+       "lo": -0.060403,
+       "hi": -0.014075,
+       "p": 0.00205
+      },
+      "item": {
+       "df": 366,
+       "se": 0.01093,
+       "lo": -0.058732,
+       "hi": -0.015745,
+       "p": 0.00073
+      },
+      "all_items": -0.017268,
+      "bh": 0.00821
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image10",
+      "removed": 492,
+      "est": -0.047684,
+      "n": 367,
+      "cluster": {
+       "clusters": 67,
+       "df": 66,
+       "se": 0.015378,
+       "lo": -0.078387,
+       "hi": -0.01698,
+       "p": 0.00284
+      },
+      "item": {
+       "df": 366,
+       "se": 0.014156,
+       "lo": -0.07552,
+       "hi": -0.019847,
+       "p": 0.000836
+      },
+      "all_items": -0.025029,
+      "bh": 0.00946
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image12",
+      "removed": 492,
+      "est": -0.051771,
+      "n": 367,
+      "cluster": {
+       "clusters": 67,
+       "df": 66,
+       "se": 0.015006,
+       "lo": -0.081732,
+       "hi": -0.021811,
+       "p": 0.000982
+      },
+      "item": {
+       "df": 366,
+       "se": 0.014313,
+       "lo": -0.079917,
+       "hi": -0.023626,
+       "p": 0.00034
+      },
+      "all_items": -0.023865,
+      "bh": 0.00561
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "gap": "image14",
+      "removed": 492,
+      "est": -0.012262,
+      "n": 367,
+      "cluster": {
+       "clusters": 67,
+       "df": 66,
+       "se": 0.009642,
+       "lo": -0.031512,
+       "hi": 0.006989,
+       "p": 0.208
+      },
+      "item": {
+       "df": 366,
+       "se": 0.011639,
+       "lo": -0.035148,
+       "hi": 0.010625,
+       "p": 0.293
+      },
+      "all_items": -0.00291,
+      "bh": 0.26
+     }
+    ],
+    "control": {
+     "Claude Sonnet 5.5": {
+      "observed_change": -0.026696,
+      "lo": 0.004831,
+      "hi": 0.010435,
+      "share_at_or_below": 0.0,
+      "flagged": 673,
+      "removed_per_draw": 175,
+      "shortfall": {
+       "(0, 1)": 5,
+       "(0, 2)": 14,
+       "(1, 0)": 30,
+       "(1, 1)": 31,
+       "(1, 2)": 59,
+       "(2, 0)": 36,
+       "(2, 1)": 57,
+       "(2, 2)": 47,
+       "(3, 0)": 51,
+       "(3, 1)": 24,
+       "(3, 2)": 15,
+       "(4, 0)": 47,
+       "(4, 1)": 53,
+       "(4, 2)": 29
+      }
+     },
+     "Claude Opus 5.5": {
+      "observed_change": -0.019971,
+      "lo": 0.002497,
+      "hi": 0.011415,
+      "share_at_or_below": 0.0,
+      "flagged": 492,
+      "removed_per_draw": 261,
+      "shortfall": {
+       "(1, 0)": 10,
+       "(1, 1)": 19,
+       "(1, 2)": 41,
+       "(2, 0)": 14,
+       "(2, 1)": 31,
+       "(2, 2)": 37,
+       "(3, 0)": 11,
+       "(3, 1)": 18,
+       "(3, 2)": 7,
+       "(4, 0)": 11,
+       "(4, 1)": 25,
+       "(4, 2)": 7
+      }
+     }
+    },
+    "flagged_only": [
+     {
+      "model": "Claude Sonnet 5.5",
+      "repo": "claude-sonnet-5-5",
+      "est": -0.053739,
+      "n": 673,
+      "cluster": {
+       "clusters": 72,
+       "df": 71,
+       "se": 0.008231,
+       "lo": -0.070151,
+       "hi": -0.037328,
+       "p": 8.47e-09
+      },
+      "item": {
+       "df": 672,
+       "se": 0.008582,
+       "lo": -0.07059,
+       "hi": -0.036889,
+       "p": 6.77e-10
+      },
+      "text_flagged": 0.913819,
+      "text_rest": 0.639785,
+      "gap_rest": -0.087814
+     },
+     {
+      "model": "Claude Opus 5.5",
+      "repo": "claude-opus-5-5",
+      "est": -0.002371,
+      "n": 492,
+      "cluster": {
+       "clusters": 62,
+       "df": 61,
+       "se": 0.006123,
+       "lo": -0.014614,
+       "hi": 0.009872,
+       "p": 0.7
+      },
+      "item": {
+       "df": 491,
+       "se": 0.005153,
+       "lo": -0.012495,
+       "hi": 0.007753,
+       "p": 0.646
+      },
+      "text_flagged": 0.978659,
+      "text_rest": 0.859673,
+      "gap_rest": -0.037239
+     }
+    ]
+   }
+  }
+ }
+}

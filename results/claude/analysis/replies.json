@@ -1,0 +1,312 @@
+{
+ "settings": {
+  "models": [
+   "Claude Sonnet 5.5",
+   "Claude Opus 5.5"
+  ],
+  "output_tokens": "output_tokens minus thinking_tokens, per reply",
+  "thinking_share": "thinking tokens over output tokens, summed"
+ },
+ "benchmarks": {
+  "coderujb": {
+   "Claude Sonnet 5.5": {
+    "text": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 391,
+      "q1": 294,
+      "q3": 521,
+      "mean": 454.356618
+     }
+    },
+    "image10": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 270,
+      "q1": 199,
+      "q3": 446,
+      "mean": 368.014706
+     }
+    },
+    "image12": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 278,
+      "q1": 198,
+      "q3": 436,
+      "mean": 361.154412
+     }
+    },
+    "image14": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 284,
+      "q1": 204,
+      "q3": 447,
+      "mean": 362.227941
+     }
+    }
+   },
+   "Claude Opus 5.5": {
+    "text": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 462,
+      "q1": 324,
+      "q3": 641,
+      "mean": 541.080882
+     }
+    },
+    "image10": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 11,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.029816,
+     "output_tokens": {
+      "median": 459,
+      "q1": 337,
+      "q3": 627,
+      "mean": 531.389706
+     }
+    },
+    "image12": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 6,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.014932,
+     "output_tokens": {
+      "median": 454,
+      "q1": 314,
+      "q3": 636,
+      "mean": 529.702206
+     }
+    },
+    "image14": {
+     "replies": 272,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 3,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.007438,
+     "output_tokens": {
+      "median": 468,
+      "q1": 315,
+      "q3": 642,
+      "mean": 537.183824
+     }
+    }
+   }
+  },
+  "deveval": {
+   "Claude Sonnet 5.5": {
+    "text": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 1,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 295,
+      "q1": 210,
+      "q3": 446,
+      "mean": 365.75844
+     }
+    },
+    "image10": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 298,
+      "q1": 211,
+      "q3": 439,
+      "mean": 362.96624
+     }
+    },
+    "image12": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 294,
+      "q1": 212,
+      "q3": 438,
+      "mean": 360.638533
+     }
+    },
+    "image14": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 0,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.0,
+     "output_tokens": {
+      "median": 292,
+      "q1": 209,
+      "q3": 432,
+      "mean": 357.752037
+     }
+    }
+   },
+   "Claude Opus 5.5": {
+    "text": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 1,
+     "other_stops": {},
+     "with_thinking": 4,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.002036,
+     "output_tokens": {
+      "median": 351,
+      "q1": 241,
+      "q3": 514,
+      "mean": 416.487194
+     }
+    },
+    "image10": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 9,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.003508,
+     "output_tokens": {
+      "median": 371,
+      "q1": 270,
+      "q3": 533,
+      "mean": 436.344587
+     }
+    },
+    "image12": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 7,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.00303,
+     "output_tokens": {
+      "median": 370,
+      "q1": 266,
+      "q3": 529,
+      "mean": 433.862049
+     }
+    },
+    "image14": {
+     "replies": 1718,
+     "request_errors": 0,
+     "refusals": {},
+     "max_tokens": 0,
+     "over_budget": 0,
+     "other_stops": {},
+     "with_thinking": 5,
+     "cache_creation_tokens": 0,
+     "cache_read_tokens": 0,
+     "thinking_share": 0.00268,
+     "output_tokens": {
+      "median": 365,
+      "q1": 259,
+      "q3": 525,
+      "mean": 429.140279
+     }
+    }
+   }
+  }
+ }
+}

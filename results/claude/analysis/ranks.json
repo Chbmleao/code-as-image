@@ -1,0 +1,805 @@
+{
+ "settings": {
+  "models": [
+   "Qwen3.5 27B",
+   "Gemma 4 12B",
+   "Mistral Small 3.2 24B",
+   "Qwen3.5 9B",
+   "Qwen2.5-VL 7B",
+   "Claude Sonnet 5.5",
+   "Claude Opus 5.5"
+  ],
+  "runs": [
+   0,
+   1
+  ],
+  "drop_rule": "an item with a Claude cell short of 2 scored runs leaves the line in all four conditions for every model",
+  "seed": 20261114,
+  "n_boot": 2000,
+  "interval": "95% equal-tailed, type-1 percentiles"
+ },
+ "benchmarks": {
+  "coderujb": {
+   "n_items": 136,
+   "n_clusters": 14,
+   "dropped": {
+    "count": 0,
+    "items": []
+   },
+   "rates": {
+    "text": {
+     "Qwen3.5 27B": 0.540441,
+     "Gemma 4 12B": 0.441176,
+     "Mistral Small 3.2 24B": 0.4375,
+     "Qwen3.5 9B": 0.408088,
+     "Qwen2.5-VL 7B": 0.224265,
+     "Claude Sonnet 5.5": 0.974265,
+     "Claude Opus 5.5": 0.974265
+    },
+    "image": {
+     "Qwen3.5 27B": 0.223039,
+     "Gemma 4 12B": 0.084559,
+     "Mistral Small 3.2 24B": 0.122549,
+     "Qwen3.5 9B": 0.126225,
+     "Qwen2.5-VL 7B": 0.096814,
+     "Claude Sonnet 5.5": 0.911765,
+     "Claude Opus 5.5": 0.954657
+    },
+    "image10": {
+     "Qwen3.5 27B": 0.205882,
+     "Gemma 4 12B": 0.088235,
+     "Mistral Small 3.2 24B": 0.088235,
+     "Qwen3.5 9B": 0.073529,
+     "Qwen2.5-VL 7B": 0.080882,
+     "Claude Sonnet 5.5": 0.889706,
+     "Claude Opus 5.5": 0.952206
+    },
+    "image12": {
+     "Qwen3.5 27B": 0.183824,
+     "Gemma 4 12B": 0.095588,
+     "Mistral Small 3.2 24B": 0.132353,
+     "Qwen3.5 9B": 0.136029,
+     "Qwen2.5-VL 7B": 0.113971,
+     "Claude Sonnet 5.5": 0.930147,
+     "Claude Opus 5.5": 0.963235
+    },
+    "image14": {
+     "Qwen3.5 27B": 0.279412,
+     "Gemma 4 12B": 0.069853,
+     "Mistral Small 3.2 24B": 0.147059,
+     "Qwen3.5 9B": 0.169118,
+     "Qwen2.5-VL 7B": 0.095588,
+     "Claude Sonnet 5.5": 0.915441,
+     "Claude Opus 5.5": 0.948529
+    }
+   },
+   "ranks": {
+    "text": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 6.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 7.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 1.5,
+      "lo": 1.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.5,
+      "lo": 1.0,
+      "hi": 2.0
+     }
+    },
+    "image": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 7.0,
+      "lo": 5.0,
+      "hi": 7.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 6.0,
+      "lo": 5.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image10": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 4.5,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 4.5,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 7.0,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 6.0,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image12": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 4.0
+     },
+     "Gemma 4 12B": {
+      "rank": 7.0,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 3.0,
+      "hi": 6.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 6.5
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 6.0,
+      "lo": 4.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 1.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 2.0
+     }
+    },
+    "image14": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 7.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 6.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 1.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 2.0
+     }
+    }
+   },
+   "swap": [
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Gemma 4 12B"
+     ],
+     "p": 0.0015
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Mistral Small 3.2 24B"
+     ],
+     "p": 0.00475
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Mistral Small 3.2 24B"
+     ],
+     "p": 0.539
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.795
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.69
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.645
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.104
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.0302
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen2.5-VL 7B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen2.5-VL 7B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Claude Sonnet 5.5",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.456
+    }
+   ]
+  },
+  "deveval": {
+   "n_items": 859,
+   "n_clusters": 79,
+   "dropped": {
+    "count": 0,
+    "items": []
+   },
+   "rates": {
+    "text": {
+     "Qwen3.5 27B": 0.536088,
+     "Gemma 4 12B": 0.461583,
+     "Mistral Small 3.2 24B": 0.483702,
+     "Qwen3.5 9B": 0.410943,
+     "Qwen2.5-VL 7B": 0.30326,
+     "Claude Sonnet 5.5": 0.854482,
+     "Claude Opus 5.5": 0.927823
+    },
+    "image": {
+     "Qwen3.5 27B": 0.257082,
+     "Gemma 4 12B": 0.15813,
+     "Mistral Small 3.2 24B": 0.172681,
+     "Qwen3.5 9B": 0.176756,
+     "Qwen2.5-VL 7B": 0.136787,
+     "Claude Sonnet 5.5": 0.793364,
+     "Claude Opus 5.5": 0.910555
+    },
+    "image10": {
+     "Qwen3.5 27B": 0.21071,
+     "Gemma 4 12B": 0.156577,
+     "Mistral Small 3.2 24B": 0.151339,
+     "Qwen3.5 9B": 0.131548,
+     "Qwen2.5-VL 7B": 0.119325,
+     "Claude Sonnet 5.5": 0.761932,
+     "Claude Opus 5.5": 0.902794
+    },
+    "image12": {
+     "Qwen3.5 27B": 0.249127,
+     "Gemma 4 12B": 0.156577,
+     "Mistral Small 3.2 24B": 0.16298,
+     "Qwen3.5 9B": 0.181024,
+     "Qwen2.5-VL 7B": 0.136787,
+     "Claude Sonnet 5.5": 0.793364,
+     "Claude Opus 5.5": 0.903958
+    },
+    "image14": {
+     "Qwen3.5 27B": 0.311409,
+     "Gemma 4 12B": 0.161234,
+     "Mistral Small 3.2 24B": 0.203725,
+     "Qwen3.5 9B": 0.217695,
+     "Qwen2.5-VL 7B": 0.154249,
+     "Claude Sonnet 5.5": 0.824796,
+     "Claude Opus 5.5": 0.924913
+    }
+   },
+   "ranks": {
+    "text": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 6.0,
+      "lo": 6.0,
+      "hi": 6.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 7.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 6.0,
+      "lo": 5.0,
+      "hi": 6.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 7.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image10": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 6.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image12": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 6.0,
+      "lo": 5.0,
+      "hi": 6.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 6.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 7.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "image14": {
+     "Qwen3.5 27B": {
+      "rank": 3.0,
+      "lo": 3.0,
+      "hi": 3.0
+     },
+     "Gemma 4 12B": {
+      "rank": 6.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Mistral Small 3.2 24B": {
+      "rank": 5.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen3.5 9B": {
+      "rank": 4.0,
+      "lo": 4.0,
+      "hi": 5.0
+     },
+     "Qwen2.5-VL 7B": {
+      "rank": 7.0,
+      "lo": 6.0,
+      "hi": 7.0
+     },
+     "Claude Sonnet 5.5": {
+      "rank": 2.0,
+      "lo": 2.0,
+      "hi": 2.0
+     },
+     "Claude Opus 5.5": {
+      "rank": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    }
+   },
+   "swap": [
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Gemma 4 12B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Mistral Small 3.2 24B"
+     ],
+     "p": 0.0025
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 27B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Mistral Small 3.2 24B"
+     ],
+     "p": 0.113
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.981
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.006
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Gemma 4 12B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Qwen3.5 9B"
+     ],
+     "p": 0.68
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.0005
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Mistral Small 3.2 24B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Qwen2.5-VL 7B"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen3.5 9B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen2.5-VL 7B",
+      "Claude Sonnet 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Qwen2.5-VL 7B",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    },
+    {
+     "pair": [
+      "Claude Sonnet 5.5",
+      "Claude Opus 5.5"
+     ],
+     "p": 0.0
+    }
+   ]
+  }
+ }
+}
