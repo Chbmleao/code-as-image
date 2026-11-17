@@ -71,3 +71,40 @@ def test_bh_matches_r_p_adjust():
     got = st.bh(P)
     assert got[3] is None
     assert [g for g in got if g is not None] == pytest.approx([w for w in want if w is not None])
+
+
+def test_wald_contrast_by_hand():
+    est = [1.0, 2.0, -0.5]
+    cov = [[0.04, 0.01, 0.0], [0.01, 0.09, -0.02], [0.0, -0.02, 0.16]]
+    w = [0.5, 0.5, -1.0]
+    # w' S w = 0.25 * 0.04 + 0.25 * 0.09 + 0.16 + 2 * 0.25 * 0.01 + 2 * 0.5 * -1 * -0.02
+    var = 0.01 + 0.0225 + 0.16 + 0.005 + 0.02
+    got = st.wald_contrast(est, cov, w)
+    q = stats.norm.ppf(0.975)
+    assert got["est"] == pytest.approx(2.0)
+    assert got["se"] == pytest.approx(math.sqrt(var))
+    assert (got["lo"], got["hi"]) == pytest.approx((2.0 - q * math.sqrt(var),
+                                                    2.0 + q * math.sqrt(var)))
+
+
+def test_wald_contrast_with_a_diagonal_cov_is_the_independent_se():
+    got = st.wald_contrast([1, 1], [[4, 0], [0, 9]], [1, -1])
+    assert got["est"] == 0 and got["se"] == pytest.approx(math.sqrt(13))
+
+
+def test_a_positive_covariance_between_same_sign_weights_raises_the_se():
+    flat = st.wald_contrast([1, 1, 1], [[1, 0, 0], [0, 1, 0], [0, 0, 1]], [0.5, 0.5, -1])
+    tied = st.wald_contrast([1, 1, 1], [[1, 0.5, 0], [0.5, 1, 0], [0, 0, 1]], [0.5, 0.5, -1])
+    assert tied["se"] > flat["se"]
+
+
+def test_wald_contrast_rejects_mismatched_sizes():
+    with pytest.raises(ValueError, match="matching sizes"):
+        st.wald_contrast([1, 2], [[1, 0], [0, 1]], [1, 0, -1])
+    with pytest.raises(ValueError, match="matching sizes"):
+        st.wald_contrast([1, 2], [[1, 0]], [1, -1])
+
+
+def test_wald_contrast_rejects_a_negative_variance():
+    with pytest.raises(ValueError, match="negative variance"):
+        st.wald_contrast([1, 1], [[1, 2], [2, 1]], [1, -1])
