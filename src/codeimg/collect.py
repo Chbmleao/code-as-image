@@ -62,7 +62,12 @@ def collect(bench, models, requests, runs, gen_rows, answers, skipped, grades):
                "prompt_tokens": g.get("prompt_tokens"), "output_tokens": g.get("output_tokens"),
                "n_images": g["n_images"], "gen_seconds": g["seconds"],
                "defines_target": None, "grade_seconds": None, "suite": None}
-        if g.get("error"):
+        if g.get("fail_reason"):
+            # Claude (methodology addendum): a request_error is left out of scoring, the other
+            # reasons fail before grading
+            row.update(passed=None if g["fail_reason"] == "request_error" else False,
+                       reason=g["fail_reason"], error=g.get("error"))
+        elif g.get("error"):
             row.update(passed=False, reason="request_error", error=g["error"])
         elif k in skip:
             row.update(passed=False, reason="no_reply" if skip[k]["stage"] == "no_reply" else "no_code",
@@ -92,9 +97,13 @@ def main(argv=None):
     ap.add_argument("--answers", required=True, help="dir with answers.jsonl and skipped.jsonl")
     ap.add_argument("--grades", nargs="+", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--claude", action="store_true", help="the [claude] models instead of [models]")
     args = ap.parse_args(argv)
     cfg = config.load()
-    models = [m["repo"] for m in cfg["models"].values()]
+    if args.claude:
+        models = [m["model"] for m in config.claude_models(cfg).values()]
+    else:
+        models = [m["repo"] for m in cfg["models"].values()]
     runs = args.runs or cfg["experiment"]["runs"]
     if args.runs_from:
         try:

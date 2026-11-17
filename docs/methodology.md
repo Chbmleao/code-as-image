@@ -294,3 +294,133 @@ runs go from 3 to 2 only through the D-study rule in 3.1.
 8. A hybrid check was considered and dropped: with the task now in text, the remaining gap is
    about reading the context. A second instruction wording or font, to size prompt and format
    sensitivity, is not budgeted.
+
+---
+
+## Addendum: Claude extension (exploratory, 2026-11-14)
+
+This addendum adds two hosted models after the 5-model study was run and analyzed. Sections 3.1 to
+3.3 stay as frozen and their results are reported first; everything below is exploratory. It is
+committed before the first Claude request (the UFM-24 smoke), and the commit hash goes into the
+Claude run log. Where the API allows a setting, it is the one of the main run; where it does not,
+the difference is listed under deviations and reported in the paper. The reasons are in
+`docs/decisions.md` (2026-11-14).
+
+**Models and requests.** claude-sonnet-5-5 and claude-opus-5-5 on the Claude API, anthropic-version
+2026-10-21, through the Message Batches API (the smoke too, so its cost is at batch prices). The
+same 995 items, 4 conditions and requests as the main run: text, the fixed sentence and the same
+pages. No item is excluded up front: every request has at most 9 images and fits the 1M-token
+context. A run may span several batches (each holds at most 100,000 requests or 256 MB). The
+compute-shortfall cuts of 3.3 do not apply; a shortfall of credit only delays the run.
+
+**Runs and decoding.** Two runs per (model, item, condition) cell on every item, block-1 items
+included: 7,960 requests per model. Effort is `low` for both models. Sonnet runs with
+`thinking: {type: "between_tools"}`, which gives no thinking before the answer. Opus cannot turn
+thinking off and uses adaptive thinking at `low`. The paper describes this as the least thinking
+each model allows, not as thinking off. No temperature, top_p, top_k or seed is sent, because this
+API version rejects them, so both models sample at the API default, temperature 1.0. Each row
+keeps its run number; its seed field is empty, since no seed is sent.
+
+**Output budget.** Sonnet gets max_tokens 2048, as the open models. Opus gets max_tokens 16,000,
+because its thinking counts toward the limit. Non-thinking tokens are usage.output_tokens minus
+usage.output_tokens_details.thinking_tokens, both as billed and counted by Claude's tokenizer. An
+Opus reply with more than 2,048 non-thinking tokens fails before grading, with reason `over_budget`.
+If any Sonnet smoke reply reports thinking tokens above 0, Sonnet gets max_tokens 16,000 and the
+`over_budget` rule for the whole grid; otherwise thinking tokens in the full run are only counted.
+
+**Outcome.** The graded answer is the reply's text blocks joined in order; thinking is never graded.
+Code extraction and the graders are those of the main run. Reasons are assigned in this order:
+refusal, `over_budget`, any other stop reason, `no_reply`; a reply that passes all of these is
+graded. By stop reason:
+
+- end_turn: graded.
+- max_tokens: graded like any other answer, as the open models' truncated replies were
+  (decisions, 2026-11-10).
+- refusal: fails before grading, whatever code it holds, with reason `refusal`. No retry and no
+  fallback model.
+- any other stop reason: fails, with the stop reason as its reason.
+
+A reply with no text, or empty text, fails with reason `no_reply`, as in the main run.
+
+**Request errors.** A batch request that errors or expires is resubmitted up to 3 times. Billing,
+credit and spend-limit errors do not count toward the 3; those requests wait for credit. A request
+still failing after 3 resubmissions is written with reason `request_error` and left out of scoring,
+not counted as a failure. A cell is scored on its remaining runs. A cell with none is missing, and
+the item leaves that model's contrasts that involve that condition (delta_mb needs all four, as in
+3.1). Counts are reported per model, benchmark and condition, with a sensitivity line that counts
+every `request_error` run as a failure. The open models had no request errors, so there is no
+precedent.
+
+**Run log.** Per request: custom_id, message id, requested and returned model id, the settings as
+sent (effort, thinking type, max_tokens), usage (input, output, thinking and cache tokens),
+stop_reason, stop_details, error type and resubmission count. Per batch: batch id, created, ended
+and expiry times, request counts, projected cost, the cost per request used, the Console balance
+read, a check that the purchased balance is $0 and auto-reload is off, and the decision (submitted,
+cut or waited). Plus the SDK version and code commit hash. Thinking text is not stored.
+
+**Analysis.** All pass rates compared across the 7 models are item-weighted (the mean of an item's
+runs, then the mean over items).
+
+- Claude gaps. delta_mb and delta_mbs as in 3.2, for 2 models x 2 benchmarks, with the paired
+  interval of 3.3 (clustered by project for CoderUJB, by repository for DevEval), the
+  item-clustered second line and the leave-one-project-out table. The 4 size-averaged gaps form
+  their own Holm family. The 12 per-size gaps and Claude's paired size differences form their own
+  Benjamini-Hochberg set. Each gap is reported on all items and on items not flagged for
+  contamination, with the matched random-set control; the contamination versions join the same
+  Benjamini-Hochberg set.
+- Size curve. Claude's per-size gaps against its token ratio, defined as for the open models: per
+  model, benchmark and size, the mean over items of usage.input_tokens(image s) /
+  usage.input_tokens(text), from run 0. No cache_control is sent; if usage still reports cache
+  tokens, they are added to input_tokens.
+- 7-model line, shown beside the 5-model results in the same tables: the model x condition test
+  (6 df), item order correlations, the item x condition variance with checks 1 and 2, and the rank
+  table with rank intervals and pair swap probabilities from the `scripts/resample.py` draws. In
+  this line every model uses runs 0 and 1 only, so the design is balanced; the 5-model numbers
+  keep all runs. An item with a Claude cell short of 2 scored runs leaves this line for every
+  model in that condition (all four conditions for delta_mb), and the count is reported.
+  Contamination flags in this line and for the Claude gaps come from all text runs of the other 6
+  models; the 5-model results keep the flags from the other 4.
+- Open vs closed. Per benchmark, in the 7-model GLMM: c = (1/2) sum over the Claude models of P_m
+  minus (1/5) sum over the open models of P_m, with P_m = (1/3) sum_s [beta(m, image s) - beta(m,
+  text)] from the model x condition fixed effects. Reported with a 95% Wald interval, no p-value,
+  outside every correction family. It is a contrast, not a separate fixed term (that term would be
+  aliased with the model effects), and it describes these 7 models only. c > 0 means the Claude
+  models lose less from images than the open models.
+- 5-model only: the D-study, run reliability, finite and random-model G (a 7-model G would pool
+  run noise at temperature 1.0 with run noise at 0.7), the 10 confirmatory gaps under Holm, the
+  pooled gap, the GLMM item:model contamination flag, the item-level penalty flags, the
+  context-length moderator, items no model passes and the share passed by all or no models.
+- Not done for Claude: the hand read of 30 failures per condition, the transcription test and the
+  reading vs coding analyses. Adding any of them later needs its own dated entry before its first
+  request.
+- Per Claude model, benchmark and condition: refusals by stop_details.category, replies at
+  max_tokens, Opus replies over 2,048 non-thinking tokens, thinking-token share (thinking tokens
+  over output tokens, summed, and the share of replies with any thinking), the share of items with
+  0 of 2 and 2 of 2 runs passed, request errors, and the scoring checks of 3.3.
+
+**Budget.** Only the monthly API credit of the Max plan (US$100 per billing cycle; unused credit
+expires) in the linked Console organization, with no purchased credit, no payment method and
+auto-reload off, so usage cannot go past the credit. Order: smoke, Sonnet run 0, Sonnet run 1, Opus
+run 0, Opus run 1. The cost of a request is its usage times the Batch API price of the model on the
+run date. Before each batch, the projected cost is the sum over (benchmark, condition) of the
+requests times the mean measured cost per request of that model, benchmark and condition, times 1.1.
+It is measured on the smoke until the model's first batch returns, then on all its returned
+requests. The remaining credit is the Console balance minus the projections of batches not yet
+billed. A batch is submitted only if its projection fits; it may be cut to the largest number of
+requests that fits, or else waits for the next grant. A run is complete when each of its 3,980
+requests has an answer or has used its 3 resubmissions. There is no cutoff date: the analysis starts
+only when all 4 runs are complete, and until then Claude answers only go through the collection
+checks and a pass rate per model and condition.
+
+**Deviations from the main run.**
+
+- No seed.
+- Temperature 1.0 instead of 0.7, and top_p not set.
+- Opus always thinks (effort `low`); Sonnet answers without thinking first, at effort `low`, whose
+  behavior the server defines.
+- Opus replies over 2,048 non-thinking tokens fail without grading; the open models' truncated
+  replies were graded (38 of 1,335 passed).
+- 2 runs on every item, set by budget: the D-study rule of 3.1 (per model and benchmark) was not
+  applied, so block-1 items have 2 runs instead of 3.
+- Hosted models whose weights and revisions are not published; only the model id and the dates
+  are recorded.

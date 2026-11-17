@@ -3,6 +3,36 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-17: model set option for the 7-model line
+
+`scripts/analysis.py` takes `--models main|all` on `prep`, `contamination` and `report`, and a new
+`ranks` command builds the rank table of the 7-model line. `main`, the default, is `[models]` and
+writes exactly what it wrote before (all outputs compared byte for byte). `all` is `[models]` then
+the `[claude]` models in config order; its results go to `results/claude/analysis/` and its
+answers CSVs to `scratch/analysis_all/`.
+
+- **One config, not a second one.** The 2026-11-16 entry planned to rerun the commands with a
+  different config. The Claude settings already live in `[claude]` and the Claude rows are a
+  separate table (`results/claude/full/`), so the option reads both instead. The Claude display
+  names are `name` keys in `[claude.*]`.
+- **Deviation from the addendum's drop rule.** The addendum drops an item with a Claude cell short
+  of 2 scored runs from that condition only (all four for delta_mb). The line drops it from all
+  four conditions for every model. `analysis/glmm_main.R` stops on a missing cell for the
+  correlations and the common slope, so its input has to hold only items with all four conditions
+  anyway; the per-condition ranks are the only place the two rules differ. On the collected
+  tables no Claude cell is short, so 0 items are dropped. The count and the rule are printed in
+  `findings.md` of the line.
+- **The grids are checked before the trim.** The open rows are checked against today's grid and
+  the Claude rows against 2 runs on every item; a null seed is allowed for Claude (none is sent)
+  and a null verdict only for `request_error`. Then every model keeps runs 0 and 1.
+- **Contamination in the line is the flags only**, over every item (dropped ones included) and
+  every text run of the other 6 models, run 2 of the open models included, as the addendum says.
+  A Claude answer that never reached grading (refusal, over budget, another stop reason) needs no
+  reply in `claude_<b>_text.jsonl`. No gaps, control or GLMM overlap: those are 5-model-only.
+- **`glmm_main.R` is unchanged.** Run with `--in scratch/analysis_all --out
+  results/claude/analysis`, it also writes `glmm_item_flags.csv` and `glmm_item_model.csv`; they
+  belong to 5-model-only analyses and the line's report does not use them.
+
 ## 2026-11-16: main analysis
 
 Deviations from 3.3, which stays frozen. The commands are in `scripts/analysis.py` and
@@ -42,6 +72,89 @@ Deviations from 3.3, which stays frozen. The commands are in `scripts/analysis.p
   the gap on the flagged items alone next to the rest, with the model's own text rate on each set:
   flagged items are much easier in text and lose much more, which fits recall through the text
   path but also the larger room to fall, so it is read as an association.
+
+## 2026-11-16: second Console organization for Opus run 1
+
+- **The rest of Opus run 1 is paid from the Max plan's monthly API credit of a second Console
+  organization**, under the same conditions as the first. The Console read on Nov 16 showed US$100
+  of promotional credit available, a $0 purchased balance, no payment method, $0 spent this month
+  and a monthly spend limit of $100. Auto-reload is not shown, and with no payment method it has
+  nothing to charge. The first organization's grant ran out on Nov 15 after 64 requests of Opus run
+  1 (US$99.95 of 100 spent). Waiting for its next grant on Dec 7 would hold the analysis three weeks.
+  Model ids, settings, anthropic-version and Batch prices are the same, and the returned model id
+  is logged per reply, so the organization does not change what is measured.
+- **The budget rule reads the second organization's balance.** All batches of the first
+  organization have ended and been billed, so none counts as unbilled there.
+- **Which organization ran a batch is read from the run log**: every Claude batch recorded before
+  this entry ran in the first organization, and every batch whose code commit is this entry or a
+  later one runs in the second.
+- **The first organization's monthly spend limit was raised from $1 to $100** before Sonnet run 0
+  (first batch 2026-11-15 13:34 UTC). It is logged here, as the Nov 14 entry requires.
+
+## 2026-11-14: Claude smoke projection
+
+- **The smoke batches are projected from token counts, not from measured cost.** The budget rule
+  takes the cost per request from the smoke, so it has nothing to measure for the smoke itself.
+  Before each smoke batch, input tokens come from the count_tokens endpoint (free) for the model
+  that will run, every reply is counted at its full max_tokens, both at Batch prices, and the sum is
+  multiplied by 1.1. This is a ceiling; the run log keeps it next to the measured cost.
+- **The smoke is the main run's smoke manifest at run 0**: 5 items per benchmark in all 4
+  conditions, 40 requests per model, one batch per model. Sonnet's batch ends before Opus's is
+  submitted, so whether the $1 spend limit blocks credit usage can be read from one batch.
+- **The client runs on the laptop with page images copied from the cluster**, not re-rendered, so
+  Claude gets the same PNG bytes as the open models.
+- **If the code is not committed when a batch is submitted**, the run log records HEAD and a
+  sha256 of the uncommitted changes (`git diff HEAD` plus untracked files) next to the commit hash,
+  as the main run did with its file-listing hash (Nov 13).
+- **A cut batch takes the cheapest pending requests first**, since the addendum cuts to the largest
+  number of requests that fits. Nothing is dropped: the rest go in a later batch.
+
+## 2026-11-14: Claude extension pre-registered
+
+- **Claude Sonnet 5.5 and Opus 5.5 are added as an exploratory extension**, with the rules in the
+  methodology addendum. This entry and the addendum are committed before the first Claude request,
+  so they are the pre-registration. The 5-model analysis of 3.3 is not changed and is reported
+  first.
+- **Every setting the API allows is the main run's; every one it does not, or that thinking would
+  make unequal, is a reported deviation.** On anthropic-version 2026-10-21 sending temperature,
+  top_p or top_k returns a 400, even at the default value, and there is no seed. Both models
+  therefore sample at temperature 1.0, and run-to-run spread is not comparable with the open models.
+- **Effort `low` for both, the least thinking each model allows.** Sonnet's
+  `thinking: {type: "between_tools"}` gives no thinking before the answer. Opus returns a 400 for
+  `thinking: disabled` at every effort, so it thinks at `low`.
+- **Opus gets max_tokens 16,000 and fails a reply over 2,048 non-thinking tokens.** Its thinking
+  counts toward max_tokens, so 2048 would cut answers for a reason the open models never had. The
+  API reports thinking tokens in usage, so the open models' answer budget can still be applied.
+  Failing those replies before grading is simpler to audit than cutting the text at 2,048 Claude
+  tokens; in the main run only 38 of 1,335 truncated replies passed, so the two rules differ
+  little.
+- **Replies stopped at max_tokens are graded, and refusals fail.** The first follows the Nov 10
+  rule for the open models. A refusal is the model's answer to the item, so it is a failure, not a
+  missing cell; Batch API refusals come back as `succeeded` with `stop_reason: "refusal"`, and
+  fallbacks are not supported in batches.
+- **No item is excluded up front and request errors are not failures.** The open models excluded
+  none and had no request errors. A request still failing after 3 resubmissions is left out of
+  scoring, because an API error says nothing about the model. Billing and spend-limit errors do not
+  use up the 3, so the state of the account cannot drop items.
+- **2 runs on every item, set by budget.** The open models have 3 on the 240 block-1 items; the
+  D-study rule of 3.1 is not applied to Claude. One run would widen the gap intervals by about 4
+  to 21% (block-1 1-run to 2-run standard error ratios; Claude's run noise at temperature 1.0 may
+  differ).
+- **Claude gaps get their own Holm family of 4**, so adding models does not change the 10
+  confirmatory tests. The 7-model line uses runs 0 and 1 for every model, because the analysis code
+  assumes the same runs per item across models. G and run reliability stay 5-model only, because a
+  pooled run variance would mix temperature 1.0 with 0.7.
+- **Open vs closed is a GLMM contrast, not a fixed term.** A closed/open term would be aliased with
+  the model fixed effects, so Claude's mean image-minus-text effect minus the open models' mean is
+  reported per benchmark with a Wald interval and no test.
+- **Only the Max plan's monthly API credit is spent.** The Console read on Nov 14 showed the Start
+  tier, one unused US$100 grant (expires 2026-12-09 00:00 UTC), $0 purchased balance and no payment
+  method, so usage cannot go past the credit. The next grant is due Dec 7. The organization's
+  monthly spend limit shows $1; whether it blocks credit usage is not documented and was not tested,
+  and it stays for now (the smoke will show it). Raising it to the credit amount needs no new entry
+  and is logged. Estimated cost at batch prices, with Qwen3.5 27B token counts as a proxy: Sonnet
+  about US$50 to 137 and Opus about US$100 to 275 for 2 runs, so the runs span several grants. There
+  is no cutoff date; the analysis waits for all 4 runs.
 
 ## 2026-11-14: reliability on the full data
 

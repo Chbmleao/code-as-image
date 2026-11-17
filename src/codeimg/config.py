@@ -13,6 +13,11 @@ def load(path=None):
         return tomllib.load(f)
 
 
+def claude_models(cfg):
+    """{short name: settings} from the [claude] table; its scalar keys are shared settings."""
+    return {k: v for k, v in cfg["claude"].items() if isinstance(v, dict)}
+
+
 def runs_from(path, benchmark, models):
     """{model repo: runs} for one benchmark, from the rows of a D-study file
     (results/block1/dstudy.json, keyed by benchmark and raw model repo id)."""

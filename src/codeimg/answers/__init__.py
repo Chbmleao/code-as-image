@@ -42,8 +42,10 @@ def main(argv=None):
         answers, skipped = [], []
         for path in args.gen:
             for g in read_jsonl(path):
-                if g.get("error"):
-                    continue  # refused by the server; collect records it as request_error
+                if g.get("error") or g.get("fail_reason"):
+                    # refused by the server, or a Claude reply that fails before grading; collect
+                    # records the reason
+                    continue
                 k = answer_key(g["model"], g["id"], g["condition"], g["run"])
                 ans, skip = bench.answer(g, items[g["id"]], k)
                 (answers if ans else skipped).append(ans or skip)
