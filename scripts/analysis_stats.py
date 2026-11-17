@@ -41,6 +41,20 @@ def item_t(values, level=LEVEL):
     return cluster_t(values, list(range(len(values))), level)
 
 
+def wald_contrast(est, cov, weights, level=LEVEL):
+    """sum(w * est) with its Wald interval; cov is the covariance matrix of est, as rows."""
+    k = len(est)
+    if len(weights) != k or len(cov) != k or any(len(r) != k for r in cov):
+        raise ValueError("est, cov and weights must have matching sizes")
+    c = math.fsum(w * e for w, e in zip(weights, est))
+    var = math.fsum(weights[i] * cov[i][j] * weights[j] for i in range(k) for j in range(k))
+    if var < 0:
+        raise ValueError(f"negative variance {var}: cov is not a covariance matrix")
+    se = math.sqrt(var)
+    q = stats.norm.ppf(0.5 + level / 2)
+    return {"est": c, "se": se, "lo": c - q * se, "hi": c + q * se}
+
+
 def holm(ps):
     """Holm adjusted p-values, in the input order; None stays None and is not counted."""
     idx = sorted((k for k, p in enumerate(ps) if p is not None), key=lambda k: ps[k])
