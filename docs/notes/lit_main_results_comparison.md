@@ -117,17 +117,24 @@ Small 3.2 on rendered text or code.
   Wen et al. (2506.05198) find limited, asymmetric cross-modal transfer of memorized facts. [body]
   Our reading (memorized code comes back mostly through the text path) is plausible and untested.
   [ours]
-- Selection: flags come from text-mode answers, so removing flagged items removes items where text
-  succeeds by construction and pulls the remaining gap toward zero. A gap that stays clearly
+- Selection: an item is flagged for a model when another model copies the reference in a text
+  run, so flagged items lean easy in text. In `findings.md` each model's own text rate is 53 to
+  93% on its flagged items against 15 to 47% on the rest, and the flagged items lose 33 to 77 pp.
+  Removing them therefore pulls the remaining gap toward zero, and a gap that stays clearly
   negative after removal is the conservative result. The usual practice in this literature is to
   stratify (Riddell et al. 2403.04811 [abstract]; Ramos et al. with post-cutoff control
-  repositories) rather than drop. [ours]
+  repositories) rather than drop, which is why the flagged items are also reported alone. [ours]
 
 ## Checks the related work suggests
 
-1. Output length per condition, from the existing logs. Reading, Not Thinking ties much of its gap
-   to shorter image-mode answers (Qwen3-VL-8B 618 vs 32 characters; 5 to 19x shorter). [body]
-2. Gap on flagged vs unflagged items, with item-clustered intervals.
+1. Output length per condition. Reading, Not Thinking ties much of its gap to shorter image-mode
+   answers (Qwen3-VL-8B 618 vs 32 characters; 5 to 19x shorter). [body] Done in `findings.md`:
+   our image answers are 0.58 to 1.84 times the text length in mean output tokens, and Gemma 4,
+   which loses most, writes answers as long or longer under image input. Shorter answers do not
+   explain our gap. Our output is code, not a reasoning trace, so this is a weaker test than
+   theirs.
+2. Gap on flagged vs unflagged items, with item-clustered intervals. Done in `findings.md` (see
+   Selection above).
 3. A transcription probe at 10, 12 and 14 px, to separate legibility from token budget. CodeOCR
    sees token errors (1 vs l, 0 vs O) already at 1x; on VISTA-Bench a good OCR front-end recovers
    most of the gap (-25.9 with Tesseract vs -3.1 with PaddleOCR-VL). [body]

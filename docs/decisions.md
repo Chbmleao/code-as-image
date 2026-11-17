@@ -35,6 +35,13 @@ Deviations from 3.3, which stays frozen. The commands are in `scripts/analysis.p
   were streamed over ssh into `scratch/contamination/` (gitignored), nothing was written on the
   cluster, and the DevEval reference is rebuilt from `Source_Code` lines `body_position`, the same
   splice `grade_answers.py` uses. The command fails if a graded text answer has no reply there.
+- **Two exploratory checks come from related work** (`docs/notes/lit_main_results_comparison.md`),
+  outside 3.3 and outside every multiplicity family. Output tokens per model and condition, since
+  Reading, Not Thinking ties its gap to shorter image-mode answers: our image answers are 0.58 to
+  1.84 times the text length, and Gemma 4, which loses most, does not write shorter answers. And
+  the gap on the flagged items alone next to the rest, with the model's own text rate on each set:
+  flagged items are much easier in text and lose much more, which fits recall through the text
+  path but also the larger room to fall, so it is read as an association.
 
 ## 2026-11-14: reliability on the full data
 
