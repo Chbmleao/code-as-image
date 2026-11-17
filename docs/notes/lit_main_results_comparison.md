@@ -90,7 +90,13 @@ Small 3.2 on rendered text or code.
   broken sets between model pairs is 20 to 35%, and 3.1% of questions break more than five models,
   read as model-specific rather than item-specific degradation; up to 35 items per subset, 3 runs,
   no intervals. [body] Low overlap across models is compatible with an item by model by modality
-  interaction; our GLMM would need an item:condition:model term to speak to it. [ours]
+  interaction. Our GLMM already has that term: `cell` is one level per model, item and condition,
+  identifiable from the 2 or 3 runs, so it is the item:condition:model interaction (methods 3.3
+  describes it as overdispersion). Its SD is 1.37 logit on CoderUJB and 1.33 on DevEval, next to
+  0.91 and 1.39 for the item:condition part shared by all models (`results/analysis/glmm.json`).
+  So both readings hold: a model-specific part, as ReadBench says, and a shared item-specific part
+  of about the same size. The cell term is not image-only (it also varies across text cells), so
+  it is not a clean measure of the model-specific image penalty. [ours]
 - No GLMM, IRT or variance-component analysis of the same items under text and image input was
   found. M3IRT (2603.02663, ICLR 2026) splits item difficulty by modality for image-plus-question
   items, not rendered text. [abstract]
@@ -139,6 +145,7 @@ Small 3.2 on rendered text or code.
    sees token errors (1 vs l, 0 vs O) already at 1x; on VISTA-Bench a good OCR front-end recovers
    most of the gap (-25.9 with Tesseract vs -3.1 with PaddleOCR-VL). [body]
 4. Whether any model falls below a no-context baseline, as Qwen-3-VL does in CodeOCR.
-5. An item:condition:model term, and repeated items to estimate repeatability within a modality.
+5. An item:condition:model term (already in the GLMM as `cell`, see section 4), and repeated items
+   to estimate repeatability within a modality (the 2 or 3 runs per cell already do this).
 6. A rendering without blank space as a layout control, or at least a discussion of CodeShrink's
    layout result.
