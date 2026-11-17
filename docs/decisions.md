@@ -3,6 +3,36 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-17: model set option for the 7-model line
+
+`scripts/analysis.py` takes `--models main|all` on `prep`, `contamination` and `report`, and a new
+`ranks` command builds the rank table of the 7-model line. `main`, the default, is `[models]` and
+writes exactly what it wrote before (all outputs compared byte for byte). `all` is `[models]` then
+the `[claude]` models in config order; its results go to `results/claude/analysis/` and its
+answers CSVs to `scratch/analysis_all/`.
+
+- **One config, not a second one.** The 2026-11-16 entry planned to rerun the commands with a
+  different config. The Claude settings already live in `[claude]` and the Claude rows are a
+  separate table (`results/claude/full/`), so the option reads both instead. The Claude display
+  names are `name` keys in `[claude.*]`.
+- **Deviation from the addendum's drop rule.** The addendum drops an item with a Claude cell short
+  of 2 scored runs from that condition only (all four for delta_mb). The line drops it from all
+  four conditions for every model. `analysis/glmm_main.R` stops on a missing cell for the
+  correlations and the common slope, so its input has to hold only items with all four conditions
+  anyway; the per-condition ranks are the only place the two rules differ. On the collected
+  tables no Claude cell is short, so 0 items are dropped. The count and the rule are printed in
+  `findings.md` of the line.
+- **The grids are checked before the trim.** The open rows are checked against today's grid and
+  the Claude rows against 2 runs on every item; a null seed is allowed for Claude (none is sent)
+  and a null verdict only for `request_error`. Then every model keeps runs 0 and 1.
+- **Contamination in the line is the flags only**, over every item (dropped ones included) and
+  every text run of the other 6 models, run 2 of the open models included, as the addendum says.
+  A Claude answer that never reached grading (refusal, over budget, another stop reason) needs no
+  reply in `claude_<b>_text.jsonl`. No gaps, control or GLMM overlap: those are 5-model-only.
+- **`glmm_main.R` is unchanged.** Run with `--in scratch/analysis_all --out
+  results/claude/analysis`, it also writes `glmm_item_flags.csv` and `glmm_item_model.csv`; they
+  belong to 5-model-only analyses and the line's report does not use them.
+
 ## 2026-11-16: main analysis
 
 Deviations from 3.3, which stays frozen. The commands are in `scripts/analysis.py` and
