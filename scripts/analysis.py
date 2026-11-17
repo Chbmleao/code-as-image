@@ -201,6 +201,16 @@ def scoring_shares(data):
                       for c in data["conditions"]} for m in data["models"]}
 
 
+def output_lengths(data):
+    """Output tokens per model and condition over every answer. Shorter answers under image input
+    are the main cause of the gap in Reading, Not Thinking (arXiv 2603.09095)."""
+    toks = defaultdict(list)
+    for r in data["rows"]:
+        toks[(r["model"], r["condition"])].append(r["output_tokens"])
+    return {name(m): {c: {**spread(toks[(m, c)]), "mean": mean(toks[(m, c)])}
+                      for c in data["conditions"]} for m in data["models"]}
+
+
 def benchmark_gaps(data, lengths, buckets, seed, n_boot):
     b, models, conds = data["benchmark"], data["models"], data["conditions"]
     sizes = conds[1:]
@@ -267,6 +277,7 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
              if all(max(cells[m][c][j]) == 0 for m in models for c in conds)]
     out["never_passed"] = [(b, items[j], projects[j]) for j in never]
     out["scoring"] = scoring_shares(data)
+    out["output_tokens"] = output_lengths(data)
     return out
 
 
@@ -466,7 +477,8 @@ def contamination_report(inputs, copies_by_bench, modes, seed=CONTROL_SEED,
         bins = [(rate_bin[j], len_bin[j]) for j in range(len(items))]
         out = {"copy_answers": sum(copies.values()),
                "copied_items": len({i for (_, i, _), v in copies.items() if v}),
-               "flagged": {name(m): len(flags[m]) for m in models}, "gaps": [], "control": {}}
+               "flagged": {name(m): len(flags[m]) for m in models}, "gaps": [], "control": {},
+               "flagged_only": []}
         for m in models:
             keep = [j for j, i in enumerate(items) if i not in flags[m]]
             for label, cond in [("mean", sizes)] + [(s, s) for s in sizes]:
@@ -481,6 +493,13 @@ def contamination_report(inputs, copies_by_bench, modes, seed=CONTROL_SEED,
             if not flagged:
                 out["control"][name(m)] = None
                 continue
+            flagged.sort()
+            # flags come from the other models' text answers, so flagged items lean easy in text
+            row = test_row(m, [d[j] for j in flagged], [projects[j] for j in flagged])
+            row["text_flagged"] = mean([y[m]["text"][j] for j in flagged])
+            row["text_rest"] = mean([y[m]["text"][j] for j in keep])
+            row["gap_rest"] = mean([d[j] for j in keep])
+            out["flagged_only"].append(row)
             base = mean(d)
             observed = mean([d[j] for j in keep]) - base
             pool = set(keep)
@@ -632,6 +651,14 @@ def gaps_sections(b, g, gl):
     out += md_table(["Model"] + [c for c in conds if c != "image"],
                     [[m] + [" / ".join(pp(v[k], False) for k in keys)
                             for v in g["scoring"][m].values()] for m in models])
+    out += [("Output tokens over all runs, median [q1, q3] and mean, and the image-to-text ratio "
+             "of the means:"), ""]
+    ot = g["output_tokens"]
+    out += md_table(["Model"] + [c for c in conds if c != "image"] + [f"ratio {s}" for s in sizes],
+                    [[m] + [f"{t['median']:g} [{t['q1']:g}, {t['q3']:g}], {t['mean']:.0f}"
+                            for t in ot[m].values()]
+                     + [num(ot[m][s]["mean"] / ot[m]["text"]["mean"], 2) for s in sizes]
+                     for m in models])
     return out
 
 
@@ -702,6 +729,14 @@ def contamination_sections(b, v, top):
              "and its range sits closer to 0 than a full match would:"), ""]
     out += md_table(["Model", "Observed change pp", "Random 95% range", "Share <= observed",
                      "Removed per draw", "Bins short of items"], rows)
+    out += [("Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, "
+             "with the model's own text rate on each set. Flags come from the other models' text "
+             "answers, so a higher text rate on flagged items says they lean easy in text:"), ""]
+    out += md_table(["Model", "Flagged", "Text % flagged", "Text % rest", "Gap flagged pp",
+                     "Cluster 95% CI", "Gap rest pp"],
+                    [[r["model"], r["n"], pp(r["text_flagged"], False), pp(r["text_rest"], False),
+                      pp(r["est"]), interval(r["cluster"]["lo"], r["cluster"]["hi"]),
+                      pp(r["gap_rest"])] for r in v["flagged_only"]])
     out += [(f"Copy flag against the GLMM flag (item:model mode in the model's top "
             f"{100 * top:g}%):"), ""]
     out += md_table(["Model", "Both", "Copy only", "GLMM only", "Neither"],

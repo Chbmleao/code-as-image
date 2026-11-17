@@ -250,3 +250,38 @@ def test_report_formats_points_and_missing_values():
     assert an.pp(0.540441, False) == "54.0"
     assert an.interval(None, None) == "n/a"
     assert an.pval(None) == "n/a" and an.pval(3.38e-06) == "3.38e-06"
+
+
+def test_output_lengths_cover_every_run():
+    m = next(iter(rel.ds.NAMES))
+    passes = {"A": {c: [1, 0] for c in CONDS}, "B": {c: [0, 1] for c in CONDS}}
+    rows, items, parts = toy([m], passes, {"A": "p", "B": "q"})
+    for k, r in enumerate(r for r in rows if r["condition"] == "text"):
+        r["output_tokens"] = 10 * (k + 1)
+    data = an.load_benchmark("deveval", rows, items, [m], CONDS, parts)
+    got = an.output_lengths(data)[an.name(m)]
+    assert got["text"]["mean"] == pytest.approx(25)
+    assert got["text"]["median"] == rel.quantile([10, 20, 30, 40], 0.5)
+    assert got["image10"]["mean"] == 50
+
+
+def test_flagged_items_get_their_own_gap(tmp_path):
+    _, inputs = _six_model_inputs(tmp_path)
+    data, lengths = inputs["deveval"]
+    models, items = data["models"], data["items"]
+    copies = {(r["model"], r["id"], r["run"]): False for r in data["rows"]
+              if r["condition"] == "text"}
+    copies[(models[0], items[0], 0)] = True
+    modes = {"deveval": {(m, i): float(k) for m in models for k, i in enumerate(items)}}
+    rep = an.contamination_report({"deveval": (data, lengths)}, {"deveval": copies}, modes,
+                                  n_draws=5)
+    rows = rep["benchmarks"]["deveval"]["flagged_only"]
+    # the copying model's own items are not flagged for it, so it gets no row
+    assert [r["model"] for r in rows] == [an.name(m) for m in models[1:]]
+    y = an.scores(data)[models[1]]
+    d = an.differences(y, CONDS[1:], "text")
+    r = rows[0]
+    assert (r["n"], r["est"]) == (1, pytest.approx(d[0]))
+    assert r["text_flagged"] == pytest.approx(y["text"][0])
+    assert r["text_rest"] == pytest.approx(an.mean(y["text"][1:]))
+    assert r["gap_rest"] == pytest.approx(an.mean(d[1:]))

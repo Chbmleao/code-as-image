@@ -185,6 +185,16 @@ Scoring shares (%): empty / truncated / no code:
 | Qwen3.5 9B | 0.0 / 11.5 / 1.3 | 0.0 / 5.1 / 0.6 | 0.0 / 10.6 / 1.3 | 0.0 / 7.1 / 0.6 |
 | Qwen2.5-VL 7B | 0.0 / 2.2 / 1.9 | 0.0 / 1.6 / 4.8 | 0.0 / 0.6 / 3.5 | 0.0 / 1.9 / 4.2 |
 
+Output tokens over all runs, median [q1, q3] and mean, and the image-to-text ratio of the means:
+
+| Model | text | image10 | image12 | image14 | ratio image10 | ratio image12 | ratio image14 |
+|---|---|---|---|---|---|---|---|
+| Qwen3.5 27B | 469 [300, 777], 664 | 320 [210, 509], 417 | 368 [225, 577], 475 | 412 [269, 645], 529 | 0.63 | 0.72 | 0.80 |
+| Gemma 4 12B | 315 [194, 490], 390 | 514 [398, 660], 559 | 489 [364, 633], 505 | 497 [356, 651], 528 | 1.43 | 1.29 | 1.35 |
+| Mistral Small 3.2 24B | 488 [385, 604], 530 | 428 [354, 552], 467 | 418 [335, 547], 465 | 403 [319, 534], 442 | 0.88 | 0.88 | 0.83 |
+| Qwen3.5 9B | 632 [394, 1071], 831 | 437 [319, 662], 596 | 459 [330, 740], 671 | 465 [343, 748], 651 | 0.72 | 0.81 | 0.78 |
+| Qwen2.5-VL 7B | 482 [364, 626], 551 | 286 [206, 425], 346 | 285 [191, 400], 317 | 267 [170, 386], 338 | 0.63 | 0.58 | 0.61 |
+
 ### DevEval
 
 859 items in 79 clusters. No item is dropped: the grid check fails on any missing cell, so counting dropped items as failures changes nothing.
@@ -337,6 +347,16 @@ Scoring shares (%): empty / truncated / no code / no def line of the target:
 | Qwen3.5 9B | 0.0 / 3.9 / 0.0 / 6.2 | 0.0 / 12.4 / 0.0 / 2.0 | 0.0 / 12.4 / 0.0 / 1.6 | 0.0 / 13.1 / 0.0 / 1.0 |
 | Qwen2.5-VL 7B | 0.0 / 1.6 / 0.0 / 0.6 | 0.0 / 1.9 / 0.5 / 3.6 | 0.0 / 1.8 / 0.4 / 4.0 | 0.0 / 1.5 / 0.3 / 3.7 |
 
+Output tokens over all runs, median [q1, q3] and mean, and the image-to-text ratio of the means:
+
+| Model | text | image10 | image12 | image14 | ratio image10 | ratio image12 | ratio image14 |
+|---|---|---|---|---|---|---|---|
+| Qwen3.5 27B | 277 [175, 469], 426 | 233 [158, 350], 308 | 231 [160, 352], 312 | 226 [157, 356], 309 | 0.72 | 0.73 | 0.73 |
+| Gemma 4 12B | 216 [152, 334], 275 | 203 [148, 297], 278 | 218 [154, 318], 284 | 222 [157, 326], 303 | 1.01 | 1.03 | 1.10 |
+| Mistral Small 3.2 24B | 254 [172, 371], 294 | 254 [180, 382], 312 | 246 [173, 368], 301 | 244 [170, 366], 295 | 1.06 | 1.02 | 1.00 |
+| Qwen3.5 9B | 269 [166, 459], 424 | 510 [379, 892], 775 | 511 [381, 958], 781 | 498 [377, 917], 780 | 1.83 | 1.84 | 1.84 |
+| Qwen2.5-VL 7B | 390 [267, 536], 447 | 208 [144, 308], 280 | 207 [149, 302], 276 | 201 [143, 293], 269 | 0.63 | 0.62 | 0.60 |
+
 ## GLMM
 
 `cbind(k, n - k) ~ model * condition + (1 | item) + (1 | item:model) + (1 | item:condition) + (1 | project) + (1 | project:condition) + (1 | cell)`, glmmTMB 1.1.14, R 4.5.3.
@@ -478,6 +498,16 @@ Matched random removal (change of the mean-over-sizes gap when the same number o
 | Qwen3.5 9B | +5.0 | [+2.7, +6.9] | 0.550 | 22 of 25 | bin (4, 0) short by 1, bin (4, 1) short by 2 |
 | Qwen2.5-VL 7B | +4.5 | [+1.3, +4.1] | 0.996 | 22 of 25 | bin (4, 0) short by 1, bin (4, 1) short by 2 |
 
+Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, with the model's own text rate on each set. Flags come from the other models' text answers, so a higher text rate on flagged items says they lean easy in text:
+
+| Model | Flagged | Text % flagged | Text % rest | Gap flagged pp | Cluster 95% CI | Gap rest pp |
+|---|---|---|---|---|---|---|
+| Qwen3.5 27B | 22 | 88.6 | 47.4 | -46.5 | [-56.4, -36.5] | -28.8 |
+| Gemma 4 12B | 24 | 83.3 | 36.2 | -77.3 | [-97.9, -56.7] | -27.4 |
+| Mistral Small 3.2 24B | 24 | 81.2 | 35.3 | -63.0 | [-80.0, -45.9] | -24.3 |
+| Qwen3.5 9B | 25 | 77.3 | 33.3 | -51.3 | [-64.2, -38.5] | -23.9 |
+| Qwen2.5-VL 7B | 25 | 52.7 | 15.3 | -32.7 | [-49.0, -16.3] | -8.3 |
+
 Copy flag against the GLMM flag (item:model mode in the model's top 10%):
 
 | Model | Both | Copy only | GLMM only | Neither |
@@ -524,6 +554,16 @@ Matched random removal (change of the mean-over-sizes gap when the same number o
 | Mistral Small 3.2 24B | +6.7 | [+2.8, +4.5] | 1.000 | 141 of 145 | bin (4, 2) short by 4 |
 | Qwen3.5 9B | +4.6 | [+2.6, +4.2] | 0.999 | 140 of 144 | bin (4, 2) short by 4 |
 | Qwen2.5-VL 7B | +3.8 | [+2.2, +3.7] | 0.990 | 146 of 146 | none |
+
+Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, with the model's own text rate on each set. Flags come from the other models' text answers, so a higher text rate on flagged items says they lean easy in text:
+
+| Model | Flagged | Text % flagged | Text % rest | Gap flagged pp | Cluster 95% CI | Gap rest pp |
+|---|---|---|---|---|---|---|
+| Qwen3.5 27B | 142 | 85.6 | 47.1 | -35.1 | [-44.0, -26.2] | -26.4 |
+| Gemma 4 12B | 141 | 78.7 | 39.7 | -53.7 | [-66.9, -40.5] | -25.7 |
+| Mistral Small 3.2 24B | 145 | 92.5 | 39.3 | -64.1 | [-73.2, -55.1] | -24.4 |
+| Qwen3.5 9B | 144 | 76.5 | 34.1 | -46.0 | [-57.1, -34.9] | -18.8 |
+| Qwen2.5-VL 7B | 146 | 61.0 | 23.8 | -35.0 | [-44.4, -25.6] | -12.6 |
 
 Copy flag against the GLMM flag (item:model mode in the model's top 10%):
 
