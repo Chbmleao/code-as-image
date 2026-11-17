@@ -8,7 +8,16 @@ requires-python = ">=3.9"
 dependencies = ["pillow>=10"]
 
 [dependency-groups]
+analysis = [
+    "matplotlib>=3.9.4",
+    "numpy>=2.0.2",
+    "scipy>=1.13.1",
+]
 dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.uv]
+# the analysis tests need scipy, so `uv run pytest` installs the analysis group too
+default-groups = ["dev", "analysis"]
 
 [build-system]
 requires = ["hatchling"]
