@@ -14,4 +14,5 @@ it by section and page.
 | `lit_llm_eval_variance.md` | Papers on run-to-run noise, paired standard errors and item sampling in LLM evals |
 | `lit_code_eval_statistics.md` | Papers on the statistical analysis of code benchmarks |
 | `lit_rendered_text_and_code.md` | How published papers evaluate VLMs on text or code rendered as images |
+| `lit_main_results_comparison.md` | How each main-analysis finding compares with that related work |
 | `token_costs.md` | Pages per item and image-to-text token ratios per model at 10, 12 and 14 px |

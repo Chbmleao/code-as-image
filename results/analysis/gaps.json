@@ -1,0 +1,5478 @@
+{
+ "settings": {
+  "models": [
+   "Qwen3.5 27B",
+   "Gemma 4 12B",
+   "Mistral Small 3.2 24B",
+   "Qwen3.5 9B",
+   "Qwen2.5-VL 7B"
+  ],
+  "seed": 20261114,
+  "n_boot": 2000,
+  "level": 0.95,
+  "length_buckets": [
+   [
+    2000,
+    4000
+   ],
+   [
+    4000,
+    8000
+   ],
+   [
+    8000,
+    12000
+   ]
+  ],
+  "length_column": "qwen35",
+  "interval": "CR1 cluster t with G - 1 df; item line: paired t",
+  "pooled_interval": "95% equal-tailed, type-1 percentiles"
+ },
+ "benchmarks": {
+  "coderujb": {
+   "n_items": 136,
+   "n_clusters": 14,
+   "rates": {
+    "text": {
+     "Qwen3.5 27B": 0.540441,
+     "Gemma 4 12B": 0.444853,
+     "Mistral Small 3.2 24B": 0.433824,
+     "Qwen3.5 9B": 0.414216,
+     "Qwen2.5-VL 7B": 0.221814
+    },
+    "image10": {
+     "Qwen3.5 27B": 0.203431,
+     "Gemma 4 12B": 0.088235,
+     "Mistral Small 3.2 24B": 0.08701,
+     "Qwen3.5 9B": 0.074755,
+     "Qwen2.5-VL 7B": 0.078431
+    },
+    "image12": {
+     "Qwen3.5 27B": 0.189951,
+     "Gemma 4 12B": 0.090686,
+     "Mistral Small 3.2 24B": 0.131127,
+     "Qwen3.5 9B": 0.140931,
+     "Qwen2.5-VL 7B": 0.110294
+    },
+    "image14": {
+     "Qwen3.5 27B": 0.278186,
+     "Gemma 4 12B": 0.068627,
+     "Mistral Small 3.2 24B": 0.150735,
+     "Qwen3.5 9B": 0.159314,
+     "Qwen2.5-VL 7B": 0.093137
+    },
+    "image": {
+     "Qwen3.5 27B": 0.223856,
+     "Gemma 4 12B": 0.082516,
+     "Mistral Small 3.2 24B": 0.122958,
+     "Qwen3.5 9B": 0.125,
+     "Qwen2.5-VL 7B": 0.093954
+    }
+   },
+   "ranks": {
+    "text": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 2.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 4.0,
+     "Qwen2.5-VL 7B": 5.0
+    },
+    "image": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 5.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 4.0
+    },
+    "image10": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 2.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 5.0,
+     "Qwen2.5-VL 7B": 4.0
+    },
+    "image12": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 5.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 4.0
+    },
+    "image14": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 5.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 4.0
+    }
+   },
+   "main": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "est": -0.316585,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.041101,
+      "lo": -0.405378,
+      "hi": -0.227792,
+      "p": 3.38e-06
+     },
+     "item": {
+      "df": 135,
+      "se": 0.031211,
+      "lo": -0.37831,
+      "hi": -0.25486,
+      "p": 2.55e-18
+     },
+     "holm": 1.01e-05
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "est": -0.362337,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.037703,
+      "lo": -0.44379,
+      "hi": -0.280883,
+      "p": 2.85e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.039565,
+      "lo": -0.440584,
+      "hi": -0.284089,
+      "p": 7.49e-16
+     },
+     "holm": 1.14e-06
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "est": -0.310866,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.047078,
+      "lo": -0.412572,
+      "hi": -0.20916,
+      "p": 1.71e-05
+     },
+     "item": {
+      "df": 135,
+      "se": 0.032093,
+      "lo": -0.374336,
+      "hi": -0.247396,
+      "p": 3.6e-17
+     },
+     "holm": 3.41e-05
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "est": -0.289216,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.018136,
+      "lo": -0.328396,
+      "hi": -0.250035,
+      "p": 6.47e-10
+     },
+     "item": {
+      "df": 135,
+      "se": 0.035375,
+      "lo": -0.359177,
+      "hi": -0.219254,
+      "p": 1.9e-13
+     },
+     "holm": 3.24e-09
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "est": -0.127859,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.037165,
+      "lo": -0.208149,
+      "hi": -0.04757,
+      "p": 0.00439
+     },
+     "item": {
+      "df": 135,
+      "se": 0.026255,
+      "lo": -0.179784,
+      "hi": -0.075935,
+      "p": 3.08e-06
+     },
+     "holm": 0.00439
+    }
+   ],
+   "pooled": {
+    "est": -0.281373,
+    "lo": -0.332489,
+    "hi": -0.219766,
+    "n_boot": 2000
+   },
+   "sizes": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "est": -0.33701,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.032973,
+      "lo": -0.408245,
+      "hi": -0.265775,
+      "p": 1.4e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.036175,
+      "lo": -0.408552,
+      "hi": -0.265468,
+      "p": 3.03e-16
+     },
+     "bh": 2.33e-07
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "est": -0.35049,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.047558,
+      "lo": -0.453232,
+      "hi": -0.247748,
+      "p": 5.43e-06
+     },
+     "item": {
+      "df": 135,
+      "se": 0.0365,
+      "lo": -0.422676,
+      "hi": -0.278305,
+      "p": 5.84e-17
+     },
+     "bh": 7.08e-06
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "est": -0.262255,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.044831,
+      "lo": -0.359107,
+      "hi": -0.165403,
+      "p": 5.69e-05
+     },
+     "item": {
+      "df": 135,
+      "se": 0.033262,
+      "lo": -0.328037,
+      "hi": -0.196473,
+      "p": 9.47e-13
+     },
+     "bh": 6.56e-05
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "est": -0.356618,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.038077,
+      "lo": -0.438879,
+      "hi": -0.274357,
+      "p": 3.83e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.03975,
+      "lo": -0.43523,
+      "hi": -0.278005,
+      "p": 2.17e-15
+     },
+     "bh": 5.47e-07
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "est": -0.354167,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.034998,
+      "lo": -0.429776,
+      "hi": -0.278557,
+      "p": 1.57e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.039912,
+      "lo": -0.4331,
+      "hi": -0.275233,
+      "p": 3.78e-15
+     },
+     "bh": 2.35e-07
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "est": -0.376225,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.042919,
+      "lo": -0.468945,
+      "hi": -0.283506,
+      "p": 8.11e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.040906,
+      "lo": -0.457125,
+      "hi": -0.295326,
+      "p": 5.98e-16
+     },
+     "bh": 1.11e-06
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "est": -0.346814,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.051615,
+      "lo": -0.458321,
+      "hi": -0.235307,
+      "p": 1.43e-05
+     },
+     "item": {
+      "df": 135,
+      "se": 0.036408,
+      "lo": -0.418817,
+      "hi": -0.274811,
+      "p": 9.08e-17
+     },
+     "bh": 1.78e-05
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "est": -0.302696,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.048728,
+      "lo": -0.407966,
+      "hi": -0.197426,
+      "p": 3.16e-05
+     },
+     "item": {
+      "df": 135,
+      "se": 0.035616,
+      "lo": -0.373133,
+      "hi": -0.23226,
+      "p": 3.13e-14
+     },
+     "bh": 3.79e-05
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "est": -0.283088,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.051568,
+      "lo": -0.394494,
+      "hi": -0.171683,
+      "p": 0.000104
+     },
+     "item": {
+      "df": 135,
+      "se": 0.031901,
+      "lo": -0.346179,
+      "hi": -0.219998,
+      "p": 3.77e-15
+     },
+     "bh": 0.000116
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "est": -0.339461,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.033424,
+      "lo": -0.411668,
+      "hi": -0.267253,
+      "p": 1.5e-07
+     },
+     "item": {
+      "df": 135,
+      "se": 0.038008,
+      "lo": -0.414628,
+      "hi": -0.264293,
+      "p": 2.72e-15
+     },
+     "bh": 2.35e-07
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "est": -0.273284,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.017081,
+      "lo": -0.310186,
+      "hi": -0.236383,
+      "p": 6.21e-10
+     },
+     "item": {
+      "df": 135,
+      "se": 0.038689,
+      "lo": -0.349799,
+      "hi": -0.19677,
+      "p": 7.8e-11
+     },
+     "bh": 1.17e-09
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "est": -0.254902,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.019725,
+      "lo": -0.297515,
+      "hi": -0.212289,
+      "p": 8.55e-09
+     },
+     "item": {
+      "df": 135,
+      "se": 0.036775,
+      "lo": -0.327632,
+      "hi": -0.182172,
+      "p": 1.56e-10
+     },
+     "bh": 1.51e-08
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "est": -0.143382,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.047848,
+      "lo": -0.246752,
+      "hi": -0.040013,
+      "p": 0.0103
+     },
+     "item": {
+      "df": 135,
+      "se": 0.029012,
+      "lo": -0.20076,
+      "hi": -0.086005,
+      "p": 2.25e-06
+     },
+     "bh": 0.0103
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "est": -0.11152,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.032954,
+      "lo": -0.182711,
+      "hi": -0.040328,
+      "p": 0.00489
+     },
+     "item": {
+      "df": 135,
+      "se": 0.02993,
+      "lo": -0.170713,
+      "hi": -0.052326,
+      "p": 0.000285
+     },
+     "bh": 0.00506
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "est": -0.128676,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.037576,
+      "lo": -0.209854,
+      "hi": -0.047499,
+      "p": 0.00452
+     },
+     "item": {
+      "df": 135,
+      "se": 0.027392,
+      "lo": -0.182849,
+      "hi": -0.074503,
+      "p": 6.4e-06
+     },
+     "bh": 0.00485
+    }
+   ],
+   "size_diffs": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image12-image10",
+     "est": -0.01348,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.018384,
+      "lo": -0.053197,
+      "hi": 0.026236,
+      "p": 0.476
+     },
+     "item": {
+      "df": 135,
+      "se": 0.022883,
+      "lo": -0.058737,
+      "hi": 0.031776,
+      "p": 0.557
+     },
+     "bh": 0.596
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image14-image10",
+     "est": 0.074755,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.015909,
+      "lo": 0.040385,
+      "hi": 0.109125,
+      "p": 0.000416
+     },
+     "item": {
+      "df": 135,
+      "se": 0.031925,
+      "lo": 0.011618,
+      "hi": 0.137892,
+      "p": 0.0207
+     },
+     "bh": 0.00139
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image14-image12",
+     "est": 0.088235,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.016786,
+      "lo": 0.051972,
+      "hi": 0.124498,
+      "p": 0.000155
+     },
+     "item": {
+      "df": 135,
+      "se": 0.030525,
+      "lo": 0.027865,
+      "hi": 0.148605,
+      "p": 0.00448
+     },
+     "bh": 0.000582
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image12-image10",
+     "est": 0.002451,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.006505,
+      "lo": -0.011602,
+      "hi": 0.016504,
+      "p": 0.712
+     },
+     "item": {
+      "df": 135,
+      "se": 0.009991,
+      "lo": -0.017307,
+      "hi": 0.022209,
+      "p": 0.807
+     },
+     "bh": 0.76
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image14-image10",
+     "est": -0.019608,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.019055,
+      "lo": -0.060774,
+      "hi": 0.021558,
+      "p": 0.322
+     },
+     "item": {
+      "df": 135,
+      "se": 0.013368,
+      "lo": -0.046046,
+      "hi": 0.00683,
+      "p": 0.145
+     },
+     "bh": 0.439
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image14-image12",
+     "est": -0.022059,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.018735,
+      "lo": -0.062533,
+      "hi": 0.018416,
+      "p": 0.26
+     },
+     "item": {
+      "df": 135,
+      "se": 0.013111,
+      "lo": -0.047988,
+      "hi": 0.003871,
+      "p": 0.0948
+     },
+     "bh": 0.39
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image12-image10",
+     "est": 0.044118,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.025833,
+      "lo": -0.011691,
+      "hi": 0.099926,
+      "p": 0.111
+     },
+     "item": {
+      "df": 135,
+      "se": 0.020452,
+      "lo": 0.00367,
+      "hi": 0.084566,
+      "p": 0.0328
+     },
+     "bh": 0.209
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image14-image10",
+     "est": 0.063725,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.039063,
+      "lo": -0.020665,
+      "hi": 0.148116,
+      "p": 0.127
+     },
+     "item": {
+      "df": 135,
+      "se": 0.024357,
+      "lo": 0.015555,
+      "hi": 0.111896,
+      "p": 0.0099
+     },
+     "bh": 0.224
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image14-image12",
+     "est": 0.019608,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.030867,
+      "lo": -0.047076,
+      "hi": 0.086292,
+      "p": 0.536
+     },
+     "item": {
+      "df": 135,
+      "se": 0.023535,
+      "lo": -0.026938,
+      "hi": 0.066154,
+      "p": 0.406
+     },
+     "bh": 0.644
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image12-image10",
+     "est": 0.066176,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.02505,
+      "lo": 0.01206,
+      "hi": 0.120293,
+      "p": 0.0203
+     },
+     "item": {
+      "df": 135,
+      "se": 0.023226,
+      "lo": 0.020242,
+      "hi": 0.112111,
+      "p": 0.00507
+     },
+     "bh": 0.0508
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image14-image10",
+     "est": 0.084559,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.036338,
+      "lo": 0.006055,
+      "hi": 0.163062,
+      "p": 0.0368
+     },
+     "item": {
+      "df": 135,
+      "se": 0.023467,
+      "lo": 0.038148,
+      "hi": 0.130969,
+      "p": 0.000441
+     },
+     "bh": 0.0848
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image14-image12",
+     "est": 0.018382,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.022039,
+      "lo": -0.02923,
+      "hi": 0.065995,
+      "p": 0.419
+     },
+     "item": {
+      "df": 135,
+      "se": 0.02299,
+      "lo": -0.027085,
+      "hi": 0.06385,
+      "p": 0.425
+     },
+     "bh": 0.547
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image12-image10",
+     "est": 0.031863,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.029433,
+      "lo": -0.031723,
+      "hi": 0.095448,
+      "p": 0.299
+     },
+     "item": {
+      "df": 135,
+      "se": 0.021762,
+      "lo": -0.011176,
+      "hi": 0.074902,
+      "p": 0.145
+     },
+     "bh": 0.427
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image14-image10",
+     "est": 0.014706,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.0295,
+      "lo": -0.049025,
+      "hi": 0.078437,
+      "p": 0.626
+     },
+     "item": {
+      "df": 135,
+      "se": 0.021196,
+      "lo": -0.027213,
+      "hi": 0.056624,
+      "p": 0.489
+     },
+     "bh": 0.696
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image14-image12",
+     "est": -0.017157,
+     "n": 136,
+     "cluster": {
+      "clusters": 14,
+      "df": 13,
+      "se": 0.013947,
+      "lo": -0.047288,
+      "hi": 0.012974,
+      "p": 0.24
+     },
+     "item": {
+      "df": 135,
+      "se": 0.01835,
+      "lo": -0.053447,
+      "hi": 0.019134,
+      "p": 0.351
+     },
+     "bh": 0.38
+    }
+   ],
+   "tokens": {
+    "Qwen3.5 27B": {
+     "text": {
+      "median": 4678,
+      "q1": 2960,
+      "q3": 7762
+     },
+     "image10": {
+      "median": 1547,
+      "q1": 1027,
+      "q3": 2343
+     },
+     "image12": {
+      "median": 2169,
+      "q1": 1389,
+      "q3": 3314
+     },
+     "image14": {
+      "median": 2891,
+      "q1": 1846,
+      "q3": 4456
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "median": 4844,
+      "q1": 3080,
+      "q3": 8170
+     },
+     "image10": {
+      "median": 706,
+      "q1": 495,
+      "q3": 947
+     },
+     "image12": {
+      "median": 917,
+      "q1": 696,
+      "q3": 1220
+     },
+     "image14": {
+      "median": 1073,
+      "q1": 761,
+      "q3": 1552
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "median": 5062,
+      "q1": 3374,
+      "q3": 7866
+     },
+     "image10": {
+      "median": 2641,
+      "q1": 1892,
+      "q3": 3706
+     },
+     "image12": {
+      "median": 3455,
+      "q1": 2415,
+      "q3": 5063
+     },
+     "image14": {
+      "median": 4463,
+      "q1": 3029,
+      "q3": 6662
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "median": 4678,
+      "q1": 2960,
+      "q3": 7762
+     },
+     "image10": {
+      "median": 1547,
+      "q1": 1027,
+      "q3": 2343
+     },
+     "image12": {
+      "median": 2169,
+      "q1": 1389,
+      "q3": 3314
+     },
+     "image14": {
+      "median": 2891,
+      "q1": 1846,
+      "q3": 4456
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "median": 4270,
+      "q1": 2704,
+      "q3": 7075
+     },
+     "image10": {
+      "median": 1989,
+      "q1": 1283,
+      "q3": 3014
+     },
+     "image12": {
+      "median": 2805,
+      "q1": 1775,
+      "q3": 4251
+     },
+     "image14": {
+      "median": 3738,
+      "q1": 2380,
+      "q3": 5812
+     }
+    }
+   },
+   "token_ratio": {
+    "Qwen3.5 27B": {
+     "image10": 0.326689,
+     "image12": 0.457094,
+     "image14": 0.611881,
+     "mean_over_sizes": 0.465221
+    },
+    "Gemma 4 12B": {
+     "image10": 0.144923,
+     "image12": 0.178291,
+     "image14": 0.225538,
+     "mean_over_sizes": 0.182917
+    },
+    "Mistral Small 3.2 24B": {
+     "image10": 0.528018,
+     "image12": 0.690433,
+     "image14": 0.893598,
+     "mean_over_sizes": 0.704016
+    },
+    "Qwen3.5 9B": {
+     "image10": 0.326689,
+     "image12": 0.457094,
+     "image14": 0.611881,
+     "mean_over_sizes": 0.465221
+    },
+    "Qwen2.5-VL 7B": {
+     "image10": 0.46192,
+     "image12": 0.64688,
+     "image14": 0.868954,
+     "mean_over_sizes": 0.659251
+    }
+   },
+   "lopo": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "left_out": "Math",
+     "est": -0.335556,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.051809,
+      "lo": -0.448438,
+      "hi": -0.222673,
+      "p": 3.04e-05
+     },
+     "item": {
+      "df": 99,
+      "se": 0.035882,
+      "lo": -0.406753,
+      "hi": -0.264358,
+      "p": 2.84e-15
+     }
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "left_out": "Math",
+     "est": -0.350556,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.050172,
+      "lo": -0.45987,
+      "hi": -0.241241,
+      "p": 1.46e-05
+     },
+     "item": {
+      "df": 99,
+      "se": 0.046378,
+      "lo": -0.44258,
+      "hi": -0.258531,
+      "p": 2.09e-11
+     }
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "left_out": "Math",
+     "est": -0.269444,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.044625,
+      "lo": -0.366674,
+      "hi": -0.172215,
+      "p": 5.87e-05
+     },
+     "item": {
+      "df": 99,
+      "se": 0.036693,
+      "lo": -0.342252,
+      "hi": -0.196637,
+      "p": 5.95e-11
+     }
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "left_out": "Math",
+     "est": -0.287778,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.024762,
+      "lo": -0.341729,
+      "hi": -0.233826,
+      "p": 6.9e-08
+     },
+     "item": {
+      "df": 99,
+      "se": 0.040919,
+      "lo": -0.36897,
+      "hi": -0.206585,
+      "p": 2.65e-10
+     }
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "left_out": "Math",
+     "est": -0.123333,
+     "n": 100,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.049938,
+      "lo": -0.232138,
+      "hi": -0.014528,
+      "p": 0.0295
+     },
+     "item": {
+      "df": 99,
+      "se": 0.031788,
+      "lo": -0.186407,
+      "hi": -0.060259,
+      "p": 0.000188
+     }
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "left_out": "Closure",
+     "est": -0.339233,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.043835,
+      "lo": -0.43474,
+      "hi": -0.243726,
+      "p": 5.27e-06
+     },
+     "item": {
+      "df": 112,
+      "se": 0.035117,
+      "lo": -0.408812,
+      "hi": -0.269654,
+      "p": 2.01e-16
+     }
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "left_out": "Closure",
+     "est": -0.384464,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.035489,
+      "lo": -0.461789,
+      "hi": -0.30714,
+      "p": 1.5e-07
+     },
+     "item": {
+      "df": 112,
+      "se": 0.044027,
+      "lo": -0.471697,
+      "hi": -0.297231,
+      "p": 2.74e-14
+     }
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "left_out": "Closure",
+     "est": -0.342675,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.037524,
+      "lo": -0.424432,
+      "hi": -0.260917,
+      "p": 9.46e-07
+     },
+     "item": {
+      "df": 112,
+      "se": 0.036241,
+      "lo": -0.414482,
+      "hi": -0.270867,
+      "p": 5.98e-16
+     }
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "left_out": "Closure",
+     "est": -0.296952,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.019488,
+      "lo": -0.339413,
+      "hi": -0.25449,
+      "p": 3.25e-09
+     },
+     "item": {
+      "df": 112,
+      "se": 0.039499,
+      "lo": -0.375214,
+      "hi": -0.21869,
+      "p": 1.48e-11
+     }
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "left_out": "Closure",
+     "est": -0.151426,
+     "n": 113,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.037957,
+      "lo": -0.234127,
+      "hi": -0.068724,
+      "p": 0.0018
+     },
+     "item": {
+      "df": 112,
+      "se": 0.029919,
+      "lo": -0.210706,
+      "hi": -0.092146,
+      "p": 1.65e-06
+     }
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "left_out": "Lang",
+     "est": -0.299517,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.04356,
+      "lo": -0.394426,
+      "hi": -0.204608,
+      "p": 1.71e-05
+     },
+     "item": {
+      "df": 114,
+      "se": 0.033495,
+      "lo": -0.36587,
+      "hi": -0.233164,
+      "p": 8e-15
+     }
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "left_out": "Lang",
+     "est": -0.343478,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.04091,
+      "lo": -0.432613,
+      "hi": -0.254343,
+      "p": 2.29e-06
+     },
+     "item": {
+      "df": 114,
+      "se": 0.04308,
+      "lo": -0.42882,
+      "hi": -0.258137,
+      "p": 1.31e-12
+     }
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "left_out": "Lang",
+     "est": -0.309179,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.056025,
+      "lo": -0.431246,
+      "hi": -0.187112,
+      "p": 0.000132
+     },
+     "item": {
+      "df": 114,
+      "se": 0.034014,
+      "lo": -0.37656,
+      "hi": -0.241798,
+      "p": 3.65e-15
+     }
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "left_out": "Lang",
+     "est": -0.286957,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.021488,
+      "lo": -0.333776,
+      "hi": -0.240137,
+      "p": 1.46e-08
+     },
+     "item": {
+      "df": 114,
+      "se": 0.038761,
+      "lo": -0.363743,
+      "hi": -0.21017,
+      "p": 2.46e-11
+     }
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "left_out": "Lang",
+     "est": -0.129469,
+     "n": 115,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.04417,
+      "lo": -0.225706,
+      "hi": -0.033231,
+      "p": 0.0126
+     },
+     "item": {
+      "df": 114,
+      "se": 0.028858,
+      "lo": -0.186637,
+      "hi": -0.072301,
+      "p": 1.74e-05
+     }
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "left_out": "Chart",
+     "est": -0.290634,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.034939,
+      "lo": -0.36676,
+      "hi": -0.214507,
+      "p": 2.52e-06
+     },
+     "item": {
+      "df": 120,
+      "se": 0.032664,
+      "lo": -0.355307,
+      "hi": -0.22596,
+      "p": 7.15e-15
+     }
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "left_out": "Chart",
+     "est": -0.354454,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.042236,
+      "lo": -0.446477,
+      "hi": -0.26243,
+      "p": 2.3e-06
+     },
+     "item": {
+      "df": 120,
+      "se": 0.041786,
+      "lo": -0.437188,
+      "hi": -0.271719,
+      "p": 6.73e-14
+     }
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "left_out": "Chart",
+     "est": -0.306703,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.05339,
+      "lo": -0.42303,
+      "hi": -0.190377,
+      "p": 9.24e-05
+     },
+     "item": {
+      "df": 120,
+      "se": 0.034249,
+      "lo": -0.374513,
+      "hi": -0.238894,
+      "p": 5.23e-15
+     }
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "left_out": "Chart",
+     "est": -0.277319,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.016732,
+      "lo": -0.313776,
+      "hi": -0.240862,
+      "p": 1.24e-09
+     },
+     "item": {
+      "df": 120,
+      "se": 0.037758,
+      "lo": -0.352077,
+      "hi": -0.202561,
+      "p": 2.72e-11
+     }
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "left_out": "Chart",
+     "est": -0.146006,
+     "n": 121,
+     "cluster": {
+      "clusters": 13,
+      "df": 12,
+      "se": 0.038543,
+      "lo": -0.229983,
+      "hi": -0.062028,
+      "p": 0.00258
+     },
+     "item": {
+      "df": 120,
+      "se": 0.027939,
+      "lo": -0.201323,
+      "hi": -0.090688,
+      "p": 7.41e-07
+     }
+    }
+   ],
+   "length": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.330357,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.067917,
+      "lo": -0.479842,
+      "hi": -0.180872,
+      "p": 0.000499
+     },
+     "item": {
+      "df": 55,
+      "se": 0.051579,
+      "lo": -0.433723,
+      "hi": -0.226991,
+      "p": 3.54e-08
+     },
+     "bh": 0.000848
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.366071,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.080758,
+      "lo": -0.543819,
+      "hi": -0.188324,
+      "p": 0.000854
+     },
+     "item": {
+      "df": 55,
+      "se": 0.056411,
+      "lo": -0.479121,
+      "hi": -0.253022,
+      "p": 2.58e-08
+     },
+     "bh": 0.00135
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.285714,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.069509,
+      "lo": -0.438702,
+      "hi": -0.132726,
+      "p": 0.00173
+     },
+     "item": {
+      "df": 55,
+      "se": 0.049477,
+      "lo": -0.384868,
+      "hi": -0.186561,
+      "p": 3.71e-07
+     },
+     "bh": 0.00264
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.303571,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.088183,
+      "lo": -0.497661,
+      "hi": -0.109482,
+      "p": 0.0055
+     },
+     "item": {
+      "df": 55,
+      "se": 0.057939,
+      "lo": -0.419683,
+      "hi": -0.187459,
+      "p": 2.62e-06
+     },
+     "bh": 0.00728
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.297619,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.087007,
+      "lo": -0.48912,
+      "hi": -0.106118,
+      "p": 0.00572
+     },
+     "item": {
+      "df": 55,
+      "se": 0.057093,
+      "lo": -0.412036,
+      "hi": -0.183202,
+      "p": 2.89e-06
+     },
+     "bh": 0.00746
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.333333,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.091688,
+      "lo": -0.535138,
+      "hi": -0.131528,
+      "p": 0.00392
+     },
+     "item": {
+      "df": 55,
+      "se": 0.060957,
+      "lo": -0.455493,
+      "hi": -0.211173,
+      "p": 1.14e-06
+     },
+     "bh": 0.0056
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.318452,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.102375,
+      "lo": -0.543778,
+      "hi": -0.093127,
+      "p": 0.00991
+     },
+     "item": {
+      "df": 55,
+      "se": 0.054102,
+      "lo": -0.426876,
+      "hi": -0.210029,
+      "p": 2.46e-07
+     },
+     "bh": 0.0127
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.25,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.081061,
+      "lo": -0.428413,
+      "hi": -0.071587,
+      "p": 0.0104
+     },
+     "item": {
+      "df": 55,
+      "se": 0.049892,
+      "lo": -0.349985,
+      "hi": -0.150015,
+      "p": 5.96e-06
+     },
+     "bh": 0.013
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.264881,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.076327,
+      "lo": -0.432876,
+      "hi": -0.096886,
+      "p": 0.00524
+     },
+     "item": {
+      "df": 55,
+      "se": 0.047059,
+      "lo": -0.35919,
+      "hi": -0.170572,
+      "p": 6.35e-07
+     },
+     "bh": 0.00725
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.264881,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.088732,
+      "lo": -0.460178,
+      "hi": -0.069584,
+      "p": 0.0124
+     },
+     "item": {
+      "df": 55,
+      "se": 0.059728,
+      "lo": -0.384578,
+      "hi": -0.145184,
+      "p": 4.46e-05
+     },
+     "bh": 0.0151
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.190476,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.067145,
+      "lo": -0.338261,
+      "hi": -0.042691,
+      "p": 0.0162
+     },
+     "item": {
+      "df": 55,
+      "se": 0.061755,
+      "lo": -0.314235,
+      "hi": -0.066717,
+      "p": 0.00319
+     },
+     "bh": 0.0187
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.232143,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.078682,
+      "lo": -0.405321,
+      "hi": -0.058965,
+      "p": 0.0132
+     },
+     "item": {
+      "df": 55,
+      "se": 0.058646,
+      "lo": -0.349672,
+      "hi": -0.114613,
+      "p": 0.000219
+     },
+     "bh": 0.0154
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.113095,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.047794,
+      "lo": -0.218289,
+      "hi": -0.007902,
+      "p": 0.0374
+     },
+     "item": {
+      "df": 55,
+      "se": 0.040091,
+      "lo": -0.193439,
+      "hi": -0.032751,
+      "p": 0.00665
+     },
+     "bh": 0.0396
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.08631,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.042712,
+      "lo": -0.180318,
+      "hi": 0.007699,
+      "p": 0.0683
+     },
+     "item": {
+      "df": 55,
+      "se": 0.041175,
+      "lo": -0.168826,
+      "hi": -0.003793,
+      "p": 0.0407
+     },
+     "bh": 0.0707
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.107143,
+     "n": 56,
+     "cluster": {
+      "clusters": 12,
+      "df": 11,
+      "se": 0.055855,
+      "lo": -0.230078,
+      "hi": 0.015793,
+      "p": 0.0814
+     },
+     "item": {
+      "df": 55,
+      "se": 0.038792,
+      "lo": -0.184884,
+      "hi": -0.029401,
+      "p": 0.0078
+     },
+     "bh": 0.0832
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.354167,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.065992,
+      "lo": -0.503451,
+      "hi": -0.204883,
+      "p": 0.000452
+     },
+     "item": {
+      "df": 47,
+      "se": 0.06761,
+      "lo": -0.490181,
+      "hi": -0.218152,
+      "p": 3.74e-06
+     },
+     "bh": 0.000783
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.336806,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.044168,
+      "lo": -0.436721,
+      "hi": -0.236891,
+      "p": 3.24e-05
+     },
+     "item": {
+      "df": 47,
+      "se": 0.060674,
+      "lo": -0.458865,
+      "hi": -0.214746,
+      "p": 1.28e-06
+     },
+     "bh": 6.78e-05
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.239583,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.040842,
+      "lo": -0.331975,
+      "hi": -0.147191,
+      "p": 0.000239
+     },
+     "item": {
+      "df": 47,
+      "se": 0.050827,
+      "lo": -0.341834,
+      "hi": -0.137333,
+      "p": 2.2e-05
+     },
+     "bh": 0.00043
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.506944,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.038722,
+      "lo": -0.594539,
+      "hi": -0.41935,
+      "p": 3.65e-07
+     },
+     "item": {
+      "df": 47,
+      "se": 0.067489,
+      "lo": -0.642714,
+      "hi": -0.371175,
+      "p": 1.38e-09
+     },
+     "bh": 9.67e-07
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.506944,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.031469,
+      "lo": -0.578133,
+      "hi": -0.435756,
+      "p": 6.06e-08
+     },
+     "item": {
+      "df": 47,
+      "se": 0.069111,
+      "lo": -0.645978,
+      "hi": -0.367911,
+      "p": 2.54e-09
+     },
+     "bh": 1.79e-07
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.506944,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.031523,
+      "lo": -0.578253,
+      "hi": -0.435636,
+      "p": 6.15e-08
+     },
+     "item": {
+      "df": 47,
+      "se": 0.069111,
+      "lo": -0.645978,
+      "hi": -0.367911,
+      "p": 2.54e-09
+     },
+     "bh": 1.79e-07
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.440972,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.067123,
+      "lo": -0.592816,
+      "hi": -0.289129,
+      "p": 0.000103
+     },
+     "item": {
+      "df": 47,
+      "se": 0.062276,
+      "lo": -0.566255,
+      "hi": -0.315689,
+      "p": 6.16e-09
+     },
+     "bh": 0.000193
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.413194,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.058927,
+      "lo": -0.546496,
+      "hi": -0.279893,
+      "p": 6.24e-05
+     },
+     "item": {
+      "df": 47,
+      "se": 0.064318,
+      "lo": -0.542586,
+      "hi": -0.283802,
+      "p": 6.12e-08
+     },
+     "bh": 0.00012
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.295139,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.071829,
+      "lo": -0.457628,
+      "hi": -0.13265,
+      "p": 0.00264
+     },
+     "item": {
+      "df": 47,
+      "se": 0.057281,
+      "lo": -0.410373,
+      "hi": -0.179904,
+      "p": 5.01e-06
+     },
+     "bh": 0.00383
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.413194,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.058908,
+      "lo": -0.546453,
+      "hi": -0.279936,
+      "p": 6.23e-05
+     },
+     "item": {
+      "df": 47,
+      "se": 0.063934,
+      "lo": -0.541814,
+      "hi": -0.284575,
+      "p": 5.35e-08
+     },
+     "bh": 0.00012
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.350694,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.054557,
+      "lo": -0.47411,
+      "hi": -0.227278,
+      "p": 0.000121
+     },
+     "item": {
+      "df": 47,
+      "se": 0.06143,
+      "lo": -0.474275,
+      "hi": -0.227113,
+      "p": 7.4e-07
+     },
+     "bh": 0.000223
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.322917,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.072548,
+      "lo": -0.487032,
+      "hi": -0.158801,
+      "p": 0.0016
+     },
+     "item": {
+      "df": 47,
+      "se": 0.060249,
+      "lo": -0.444123,
+      "hi": -0.201711,
+      "p": 2.47e-06
+     },
+     "bh": 0.00248
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.215278,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.083969,
+      "lo": -0.40523,
+      "hi": -0.025326,
+      "p": 0.0305
+     },
+     "item": {
+      "df": 47,
+      "se": 0.055472,
+      "lo": -0.326874,
+      "hi": -0.103682,
+      "p": 0.000323
+     },
+     "bh": 0.0339
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.152778,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.047186,
+      "lo": -0.25952,
+      "hi": -0.046036,
+      "p": 0.0102
+     },
+     "item": {
+      "df": 47,
+      "se": 0.05826,
+      "lo": -0.269982,
+      "hi": -0.035574,
+      "p": 0.0117
+     },
+     "bh": 0.0129
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.138889,
+     "n": 48,
+     "cluster": {
+      "clusters": 10,
+      "df": 9,
+      "se": 0.044851,
+      "lo": -0.240349,
+      "hi": -0.037429,
+      "p": 0.0128
+     },
+     "item": {
+      "df": 47,
+      "se": 0.050445,
+      "lo": -0.24037,
+      "hi": -0.037408,
+      "p": 0.00836
+     },
+     "bh": 0.0153
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.322917,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.045134,
+      "lo": -0.433356,
+      "hi": -0.212478,
+      "p": 0.000376
+     },
+     "item": {
+      "df": 31,
+      "se": 0.074437,
+      "lo": -0.474732,
+      "hi": -0.171102,
+      "p": 0.000142
+     },
+     "bh": 0.000664
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.34375,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.051557,
+      "lo": -0.469907,
+      "hi": -0.217593,
+      "p": 0.000551
+     },
+     "item": {
+      "df": 31,
+      "se": 0.079881,
+      "lo": -0.506668,
+      "hi": -0.180832,
+      "p": 0.000156
+     },
+     "bh": 0.000918
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.255208,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.059469,
+      "lo": -0.400724,
+      "hi": -0.109692,
+      "p": 0.00514
+     },
+     "item": {
+      "df": 31,
+      "se": 0.083328,
+      "lo": -0.425157,
+      "hi": -0.08526,
+      "p": 0.00451
+     },
+     "bh": 0.00723
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.223958,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.083669,
+      "lo": -0.42869,
+      "hi": -0.019227,
+      "p": 0.0367
+     },
+     "item": {
+      "df": 31,
+      "se": 0.081502,
+      "lo": -0.390182,
+      "hi": -0.057734,
+      "p": 0.00991
+     },
+     "bh": 0.0393
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.223958,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.083669,
+      "lo": -0.42869,
+      "hi": -0.019227,
+      "p": 0.0367
+     },
+     "item": {
+      "df": 31,
+      "se": 0.081502,
+      "lo": -0.390182,
+      "hi": -0.057734,
+      "p": 0.00991
+     },
+     "bh": 0.0393
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.255208,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.105789,
+      "lo": -0.514066,
+      "hi": 0.003649,
+      "p": 0.0524
+     },
+     "item": {
+      "df": 31,
+      "se": 0.084662,
+      "lo": -0.427877,
+      "hi": -0.08254,
+      "p": 0.0051
+     },
+     "bh": 0.0548
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.255208,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.080313,
+      "lo": -0.451727,
+      "hi": -0.05869,
+      "p": 0.0191
+     },
+     "item": {
+      "df": 31,
+      "se": 0.076678,
+      "lo": -0.411594,
+      "hi": -0.098823,
+      "p": 0.00226
+     },
+     "bh": 0.0218
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.229167,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.079453,
+      "lo": -0.423581,
+      "hi": -0.034752,
+      "p": 0.0279
+     },
+     "item": {
+      "df": 31,
+      "se": 0.073609,
+      "lo": -0.379294,
+      "hi": -0.079039,
+      "p": 0.00396
+     },
+     "bh": 0.0314
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.296875,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.059278,
+      "lo": -0.441922,
+      "hi": -0.151828,
+      "p": 0.00243
+     },
+     "item": {
+      "df": 31,
+      "se": 0.066824,
+      "lo": -0.433163,
+      "hi": -0.160587,
+      "p": 0.000105
+     },
+     "bh": 0.00359
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.359375,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.05675,
+      "lo": -0.498238,
+      "hi": -0.220512,
+      "p": 0.000725
+     },
+     "item": {
+      "df": 31,
+      "se": 0.07599,
+      "lo": -0.514358,
+      "hi": -0.204392,
+      "p": 4.66e-05
+     },
+     "bh": 0.00119
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.302083,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.057729,
+      "lo": -0.443342,
+      "hi": -0.160825,
+      "p": 0.00195
+     },
+     "item": {
+      "df": 31,
+      "se": 0.081098,
+      "lo": -0.467484,
+      "hi": -0.136682,
+      "p": 0.00078
+     },
+     "bh": 0.00293
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.192708,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.071468,
+      "lo": -0.367583,
+      "hi": -0.017834,
+      "p": 0.0357
+     },
+     "item": {
+      "df": 31,
+      "se": 0.075621,
+      "lo": -0.346938,
+      "hi": -0.038479,
+      "p": 0.016
+     },
+     "bh": 0.0392
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.088542,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.05615,
+      "lo": -0.225936,
+      "hi": 0.048853,
+      "p": 0.166
+     },
+     "item": {
+      "df": 31,
+      "se": 0.056492,
+      "lo": -0.203758,
+      "hi": 0.026674,
+      "p": 0.127
+     },
+     "bh": 0.166
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.09375,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.054213,
+      "lo": -0.226404,
+      "hi": 0.038904,
+      "p": 0.134
+     },
+     "item": {
+      "df": 31,
+      "se": 0.058896,
+      "lo": -0.213869,
+      "hi": 0.026369,
+      "p": 0.122
+     },
+     "bh": 0.136
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.151042,
+     "n": 32,
+     "cluster": {
+      "clusters": 7,
+      "df": 6,
+      "se": 0.04341,
+      "lo": -0.257263,
+      "hi": -0.04482,
+      "p": 0.0132
+     },
+     "item": {
+      "df": 31,
+      "se": 0.058141,
+      "lo": -0.26962,
+      "hi": -0.032463,
+      "p": 0.0142
+     },
+     "bh": 0.0154
+    }
+   ],
+   "floor_ceiling": {
+    "Qwen3.5 27B": {
+     "text": {
+      "none": 0.367647,
+      "all": 0.441176
+     },
+     "image10": {
+      "none": 0.727941,
+      "all": 0.132353
+     },
+     "image12": {
+      "none": 0.727941,
+      "all": 0.110294
+     },
+     "image14": {
+      "none": 0.617647,
+      "all": 0.176471
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "none": 0.514706,
+      "all": 0.397059
+     },
+     "image10": {
+      "none": 0.867647,
+      "all": 0.051471
+     },
+     "image12": {
+      "none": 0.889706,
+      "all": 0.073529
+     },
+     "image14": {
+      "none": 0.911765,
+      "all": 0.051471
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "none": 0.411765,
+      "all": 0.279412
+     },
+     "image10": {
+      "none": 0.882353,
+      "all": 0.058824
+     },
+     "image12": {
+      "none": 0.830882,
+      "all": 0.095588
+     },
+     "image14": {
+      "none": 0.786765,
+      "all": 0.102941
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "none": 0.5,
+      "all": 0.330882
+     },
+     "image10": {
+      "none": 0.889706,
+      "all": 0.036765
+     },
+     "image12": {
+      "none": 0.786765,
+      "all": 0.066176
+     },
+     "image14": {
+      "none": 0.772059,
+      "all": 0.095588
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "none": 0.683824,
+      "all": 0.139706
+     },
+     "image10": {
+      "none": 0.882353,
+      "all": 0.044118
+     },
+     "image12": {
+      "none": 0.852941,
+      "all": 0.073529
+     },
+     "image14": {
+      "none": 0.852941,
+      "all": 0.036765
+     }
+    }
+   },
+   "all_none": {
+    "text": {
+     "all_models_pass": 0.088235,
+     "no_model_passes": 0.235294
+    },
+    "image10": {
+     "all_models_pass": 0.0,
+     "no_model_passes": 0.625
+    },
+    "image12": {
+     "all_models_pass": 0.007353,
+     "no_model_passes": 0.580882
+    },
+    "image14": {
+     "all_models_pass": 0.007353,
+     "no_model_passes": 0.522059
+    }
+   },
+   "scoring": {
+    "Qwen3.5 27B": {
+     "text": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.073718,
+      "no_code": 0.00641
+     },
+     "image10": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.00641,
+      "no_code": 0.0
+     },
+     "image12": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.016026,
+      "no_code": 0.0
+     },
+     "image14": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.028846,
+      "no_code": 0.00641
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.003205,
+      "no_code": 0.009615
+     },
+     "image10": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.009615,
+      "no_code": 0.00641
+     },
+     "image12": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.003205,
+      "no_code": 0.003205
+     },
+     "image14": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.00641,
+      "no_code": 0.022436
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.009615
+     },
+     "image10": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.003205
+     },
+     "image12": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.009615
+     },
+     "image14": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.009615
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.115385,
+      "no_code": 0.012821
+     },
+     "image10": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.051282,
+      "no_code": 0.00641
+     },
+     "image12": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.105769,
+      "no_code": 0.012821
+     },
+     "image14": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.070513,
+      "no_code": 0.00641
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.022436,
+      "no_code": 0.019231
+     },
+     "image10": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.016026,
+      "no_code": 0.048077
+     },
+     "image12": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.00641,
+      "no_code": 0.035256
+     },
+     "image14": {
+      "answers": 312,
+      "empty": 0.0,
+      "truncated": 0.019231,
+      "no_code": 0.041667
+     }
+    }
+   },
+   "output_tokens": {
+    "Qwen3.5 27B": {
+     "text": {
+      "median": 469,
+      "q1": 300,
+      "q3": 777,
+      "mean": 663.717949
+     },
+     "image10": {
+      "median": 320,
+      "q1": 210,
+      "q3": 509,
+      "mean": 416.679487
+     },
+     "image12": {
+      "median": 368,
+      "q1": 225,
+      "q3": 577,
+      "mean": 474.647436
+     },
+     "image14": {
+      "median": 412,
+      "q1": 269,
+      "q3": 645,
+      "mean": 528.852564
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "median": 315,
+      "q1": 194,
+      "q3": 490,
+      "mean": 390.378205
+     },
+     "image10": {
+      "median": 514,
+      "q1": 398,
+      "q3": 660,
+      "mean": 558.932692
+     },
+     "image12": {
+      "median": 489,
+      "q1": 364,
+      "q3": 633,
+      "mean": 505.201923
+     },
+     "image14": {
+      "median": 497,
+      "q1": 356,
+      "q3": 651,
+      "mean": 527.871795
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "median": 488,
+      "q1": 385,
+      "q3": 604,
+      "mean": 529.61859
+     },
+     "image10": {
+      "median": 428,
+      "q1": 354,
+      "q3": 552,
+      "mean": 467.355769
+     },
+     "image12": {
+      "median": 418,
+      "q1": 335,
+      "q3": 547,
+      "mean": 464.951923
+     },
+     "image14": {
+      "median": 403,
+      "q1": 319,
+      "q3": 534,
+      "mean": 441.554487
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "median": 632,
+      "q1": 394,
+      "q3": 1071,
+      "mean": 830.602564
+     },
+     "image10": {
+      "median": 437,
+      "q1": 319,
+      "q3": 662,
+      "mean": 596.25641
+     },
+     "image12": {
+      "median": 459,
+      "q1": 330,
+      "q3": 740,
+      "mean": 671.224359
+     },
+     "image14": {
+      "median": 465,
+      "q1": 343,
+      "q3": 748,
+      "mean": 650.573718
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "median": 482,
+      "q1": 364,
+      "q3": 626,
+      "mean": 550.733974
+     },
+     "image10": {
+      "median": 286,
+      "q1": 206,
+      "q3": 425,
+      "mean": 346.451923
+     },
+     "image12": {
+      "median": 285,
+      "q1": 191,
+      "q3": 400,
+      "mean": 316.705128
+     },
+     "image14": {
+      "median": 267,
+      "q1": 170,
+      "q3": 386,
+      "mean": 338.352564
+     }
+    }
+   },
+   "never_passed": 31
+  },
+  "deveval": {
+   "n_items": 859,
+   "n_clusters": 79,
+   "rates": {
+    "text": {
+     "Qwen3.5 27B": 0.53473,
+     "Gemma 4 12B": 0.461001,
+     "Mistral Small 3.2 24B": 0.48312,
+     "Qwen3.5 9B": 0.411719,
+     "Qwen2.5-VL 7B": 0.301513
+    },
+    "image10": {
+     "Qwen3.5 27B": 0.20877,
+     "Gemma 4 12B": 0.155995,
+     "Mistral Small 3.2 24B": 0.150757,
+     "Qwen3.5 9B": 0.131936,
+     "Qwen2.5-VL 7B": 0.121265
+    },
+    "image12": {
+     "Qwen3.5 27B": 0.248157,
+     "Gemma 4 12B": 0.15813,
+     "Mistral Small 3.2 24B": 0.162398,
+     "Qwen3.5 9B": 0.180442,
+     "Qwen2.5-VL 7B": 0.137563
+    },
+    "image14": {
+     "Qwen3.5 27B": 0.311021,
+     "Gemma 4 12B": 0.160652,
+     "Mistral Small 3.2 24B": 0.204113,
+     "Qwen3.5 9B": 0.220993,
+     "Qwen2.5-VL 7B": 0.154249
+    },
+    "image": {
+     "Qwen3.5 27B": 0.255982,
+     "Gemma 4 12B": 0.158259,
+     "Mistral Small 3.2 24B": 0.172423,
+     "Qwen3.5 9B": 0.177791,
+     "Qwen2.5-VL 7B": 0.137692
+    }
+   },
+   "ranks": {
+    "text": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 3.0,
+     "Mistral Small 3.2 24B": 2.0,
+     "Qwen3.5 9B": 4.0,
+     "Qwen2.5-VL 7B": 5.0
+    },
+    "image": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 4.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 5.0
+    },
+    "image10": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 2.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 4.0,
+     "Qwen2.5-VL 7B": 5.0
+    },
+    "image12": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 4.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 5.0
+    },
+    "image14": {
+     "Qwen3.5 27B": 1.0,
+     "Gemma 4 12B": 4.0,
+     "Mistral Small 3.2 24B": 3.0,
+     "Qwen3.5 9B": 2.0,
+     "Qwen2.5-VL 7B": 5.0
+    }
+   },
+   "main": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "est": -0.278748,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.020946,
+      "lo": -0.320448,
+      "hi": -0.237048,
+      "p": 9.14e-22
+     },
+     "item": {
+      "df": 858,
+      "se": 0.013658,
+      "lo": -0.305555,
+      "hi": -0.251941,
+      "p": 8.85e-76
+     },
+     "holm": 9.14e-21
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "est": -0.302742,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.025133,
+      "lo": -0.352779,
+      "hi": -0.252706,
+      "p": 1.76e-19
+     },
+     "item": {
+      "df": 858,
+      "se": 0.015283,
+      "lo": -0.332739,
+      "hi": -0.272745,
+      "p": 3.3e-72
+     },
+     "holm": 1.41e-18
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "est": -0.310697,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.024135,
+      "lo": -0.358746,
+      "hi": -0.262648,
+      "p": 5.48e-21
+     },
+     "item": {
+      "df": 858,
+      "se": 0.014016,
+      "lo": -0.338206,
+      "hi": -0.283188,
+      "p": 1.94e-86
+     },
+     "holm": 4.93e-20
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "est": -0.233928,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.022062,
+      "lo": -0.27785,
+      "hi": -0.190007,
+      "p": 8.85e-17
+     },
+     "item": {
+      "df": 858,
+      "se": 0.012603,
+      "lo": -0.258665,
+      "hi": -0.209192,
+      "p": 6.47e-65
+     },
+     "holm": 6.2e-16
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "est": -0.163821,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.018579,
+      "lo": -0.200808,
+      "hi": -0.126834,
+      "p": 2.44e-13
+     },
+     "item": {
+      "df": 858,
+      "se": 0.011465,
+      "lo": -0.186324,
+      "hi": -0.141318,
+      "p": 1.05e-41
+     },
+     "holm": 1.46e-12
+    }
+   ],
+   "pooled": {
+    "est": -0.257987,
+    "lo": -0.297262,
+    "hi": -0.217152,
+    "n_boot": 2000
+   },
+   "sizes": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "est": -0.32596,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.025099,
+      "lo": -0.375929,
+      "hi": -0.275992,
+      "p": 3.42e-21
+     },
+     "item": {
+      "df": 858,
+      "se": 0.015517,
+      "lo": -0.356416,
+      "hi": -0.295505,
+      "p": 2.26e-79
+     },
+     "bh": 3.42e-20
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "est": -0.286574,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.023888,
+      "lo": -0.334131,
+      "hi": -0.239016,
+      "p": 2.17e-19
+     },
+     "item": {
+      "df": 858,
+      "se": 0.015291,
+      "lo": -0.316585,
+      "hi": -0.256562,
+      "p": 5.86e-66
+     },
+     "bh": 9.29e-19
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "est": -0.22371,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.016541,
+      "lo": -0.256641,
+      "hi": -0.190778,
+      "p": 3.79e-22
+     },
+     "item": {
+      "df": 858,
+      "se": 0.014044,
+      "lo": -0.251275,
+      "hi": -0.196145,
+      "p": 3.07e-50
+     },
+     "bh": 1.14e-20
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "est": -0.305006,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.023479,
+      "lo": -0.35175,
+      "hi": -0.258262,
+      "p": 3.37e-21
+     },
+     "item": {
+      "df": 858,
+      "se": 0.016191,
+      "lo": -0.336784,
+      "hi": -0.273228,
+      "p": 1.61e-66
+     },
+     "bh": 3.42e-20
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "est": -0.302872,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.027448,
+      "lo": -0.357517,
+      "hi": -0.248226,
+      "p": 1.35e-17
+     },
+     "item": {
+      "df": 858,
+      "se": 0.01595,
+      "lo": -0.334178,
+      "hi": -0.271565,
+      "p": 2.17e-67
+     },
+     "bh": 4.51e-17
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "est": -0.300349,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.025668,
+      "lo": -0.351449,
+      "hi": -0.249249,
+      "p": 7.62e-19
+     },
+     "item": {
+      "df": 858,
+      "se": 0.015748,
+      "lo": -0.331259,
+      "hi": -0.26944,
+      "p": 7.07e-68
+     },
+     "bh": 2.86e-18
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "est": -0.332363,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.025953,
+      "lo": -0.384032,
+      "hi": -0.280695,
+      "p": 7.23e-21
+     },
+     "item": {
+      "df": 858,
+      "se": 0.015535,
+      "lo": -0.362853,
+      "hi": -0.301873,
+      "p": 1.01e-81
+     },
+     "bh": 5.42e-20
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "est": -0.320722,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.02528,
+      "lo": -0.37105,
+      "hi": -0.270394,
+      "p": 1.19e-20
+     },
+     "item": {
+      "df": 858,
+      "se": 0.01503,
+      "lo": -0.350222,
+      "hi": -0.291221,
+      "p": 2.23e-81
+     },
+     "bh": 7.13e-20
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "est": -0.279007,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.022752,
+      "lo": -0.324302,
+      "hi": -0.233711,
+      "p": 7.02e-20
+     },
+     "item": {
+      "df": 858,
+      "se": 0.014547,
+      "lo": -0.307558,
+      "hi": -0.250455,
+      "p": 1.66e-68
+     },
+     "bh": 3.51e-19
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "est": -0.279783,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.025552,
+      "lo": -0.330653,
+      "hi": -0.228913,
+      "p": 1.95e-17
+     },
+     "item": {
+      "df": 858,
+      "se": 0.014199,
+      "lo": -0.307652,
+      "hi": -0.251914,
+      "p": 1.37e-71
+     },
+     "bh": 5.86e-17
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "est": -0.231277,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.024252,
+      "lo": -0.279558,
+      "hi": -0.182995,
+      "p": 9.86e-15
+     },
+     "item": {
+      "df": 858,
+      "se": 0.01388,
+      "lo": -0.25852,
+      "hi": -0.204033,
+      "p": 3.23e-54
+     },
+     "bh": 2.47e-14
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "est": -0.190726,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.018511,
+      "lo": -0.227579,
+      "hi": -0.153872,
+      "p": 3.31e-16
+     },
+     "item": {
+      "df": 858,
+      "se": 0.013293,
+      "lo": -0.216815,
+      "hi": -0.164636,
+      "p": 5.24e-42
+     },
+     "bh": 9.03e-16
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "est": -0.180248,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.021904,
+      "lo": -0.223856,
+      "hi": -0.136641,
+      "p": 3.39e-12
+     },
+     "item": {
+      "df": 858,
+      "se": 0.012819,
+      "lo": -0.205409,
+      "hi": -0.155087,
+      "p": 1.46e-40
+     },
+     "bh": 6.77e-12
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "est": -0.16395,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.018101,
+      "lo": -0.199988,
+      "hi": -0.127913,
+      "p": 8.35e-14
+     },
+     "item": {
+      "df": 858,
+      "se": 0.012437,
+      "lo": -0.18836,
+      "hi": -0.139541,
+      "p": 2.85e-36
+     },
+     "bh": 1.93e-13
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "est": -0.147264,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.017532,
+      "lo": -0.182167,
+      "hi": -0.112361,
+      "p": 1.58e-12
+     },
+     "item": {
+      "df": 858,
+      "se": 0.012031,
+      "lo": -0.170878,
+      "hi": -0.123651,
+      "p": 7.22e-32
+     },
+     "bh": 3.38e-12
+    }
+   ],
+   "size_diffs": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image12-image10",
+     "est": 0.039387,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.00773,
+      "lo": 0.023998,
+      "hi": 0.054775,
+      "p": 2.36e-06
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010022,
+      "lo": 0.019716,
+      "hi": 0.059058,
+      "p": 9.18e-05
+     },
+     "bh": 1.53e-05
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image14-image10",
+     "est": 0.102251,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.014706,
+      "lo": 0.072974,
+      "hi": 0.131527,
+      "p": 9.67e-10
+     },
+     "item": {
+      "df": 858,
+      "se": 0.011091,
+      "lo": 0.080482,
+      "hi": 0.124019,
+      "p": 2.26e-19
+     },
+     "bh": 1.96e-08
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "pair": "image14-image12",
+     "est": 0.062864,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.014077,
+      "lo": 0.034839,
+      "hi": 0.090889,
+      "p": 2.66e-05
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010637,
+      "lo": 0.041987,
+      "hi": 0.08374,
+      "p": 4.93e-09
+     },
+     "bh": 0.000114
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image12-image10",
+     "est": 0.002134,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008493,
+      "lo": -0.014773,
+      "hi": 0.019042,
+      "p": 0.802
+     },
+     "item": {
+      "df": 858,
+      "se": 0.007743,
+      "lo": -0.013064,
+      "hi": 0.017332,
+      "p": 0.783
+     },
+     "bh": 0.802
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image14-image10",
+     "est": 0.004657,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008838,
+      "lo": -0.012939,
+      "hi": 0.022252,
+      "p": 0.6
+     },
+     "item": {
+      "df": 858,
+      "se": 0.00834,
+      "lo": -0.011712,
+      "hi": 0.021025,
+      "p": 0.577
+     },
+     "bh": 0.692
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "pair": "image14-image12",
+     "est": 0.002522,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.007428,
+      "lo": -0.012266,
+      "hi": 0.017311,
+      "p": 0.735
+     },
+     "item": {
+      "df": 858,
+      "se": 0.007873,
+      "lo": -0.012931,
+      "hi": 0.017976,
+      "p": 0.749
+     },
+     "bh": 0.76
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image12-image10",
+     "est": 0.011641,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.007847,
+      "lo": -0.003981,
+      "hi": 0.027264,
+      "p": 0.142
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008828,
+      "lo": -0.005686,
+      "hi": 0.028969,
+      "p": 0.188
+     },
+     "bh": 0.237
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image14-image10",
+     "est": 0.053357,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.01051,
+      "lo": 0.032432,
+      "hi": 0.074281,
+      "p": 2.55e-06
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010286,
+      "lo": 0.033169,
+      "hi": 0.073544,
+      "p": 2.66e-07
+     },
+     "bh": 1.53e-05
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "pair": "image14-image12",
+     "est": 0.041715,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008732,
+      "lo": 0.02433,
+      "hi": 0.0591,
+      "p": 8.2e-06
+     },
+     "item": {
+      "df": 858,
+      "se": 0.009211,
+      "lo": 0.023636,
+      "hi": 0.059794,
+      "p": 6.77e-06
+     },
+     "bh": 4.1e-05
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image12-image10",
+     "est": 0.048506,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008618,
+      "lo": 0.031348,
+      "hi": 0.065664,
+      "p": 2.75e-07
+     },
+     "item": {
+      "df": 858,
+      "se": 0.00875,
+      "lo": 0.031333,
+      "hi": 0.065679,
+      "p": 3.94e-08
+     },
+     "bh": 2.75e-06
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image14-image10",
+     "est": 0.089057,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.012936,
+      "lo": 0.063304,
+      "hi": 0.11481,
+      "p": 1.3e-09
+     },
+     "item": {
+      "df": 858,
+      "se": 0.010316,
+      "lo": 0.068809,
+      "hi": 0.109305,
+      "p": 2.88e-17
+     },
+     "bh": 1.96e-08
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "pair": "image14-image12",
+     "est": 0.040551,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.011361,
+      "lo": 0.017933,
+      "hi": 0.063169,
+      "p": 0.000616
+     },
+     "item": {
+      "df": 858,
+      "se": 0.01002,
+      "lo": 0.020884,
+      "hi": 0.060219,
+      "p": 5.66e-05
+     },
+     "bh": 0.00177
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image12-image10",
+     "est": 0.016298,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.008269,
+      "lo": -0.000165,
+      "hi": 0.032761,
+      "p": 0.0523
+     },
+     "item": {
+      "df": 858,
+      "se": 0.007943,
+      "lo": 0.000709,
+      "hi": 0.031887,
+      "p": 0.0405
+     },
+     "bh": 0.112
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image14-image10",
+     "est": 0.032984,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009282,
+      "lo": 0.014504,
+      "hi": 0.051464,
+      "p": 0.000649
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008833,
+      "lo": 0.015646,
+      "hi": 0.050322,
+      "p": 0.000201
+     },
+     "bh": 0.00177
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "pair": "image14-image12",
+     "est": 0.016686,
+     "n": 859,
+     "cluster": {
+      "clusters": 79,
+      "df": 78,
+      "se": 0.009131,
+      "lo": -0.001492,
+      "hi": 0.034864,
+      "p": 0.0715
+     },
+     "item": {
+      "df": 858,
+      "se": 0.008189,
+      "lo": 0.000613,
+      "hi": 0.032759,
+      "p": 0.0419
+     },
+     "bh": 0.143
+    }
+   ],
+   "tokens": {
+    "Qwen3.5 27B": {
+     "text": {
+      "median": 4260,
+      "q1": 3132,
+      "q3": 6304
+     },
+     "image10": {
+      "median": 1396,
+      "q1": 1094,
+      "q3": 2049
+     },
+     "image12": {
+      "median": 1903,
+      "q1": 1485,
+      "q3": 2886
+     },
+     "image14": {
+      "median": 2519,
+      "q1": 1946,
+      "q3": 3864
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "median": 4622,
+      "q1": 3445,
+      "q3": 6987
+     },
+     "image10": {
+      "median": 852,
+      "q1": 729,
+      "q3": 1042
+     },
+     "image12": {
+      "median": 1011,
+      "q1": 799,
+      "q3": 1294
+     },
+     "image14": {
+      "median": 1238,
+      "q1": 986,
+      "q3": 1562
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "median": 4694,
+      "q1": 3571,
+      "q3": 6689
+     },
+     "image10": {
+      "median": 2389,
+      "q1": 1978,
+      "q3": 3299
+     },
+     "image12": {
+      "median": 3100,
+      "q1": 2521,
+      "q3": 4448
+     },
+     "image14": {
+      "median": 3979,
+      "q1": 3165,
+      "q3": 5832
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "median": 4260,
+      "q1": 3132,
+      "q3": 6304
+     },
+     "image10": {
+      "median": 1396,
+      "q1": 1094,
+      "q3": 2049
+     },
+     "image12": {
+      "median": 1903,
+      "q1": 1485,
+      "q3": 2886
+     },
+     "image14": {
+      "median": 2519,
+      "q1": 1946,
+      "q3": 3864
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "median": 3966,
+      "q1": 2902,
+      "q3": 5844
+     },
+     "image10": {
+      "median": 1758,
+      "q1": 1376,
+      "q3": 2634
+     },
+     "image12": {
+      "median": 2433,
+      "q1": 1885,
+      "q3": 3732
+     },
+     "image14": {
+      "median": 3252,
+      "q1": 2489,
+      "q3": 5027
+     }
+    }
+   },
+   "token_ratio": {
+    "Qwen3.5 27B": {
+     "image10": 0.335201,
+     "image12": 0.463178,
+     "image14": 0.613984,
+     "mean_over_sizes": 0.470787
+    },
+    "Gemma 4 12B": {
+     "image10": 0.180687,
+     "image12": 0.212006,
+     "image14": 0.250736,
+     "mean_over_sizes": 0.214476
+    },
+    "Mistral Small 3.2 24B": {
+     "image10": 0.514604,
+     "image12": 0.678761,
+     "image14": 0.869624,
+     "mean_over_sizes": 0.687663
+    },
+    "Qwen3.5 9B": {
+     "image10": 0.335201,
+     "image12": 0.463178,
+     "image14": 0.613984,
+     "mean_over_sizes": 0.470787
+    },
+    "Qwen2.5-VL 7B": {
+     "image10": 0.458239,
+     "image12": 0.638373,
+     "image14": 0.852005,
+     "mean_over_sizes": 0.649539
+    }
+   },
+   "lopo": [],
+   "length": [
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.32605,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.028712,
+      "lo": -0.383502,
+      "hi": -0.268598,
+      "p": 1.77e-16
+     },
+     "item": {
+      "df": 388,
+      "se": 0.022783,
+      "lo": -0.370842,
+      "hi": -0.281257,
+      "p": 1.33e-37
+     },
+     "bh": 1.6e-14
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.285775,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.028277,
+      "lo": -0.342357,
+      "hi": -0.229194,
+      "p": 1.73e-14
+     },
+     "item": {
+      "df": 388,
+      "se": 0.021847,
+      "lo": -0.328728,
+      "hi": -0.242823,
+      "p": 1.2e-32
+     },
+     "bh": 3.11e-13
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.224936,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.025488,
+      "lo": -0.275936,
+      "hi": -0.173935,
+      "p": 2.24e-12
+     },
+     "item": {
+      "df": 388,
+      "se": 0.02027,
+      "lo": -0.264788,
+      "hi": -0.185083,
+      "p": 4.88e-25
+     },
+     "bh": 3.35e-11
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.264781,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.031851,
+      "lo": -0.328516,
+      "hi": -0.201047,
+      "p": 1.62e-11
+     },
+     "item": {
+      "df": 388,
+      "se": 0.023917,
+      "lo": -0.311805,
+      "hi": -0.217758,
+      "p": 6.11e-25
+     },
+     "bh": 1.62e-10
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.259212,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.031605,
+      "lo": -0.322453,
+      "hi": -0.19597,
+      "p": 2.5e-11
+     },
+     "item": {
+      "df": 388,
+      "se": 0.024001,
+      "lo": -0.306401,
+      "hi": -0.212023,
+      "p": 5.98e-24
+     },
+     "bh": 2.25e-10
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.255784,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.032022,
+      "lo": -0.31986,
+      "hi": -0.191708,
+      "p": 5.74e-11
+     },
+     "item": {
+      "df": 388,
+      "se": 0.023304,
+      "lo": -0.301602,
+      "hi": -0.209967,
+      "p": 1.36e-24
+     },
+     "bh": 3.97e-10
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.300771,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.02809,
+      "lo": -0.356979,
+      "hi": -0.244563,
+      "p": 1.87e-15
+     },
+     "item": {
+      "df": 388,
+      "se": 0.022485,
+      "lo": -0.34498,
+      "hi": -0.256563,
+      "p": 8.03e-34
+     },
+     "bh": 4.2e-14
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.294773,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.026782,
+      "lo": -0.348363,
+      "hi": -0.241183,
+      "p": 6.26e-16
+     },
+     "item": {
+      "df": 388,
+      "se": 0.02223,
+      "lo": -0.33848,
+      "hi": -0.251066,
+      "p": 2.34e-33
+     },
+     "bh": 2.82e-14
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.254499,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.023516,
+      "lo": -0.301554,
+      "hi": -0.207444,
+      "p": 1.22e-15
+     },
+     "item": {
+      "df": 388,
+      "se": 0.020453,
+      "lo": -0.294711,
+      "hi": -0.214286,
+      "p": 3.85e-30
+     },
+     "bh": 3.67e-14
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.255356,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.030123,
+      "lo": -0.315631,
+      "hi": -0.19508,
+      "p": 8.57e-12
+     },
+     "item": {
+      "df": 388,
+      "se": 0.020542,
+      "lo": -0.295743,
+      "hi": -0.214968,
+      "p": 4.3e-30
+     },
+     "bh": 1.1e-10
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.1988,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.025356,
+      "lo": -0.249537,
+      "hi": -0.148063,
+      "p": 1.02e-10
+     },
+     "item": {
+      "df": 388,
+      "se": 0.019811,
+      "lo": -0.237751,
+      "hi": -0.15985,
+      "p": 3.2e-21
+     },
+     "bh": 5.73e-10
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.158955,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.021689,
+      "lo": -0.202354,
+      "hi": -0.115555,
+      "p": 7.5e-10
+     },
+     "item": {
+      "df": 388,
+      "se": 0.018177,
+      "lo": -0.194691,
+      "hi": -0.123218,
+      "p": 6.85e-17
+     },
+     "bh": 3.12e-09
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "2000-4000",
+     "est": -0.176521,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.024101,
+      "lo": -0.224746,
+      "hi": -0.128296,
+      "p": 7.63e-10
+     },
+     "item": {
+      "df": 388,
+      "se": 0.018077,
+      "lo": -0.212063,
+      "hi": -0.140979,
+      "p": 2.77e-20
+     },
+     "bh": 3.12e-09
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "2000-4000",
+     "est": -0.149957,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.024278,
+      "lo": -0.198537,
+      "hi": -0.101377,
+      "p": 6.57e-08
+     },
+     "item": {
+      "df": 388,
+      "se": 0.018307,
+      "lo": -0.185951,
+      "hi": -0.113963,
+      "p": 3.79e-15
+     },
+     "bh": 1.85e-07
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "2000-4000",
+     "est": -0.138817,
+     "n": 389,
+     "cluster": {
+      "clusters": 60,
+      "df": 59,
+      "se": 0.018813,
+      "lo": -0.176462,
+      "hi": -0.101173,
+      "p": 6.17e-10
+     },
+     "item": {
+      "df": 388,
+      "se": 0.016977,
+      "lo": -0.172197,
+      "hi": -0.105438,
+      "p": 4.2e-15
+     },
+     "bh": 2.78e-09
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.339524,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.038339,
+      "lo": -0.41661,
+      "hi": -0.262438,
+      "p": 1.16e-11
+     },
+     "item": {
+      "df": 349,
+      "se": 0.024653,
+      "lo": -0.38801,
+      "hi": -0.291038,
+      "p": 9.14e-35
+     },
+     "bh": 1.3e-10
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.310476,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.037548,
+      "lo": -0.385971,
+      "hi": -0.234982,
+      "p": 8.67e-11
+     },
+     "item": {
+      "df": 349,
+      "se": 0.025482,
+      "lo": -0.360594,
+      "hi": -0.260358,
+      "p": 1.07e-28
+     },
+     "bh": 5.57e-10
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.231905,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.027278,
+      "lo": -0.28675,
+      "hi": -0.177059,
+      "p": 3.89e-11
+     },
+     "item": {
+      "df": 349,
+      "se": 0.022556,
+      "lo": -0.276268,
+      "hi": -0.187541,
+      "p": 7.82e-22
+     },
+     "bh": 3.18e-10
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.331429,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.039304,
+      "lo": -0.410455,
+      "hi": -0.252402,
+      "p": 4.93e-11
+     },
+     "item": {
+      "df": 349,
+      "se": 0.025671,
+      "lo": -0.381918,
+      "hi": -0.280939,
+      "p": 1.93e-31
+     },
+     "bh": 3.7e-10
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.335714,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.047026,
+      "lo": -0.430266,
+      "hi": -0.241163,
+      "p": 4.5e-09
+     },
+     "item": {
+      "df": 349,
+      "se": 0.024747,
+      "lo": -0.384385,
+      "hi": -0.287043,
+      "p": 5.79e-34
+     },
+     "bh": 1.56e-08
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.336667,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.043255,
+      "lo": -0.423636,
+      "hi": -0.249697,
+      "p": 4.69e-10
+     },
+     "item": {
+      "df": 349,
+      "se": 0.024636,
+      "lo": -0.38512,
+      "hi": -0.288214,
+      "p": 2.37e-34
+     },
+     "bh": 2.22e-09
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.360952,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.043787,
+      "lo": -0.448992,
+      "hi": -0.272913,
+      "p": 9.47e-11
+     },
+     "item": {
+      "df": 349,
+      "se": 0.024836,
+      "lo": -0.409799,
+      "hi": -0.312106,
+      "p": 9.42e-38
+     },
+     "bh": 5.68e-10
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.345238,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.042182,
+      "lo": -0.430051,
+      "hi": -0.260425,
+      "p": 1.16e-10
+     },
+     "item": {
+      "df": 349,
+      "se": 0.02403,
+      "lo": -0.3925,
+      "hi": -0.297976,
+      "p": 4.27e-37
+     },
+     "bh": 6.15e-10
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.304762,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.040031,
+      "lo": -0.38525,
+      "hi": -0.224274,
+      "p": 8.5e-10
+     },
+     "item": {
+      "df": 349,
+      "se": 0.024164,
+      "lo": -0.352288,
+      "hi": -0.257236,
+      "p": 2.63e-30
+     },
+     "bh": 3.33e-09
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.30381,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.041901,
+      "lo": -0.388057,
+      "hi": -0.219562,
+      "p": 3.04e-09
+     },
+     "item": {
+      "df": 349,
+      "se": 0.023053,
+      "lo": -0.34915,
+      "hi": -0.258469,
+      "p": 1.81e-32
+     },
+     "bh": 1.09e-08
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.274286,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.039678,
+      "lo": -0.354065,
+      "hi": -0.194507,
+      "p": 1e-08
+     },
+     "item": {
+      "df": 349,
+      "se": 0.022225,
+      "lo": -0.317997,
+      "hi": -0.230574,
+      "p": 2.76e-29
+     },
+     "bh": 3.22e-08
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.229524,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.02811,
+      "lo": -0.286044,
+      "hi": -0.173004,
+      "p": 1.24e-10
+     },
+     "item": {
+      "df": 349,
+      "se": 0.021989,
+      "lo": -0.272771,
+      "hi": -0.186276,
+      "p": 2.23e-22
+     },
+     "bh": 6.21e-10
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "4000-8000",
+     "est": -0.186667,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.035223,
+      "lo": -0.257488,
+      "hi": -0.115846,
+      "p": 2.89e-06
+     },
+     "item": {
+      "df": 349,
+      "se": 0.02055,
+      "lo": -0.227083,
+      "hi": -0.14625,
+      "p": 7.96e-18
+     },
+     "bh": 7.21e-06
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "4000-8000",
+     "est": -0.179524,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.024016,
+      "lo": -0.227812,
+      "hi": -0.131236,
+      "p": 1.38e-09
+     },
+     "item": {
+      "df": 349,
+      "se": 0.019399,
+      "lo": -0.217678,
+      "hi": -0.141369,
+      "p": 2.23e-18
+     },
+     "bh": 5.18e-09
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "4000-8000",
+     "est": -0.164762,
+     "n": 350,
+     "cluster": {
+      "clusters": 49,
+      "df": 48,
+      "se": 0.027766,
+      "lo": -0.22059,
+      "hi": -0.108934,
+      "p": 3.16e-07
+     },
+     "item": {
+      "df": 349,
+      "se": 0.019557,
+      "lo": -0.203227,
+      "hi": -0.126297,
+      "p": 9.58e-16
+     },
+     "bh": 8.63e-07
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.286111,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.045804,
+      "lo": -0.382342,
+      "hi": -0.189881,
+      "p": 6.83e-06
+     },
+     "item": {
+      "df": 119,
+      "se": 0.041523,
+      "lo": -0.368331,
+      "hi": -0.203891,
+      "p": 2.83e-10
+     },
+     "bh": 1.66e-05
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.219444,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.040208,
+      "lo": -0.303918,
+      "hi": -0.134971,
+      "p": 3.49e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.037631,
+      "lo": -0.293957,
+      "hi": -0.144932,
+      "p": 4.82e-08
+     },
+     "bh": 7.13e-05
+    },
+    {
+     "model": "Qwen3.5 27B",
+     "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.195833,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.032991,
+      "lo": -0.265145,
+      "hi": -0.126521,
+      "p": 1.29e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.038432,
+      "lo": -0.271933,
+      "hi": -0.119733,
+      "p": 1.32e-06
+     },
+     "bh": 2.89e-05
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.358333,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.035744,
+      "lo": -0.433429,
+      "hi": -0.283238,
+      "p": 8.59e-09
+     },
+     "item": {
+      "df": 119,
+      "se": 0.041964,
+      "lo": -0.441427,
+      "hi": -0.27524,
+      "p": 5.22e-14
+     },
+     "bh": 2.86e-08
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.348611,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.051091,
+      "lo": -0.455949,
+      "hi": -0.241273,
+      "p": 2.18e-06
+     },
+     "item": {
+      "df": 119,
+      "se": 0.041327,
+      "lo": -0.430442,
+      "hi": -0.26678,
+      "p": 9.09e-14
+     },
+     "bh": 5.61e-06
+    },
+    {
+     "model": "Gemma 4 12B",
+     "repo": "google/gemma-4-12B-it",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.338889,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.035207,
+      "lo": -0.412857,
+      "hi": -0.264921,
+      "p": 1.6e-08
+     },
+     "item": {
+      "df": 119,
+      "se": 0.04207,
+      "lo": -0.422192,
+      "hi": -0.255586,
+      "p": 6.87e-13
+     },
+     "bh": 4.97e-08
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.351389,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.067249,
+      "lo": -0.492675,
+      "hi": -0.210103,
+      "p": 5.72e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.042248,
+      "lo": -0.435045,
+      "hi": -0.267733,
+      "p": 1.71e-13
+     },
+     "bh": 0.000114
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.333333,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.058453,
+      "lo": -0.456138,
+      "hi": -0.210529,
+      "p": 2.08e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.038247,
+      "lo": -0.409066,
+      "hi": -0.257601,
+      "p": 2.02e-14
+     },
+     "bh": 4.57e-05
+    },
+    {
+     "model": "Mistral Small 3.2 24B",
+     "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.283333,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.049851,
+      "lo": -0.388065,
+      "hi": -0.178601,
+      "p": 2.17e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.038379,
+      "lo": -0.359327,
+      "hi": -0.20734,
+      "p": 2.31e-11
+     },
+     "bh": 4.65e-05
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.288889,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.048346,
+      "lo": -0.390459,
+      "hi": -0.187319,
+      "p": 1.19e-05
+     },
+     "item": {
+      "df": 119,
+      "se": 0.036992,
+      "lo": -0.362137,
+      "hi": -0.215641,
+      "p": 2.51e-12
+     },
+     "bh": 2.73e-05
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.211111,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.052551,
+      "lo": -0.321517,
+      "hi": -0.100705,
+      "p": 0.000808
+     },
+     "item": {
+      "df": 119,
+      "se": 0.038638,
+      "lo": -0.287618,
+      "hi": -0.134604,
+      "p": 2.6e-07
+     },
+     "bh": 0.0013
+    },
+    {
+     "model": "Qwen3.5 9B",
+     "repo": "Qwen/Qwen3.5-9B",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.180556,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.029792,
+      "lo": -0.243147,
+      "hi": -0.117964,
+      "p": 9.96e-06
+     },
+     "item": {
+      "df": 119,
+      "se": 0.037765,
+      "lo": -0.255333,
+      "hi": -0.105778,
+      "p": 5.04e-06
+     },
+     "bh": 2.36e-05
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image10",
+     "bucket": "8000-12000",
+     "est": -0.173611,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.054965,
+      "lo": -0.289088,
+      "hi": -0.058134,
+      "p": 0.00544
+     },
+     "item": {
+      "df": 119,
+      "se": 0.0376,
+      "lo": -0.248063,
+      "hi": -0.099159,
+      "p": 9.9e-06
+     },
+     "bh": 0.00728
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image12",
+     "bucket": "8000-12000",
+     "est": -0.163889,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.051746,
+      "lo": -0.272604,
+      "hi": -0.055174,
+      "p": 0.00533
+     },
+     "item": {
+      "df": 119,
+      "se": 0.034783,
+      "lo": -0.232763,
+      "hi": -0.095015,
+      "p": 6.72e-06
+     },
+     "bh": 0.00727
+    },
+    {
+     "model": "Qwen2.5-VL 7B",
+     "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+     "size": "image14",
+     "bucket": "8000-12000",
+     "est": -0.123611,
+     "n": 120,
+     "cluster": {
+      "clusters": 19,
+      "df": 18,
+      "se": 0.04378,
+      "lo": -0.215589,
+      "hi": -0.031633,
+      "p": 0.0113
+     },
+     "item": {
+      "df": 119,
+      "se": 0.033733,
+      "lo": -0.190407,
+      "hi": -0.056816,
+      "p": 0.000372
+     },
+     "bh": 0.0139
+    }
+   ],
+   "floor_ceiling": {
+    "Qwen3.5 27B": {
+     "text": {
+      "none": 0.409779,
+      "all": 0.476135
+     },
+     "image10": {
+      "none": 0.733411,
+      "all": 0.150175
+     },
+     "image12": {
+      "none": 0.685681,
+      "all": 0.186263
+     },
+     "image14": {
+      "none": 0.618161,
+      "all": 0.236321
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "none": 0.505239,
+      "all": 0.424913
+     },
+     "image10": {
+      "none": 0.825378,
+      "all": 0.137369
+     },
+     "image12": {
+      "none": 0.814901,
+      "all": 0.132712
+     },
+     "image14": {
+      "none": 0.819558,
+      "all": 0.139697
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "none": 0.441211,
+      "all": 0.403958
+     },
+     "image10": {
+      "none": 0.80908,
+      "all": 0.110594
+     },
+     "image12": {
+      "none": 0.785797,
+      "all": 0.111758
+     },
+     "image14": {
+      "none": 0.726426,
+      "all": 0.137369
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "none": 0.506403,
+      "all": 0.330617
+     },
+     "image10": {
+      "none": 0.812573,
+      "all": 0.079162
+     },
+     "image12": {
+      "none": 0.752037,
+      "all": 0.11525
+     },
+     "image14": {
+      "none": 0.69383,
+      "all": 0.138533
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "none": 0.621653,
+      "all": 0.222352
+     },
+     "image10": {
+      "none": 0.827707,
+      "all": 0.071013
+     },
+     "image12": {
+      "none": 0.800931,
+      "all": 0.077998
+     },
+     "image14": {
+      "none": 0.788126,
+      "all": 0.096624
+     }
+    }
+   },
+   "all_none": {
+    "text": {
+     "all_models_pass": 0.150175,
+     "no_model_passes": 0.314319
+    },
+    "image10": {
+     "all_models_pass": 0.029104,
+     "no_model_passes": 0.635623
+    },
+    "image12": {
+     "all_models_pass": 0.029104,
+     "no_model_passes": 0.583236
+    },
+    "image14": {
+     "all_models_pass": 0.030268,
+     "no_model_passes": 0.513388
+    }
+   },
+   "scoring": {
+    "Qwen3.5 27B": {
+     "text": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.033889,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     },
+     "image10": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.009385,
+      "no_code": 0.0,
+      "no_def_line": 0.01877
+     },
+     "image12": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.01147,
+      "no_code": 0.0,
+      "no_def_line": 0.020334
+     },
+     "image14": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.008863,
+      "no_code": 0.0,
+      "no_def_line": 0.01877
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.002607,
+      "no_code": 0.0,
+      "no_def_line": 0.116788
+     },
+     "image10": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.017727,
+      "no_code": 0.0,
+      "no_def_line": 0.177268
+     },
+     "image12": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.011992,
+      "no_code": 0.000521,
+      "no_def_line": 0.145985
+     },
+     "image14": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.019812,
+      "no_code": 0.0,
+      "no_def_line": 0.122002
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.0,
+      "no_code": 0.0,
+      "no_def_line": 0.000521
+     },
+     "image10": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.002607,
+      "no_code": 0.0,
+      "no_def_line": 0.001043
+     },
+     "image12": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.001043,
+      "no_code": 0.0,
+      "no_def_line": 0.001043
+     },
+     "image14": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.001043,
+      "no_code": 0.0,
+      "no_def_line": 0.0
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.039103,
+      "no_code": 0.0,
+      "no_def_line": 0.061522
+     },
+     "image10": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.123566,
+      "no_code": 0.0,
+      "no_def_line": 0.019812
+     },
+     "image12": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.124088,
+      "no_code": 0.0,
+      "no_def_line": 0.016163
+     },
+     "image14": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.131387,
+      "no_code": 0.0,
+      "no_def_line": 0.010428
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.015641,
+      "no_code": 0.0,
+      "no_def_line": 0.005735
+     },
+     "image10": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.019291,
+      "no_code": 0.005214,
+      "no_def_line": 0.035975
+     },
+     "image12": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.017727,
+      "no_code": 0.004171,
+      "no_def_line": 0.039625
+     },
+     "image14": {
+      "answers": 1918,
+      "empty": 0.0,
+      "truncated": 0.014599,
+      "no_code": 0.002607,
+      "no_def_line": 0.037018
+     }
+    }
+   },
+   "output_tokens": {
+    "Qwen3.5 27B": {
+     "text": {
+      "median": 277,
+      "q1": 175,
+      "q3": 469,
+      "mean": 425.55683
+     },
+     "image10": {
+      "median": 233,
+      "q1": 158,
+      "q3": 350,
+      "mean": 307.604797
+     },
+     "image12": {
+      "median": 231,
+      "q1": 160,
+      "q3": 352,
+      "mean": 311.700209
+     },
+     "image14": {
+      "median": 226,
+      "q1": 157,
+      "q3": 356,
+      "mean": 308.651721
+     }
+    },
+    "Gemma 4 12B": {
+     "text": {
+      "median": 216,
+      "q1": 152,
+      "q3": 334,
+      "mean": 275.473931
+     },
+     "image10": {
+      "median": 203,
+      "q1": 148,
+      "q3": 297,
+      "mean": 278.357143
+     },
+     "image12": {
+      "median": 218,
+      "q1": 154,
+      "q3": 318,
+      "mean": 284.15902
+     },
+     "image14": {
+      "median": 222,
+      "q1": 157,
+      "q3": 326,
+      "mean": 302.925965
+     }
+    },
+    "Mistral Small 3.2 24B": {
+     "text": {
+      "median": 254,
+      "q1": 172,
+      "q3": 371,
+      "mean": 294.466632
+     },
+     "image10": {
+      "median": 254,
+      "q1": 180,
+      "q3": 382,
+      "mean": 311.504171
+     },
+     "image12": {
+      "median": 246,
+      "q1": 173,
+      "q3": 368,
+      "mean": 300.791971
+     },
+     "image14": {
+      "median": 244,
+      "q1": 170,
+      "q3": 366,
+      "mean": 294.625652
+     }
+    },
+    "Qwen3.5 9B": {
+     "text": {
+      "median": 269,
+      "q1": 166,
+      "q3": 459,
+      "mean": 423.708029
+     },
+     "image10": {
+      "median": 510,
+      "q1": 379,
+      "q3": 892,
+      "mean": 774.96976
+     },
+     "image12": {
+      "median": 511,
+      "q1": 381,
+      "q3": 958,
+      "mean": 781.465589
+     },
+     "image14": {
+      "median": 498,
+      "q1": 377,
+      "q3": 917,
+      "mean": 779.764859
+     }
+    },
+    "Qwen2.5-VL 7B": {
+     "text": {
+      "median": 390,
+      "q1": 267,
+      "q3": 536,
+      "mean": 447.457247
+     },
+     "image10": {
+      "median": 208,
+      "q1": 144,
+      "q3": 308,
+      "mean": 280.223149
+     },
+     "image12": {
+      "median": 207,
+      "q1": 149,
+      "q3": 302,
+      "mean": 275.686653
+     },
+     "image14": {
+      "median": 201,
+      "q1": 143,
+      "q3": 293,
+      "mean": 269.234619
+     }
+    }
+   },
+   "never_passed": 254
+  }
+ }
+}
