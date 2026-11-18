@@ -3,6 +3,44 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-17: layout control, step 1 and 5 only
+
+CodeShrink (arXiv 2607.29637) lifts completion by rendering code without blank space, so a
+reviewer can ask whether our gap is the modality or our layout (UFM-30). Our packed renderer
+already drops line-break blank space; what is left is leading indentation. This is exploratory and
+outside methods 3.3.
+
+- **Only steps 1 and 5 of UFM-30.** `scripts/layout_share.py` measures, with `render.layout` on the
+  contexts the main run rendered, the share of rendered characters that are leading spaces, and
+  the pages and page area each item would need without them. No renderer option, no model run, no
+  GPU. The limitations paragraph in `results/layout/findings.md` comes from those numbers.
+- **The measure is characters.** Leading spaces of each line (after the renderer's tab expansion
+  and `rstrip`) over all rendered characters, the newline marker counting as one. Lines flow
+  across rows, so rows and lines do not map one to one; the share is the same at every size. The
+  page area of the what-if is the proxy for tokens, since the 5 models tokenize images
+  differently.
+- **The local render is checked first.** Every page of the main run (9,722) is rendered again
+  and compared by `pixels_sha256` and size with the main run's `requests.jsonl`, and the page
+  counts with `manifests/pages/`. Any mismatch stops the script.
+- **Threshold, fixed before the numbers.** The share is "small" when, in every benchmark and size,
+  removing the indentation cuts the median per-item page area by less than
+  1 - (15/86)/(18/75) = 0.2733 (unrounded in the code). That is the smallest step of our font
+  sweep (14 to 12 px) in the area a character costs under `layout` (`PAGE_W * line_height /
+  columns`).
+  Small means stop at the limitations paragraph; large means report it and decide on steps 2 to 4.
+- **Result (added 2026-11-18): small.** Every page matched the main run (995 items, 9,722 pages). Leading spaces are
+  17.3% (CoderUJB) and 18.4% (DevEval) of the rendered characters, item means; removing them
+  saves a median 16.2% to 16.4% and 18.1% to 18.3% of an item's page area across the three sizes.
+  Steps 2 to 4 are not run unless decided later. Numbers: `results/layout/`.
+- **The threshold's first rationale was wrong and is withdrawn; the rule stands.** It was proposed
+  on the belief that the font sweep left pass rates nearly equal. It did not: 14 px beats 12 px by
+  4.1 to 8.8 points, with the interval above zero, for Qwen3.5 27B on both benchmarks and for
+  Mistral Small 3.2 24B and Qwen3.5 9B on DevEval (`results/analysis/findings.md`, differences
+  between sizes). So
+  "small" only says the indentation is less area than one font step; it does not rule out a layout
+  effect, since freed area spent on a larger font could help. The limitations paragraph says so.
+  The rule was kept as fixed rather than changed after seeing the numbers.
+
 ## 2026-11-17: Claude extension analysis
 
 The addendum's analyses ran on the collected Claude tables (UFM-27). `results/claude/findings.md`
