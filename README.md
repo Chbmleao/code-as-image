@@ -56,9 +56,12 @@ is the paired text-minus-image gap per model with a project-clustered interval. 
 | `answers` | Extracts the code from each reply into grader input | login node |
 | `codeimg.grade.coderujb`, `codeimg.grade.deveval` | The calibration graders; the DevEval one writes each row as soon as its answer is graded | CPU node |
 | `collect` | One row per answer with `passed` and `reason`; fails on any gap in the grid | login node |
+| `transcribe` | Transcription requests (UFM-12): the main run's pages with a copy instruction instead of the task | login node |
 
 `scripts/rest_manifest.py` writes the rest manifests (every final item not in block 1), and
 `scripts/full_table.py` joins block 1 and the rest into `results/full/` and checks the table.
+`scripts/transcription_score.py` scores the transcription replies (names read exactly, text and
+line match) into `results/transcription/`.
 
 ## Running
 

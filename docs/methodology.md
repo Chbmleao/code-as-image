@@ -210,12 +210,17 @@ the paired difference between sizes (same items, same model) with its own interv
 the highest point estimate.
 
 **Reading vs coding failures.** In a separate transcription test (UFM-12), each model is shown the
-same images and asked to read back the identifiers the reference solution needs, including the
-target function name. The score R is the fraction read exactly. We report pass rate by R and the
-condition x R slope in the GLMM, and classify each failed image answer as "implemented a different
-function" (from the extracted function name) or "found the right function but failed". These are
-associations: R comes from a separate call and item difficulty drives both reading and passing, so
-they do not show that misreading causes failure.
+same pages of each size and asked to copy the code exactly, in two runs. The score R is the
+fraction of the distinct names in the rendered code (identifiers outside comments and strings,
+keywords left out) that the copy contains exactly; names misread only in their underscores, and
+names within two edits, are counted separately. R covers every name of the context rather than
+only the identifiers the reference solution needs, so no rule has to choose which names count
+(docs/decisions.md, 2026-11-14). The test also scores how much of the whole text the copy keeps
+in order, and whether line breaks and indentation survive the packed rendering. We report pass rate by R and the condition x R slope in the GLMM, and
+classify each failed image answer as "implemented a different function" (from the extracted
+function name) or "found the right function but failed". These are associations: R comes from a
+separate call and item difficulty drives both reading and passing, so they do not show that
+misreading causes failure.
 
 **Contamination.** In calibration many passing answers copied the reference code (24 of 24 exact
 copies on DevEval passed). A model that has memorized an item can pass from a partial reading of

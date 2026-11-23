@@ -3,6 +3,39 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-14: transcription test (UFM-12)
+
+- **R counts every distinct name of the rendered context**, not the identifiers the reference
+  solution needs (3.3 as first written). Names are the identifiers outside comments and strings,
+  keywords left out, from the context blocks as the renderer drew them; numbers are lexed first, so
+  `0x1F` or `1e-5` yields no name. This needs no rule for which names count. A name is exact,
+  underscore-only (equal once underscores are removed), near (Levenshtein 1 or 2, names of 4 or
+  more characters) or missing, and R is the exact share. A near match may be another real name of
+  the context (`item` for `items`), so the near count is an upper bound on misreads.
+- **The request is the main run's pages with only a copy instruction**: all pages of the condition
+  in order, the same PNG files (each one's pixels checked against the main run's hash), no task
+  text, and for DevEval a separator sentence between the above and below pages. Main-run decoding,
+  2 runs, all 995 items and the three sizes, so it covers the pages behind every image answer.
+- **32768 server tokens and 16384 output tokens, for this test only**, in a new `[transcription]`
+  section; the main-run settings are unchanged. From the main run's token counts, the worst image
+  prompt plus a copy as long as the text prompt is 21,162 tokens, and the worst image prompt plus
+  16384 is 26,424. A startup check runs first on the items closest to the limit (per model the 3
+  largest image14 + text prompts, union over models).
+- **Text match is the exact longest common subsequence of the code tokens**, computed bit-parallel,
+  instead of difflib as first planned: difflib's matching blocks are not a longest common
+  subsequence, and on 20k-token lists full of repeated punctuation it is too slow for 29,850 rows.
+  The line and indentation match still use difflib, on lines.
+- **The copy runs from the first opening fence to the last closing one**, so a reply that puts the
+  two DevEval blocks in two fences, or code that itself contains a fence, stays whole.
+- **Lines whose leading spaces cross a row end are left out of the indentation match.** The
+  renderer draws those spaces as trailing blanks of the previous row, so the page itself loses
+  them; they are counted per item and size (`indent_lost_rows`).
+- **The score key is `tr__` + the answer key**, so it never equals a main-run key: a transcription
+  run is not the answer run with the same number. UFM-13 joins on (model, benchmark, id,
+  condition) and averages over the non-null runs.
+- **`generate` cuts an unfinished last line before resuming**, so a job killed mid-write does not
+  stop the next job of a chain; the cut key is sent again.
+
 ## 2026-11-14: reliability on the full data
 
 - **The reliability components are fitted on the observed 0/1 pass of each run**, not the logit

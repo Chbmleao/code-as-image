@@ -65,6 +65,23 @@ most of a short job's time, so expect about 15 minutes even for 60 short generat
 4. `python -m codeimg answers`, then `sbatch <code>/slurm/grade_<b>.sbatch <code> ANSWERS OUT`,
    then `python -m codeimg collect`.
 
+### Transcription test (UFM-12)
+
+1. `scripts/sync_cluster.sh`, as above.
+2. Build the requests from the main run's, for each benchmark (add `--ids <manifest>` for a subset,
+   such as `manifests/transcribe_check/<b>.txt` for the startup check):
+   `python -m codeimg transcribe --source /snfs2/carlosleao/ufm9/block1/<b>/requests.jsonl
+   --source /snfs2/carlosleao/ufm9/rest/<b>/requests.jsonl --out /snfs2/carlosleao/ufm9/transcribe`.
+   It checks the pixels of every page against the main run's render.
+3. `SBATCH_TIME=<limit> <code>/slurm/submit_generate.sh <code> /snfs2/carlosleao/ufm9/transcribe
+   --transcription --runs 2`. With `--transcription` the job starts vLLM with
+   `[transcription].max_model_len` (32768); medusas_dev allows 8 h and medusas_shr 2 days.
+4. `python <code>/scripts/transcription_score.py --benchmark <b> --source <block1 requests>
+   --source <rest requests> --requests /snfs2/carlosleao/ufm9/transcribe/<b>/requests.jsonl
+   --gen /snfs2/carlosleao/ufm9/transcribe/<b>/gen/*.jsonl --runs 2
+   --out /snfs2/carlosleao/ufm9/transcribe/<b>/scores.jsonl`, then copy `scores.jsonl` to
+   `results/transcription/<b>.jsonl`.
+
 ## Things that have already broken
 
 - Slurm copies the `.sbatch` file when you submit, but reads the `.py` files when the job
