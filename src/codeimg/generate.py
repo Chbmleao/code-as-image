@@ -95,6 +95,10 @@ class Client:
             row.update(reply=None, error=r[1])
         else:
             choice = r["choices"][0]
+            # vLLM answers in-flight requests with "abort" when its engine dies; the partial
+            # reply is not an output, and a written row would mark the key as done
+            if choice["finish_reason"] == "abort":
+                raise StopJob("vLLM aborted the request")
             row.update(reply=choice["message"]["content"] or "", finish_reason=choice["finish_reason"],
                        prompt_tokens=r["usage"]["prompt_tokens"],
                        output_tokens=r["usage"]["completion_tokens"], error=None)

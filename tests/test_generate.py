@@ -25,8 +25,9 @@ class Fake(BaseHTTPRequestHandler):
         if "FLAKY" in first and Fake.fail_5xx:
             Fake.fail_5xx -= 1
             return self.send(503, {"message": "busy"})
+        finish = "abort" if "ABORT" in first else "stop"
         self.send(200, {"choices": [{"message": {"content": f"reply seed {body['seed']}"},
-                                     "finish_reason": "stop"}],
+                                     "finish_reason": finish}],
                         "usage": {"prompt_tokens": 11, "completion_tokens": 3}})
 
     def send(self, code, obj):
@@ -89,6 +90,13 @@ def test_other_400_stops_the_job_without_a_row(client, tmp_path):
     out = str(tmp_path / "gen.jsonl")
     with pytest.raises(generate.StopJob):
         generate.run_grid(client, [req("a", "BAD")], 1, out, 1)
+    assert read_jsonl(out) == []
+
+
+def test_an_aborted_reply_stops_the_job_without_a_row(client, tmp_path):
+    out = str(tmp_path / "gen.jsonl")
+    with pytest.raises(generate.StopJob):
+        generate.run_grid(client, [req("a", "ABORT")], 1, out, 1)
     assert read_jsonl(out) == []
 
 
