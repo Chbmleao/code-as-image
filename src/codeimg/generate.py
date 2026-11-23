@@ -117,12 +117,32 @@ def read_rows(path):
         return [json.loads(line) for line in f]
 
 
+def repair_tail(path):
+    """Cut a last line left unfinished by a job killed mid-write, so the next job of a chain can
+    read the file and its first append starts on a new line. The cut key is sent again."""
+    if not os.path.exists(path):
+        return
+    with open(path, "rb+") as f:
+        data = f.read()
+        if not data or data.endswith(b"\n"):
+            return
+        start = data.rfind(b"\n") + 1
+        try:
+            json.loads(data[start:])
+        except ValueError:
+            print(f"warning: dropping an unfinished last line of {path}", file=sys.stderr)
+            f.truncate(start)
+        else:
+            f.write(b"\n")
+
+
 def append(f, row):
     f.write(json.dumps(row, ensure_ascii=False) + "\n")
     f.flush()
 
 
 def run_grid(client, requests, runs, out_path, workers):
+    repair_tail(out_path)
     done = {key(r) for r in read_rows(out_path)}
     todo = [(q, run) for q in requests for run in range(runs) if (q["id"], q["condition"], run) not in done]
     print(f"{len(todo)} requests to send, {len(done)} already done", flush=True)

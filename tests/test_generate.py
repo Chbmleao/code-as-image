@@ -179,3 +179,22 @@ def test_images_are_sent_as_data_urls_in_message_order(client, tmp_path):
     assert [c["type"] for c in content] == ["text", "image_url", "text", "image_url"]
     assert content[1]["image_url"]["url"] == "data:image/png;base64,b25l"
     assert content[3]["image_url"]["url"] == "data:image/png;base64,dHdv"
+
+
+def test_an_unfinished_last_line_is_cut_and_its_key_sent_again(client, tmp_path):
+    out = tmp_path / "gen.jsonl"
+    generate.run_grid(client, [req("a", "hi")], 1, str(out), 1)
+    with open(out, "a") as f:
+        f.write('{"id": "b", "condition": "text", "ru')
+    generate.run_grid(client, [req("a", "hi"), req("b", "hi")], 1, str(out), 1)
+    assert sorted(r["id"] for r in read_jsonl(out)) == ["a", "b"]
+
+
+def test_a_whole_last_line_without_newline_is_kept(client, tmp_path):
+    out = tmp_path / "gen.jsonl"
+    generate.run_grid(client, [req("a", "hi")], 1, str(out), 1)
+    out.write_text(out.read_text().rstrip("\n"))
+    Fake.seen.clear()
+    generate.run_grid(client, [req("a", "hi"), req("b", "hi")], 1, str(out), 1)
+    assert len(Fake.seen) == 1
+    assert sorted(r["id"] for r in read_jsonl(out)) == ["a", "b"]
