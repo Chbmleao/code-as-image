@@ -1,0 +1,14 @@
+benchmark,item,pattern,passed_by_none
+deveval,alembic.testing.env._no_sql_testing_config,reindent,True
+deveval,alembic.testing.env.env_file_fixture,reindent,True
+deveval,alembic.testing.env.multi_heads_fixture,reindent,True
+deveval,alembic.testing.env.three_rev_fixture,reindent,False
+deveval,datasette.utils.asgi.Request.fake,offset,True
+deveval,datasette.utils.asgi.Request.full_path,offset,True
+deveval,datasette.utils.asgi.Request.post_body,offset,True
+deveval,datasette.utils.asgi.Response.asgi_send,offset,True
+deveval,datasette.utils.asgi.Response.html,offset,True
+deveval,datasette.utils.asgi.Response.json,offset,True
+deveval,datasette.utils.asgi.Response.redirect,offset,True
+deveval,datasette.utils.asgi.Response.set_cookie,offset,True
+deveval,datasette.utils.asgi.Response.text,offset,True

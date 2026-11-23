@@ -1,0 +1,41 @@
+benchmark,model,id,condition,run,reason,label,note
+deveval,claude-sonnet-5-5,boto.route53.zone.Zone.find_records,text,1,error,wrong_name,imports TooManyRecordsException from a module that lacks it
+deveval,claude-sonnet-5-5,chatette.cli.interactive_commands.command_strategy.CommandStrategy.find_redirection_file_path,text,0,error,wrong_logic,misses the case where the last token is only a redirection symbol
+deveval,claude-sonnet-5-5,mopidy.config.types.List.serialize,text,1,error,wrong_logic,"does not skip blank serialized items, no fallback for a missing _subtype"
+deveval,claude-sonnet-5-5,mrjob.local.LocalMRJobRunner._spark_master,text,0,error,wrong_logic,reads step jobconf instead of the runner options and adds cores logic
+deveval,claude-sonnet-5-5,mrjob.logs.mixin.LogInterpretationMixin._pick_error,text,0,error,extraction,first code block parses but is an unfinished draft; the corrected version in the second block is not extracted
+deveval,claude-sonnet-5-5,oletools.oleobj.get_sane_embedded_filenames,text,1,error,wrong_logic,different suffix detection and name generation than the reference
+deveval,claude-sonnet-5-5,pythonforandroid.bootstrap.Bootstrap.get_bootstrap_from_recipes,text,1,error,wrong_logic,"rule for acceptable bootstraps differs, raises instead of returning None"
+deveval,claude-sonnet-5-5,sacred.config.config_scope.dedent_line,text,0,error,wrong_logic,"strips the indent only when the line starts with it, not the common prefix"
+deveval,claude-sonnet-5-5,wikipediaapi.WikipediaPage.text,text,0,error,wrong_logic,omits the blank line after the summary and the section level
+deveval,claude-sonnet-5-5,zulipterminal.ui_tools.buttons.MessageLinkButton._validate_narrow_link,text,0,error,wrong_name,"calls model.is_valid_topic_name, which does not exist"
+deveval,claude-sonnet-5-5,alembic.testing.env.env_file_fixture,image10,1,error,false_fail,same code as the reference; re-indenting shifts column-0 lines of a string in the body (harness)
+deveval,claude-sonnet-5-5,boltons.dictutils.OneToOne.clear,image10,0,error,wrong_logic,clearing through the inverse recurses between the two instances
+deveval,claude-sonnet-5-5,boltons.ioutils.SpooledStringIO.write,image10,0,error,wrong_logic,"writes str to a bytes buffer and counts characters, not bytes"
+deveval,claude-sonnet-5-5,boltons.tbutils.ParsedException.from_string,image10,0,error,wrong_name,"uses unicode, undefined in Python 3 where the module uses text"
+deveval,claude-sonnet-5-5,datasette.utils.asgi.Response.set_cookie,image10,1,error,false_fail,logic matches the reference; body_position starts inside the signature, so the splice breaks it (harness)
+deveval,claude-sonnet-5-5,mingus.core.value.determine,image10,1,error,wrong_logic,returns tuples of a different shape and matching scheme
+deveval,claude-sonnet-5-5,mopidy.config.format_initial,image10,1,error,wrong_name,first block uses read_config and other names that do not exist
+deveval,claude-sonnet-5-5,prometheus_client.exposition.choose_encoder,image10,0,error,wrong_name,uses openmetrics without the local import the reference has
+deveval,claude-sonnet-5-5,sacred.dependencies.is_local_source,image10,0,error,wrong_name,"calls is_subdir, which is defined only in a second block that is not extracted"
+deveval,claude-sonnet-5-5,ydata_profiling.profile_report.ProfileReport.typeset,image10,0,error,wrong_name,uses ProfilingTypeSet without the local import the reference has
+deveval,claude-sonnet-5-5,bentoml._internal.utils.analytics.usage_stats._track_serve_init,image12,1,error,wrong_name,calls ServeInitEvent with fields it does not have
+deveval,claude-sonnet-5-5,bplustree.memory.FileMemory.set_metadata,image12,1,error,wrong_logic,"writes through set_page instead of the tree file, no padding to page size"
+deveval,claude-sonnet-5-5,hypertools._shared.helpers.reshape_data,image12,0,error,wrong_logic,"list hue and None labels handled differently, category order sorted"
+deveval,claude-sonnet-5-5,jc.parsers.xrandr._parse_model,image12,0,error,wrong_logic,parses EDID bytes by hand instead of using the repository helpers
+deveval,claude-sonnet-5-5,mopidy.internal.log.get_verbosity_level,image12,0,error,wrong_logic,"does not treat a None verbosity as 0, which the docstring does not state"
+deveval,claude-sonnet-5-5,msticpy.analysis.anomalous_sequence.utils.cmds_params_values.compute_likelihood_windows_in_session,image12,0,error,wrong_logic,end token handled differently for the last window
+deveval,claude-sonnet-5-5,pyinfra.api.arguments.pop_global_arguments,image12,0,error,wrong_name,"calls cast_arguments, which does not exist"
+deveval,claude-sonnet-5-5,zulipterminal.config.themes.parse_themefile,image12,0,error,wrong_logic,splits colour values on the wrong separator
+deveval,claude-sonnet-5-5,zulipterminal.helper.canonicalize_color,image12,0,error,extraction,first code block is extracted; the corrected second block is not
+deveval,claude-sonnet-5-5,zulipterminal.ui_tools.buttons.MessageLinkButton._validate_narrow_link,image12,0,error,wrong_logic,omits the empty link check and changes the near check
+deveval,claude-sonnet-5-5,arctic.store._ndarray_store._promote_struct_dtypes,image14,0,error,wrong_logic,recursion on the base dtype never terminates
+deveval,claude-sonnet-5-5,arctic.store._version_store_utils.checksum,image14,0,error,wrong_logic,drops the branch for non-bytes fields and sorts in the other order
+deveval,claude-sonnet-5-5,boltons.cacheutils.ThresholdCounter.most_common,image14,0,error,extraction,first code block is extracted; the corrected second block is not
+deveval,claude-sonnet-5-5,faker.providers.misc.Provider.binary,image14,0,error,extraction,first code block uses a name-mangled attribute; the corrected second block is not extracted
+deveval,claude-sonnet-5-5,hypertools._shared.helpers.interp_array,image14,0,error,wrong_logic,interpolation grid of a different length
+deveval,claude-sonnet-5-5,mingus.core.progressions.substitute_diminished_for_dominant,image14,0,error,wrong_logic,checks the wrong chord suffixes
+deveval,claude-sonnet-5-5,mrjob.logs.history._parse_pre_yarn_history_log,image14,0,error,wrong_logic,error records built with a different structure
+deveval,claude-sonnet-5-5,pythonforandroid.recommendations.read_ndk_version,image14,0,error,wrong_logic,message text differs from the module constants
+deveval,claude-sonnet-5-5,rest_framework.templatetags.rest_framework.add_query_param,image14,1,error,wrong_name,calls replace_query_param without importing it
+deveval,claude-sonnet-5-5,zulipterminal.config.themes.validate_colors,image14,1,error,wrong_logic,reads the wrong theme attribute and formats the error differently

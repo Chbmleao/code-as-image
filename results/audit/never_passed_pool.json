@@ -1,0 +1,17 @@
+{
+ "seed": 20261123,
+ "counts": {
+  "coderujb": {
+   "never_passed_open": 31,
+   "gold_passed": 31,
+   "claude_passed": 30,
+   "passed_by_none": 1
+  },
+  "deveval": {
+   "never_passed_open": 254,
+   "gold_passed": 254,
+   "claude_passed": 237,
+   "passed_by_none": 17
+  }
+ }
+}

@@ -1,0 +1,11 @@
+benchmark,item,project,rows,reasons,gold_passed,gold_seconds,budget_seconds,label,note
+deveval,alembic.testing.env._no_sql_testing_config,Database/alembic,40,error:40,True,41.8,180,test_bug,"re-indenting the body shifts column-0 lines of a config string, so any answer breaks (harness)"
+deveval,alembic.testing.env.env_file_fixture,Database/alembic,40,error:40,True,42.9,180,test_bug,"re-indenting the body shifts column-0 lines of the env.py template string, so any answer breaks (harness)"
+deveval,datasette.utils.asgi.Request.full_path,Database/datasette,40,error:40,True,13.5,180,test_bug,"body_position starts at the def line in our source copy, so a body answer overwrites the signature (harness)"
+deveval,datasette.utils.asgi.Request.post_body,Database/datasette,60,error:60,True,12.3,180,test_bug,body_position starts at the async def line (harness)
+deveval,datasette.utils.asgi.Response.html,Database/datasette,40,error:40,True,11.8,180,test_bug,body_position starts at the @classmethod line (harness)
+deveval,datasette.utils.asgi.Response.redirect,Database/datasette,40,error:40,True,25.4,180,test_bug,body_position starts at the @classmethod line (harness)
+deveval,diffprivlib.accountant.BudgetAccountant.check,Security/diffprivlib,40,error:40,True,21.3,180,no_bug,answers differ from the reference in error text and checks; the requirement is enough
+deveval,mopidy.internal.log.get_verbosity_level,Multimedia/Mopidy,40,error:40,True,27.5,180,test_bug,"a test needs a None verbosity treated as 0, which the docstring does not state (under-specified)"
+deveval,pyinfra.api.operations.run_ops,System/pyinfra,60,error:60,True,54.8,180,test_bug,reference sets executing state and a context the docstring does not mention (under-specified)
+deveval,pymorphy2.opencorpora_dict.compile._to_paradigm,Text-Processing/pymorphy2,40,error:40,True,27.9,180,test_bug,reference uses a longest-common-substring helper neither named nor visible in the context (under-specified)
