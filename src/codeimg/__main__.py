@@ -3,7 +3,7 @@ environment never imports the 3.11+ config loader."""
 import importlib
 import sys
 
-STAGES = ["prompts", "sample", "generate", "answers", "collect"]
+STAGES = ["prompts", "sample", "generate", "answers", "collect", "transcribe"]
 
 
 def main():

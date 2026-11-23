@@ -12,6 +12,7 @@ a resubmit picks the key up again.
 --probe also writes <out>.probe.jsonl: per item, the prompt tokens of the image-condition message
 with its images removed, so image tokens can be separated from the text part (UFM-19 note).
 --seed-check also writes <out>.seedcheck.jsonl: one item at seed 0 twice and seed 1 once.
+--transcription sends [transcription].max_tokens, for requests from codeimg transcribe (UFM-12).
 """
 import argparse
 import base64
@@ -79,6 +80,7 @@ class Client:
     def __init__(self, url, repo, cfg, base_dir):
         self.url, self.repo, self.base_dir = url, repo, base_dir
         self.exp, self.sampling = cfg["experiment"], cfg["sampling"]
+        self.max_tokens = self.exp["max_tokens"]
 
     def body(self, parts, seed, max_tokens):
         # no system message, as in calibration (benchmarks/shared/generate.py)
@@ -90,7 +92,7 @@ class Client:
         t0 = time.time()
         row = {"model": self.repo, "benchmark": req["benchmark"], "id": req["id"],
                "condition": req["condition"], "run": run, "seed": run, "n_images": req["n_images"]}
-        r = post(self.url, self.body(content(req, self.base_dir), run, self.exp["max_tokens"]))
+        r = post(self.url, self.body(content(req, self.base_dir), run, self.max_tokens))
         if isinstance(r, tuple):
             row.update(reply=None, error=r[1])
         else:
@@ -206,6 +208,7 @@ def main(argv=None):
     runs_arg.add_argument("--runs-from", help="D-study JSON with the runs per benchmark and model")
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--seed-check", action="store_true")
+    ap.add_argument("--transcription", action="store_true")
     args = ap.parse_args(argv)
     cfg = config.load()
     repo = cfg["models"][args.model]["repo"]
@@ -222,6 +225,8 @@ def main(argv=None):
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     client = Client(f"http://localhost:{args.port}/v1/chat/completions", repo, cfg,
                     os.path.dirname(os.path.abspath(args.requests)))
+    if args.transcription:
+        client.max_tokens = cfg["transcription"]["max_tokens"]
     meta = {"model": repo, "short": args.model, "requests": os.path.abspath(args.requests),
             "runs": runs, "seeds": list(range(runs)), "concurrency": cfg["experiment"]["concurrency"],
             "job_start": os.environ.get("CODEIMG_JOB_START"),
@@ -234,6 +239,12 @@ def main(argv=None):
             meta["vllm_server"] = json.load(r)
     except OSError as e:
         meta["vllm_server"] = repr(e)
+    meta["max_tokens"] = client.max_tokens
+    try:
+        with urllib.request.urlopen(f"http://localhost:{args.port}/v1/models", timeout=30) as r:
+            meta["max_model_len"] = json.load(r)["data"][0]["max_model_len"]
+    except (OSError, ValueError, KeyError, IndexError):
+        meta["max_model_len"] = None
     try:
         if args.probe:
             run_probes(client, requests, args.out + ".probe.jsonl")

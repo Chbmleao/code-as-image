@@ -21,6 +21,21 @@ top_k = -1
 min_p = 0.0
 repetition_penalty = 1.0
 
+
+# UFM-12 transcription test (docs/decisions.md, 2026-11-14): the same pages with only this text,
+# so the model copies the code back. Only `codeimg generate --transcription` reads this section;
+# the main-run settings above are unchanged.
+[transcription]
+instruction = """The images show code. In the images, ⏎ marks a line break, and a row that ends \
+without ⏎ continues on the next row or the next image. Copy all the code exactly as written, \
+character for character: start a new line at each ⏎ and nowhere else, keep every leading space, \
+and do not fix, complete or explain anything. Reply with the code in one ```text block and \
+nothing else."""
+separator = "The next block of code starts here. Start it on a new line."
+# worst main-run image prompt + text prompt is 21,162 tokens; the copy is about the text prompt
+max_model_len = 32768
+max_tokens = 16384
+
 [sample]
 deveval_n = 200
 deveval_buckets = [[2000, 4000], [4000, 8000], [8000, 12000]]

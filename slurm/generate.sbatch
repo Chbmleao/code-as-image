@@ -12,6 +12,7 @@
 #   RUN_DIR   holds <benchmark>/requests.jsonl; replies go to <benchmark>/gen/MODEL.jsonl
 # One job per model: the model loads once and both benchmarks run, each to its own file.
 # Submit through slurm/submit_generate.sh. 2 h fits the smoke run; pass --time for block 1.
+# With --transcription in the generate args, vLLM gets [transcription].max_model_len.
 set -u
 C="${1:?code dir}" MODEL="${2:?model}" R="${3:?run dir}"
 shift 3
@@ -24,11 +25,13 @@ export PYTHONPATH="$C/src" CODEIMG_CONFIG="$C/configs/experiment.toml"
 CODEIMG_JOB_START=$(date +%s)
 export CODEIMG_JOB_START
 
-read -r REPO LIMIT MAXLEN < <(python - "$MODEL" <<'EOF'
+SECTION=experiment
+for a in "$@"; do [ "$a" = --transcription ] && SECTION=transcription; done
+read -r REPO LIMIT MAXLEN < <(python - "$MODEL" "$SECTION" <<'EOF'
 import sys
 from codeimg import config
 c = config.load()
-print(c["models"][sys.argv[1]]["repo"], c["experiment"]["image_limit"], c["experiment"]["max_model_len"])
+print(c["models"][sys.argv[1]]["repo"], c["experiment"]["image_limit"], c[sys.argv[2]]["max_model_len"])
 EOF
 )
 mapfile -t VARGS < <(python - "$MODEL" <<'EOF'
@@ -39,7 +42,7 @@ sys.stdout.write("".join(a + "\n" for a in config.load()["models"][sys.argv[1]][
 EOF
 )
 [ -n "${REPO:-}" ] || { echo "model $MODEL not in $CODEIMG_CONFIG"; exit 1; }
-echo "code $C model $MODEL ($REPO) run $R vllm args ${VARGS[*]:-} generate args $*"
+echo "code $C model $MODEL ($REPO) run $R max_model_len $MAXLEN vllm args ${VARGS[*]:-} generate args $*"
 hostname
 CODEIMG_GPU=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader)
 export CODEIMG_GPU

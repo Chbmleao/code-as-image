@@ -13,6 +13,7 @@ class Fake(BaseHTTPRequestHandler):
     """Answers like vLLM; the reply to a request is chosen by its first text part."""
     seen: ClassVar[list] = []
     fail_5xx = 0
+    max_model_len = None
 
     def do_POST(self):
         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
@@ -29,6 +30,11 @@ class Fake(BaseHTTPRequestHandler):
         self.send(200, {"choices": [{"message": {"content": f"reply seed {body['seed']}"},
                                      "finish_reason": finish}],
                         "usage": {"prompt_tokens": 11, "completion_tokens": 3}})
+
+    def do_GET(self):
+        if self.path == "/v1/models" and Fake.max_model_len:
+            return self.send(200, {"data": [{"id": "org/model", "max_model_len": Fake.max_model_len}]})
+        self.send(404, {"message": "not found"})
 
     def send(self, code, obj):
         data = json.dumps(obj).encode()
@@ -179,6 +185,32 @@ def test_images_are_sent_as_data_urls_in_message_order(client, tmp_path):
     assert [c["type"] for c in content] == ["text", "image_url", "text", "image_url"]
     assert content[1]["image_url"]["url"] == "data:image/png;base64,b25l"
     assert content[3]["image_url"]["url"] == "data:image/png;base64,dHdv"
+
+
+def run_transcription(tmp_path, port, monkeypatch, *flags):
+    monkeypatch.delenv("SLURM_JOB_ID", raising=False)
+    reqs = tmp_path / "requests.jsonl"
+    reqs.write_text(json.dumps(req("a", "hi")) + "\n")
+    out = str(tmp_path / "gen.jsonl")
+    generate.main(["--model", "qwen25vl7b", "--requests", str(reqs), "--out", out,
+                   "--port", str(port), "--runs", "1", *flags])
+    with open(out + ".meta.local.json") as f:
+        return json.load(f)
+
+
+def test_transcription_sends_its_own_max_tokens_and_meta_records_the_server_limit(
+        tmp_path, server, monkeypatch):
+    monkeypatch.setattr(Fake, "max_model_len", 32768)
+    meta = run_transcription(tmp_path, server, monkeypatch, "--transcription")
+    cfg = config.load()
+    assert [b["max_tokens"] for b in Fake.seen] == [cfg["transcription"]["max_tokens"]]
+    assert (meta["max_tokens"], meta["max_model_len"]) == (cfg["transcription"]["max_tokens"], 32768)
+
+
+def test_without_the_flag_the_main_run_max_tokens_is_sent(tmp_path, server, monkeypatch):
+    meta = run_transcription(tmp_path, server, monkeypatch)
+    assert [b["max_tokens"] for b in Fake.seen] == [config.load()["experiment"]["max_tokens"]]
+    assert meta["max_model_len"] is None
 
 
 def test_an_unfinished_last_line_is_cut_and_its_key_sent_again(client, tmp_path):
