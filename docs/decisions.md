@@ -3,6 +3,45 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-23: transcription test becomes a bonus; audit samples
+
+The cluster's GPUs and /snfs2 are down (/snfs2 has given "Communication error on send" on part of
+the files since 2026-11-19, and a listing of the run directory hung on 2026-11-23), with the
+transcription generation about 70% done. The paper is due 2026-11-30. This is a deviation from
+methods 3.3, logged here as the freezing rule there asks.
+
+- **The transcription test (UFM-12) and reading vs coding (UFM-28) are a bonus.** They go into the
+  paper only if UFM-28 is done by 2026-11-28. If not, the paper says they were planned and not
+  finished. Methods promised them in three places, left as written: line 196 (the item:condition
+  evidence is "strongest if" the items with the largest penalties are the ones the transcription
+  test shows were misread), lines 212 to 218 ("Reading vs coding failures") and the addendum,
+  lines 393 to 394. Without them the item:condition evidence rests on the variance component, the
+  held-out log-likelihood and the correlation checks in `results/analysis/findings.md`, and the
+  only evidence on misreading is the exploratory block-1 check in `results/block1/findings.md`.
+- **Hand read: Claude Sonnet 5.5 on DevEval, 10 failures per condition.** Methods lines 238 to 240
+  plan 30 failures per condition of one model. The open models' image replies are on /snfs2, so
+  they cannot be read now; Sonnet's replies in all four conditions are on the laptop. This entry is
+  the dated entry the addendum (line 393) asks for before the hand read is done for Claude; no new
+  request is made. The sample is cut to 10 per condition to fit the deadline. The labels are
+  drafted by Claude Code and not checked by a person. A false-fail share from Sonnet speaks to the
+  shared extraction and grading, not to the open models' own failure modes.
+- **Test-bug check: 10 of the 18 items no model passes.** Of the 285 items no open model passes in
+  any condition (31 CoderUJB, 254 DevEval), the gold solution passed all 285 in the gold run and a
+  Claude model passes 267, which shows their tests can be passed. The 10 are drawn from the 18 left
+  (1 CoderUJB, 17 DevEval). The check reads the requirement, the reference, the gold time against
+  the grader budget and the models' answers; it does not regrade and does not see the test
+  bodies, which are on /snfs2.
+- **The 12 DevEval items the harness check flags stay in, for now.** The check (`audit_sample.py
+  harness`, `results/audit/harness_suspects.csv`) finds 12 items no answer seems able to pass:
+  9 in `datasette/utils/asgi.py`, where `body_position` starts at the def or decorator line or
+  inside the signature, and 3 in `alembic/testing/env.py`, where re-indenting shifts column-0
+  string lines. They have not been regraded, so the cause is not confirmed, and every reported
+  number still includes them. They shrink each DevEval gap by about 1.4% of its size and are
+  reported as a limitation (`docs/validity_audit.md`, section 6).
+- `scripts/audit_sample.py` draws both samples with seed 20261123 and counts the labels;
+  `results/audit/` holds the ids, the labels and the counts, never reply text. The answers are in
+  `docs/validity_audit.md`.
+
 ## 2026-11-17: layout control, step 1 and 5 only
 
 CodeShrink (arXiv 2607.29637) lifts completion by rendering code without blank space, so a
