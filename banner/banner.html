@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Código como imagem</title>
+<style>
+$font_faces
+$css
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="band">
+  <div class="logo-card">$logo_left</div>
+  <div class="heading">
+    <h1>Código como imagem:<br><span class="subtitle">quanto os modelos perdem ao ler o contexto do repositório em pixels</span></h1>
+    <p class="authors">$authors</p>
+  </div>
+  <div class="logo-right">$logo_right</div>
+</header>
+
+<main class="columns">
+<div class="col left">
+
+<section class="card">
+  <h2>Introdução</h2>
+  <div class="body">
+    <p>Renderizar o contexto do repositório como imagem reduz os tokens de entrada de um modelo
+    de visão e linguagem (VLM) [3,&nbsp;6]. Mas o modelo ainda programa bem lendo pixels?</p>
+    <p class="question">Quanto um modelo de visão e linguagem perde quando o contexto do
+    repositório vem como imagem em vez de texto?</p>
+    <p class="sub">Perguntas derivadas</p>
+    <ol class="tight">
+      <li><b>Economia de tokens:</b> o que se economiza compensa o que se perde?</li>
+      <li><b>Modelos fechados:</b> o Claude perde o mesmo tanto?</li>
+    </ol>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Dados</h2>
+  <div class="body">
+    <table class="data">
+      <thead><tr><th></th><th class="c-cuj">CoderUJB [1]</th><th class="c-dev">DevEval [2]</th></tr></thead>
+      <tbody>
+        <tr><td>Tarefa</td><td>um método Java</td><td>uma função Python</td></tr>
+        <tr><td>Itens</td><td>$coderujb_items</td><td>$deveval_items</td></tr>
+        <tr><td>Projetos</td><td>$coderujb_projects</td><td>$deveval_projects</td></tr>
+      </tbody>
+    </table>
+    <p><b>Modelos:</b> $n_open VLMs abertos, de ${size_min}B a ${size_max}B (temperatura
+    $temp_open); $claude_models como extensão exploratória.</p>
+    <p><b>Condições:</b> texto, ou contexto como imagem a $px1, $px2 e $px3 px.</p>
+    <p><b>Execuções:</b> $runs por modelo, item e condição.</p>
+  </div>
+</section>
+
+<section class="card grow">
+  <h2>Metodologia</h2>
+  <div class="body">
+    <p><b>1. Renderização.</b> O contexto vira páginas monoespaçadas, com a indentação; a
+    instrução segue em texto.</p>
+    <p><b>2. Correção.</b> Testes unitários do benchmark; acerto = todos passam.</p>
+    <p><b>3. Diferença pareada (gap).</b> Imagem &minus; texto por modelo, na média dos três
+    tamanhos, em pontos percentuais (pp); IC 95% agrupado por projeto (CR1) [7]; Holm sobre os
+    $n_gaps gaps.</p>
+    <p><b>4. Modelo misto.</b> GLMM binomial por benchmark no glmmTMB [4], estendendo o
+    modelo de facetas de [5]:</p>
+    <div class="formula">
+      <div><i>k<sub>imc</sub></i> ~ Binomial(<i>n<sub>imc</sub></i>, <i>p<sub>imc</sub></i>)</div>
+      <div>logit <i>p<sub>imc</sub></i> = <i>&beta;<sub>mc</sub></i> + <i>u<sub>i</sub></i>
+        + <i>u<sub>im</sub></i> + <i>u<sub>ic</sub></i> + <i>v<sub>p</sub></i>
+        + <i>v<sub>pc</sub></i> + <i>e<sub>imc</sub></i></div>
+      <div class="note"><i>i</i> item, <i>m</i> modelo, <i>c</i> condição, <i>p</i> projeto;
+      <i>e</i> absorve a sobredispersão.</div>
+    </div>
+    <p><b>5. Cópias.</b> Refaz os gaps sem os itens em que algum outro modelo copia a solução
+    de referência.</p>
+  </div>
+</section>
+
+</div>
+<div class="col right">
+
+<section class="card grow">
+  <h2>Resultados</h2>
+  <div class="body results">
+    <article>
+      <h3>1 · Todo modelo aberto perde muito; o Claude, pouco</h3>
+      <div class="fig">$fig_main</div>
+      <p>Média dos abertos: <b>$coderujb_mean pp</b> $coderujb_mean_ci no CoderUJB e
+      <b>$deveval_mean pp</b> $deveval_mean_ci no DevEval; os $n_gaps gaps ficam abaixo de zero
+      com Holm (p &le; $holm_max). Claude perto do teto no CoderUJB ($claude_text_c% em texto), onde o IC
+      por item do Opus inclui o zero.</p>
+    </article>
+    <article>
+      <h3>2 · Economizar tokens não compensa a perda</h3>
+      <div class="fig">$fig_tokens</div>
+      <p>Em imagem o prompt custa de $ratio_min% a $ratio_max% dos tokens do texto, mas cada modelo
+      perde de $rel_min% a $rel_max% do que acertava em texto.</p>
+    </article>
+    <article>
+      <h3>3 · A imagem muda quais itens são difíceis</h3>
+      <div class="fig">$fig_items</div>
+      <p>Ponto: correlação observada (GLMM); faixa: 95% de $sims simulações com a dificuldade relativa fixa.
+      Abaixo dela no DevEval (3 tamanhos) e no CoderUJB (10 e 12 px): a imagem prejudica uns itens
+      bem mais que outros.</p>
+    </article>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="columns bottom">
+<section class="card">
+  <h2>Conclusões</h2>
+  <div class="body">
+    <ul class="concl">
+      <li>A perda é <b>grande</b> nos $n_open modelos abertos: $coderujb_mean pp
+      (CoderUJB) e $deveval_mean pp (DevEval), na média.</li>
+      <li>A <b>economia de tokens não compensa</b>: com $ratio_min% a $ratio_max% dos tokens,
+      os modelos perdem $rel_min% a $rel_max% dos acertos.</li>
+      <li>O Claude <b>perde menos</b> ($claude_gap_min a $claude_gap_max pp), mas é
+      exploratório e está perto do teto no CoderUJB.</li>
+      <li><b>Próximos passos:</b> teste de transcrição, outros layouts de imagem [8] e benchmarks
+      mais difíceis para os modelos fechados.</li>
+    </ul>
+  </div>
+</section>
+<section class="card">
+  <h2>Limitações</h2>
+  <div class="body">
+    <ol class="lim">
+      <li><b>Poucos modelos:</b> $n_open abertos (${size_min}B a ${size_max}B); Claude
+      exploratório.</li>
+      <li><b>Contaminação:</b> o Defects4J, base do CoderUJB, aparece em dados de treino [9]; cópias da referência em $coderujb_copied (CoderUJB) e
+      $deveval_copied (DevEval) itens; sem eles, todo gap dos abertos segue negativo. Claude no CoderUJB: $claude_text_c%
+      em texto e $flag_sonnet (Sonnet) e $flag_opus (Opus) de $coderujb_items itens sinalizados.</li>
+      <li><b>Construto estreito:</b> completar uma função com o contexto do repositório; sem
+      depuração, revisão ou edição em vários arquivos.</li>
+    </ol>
+  </div>
+</section>
+<section class="card">
+  <h2>Referências</h2>
+  <div class="body">
+    <ol class="refs">
+      <li>Zeng et al. CoderUJB. 2024.</li>
+      <li>Li et al. DevEval. arXiv:2405.19856, 2024.</li>
+      <li>Shi et al. CodeOCR. arXiv:2602.01785, 2026.</li>
+      <li>glmmTMB, pacote R, versão $glmmtmb.</li>
+      <li>Truong e Koyejo. AI Measurement Science. 2026.</li>
+      <li>Zhong et al. LongCodeOCR. arXiv:2602.00746, 2026.</li>
+      <li>Miller. Adding Error Bars to Evals. arXiv:2411.00640, 2024.</li>
+      <li>Tang et al. CodeShrink. arXiv:2607.29637, 2026.</li>
+      <li>Ramos et al. arXiv:2411.13323, 2024.</li>
+    </ol>
+  </div>
+</section>
+</footer>
+
+</div>
+<pre id="layout-report" hidden></pre>
+<script>
+document.fonts.ready.then(() => {
+  const mm = px => (px * 25.4 / 96).toFixed(1);
+  const overflow = [];
+  const slack = [];
+  document.querySelectorAll('.card .body, .page, .band, .heading, .col, main.columns, footer.columns').forEach(el => {
+    if (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) {
+      overflow.push((el.closest('.card')?.querySelector('h2')?.textContent || el.className)
+        + ' by ' + mm(el.scrollHeight - el.clientHeight) + ' mm');
+    }
+  });
+  document.querySelectorAll('.card').forEach(card => {
+    const body = card.querySelector('.body');
+    const used = [...body.children].reduce((h, c) => Math.max(h, c.getBoundingClientRect().bottom), 0);
+    const free = body.getBoundingClientRect().bottom - parseFloat(getComputedStyle(body).paddingBottom) - used;
+    slack.push(card.querySelector('h2').textContent + ': ' + mm(free) + ' mm');
+  });
+  document.getElementById('layout-report').textContent = JSON.stringify({overflow, slack});
+});
+</script>
+</body>
+</html>
