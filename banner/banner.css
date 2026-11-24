@@ -1,4 +1,4 @@
-@page { size: A4; margin: 0; }
+@page { margin: 0; }
 
 :root {
   --navy: #1e3a5f;
@@ -23,8 +23,6 @@ body {
 }
 
 .page {
-  width: 210mm;
-  height: 297mm;
   padding: 6.5mm;
   display: flex;
   flex-direction: column;

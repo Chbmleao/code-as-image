@@ -2,9 +2,9 @@
 
     uv run python banner/build.py
 
-Writes banner/out/banner.pdf (A4, vector, scales to A1/A0) and banner/out/banner.png. Every number
-on the page is read from results/ here; the template only holds wording. Needs Google Chrome (or
-CHROME=/path/to/chrome) and pdftoppm.
+Writes banner/out/banner.pdf (A4, vector, scales to A1/A0), banner/out/banner_60x90.pdf (2:3, scales
+to a 60 x 90 cm print) and a PNG of each. Every number on the page is read from results/ here; the
+template only holds wording. Needs Google Chrome (or CHROME=/path/to/chrome) and pdftoppm.
 """
 
 from __future__ import annotations
@@ -31,6 +31,13 @@ FONTS = HERE / "fonts"
 ASSETS = HERE / "assets"
 OUT = HERE / "out"
 CHROME = os.environ.get("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+
+# Output stem -> page (width, height) in mm and extra CSS. The 60 x 90 page keeps the A4 width and
+# spends the extra height on a larger body text; 8.6pt already overflows the left column.
+PAGES = {
+    "banner": (210, 297, ""),
+    "banner_60x90": (210, 315, "body { font-size: 8.4pt; }\n"),
+}
 
 BENCHES = ("coderujb", "deveval")
 BENCH_LABEL = {"coderujb": "CoderUJB (Java)", "deveval": "DevEval (Python)"}
@@ -465,24 +472,30 @@ def main() -> None:
         "fig_tokens": fig_tokens(),
         "fig_items": fig_items(),
         "font_faces": font_faces(),
-        "css": (HERE / "banner.css").read_text(),
     }
-    html = Template((HERE / "banner.html").read_text()).substitute(v)
+    css = (HERE / "banner.css").read_text()
+    template = Template((HERE / "banner.html").read_text())
     OUT.mkdir(exist_ok=True)
-    page = OUT / "banner.html"
-    page.write_text(html)
-    pdf = OUT / "banner.pdf"
-    # tagged PDFs carry DOM node ids that change between runs
-    chrome(
-        "--no-pdf-header-footer", "--disable-pdf-tagging", f"--print-to-pdf={pdf}", page.as_uri()
-    )
-    fix_pdf_dates(pdf)
-    subprocess.run(
-        ["pdftoppm", "-r", "150", "-png", "-singlefile", str(pdf), str(OUT / "banner")], check=True
-    )
-    # after printing, so a failed check still leaves the page to look at
-    check_layout(page)
-    print(f"wrote {pdf.relative_to(ROOT)} and banner.png")
+    for stem, (w, h, extra) in PAGES.items():
+        size = f"@page {{ size: {w}mm {h}mm; }}\n.page {{ width: {w}mm; height: {h}mm; }}\n"
+        page = OUT / f"{stem}.html"
+        page.write_text(template.substitute(v, css=css + size + extra))
+        pdf = OUT / f"{stem}.pdf"
+        # tagged PDFs carry DOM node ids that change between runs
+        chrome(
+            "--no-pdf-header-footer",
+            "--disable-pdf-tagging",
+            f"--print-to-pdf={pdf}",
+            page.as_uri(),
+        )
+        fix_pdf_dates(pdf)
+        subprocess.run(
+            ["pdftoppm", "-r", "150", "-png", "-singlefile", str(pdf), str(OUT / stem)], check=True
+        )
+        print(f"{stem}:")
+        # after printing, so a failed check still leaves the page to look at
+        check_layout(page)
+        print(f"wrote {pdf.relative_to(ROOT)} and {stem}.png")
 
 
 if __name__ == "__main__":
