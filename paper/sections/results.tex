@@ -1,0 +1,61 @@
+\section{Resultados}
+
+\subsection{Gap por modelo}
+% Os 10 gaps são negativos, com IC abaixo de 0 (asserção em build_numbers), e o maior p de Holm; média dos modelos (pooled).
+\todo{gaps por modelo, IC e maior p de Holm}
+% Tabela 1 (gerada): por modelo e benchmark, taxa em texto, gap [IC], contraste logit [IC] e razão de tokens.
+\todo{leitura da Tabela 1}
+% Leitura ordinal por causa do piso, com o Qwen2.5-VL (floor_ceiling); leave-one-project-out no CoderUJB, numa frase (lopo).
+\todo{piso e leave-one-project-out}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gap}
+  \caption{\todo{legenda da Figura 1: gap imagem menos texto por modelo aberto e média dos modelos, IC 95\% agrupado por projeto}}
+  \label{fig:gap}
+\end{figure}
+
+\begin{table}[t]
+  \centering
+  \caption{\todo{legenda da Tabela 1}}
+  \label{tab:gaps}
+  \resizebox{\linewidth}{!}{\input{tables/tab_gaps}}
+\end{table}
+
+\subsection{Fonte e tokens}
+% 14 px supera 12 px por 4,1 a 8,8 pp, com IC acima de 0, para o Qwen3.5 27B nos dois benchmarks e para o Mistral e o Qwen3.5 9B no DevEval (size_diffs; asserção sobre o conjunto); o Gemma economiza mais tokens e perde o mesmo em todo tamanho.
+\todo{efeito do tamanho da fonte e economia de tokens}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_size_tokens}
+  \caption{\todo{legenda da Figura 2: gap por tamanho contra a razão de tokens por tamanho, uma linha por modelo}}
+  \label{fig:size-tokens}
+\end{figure}
+
+\subsection{A penalidade é igual entre itens e modelos?}
+% Wald com 4 gl; DP item:condição com IC de perfil e razão sobre o DP de item; LRT como linha secundária; log-verossimilhança fora da amostra, positiva nas 10 dobras no DevEval e indistinguível de 0 no CoderUJB (asserção).
+\todo{Wald, DP item:condição, LRT e fora da amostra}
+% Correlação texto x imagem abaixo da referência e C de Pearson nos percentis 0,997 e 1,000; inclinação comum dividida por r e probit; nenhum item sobrevive ao BH (asserção); com 5 modelos não se estabelece uma segunda habilidade.
+\todo{correlações, inclinação comum, probit, BH e limite de 5 modelos}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_item_corr}
+  \caption{\todo{legenda da Figura 3: correlação texto x imagem por tamanho contra a faixa de referência}}
+  \label{fig:item-corr}
+\end{figure}
+
+\subsection{Confiabilidade e ordem}
+% Confiabilidade de 1 e de 2 execuções e o G finito; CoderUJB a 12 px é instável; os três modelos do meio trocam de lugar (reliability.json; docs/paper/reliability.md como rascunho).
+\todo{confiabilidade, G finito e troca de ordem}
+
+\subsection{Contaminação}
+% 25 e 149 itens com cópia (copied_items); 39 de 40 gaps encolhem e todos seguem negativos; controle acima do percentil 97,5 em 3 de 5 modelos por benchmark; os itens marcados perdem mais (associação e checagem fora do plano); concordância das duas flags (flag2).
+\todo{contaminação: cópias, encolhimento, controle, itens marcados e flags}
+
+\subsection{Exploratório}
+% Claude perde de 1,7 a 6,2 pp; contraste c; teto no CoderUJB; itens marcados (claude main, glmm, contamination). Marcar como exploratório.
+\todo{Claude, exploratório}
+% Bloco 1: os erros a mais são de nome, com o exemplo _determine_alterations; o piloto não teve gap (block1/findings.md). Marcar como exploratório.
+\todo{bloco 1, exploratório}

@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\usepackage[main,final]{neurips_2025}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{hyperref}
+
+% the final option prints a NeurIPS acceptance line, and this is a course paper
+\makeatletter
+\renewcommand{\@noticestring}{Trabalho final de disciplina, PPGCC, UFMG, 2026.}
+\makeatother
+
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\ci}[2]{[#1; #2]}
+
+\input{numbers}
+
+\title{Código como imagem: quanto modelos de visão e linguagem perdem ao ler o contexto do repositório em pixels}
+
+\author{%
+  Carlos Henrique Brito Malta Leão \\
+  Programa de Pós-Graduação em Ciência da Computação \\
+  Universidade Federal de Minas Gerais \\
+  \texttt{chbmleao@ufmg.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/intro}
+\input{sections/related}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}
