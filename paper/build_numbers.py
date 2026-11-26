@@ -48,6 +48,8 @@ CLAUDE_GLMM = "claude/analysis/glmm.json"
 CLAUDE_CONTAM = "claude/analysis/contamination.json"
 RELIABILITY = "reliability/reliability.json"
 LAYOUT = "layout/layout.json"
+DECISIONS = "docs/decisions.md"
+EXCLUDED_DEV = "manifests/excluded/deveval.txt"
 
 
 class SourceError(Exception):
@@ -141,6 +143,18 @@ class Csv:
 
 
 @dataclass(frozen=True)
+class CsvNotIn:
+    """Number of rows of a CSV whose `column` is not listed in `manifest` (one id per line)."""
+
+    file: str
+    column: str
+    manifest: str
+
+    def describe(self) -> str:
+        return f"count({self.file} where {self.column} not in {self.manifest})"
+
+
+@dataclass(frozen=True)
 class Md:
     """The one match of `pattern` (one group) in a markdown file, or in the section whose heading
     starts with `section`."""
@@ -222,6 +236,9 @@ class Sources:
         with self.path(rel).open(newline="", encoding="utf-8") as f:
             return list(csv.DictReader(f))
 
+    def ids(self, rel: str) -> set[str]:
+        return set(self.text(rel).split())
+
     def value(self, src: Any) -> Any:
         if isinstance(src, J):
             leaves = walk(self.json(src.file), src.steps)
@@ -235,6 +252,12 @@ class Sources:
                 if rows and k not in rows[0]:
                     raise SourceError(f"{src.file} has no column {k}")
             return sum(all(r[k] == v for k, v in src.where) for r in rows)
+        if isinstance(src, CsvNotIn):
+            rows = self.rows(src.file)
+            if rows and src.column not in rows[0]:
+                raise SourceError(f"{src.file} has no column {src.column}")
+            out = self.ids(src.manifest)
+            return sum(r[src.column] not in out for r in rows)
         if isinstance(src, Md):
             text = self.text(src.file)
             if src.section:
@@ -444,7 +467,12 @@ def contamination_macros(t: Table) -> None:
             t.add(f"flagged{M}{B}", flagged_n, "int")
             t.add(
                 f"unflagged{M}{B}",
-                Fn("n_items - flagged", lambda n, f: n - f, gaps(CLAUDE_GAPS, bench, "n_items"), flagged_n),
+                Fn(
+                    "n_items - flagged",
+                    lambda n, f: n - f,
+                    gaps(CLAUDE_GAPS, bench, "n_items"),
+                    flagged_n,
+                ),
                 "int",
             )
     pairs = [
@@ -486,14 +514,69 @@ def file_macros(t: Table) -> None:
         "harnessUnpassable", Csv("audit/harness_suspects.csv", (("passed_by_none", "True"),)), "int"
     )
     t.add("handReadAnswers", Csv("audit/hand_read.csv"), "int")
+    # the audit samples were drawn from the 859 DevEval items, before the 2026-11-25 exclusion
+    t.add("handReadKept", CsvNotIn("audit/hand_read.csv", "id", EXCLUDED_DEV), "int")
+    rerun = "2026-11-25: the 13"
+    t.add(
+        "handReadFalseFailsKept",
+        Md(DECISIONS, rerun, r"regraded with their second block:\*\* (\d+) pass"),
+        "int",
+    )
+    t.add("gapGrowthLo", Md(DECISIONS, rerun, r"gaps grow by ([\d.]+)% to [\d.]+% of"), "dec1")
+    t.add("gapGrowthHi", Md(DECISIONS, rerun, r"gaps grow by [\d.]+% to ([\d.]+)% of"), "dec1")
+    excluded = J(OPEN_GAPS, "benchmarks", "deveval", "excluded", "count")
+    t.add("excludedDev", excluded, "int")
+    n_dev = J(OPEN_GAPS, "benchmarks", "deveval", "n_items")
+    n_ujb = J(OPEN_GAPS, "benchmarks", "coderujb", "n_items")
+    t.add(
+        "nItemsDevOriginal",
+        Fn("deveval n_items + excluded.count", lambda a, b: a + b, n_dev, excluded),
+        "int",
+    )
+    t.add(
+        "nItemsAll",
+        Fn("coderujb n_items + deveval n_items", lambda a, b: a + b, n_ujb, n_dev),
+        "int",
+    )
+    t.add("relFits", J(RELIABILITY, "gate", "fits"), "int")
+    t.add("relFitsPassed", J(RELIABILITY, "gate", "passed"), "int")
+    for bench, B in BENCHES:
+        floors = [
+            J(OPEN_GAPS, "benchmarks", bench, "all_none", c, "no_model_passes") for c, _, _ in SIZES
+        ]
+        t.add(
+            f"floorImageMin{B}",
+            Fn("min(all_none[image*].no_model_passes)", lambda *v: min(v), *floors),
+            "pp",
+        )
+        t.add(
+            f"floorImageMax{B}",
+            Fn("max(all_none[image*].no_model_passes)", lambda *v: max(v), *floors),
+            "pp",
+        )
     t.add("neverPassedChecked", Csv("audit/never_passed_check.csv"), "int")
     t.add("bootReps", J(OPEN_GAPS, "settings", "n_boot"), "int")
     t.add("glmmTmbVersion", J(OPEN_GLMM, "settings", "glmmTMB"), "version")
     t.add("rVersion", J(OPEN_GLMM, "settings", "R"), "version")
     none_of_seven = [
-        Md("audit/summary.md", "Items no model passes", rf"^\| {b} \| \d+ \| \d+ \| \d+ \| (\d+) \|$")
+        Md(
+            "audit/summary.md",
+            "Items no model passes",
+            rf"^\| {b} \| \d+ \| \d+ \| \d+ \| (\d+) \|$",
+        )
         for b, _ in BENCHES
     ]
+    harness = Csv("audit/harness_suspects.csv", (("passed_by_none", "True"),))
+    t.add(
+        "neverPassedAllSevenKept",
+        Fn(
+            "sum(passed by none of the 7) - harness suspects passed by none",
+            lambda h, *xs: sum(int(x) for x in xs) - h,
+            harness,
+            *none_of_seven,
+        ),
+        "int",
+    )
     t.add(
         "neverPassedAllSeven",
         Fn("sum(passed by none of the 7)", lambda *xs: sum(int(x) for x in xs), *none_of_seven),
@@ -559,24 +642,38 @@ def results_macros(t: Table) -> None:
         base = ("benchmarks", bench, "conditions")
         for k, word in (("1", "One"), ("2", "Two"), ("3", "Three")):
             rel = [J(RELIABILITY, *base, c, "reliability", k, "median") for c, _ in CONDITIONS]
-            t.add(f"rel{word}Min{B}", Fn(f"min(reliability[{k}].median)", lambda *v: min(v), *rel), "dec2")
-            t.add(f"rel{word}Max{B}", Fn(f"max(reliability[{k}].median)", lambda *v: max(v), *rel), "dec2")
+            t.add(
+                f"rel{word}Min{B}",
+                Fn(f"min(reliability[{k}].median)", lambda *v: min(v), *rel),
+                "dec2",
+            )
+            t.add(
+                f"rel{word}Max{B}",
+                Fn(f"max(reliability[{k}].median)", lambda *v: max(v), *rel),
+                "dec2",
+            )
         conds = [c for c, _ in CONDITIONS if not (bench == "coderujb" and c == "image12")]
         g = [J(RELIABILITY, *base, c, "g_finite", "main", "median") for c in conds]
         scope = "all conditions but CoderUJB image12"
         t.add(f"gFiniteMin{B}", Fn(f"min(g_finite.median), {scope}", lambda *v: min(v), *g), "dec2")
         t.add(f"gFiniteMax{B}", Fn(f"max(g_finite.median), {scope}", lambda *v: max(v), *g), "dec2")
         pair = Sel("pair", str(["Gemma 4 12B", "Qwen3.5 9B"]))
-        t.add(f"swapGemmaQwenNine{B}", J(RELIABILITY, "benchmarks", bench, "swap", pair, "p"), "dec2")
+        t.add(
+            f"swapGemmaQwenNine{B}", J(RELIABILITY, "benchmarks", bench, "swap", pair, "p"), "dec2"
+        )
         t.add(
             f"corrBelowRef{B}",
-            Fn("count(pearson text~image observed < reference lo)", count_below, *corr_pairs(bench)),
+            Fn(
+                "count(pearson text~image observed < reference lo)", count_below, *corr_pairs(bench)
+            ),
             "int",
         )
         for name, M in CLAUDE_MODELS:
             ceiling = gaps(CLAUDE_GAPS, bench, "floor_ceiling", name, "text", "all")
             t.add(f"ceilingText{M}{B}", ceiling, "pp")
-    t.add("claudeTemperature", Md("claude/findings.md", "", r"sample at temperature (\d\.\d)"), "dec1")
+    t.add(
+        "claudeTemperature", Md("claude/findings.md", "", r"sample at temperature (\d\.\d)"), "dec1"
+    )
     closed, cf = "Open vs closed", "claude/findings.md"
     for title, B in (("CoderUJB", "Ujb"), ("DevEval", "Dev")):
         row = rf"^\| {title} \| "
@@ -748,7 +845,9 @@ def check_ranks(src: Sources) -> bool:
     """Qwen3.5 27B is first in every condition; Qwen2.5-VL is last in text; both benchmarks."""
     for b, _ in BENCHES:
         ranks = src.json(RELIABILITY)["benchmarks"][b]["ranks"]
-        if any(ranks[c]["Qwen3.5 27B"]["rank"] != 1 for c in ("text", "image10", "image12", "image14")):
+        if any(
+            ranks[c]["Qwen3.5 27B"]["rank"] != 1 for c in ("text", "image10", "image12", "image14")
+        ):
             return False
         if ranks["text"]["Qwen2.5-VL 7B"]["rank"] != 5:
             return False
@@ -791,7 +890,44 @@ def check_claude_c_positive(src: Sources) -> bool:
     return True
 
 
+def check_harness_suspects_excluded(src: Sources) -> bool:
+    flagged = {
+        r["item"] for r in src.rows("audit/harness_suspects.csv") if r["passed_by_none"] == "True"
+    }
+    return bool(flagged) and flagged <= src.ids(EXCLUDED_DEV)
+
+
+def check_gate_failures_on_model_variance_only(src: Sources) -> bool:
+    rows = src.json(RELIABILITY)["gate"]["rows"]
+    failed = [r for r in rows if r["gate"] != "pass"]
+    off = [
+        r
+        for r in failed
+        if r["component"] != "s2_model" and (float(r["psrf"]) > 1.05 or float(r["ess"]) < 400)
+    ]
+    return bool(failed) and not off
+
+
+def check_hand_read_false_fails_excluded(src: Sources) -> bool:
+    out = src.ids(EXCLUDED_DEV)
+    return all(
+        r["id"] in out for r in src.rows("audit/hand_read.csv") if r["label"] == "false_fail"
+    )
+
+
 PREDICATES: tuple[tuple[str, Callable[[Sources], bool]], ...] = (
+    (
+        "every harness suspect passed by none of the 7 is in the DevEval exclusion list",
+        check_harness_suspects_excluded,
+    ),
+    (
+        "the reliability fits that fail the gate fail on s2_model only (PSRF <= 1.05, ESS >= 400 elsewhere)",
+        check_gate_failures_on_model_variance_only,
+    ),
+    (
+        "both hand-read false fails are on excluded items, so the 846-item base keeps none",
+        check_hand_read_false_fails_excluded,
+    ),
     ("all 10 main gaps have a cluster interval entirely below 0", check_main_gaps_negative),
     (
         "DevEval held-out log-likelihood, full minus reduced, is positive in all 10 folds",

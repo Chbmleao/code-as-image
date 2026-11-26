@@ -58,6 +58,9 @@ def tree(tmp_path):
         shutil.copy(os.path.join(ROOT, "results", rel), dst)
     (tmp_path / "docs").mkdir()
     shutil.copy(os.path.join(ROOT, "docs", "validity_audit.md"), tmp_path / "docs")
+    shutil.copy(os.path.join(ROOT, "docs", "decisions.md"), tmp_path / "docs")
+    (tmp_path / "manifests" / "excluded").mkdir(parents=True)
+    shutil.copy(os.path.join(ROOT, bn.EXCLUDED_DEV), tmp_path / bn.EXCLUDED_DEV)
     return tmp_path
 
 
@@ -400,3 +403,21 @@ def test_overleaf_dir_holds_every_file_main_tex_inputs(tmp_path):
     bld.write_overleaf_dir(tmp_path)
     copied = {str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*") if p.is_file()}
     assert copied == names
+
+
+def test_exclusion_predicates_fail_when_the_excluded_items_come_back(tree):
+    (tree / bn.EXCLUDED_DEV).write_text("")
+    res = run_script("build_numbers.py", "--root", str(tree), "--out", str(tree / "out"))
+    assert res.returncode != 0
+    assert "every harness suspect passed by none of the 7 is in the DevEval exclusion list" in res.stderr
+    assert "both hand-read false fails are on excluded items" in res.stderr
+
+
+def test_hand_read_kept_counts_the_rows_off_the_exclusion_list():
+    need_results()
+    src = bn.Sources(ROOT)
+    out = src.ids(bn.EXCLUDED_DEV)
+    rows = src.rows("audit/hand_read.csv")
+    want = sum(r["id"] not in out for r in rows)
+    assert src.value(bn.CsvNotIn("audit/hand_read.csv", "id", bn.EXCLUDED_DEV)) == want
+    assert want < len(rows)
