@@ -34,7 +34,9 @@ here and upload `numbers.tex`, `tables/` and `figures/` again.
 
 | Issue | Due | Fallback text if it does not arrive |
 |---|---|---|
-| UFM-33 (decision on the 12 DevEval harness items) | 2026-11-28 | The 12 items stay and count as failures, with an effect of about 1.4% of each DevEval gap |
+| UFM-33 (the DevEval harness items) | done, merged from main 2026-11-26 | The 13 items are excluded (DevEval 846 items); methods 3.5 reports it with its date |
+| UFM-35 (Qwen3.5 9B revises its first code block in image) | 2026-11-28 | Main analysis unchanged; drop the sensitivity todo in 4.1 and keep the limitation on the extraction rule |
+| UFM-36 (CoderUJB Jsoup 93 fails our extraction) | 2026-11-28 | If excluded, CoderUJB goes to 135 items: merge main again and rebuild; no text edit, numbers are macros |
 | UFM-34 (bonus: hand-read labels checked by a person) | 2026-11-28 | The hand read covers only Sonnet, labels unchecked |
 | UFM-28 (bonus: transcription, reading versus programming) | cutoff 2026-11-28 | "Planned and not concluded", citing the 2026-11-23 deviation |
 
@@ -50,7 +52,7 @@ changes by hand only where a todo is.
 - Truong and Koyejo 2026 has no first names or publisher in the notes, so the entry carries surnames
   only.
 
-## Todo list as printed by the build (2026-11-25, second block)
+## Todo list as printed by the build (2026-11-26, after the UFM-33 merge)
 
 ```
 TODO (37):
@@ -87,8 +89,8 @@ TODO (37):
   sections/limitations.tex:12  UFM-34: rótulos da leitura manual checados por pessoa
   sections/limitations.tex:13  UFM-28: leitura contra programação medida pela transcrição
   sections/limitations.tex:15  limitação 6: itens e construto
-  sections/limitations.tex:16  UFM-33: efeito dos 12 itens do DevEval
-  sections/methods.tex:28  UFM-34: leitura manual com rótulos checados. Fallback: a leitura manual cobre só o Sonnet
-  sections/methods.tex:29  UFM-28: transcrição, leitura contra programação. Fallback: planejado e não concluído, citando o desvio de 2026-11-23
-  sections/methods.tex:31  UFM-33: decisão sobre os 12 itens do DevEval. Fallback: os 12 ficam e contam como falha, com efeito de cerca de 1,4 por cento
+  sections/limitations.tex:16  UFM-35: limitação da regra de extração, que corrige o primeiro bloco de código; o Qwen3.5 9B em imagem costuma revisar esse bloco
+  sections/methods.tex:29  UFM-34: leitura manual com rótulos checados. Fallback: a leitura manual cobre só o Sonnet
+  sections/methods.tex:30  UFM-28: transcrição, leitura contra programação. Fallback: planejado e não concluído, citando o desvio de 2026-11-23
+  sections/results.tex:7  UFM-35: uma frase de sensibilidade do Qwen3.5 9B regravado com o último bloco de código, se chegar até 28/11; a análise principal não muda
 ```
