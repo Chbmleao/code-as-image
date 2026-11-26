@@ -3,6 +3,32 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-26: last-block sensitivity regrade of DevEval
+
+A post hoc sensitivity analysis, added after the main gaps were seen (UFM-35). It changes nothing
+in 3.3: the main analysis keeps the frozen first-block rule, and the line carries no Holm
+adjustment.
+
+- **Why.** `extract` in `src/codeimg/answers/deveval.py` grades the first fenced block that defines
+  the target. Some replies write a draft and then revise it in a later block, almost only Qwen3.5
+  9B on images, so the first-block rule could inflate its gap.
+- **Rule.** A reply on the kept items is in scope when 2 or more of its fenced blocks define the
+  target (`body_via_ast` not None). It is regraded on the last of them, with `deveval.answer`'s
+  fields and re-indent. When that answer equals the first-block one, the main-run verdict stands;
+  an empty last body is a fail. Fences only match closed blocks, so a truncated reply uses its
+  last closed block.
+- **Grading.** Every reply whose last-block answer differs was graded on the cluster in one job
+  (95473, `medusas_dev`, CPU only, because `gorgonas` had no slot before 2026-11-30), last block
+  and first block both. Flips are counted within that job; the first-block regrade against the
+  main-run verdict measures grading drift. The first-block gaps the script recomputes must equal
+  the committed `gaps.json` of both lines, or it stops.
+- **Effect.** The gaps under both rules, the flips and the drift, per model, are in
+  `results/last_block/findings.md` (`scripts/last_block.py report`); no number here is typed by
+  hand. No model's gap moves enough to change a reading of the main analysis; the largest move is
+  Qwen3.5 9B's, which shrinks its image loss slightly.
+- `results/last_block/` holds keys, roles, verdicts and seconds only. The answers sent to the
+  grader and its raw output, which quotes reply code, stay in `scratch/ufm35/`.
+
 ## 2026-11-26: CoderUJB Jsoup 93 is excluded
 
 The reference of Jsoup 93 (`chompBalanced`, task_id `979ad380...`) cannot pass the main run's
