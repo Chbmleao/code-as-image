@@ -3,6 +3,57 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-25: the 13 harness-broken DevEval items are excluded
+
+The 12 items the harness check flags, and `alembic.testing.env.three_rev_fixture`, cannot be
+passed through the main run's answer path (UFM-33). This replaces the "stay in, for now" bullet
+of 2026-11-23 and is a deviation from 3.3, logged as the freezing rule asks.
+
+- **The cause is confirmed by a regrade.** The reference body of each of the 13 items was graded
+  through the answer path on the cluster (job 94403, `gorgonas`, code dir
+  `/sonic_home/carlosleao/ufm9/20261125-1652-bd045fc-dirty`, files_sha256
+  `5d6f59f94efb552f9e50aa91c8f2a441cabe87cfe96320dd30e907f09dac776a`). With the main run's
+  `deveval.py`, all 13 fail, both as the bare reference body and as the reference written as a
+  perfect reply; with the fixed one, all 13 pass. Two defects: our copy of
+  `datasette/utils/asgi.py` is 1 to 2 lines longer than the file DevEval annotated, so the 9 spans
+  start at the def, the decorator or inside the signature; and in `alembic/testing/env.py` a
+  string with column-0 lines makes `adjust_indent` push the code too deep.
+- **The fix is in `src/codeimg/answers/deveval.py`, for future runs only.** `BODY_POSITION_FIX`
+  corrects the 9 spans in `load_items`, and `adjust_indent` leaves string lines alone when they
+  sit left of the code. Rebuilt with both versions, the 859 references and the 52,103 main-run
+  answers (open and Claude) change only on the 13 items. The main-run answers were not regraded.
+- **Excluded, not regraded.** Regrading every model answer on the 13 (about 750 answers, several
+  hours of serial grading on a contested partition) did not fit before 2026-11-28. The criterion is the
+  reference failing in our harness, fixed before any rerun number was seen. `three_rev_fixture`
+  is excluded too: some answers pass it, but a correct answer shaped like the reference failed.
+- **One id list, `manifests/excluded/deveval.txt`.** Every table is still checked against its full
+  grid (859 items); the excluded items leave right after the check, in `analysis.py` (5-model,
+  Claude and the 7-model line, before the DROP_RULE), in the copy tallies and in
+  `reliability.py`. `gaps.json`, `ranks.json` and `reliability.json` carry `excluded` per
+  benchmark, and the findings say so next to the item counts.
+- **Rerun, same commands:** `results/analysis/`, `results/claude/analysis/`,
+  `results/claude/findings.md` and `results/reliability/`. Before the change, every Python output
+  and the 5-model GLMM were rerun into scratch and matched the committed files byte for byte, so
+  the differences are the exclusion. CoderUJB is unchanged except the `holm` and `bh` fields,
+  which pool both benchmarks; its reliability draws are byte-identical.
+- **DevEval now has 846 items in 79 clusters.** The 5 open models' gaps grow by 0.8% to 1.5% of
+  their size (pooled -25.8 to -26.1 points), the Claude gaps by under 0.05 points; every interval
+  stays below zero, the GLMM tests and the item flags keep their conclusions, and the copy flags
+  do not change (no excluded item was copied). 242 DevEval items are passed by no open model
+  (was 254). Finite G and the 1- and 2-run reliabilities move by at most 0.0014.
+- **Three reliability fits fail the gate, on s2_model only.** After the automatic rerun at 3 times
+  the length, DevEval image12 main (PSRF 1.21), image14 main (1.08) and image14 inverse-gamma
+  (1.11) stay above 1.05 for s2_model; their other five components pass, and the other 13 fits
+  pass. The rule fixed on 2026-11-14 is one rerun, so they are reported as failed and not run
+  longer. The paper cites finite G and the run reliabilities, which do not use s2_model; the
+  random-model G of those three cells is not to be cited.
+- **Left on all 859:** `results/full/` (the graded table), `results/block1/` (exploratory, earlier
+  stage; `Request.post_body` is a block-1 item), `results/audit/` (the samples were drawn from the
+  859) and `replies.json` (reply behavior, not grading).
+- **Sonnet's 4 extraction answers, regraded with their second block:** 2 pass
+  (`boltons.cacheutils.ThresholdCounter.most_common`, `faker.providers.misc.Provider.binary`) and
+  2 fail. The first-block rule in `extract` is unchanged.
+
 ## 2026-11-23: transcription test becomes a bonus; audit samples
 
 The cluster's GPUs and /snfs2 are down (/snfs2 has given "Communication error on send" on part of
@@ -31,7 +82,8 @@ methods 3.3, logged here as the freezing rule there asks.
   (1 CoderUJB, 17 DevEval). The check reads the requirement, the reference, the gold time against
   the grader budget and the models' answers; it does not regrade and does not see the test
   bodies, which are on /snfs2.
-- **The 12 DevEval items the harness check flags stay in, for now.** The check (`audit_sample.py
+- **The 12 DevEval items the harness check flags stay in, for now** (superseded on 2026-11-25:
+  confirmed and excluded, with a 13th). The check (`audit_sample.py
   harness`, `results/audit/harness_suspects.csv`) finds 12 items no answer seems able to pass:
   9 in `datasette/utils/asgi.py`, where `body_position` starts at the def or decorator line or
   inside the signature, and 3 in `alembic/testing/env.py`, where re-indenting shifts column-0

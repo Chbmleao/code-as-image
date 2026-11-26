@@ -22,14 +22,14 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    the indicator is the run-averaged binary pass of the target tests. Copies of the reference
    (section 1.3), the floor (item 13.5.6-20) and misreading (item 1.9) are where the two part.
 2. **Item-level bias by condition (1.3.4, 13.5.2).** Partly. The item:condition SD is 0.913 [0.603,
-   1.210] on CoderUJB and 1.388 [1.270, 1.512] on DevEval, and the held-out log-likelihood gains
-   +4.8 (SE 5.1) and +182.2 (SE 46.6) from it (`analysis`, GLMM). No item:condition mode survives
-   BH (0 of 544 and 0 of 3436; 1 and 38 with a raw interval excluding 0), so no list of the items
+   1.210] on CoderUJB and 1.386 [1.268, 1.509] on DevEval, and the held-out log-likelihood gains
+   +4.8 (SE 5.1) and +182.2 (SE 47.3) from it (`analysis`, GLMM). No item:condition mode survives
+   BH (0 of 544 and 0 of 3384; 1 and 38 with a raw interval excluding 0), so no list of the items
    with the largest shrunken penalty is reported (not computed; the modes are in
    `results/analysis/glmm_item_flags.csv`). By letter size, 14 px beats 12 px for Qwen3.5 27B on
-   both benchmarks (+8.8 and +6.3 pp) and for Mistral and Qwen3.5 9B on DevEval (+4.2, +4.1), with
+   both benchmarks (+8.8 and +6.4 pp) and for Mistral and Qwen3.5 9B on DevEval (+4.2, +4.1), with
    intervals above 0 (`analysis`, differences between sizes). By model, equal contrasts are
-   rejected: Wald chi2 40.15 and 126.86 on 4 df, p 4.0e-08 and 1.8e-26 (`analysis`). Mantel-Haenszel
+   rejected: Wald chi2 40.15 and 127.34 on 4 df, p 4.0e-08 and 1.5e-26 (`analysis`). Mantel-Haenszel
    DIF is not used, for the reason in `docs/methodology.md` 3.3.
 3. **Contamination (1.3.3).** Yes. Other models copy the reference token for token in 155 text
    answers on 25 CoderUJB items and 934 on 149 DevEval items; removing each model's flagged items
@@ -40,27 +40,30 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    removes slightly fewer items. Contamination is flagged, not removed, and absolute rates are
    inflated.
 4. **Scoring across conditions.** Partly. No answer is empty in any cell. Truncation at 2048
-   tokens reaches 11.5% (CoderUJB text) and 13.1% (DevEval image14), both Qwen3.5 9B; no extractable
-   code reaches 4.8% (Qwen2.5-VL 7B, CoderUJB image10); no def line of the target reaches 17.7%
-   (Gemma 4 12B, DevEval image10, against 11.7% in text) (`analysis`, scoring shares). A re-score of
-   70 answers gave the same verdict for all 70 (`full`, Re-score). The checks in section 6 flag
-   12 DevEval items (1.4%) that are likely unpassable because of how answers are spliced in (not
-   regraded), and an
+   tokens reaches 11.5% (CoderUJB text) and 13.2% (DevEval image14), both Qwen3.5 9B; no extractable
+   code reaches 4.8% (Qwen2.5-VL 7B, CoderUJB image10); no def line of the target reaches 17.8%
+   (Gemma 4 12B, DevEval image10, against 11.8% in text) (`analysis`, scoring shares). A re-score of
+   70 answers gave the same verdict for all 70 (`full`, Re-score). The checks in section 6 found
+   13 DevEval items (1.5%) that could not be passed because of how answers are spliced in
+   (confirmed by a regrade of their references, then excluded), and an
    extraction rule that grades the first code block when a reply gives a corrected second one
    (4 of 40 hand-read failures). The hand read is on Claude Sonnet 5.5, not an open model.
-5. **Content coverage (1.2.1).** Partly. 136 Java methods from 14 Defects4J projects and 859 Python
-   functions from 79 repositories (`analysis`, Gaps), every item used. Not covered: debugging, code
+5. **Content coverage (1.2.1).** Partly. 136 Java methods from 14 Defects4J projects and 846 Python
+   functions from 79 repositories (`analysis`, Gaps), every item used except the 13 DevEval items
+   the splice made unpassable (section 6). Not covered: debugging, code
    review, multi-file edits, screenshots of real IDEs (`docs/methodology.md` 3.2). There is no
    blueprint by sub-domain and no expert review of the items (not computed).
 6. **Reliability (ch. 5).** Yes. Variance components with runs nested in cells and MCMC intervals;
-   the reliability of a model's item score at 2 runs is 0.741 to 0.807 (CoderUJB) and 0.804 to
-   0.863 (DevEval), and the observed run 0 vs run 1 correlation is 0.594 to 0.629 and 0.666 to
-   0.762. G for ranking the five models (finite set) is 0.846 to 0.944 on CoderUJB except 12 px,
-   0.606 [0.014, 0.856], and 0.919 to 0.983 on DevEval (`reliability`). No SEM per condition, by
-   design (`docs/methodology.md` 3.3).
+   the reliability of a model's item score at 2 runs is 0.741 to 0.807 (CoderUJB) and 0.803 to
+   0.862 (DevEval), and the observed run 0 vs run 1 correlation is 0.594 to 0.629 and 0.664 to
+   0.759. G for ranking the five models (finite set) is 0.846 to 0.944 on CoderUJB except 12 px,
+   0.606 [0.014, 0.856], and 0.920 to 0.984 on DevEval (`reliability`). 13 of 16 fits pass the
+   convergence gate; the other 3 (DevEval image12 and image14) fail on s2_model only, which none of
+   these numbers uses (`docs/decisions.md` 2026-11-25). No SEM per condition, by design
+   (`docs/methodology.md` 3.3).
 7. **Durable evaluator (11.9.1).** Partly; see section 5.
 8. **Claude extension.** Yes, exploratory. The copy flag over the other 6 models marks 126 (Sonnet)
-   and 106 (Opus) of 136 CoderUJB items and 673 and 492 of 859 DevEval items, so on CoderUJB the
+   and 106 (Opus) of 136 CoderUJB items and 673 and 492 of 846 DevEval items, so on CoderUJB the
    matched control is uninformative. 0 refusals and 0 request errors in 15,920 replies; 1 Sonnet
    max_tokens and 1 Opus over_budget, both DevEval text. No seed, temperature 1.0, 2 runs, and Opus
    thinks in 45 replies, at most 3.0% of output tokens (`claude`, Contamination and ceiling,
@@ -86,7 +89,8 @@ Numbering follows the notes (23 lines).
 
 4. IRT calibration on diverse models. No. Five models are too few, and many items are all-pass or
    all-fail (item 20); item effects are random terms in the GLMM.
-5. Item screening by item-total correlations and fit. No (not computed). Every item is used.
+5. Item screening by item-total correlations and fit. No (not computed). Every item is used
+   except the 13 DevEval items the splice made unpassable (section 6).
 6. DIF across families. Partly. No Mantel-Haenszel; the GLMM's item:model SD is 1.344 (CoderUJB)
    and 1.380 (DevEval) and the model x condition Wald test rejects equal contrasts (`analysis`).
 7. Audit item content for errors. Partly. Items were kept only if the reference passed our grader
@@ -124,9 +128,9 @@ Numbering follows the notes (23 lines).
 
 **13.5.6 Maintenance and monitoring**
 
-20. Saturation. Yes, at the floor: no model passes 52.2% to 62.5% of CoderUJB items and 51.3% to
-    63.6% of DevEval items in an image condition, and 23.5% and 31.4% in text (`analysis`, floor
-    and ceiling); 12 of the DevEval items in those shares are likely unpassable (section 6).
+20. Saturation. Yes, at the floor: no model passes 52.2% to 62.5% of CoderUJB items and 50.6% to
+    63.0% of DevEval items in an image condition, and 23.5% and 30.5% in text (`analysis`, floor
+    and ceiling), after excluding the 13 DevEval items the splice made unpassable (section 6).
     Claude is at the ceiling on CoderUJB text, 97.4% (`claude`).
 21. Contamination monitoring. Partly. One-time copy flag (item 1.3).
 22. Recalibration. No. One-shot study.
@@ -152,7 +156,7 @@ Count: Yes 6 (1, 3, 8, 11, 19, 20), Partly 9 (2, 6, 7, 12, 13, 16, 17, 18, 21), 
 
 - **Content.** Partly. Item 1.5.
 - **Criterion.** Partly. Text scores as a concurrent criterion: Pearson correlations of item
-  logits between text and an image size are 0.616 to 0.752 (CoderUJB) and 0.589 to 0.740 (DevEval)
+  logits between text and an image size are 0.616 to 0.752 (CoderUJB) and 0.587 to 0.738 (DevEval)
   (`analysis`, GLMM); the unit tests are the outcome, not an independent criterion.
 - **Construct.** Yes, the main evidence: the rendering is assigned by design to every model and
   item, everything else held fixed, and the gap is that intervention contrast (`analysis`, Gaps).
@@ -183,8 +187,8 @@ person**; nothing was regraded, since the test environments are on /snfs2.
  compare conditions. False fails are 2 of 40, 5.0% (exact 95% CI 0.6% to 16.9%), and both are on
  items the harness check below flags. The 4 extraction failures are replies whose first code block
  is a draft and whose second block corrects it: `extract` in `src/codeimg/answers/deveval.py` takes
- the first block that parses and defines the target, and in all 4 the draft parses. Whether the
- second block would pass was not checked. One wrong-logic answer
+ the first block that parses and defines the target, and in all 4 the draft parses. Regraded with
+ the second block (UFM-33), 2 of the 4 pass. One wrong-logic answer
  (`mopidy.internal.log.get_verbosity_level`) is on an item the next check finds under-specified.
 
 **Items no model passes** (`results/audit/never_passed_check.csv`). 285 items are never passed by
@@ -210,12 +214,16 @@ items no model passes; 6 of the 12 were desk-checked, the other 6 are flagged by
 check is a pattern match: it misses strings indented less than the body but not at column 0, and it
 would flag a body that opens with a decorated nested function, which none of the 13 does. The 13th
 (`alembic.testing.env.three_rev_fixture`) is passed by some answers, so a re-indent does not always
-break the item. These 12 count as fails in every number reported. Each scores 0 in every cell, so it
-adds 0 to every paired gap and scales every DevEval pass rate by 847/859: they shrink each DevEval
-gap by about 1.4% of its size, and they raise each DevEval floor share by (12/847)(1 - s) for a
-share s without them, about 1.0 point in text (31.4%) and 0.5 to 0.7 points in the image conditions
-(arithmetic on the reported shares, not recomputed). Confirming that they cannot be passed needs a
-regrade on the cluster (not verified).
+break the item.
+
+**Regrade and exclusion (UFM-33, `docs/decisions.md` 2026-11-25).** The reference body of each of
+the 13 was graded on the cluster through the answer path: all 13 fail with the main run's code and
+pass with the fix in `src/codeimg/answers/deveval.py`. The cause is confirmed, so no answer could
+pass them in the main run. The 13 are excluded from every reported analysis
+(`manifests/excluded/deveval.txt`); DevEval has 846 items. Kept in, they shrank each DevEval gap by
+about 1.4% of its size (arithmetic estimate before the rerun); the rerun without them moves the 5
+open models' gaps by 0.8% to 1.5% of their size, and every conclusion holds. The model answers on the 13 were not regraded, and
+the audit samples above were drawn from all 859.
 
 ## 7. Draft limitations for the paper
 
@@ -232,10 +240,10 @@ Each bullet points to the item that backs it. Draft only; UFM-14 writes the pape
    the ceiling on CoderUJB text (items 1.3, 1.8, 13.5.6-20).
 5. Reading vs coding is not measured unless UFM-28 lands by 2026-11-28; the misreading evidence is
    an exploratory block-1 count (item 1.9).
-6. Item quality: 12 DevEval items are likely unpassable because of the splice (not regraded), and 3
-   of the 10 items checked need behavior the prompt does not give; the floor (51% to 64% of items
-   not passed by any model in an image condition) partly reflects the items (items 1.4, 13.5.2-7,
-   13.5.6-20).
+6. Item quality: 13 DevEval items could not be passed through our splice (confirmed by grading
+   their references) and are excluded, and 3 of the 10 never-passed items checked need behavior
+   the prompt does not give; the floor (51% to 63% of items not passed by any model in an image
+   condition) partly reflects the items (items 1.4, 13.5.2-7, 13.5.6-20).
 7. Item-level evidence: the item:condition variance is clear, but no single item survives BH,
    the hand read covers one model (Sonnet) and 40 answers, and its labels are not checked by a
    person (items 1.2, 1.4, section 6).
