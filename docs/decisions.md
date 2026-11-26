@@ -3,6 +3,43 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-26: CoderUJB Jsoup 93 is excluded
+
+The reference of Jsoup 93 (`chompBalanced`, task_id `979ad380...`) cannot pass the main run's
+answer path (UFM-36). Same criterion as the 13 DevEval items of 2026-11-25, fixed before any rerun
+number was seen. This is a deviation from 3.3, logged as the freezing rule asks.
+
+- **Cause.** `stop_at_function` in `src/codeimg/answers/coderujb.py` (copied from CodeUJB) ends the
+  method by counting braces outside strings, and the char literal `'"'` in this method flips its
+  string toggle. Written as a fenced reply, the reference keeps the closing fence; the other 135
+  references come back equal up to whitespace. 0 of 56 main-run answers pass the item. Not run:
+  javac or defects4j on the spliced file. The extraction is not changed.
+- **Excluded through `manifests/excluded/coderujb.txt`**, the same mechanism as DevEval. The
+  findings notes now cite each benchmark's entry (`EXCLUDED_ON` in `scripts/reliability.py`).
+- **CoderUJB now has 135 items in 13 clusters.** Jsoup 93 was the only Jsoup item, so the primary
+  CoderUJB interval is a project-clustered t interval with 12 df (13 projects), not the 13 df of
+  3.3, and the held-out folds split 13 projects.
+- **Rerun, same commands as 2026-11-25:** `results/analysis/`, `results/claude/analysis/`,
+  `results/claude/findings.md` and `results/reliability/`. Before the change, every Python output
+  and the 5-model GLMM were rerun into scratch and matched the committed files byte for byte. After
+  it, DevEval is unchanged except the `holm` and `bh` fields, which pool both benchmarks; the
+  DevEval reliability input, draws and diagnostics are byte-identical (the reliability fits were
+  rerun for CoderUJB only; seeds are per benchmark). The copy flags do not change (Jsoup 93 was
+  never copied).
+- **Effect.** The 5 open models' CoderUJB gaps grow by 0.1 to 0.3 points (pooled -28.1 to -28.3),
+  Sonnet's by under 0.1 point; every interval stays below zero and the GLMM tests keep their
+  conclusions (Wald 40.2, LRT 14.0). The held-out difference is 5.2 (SE 4.8; was 4.8, SE 5.1).
+  Claude's CoderUJB text rate is 98.1% (was 97.4%). 30 CoderUJB items are passed by no open model
+  (was 31). Finite G and the 1- and 2-run reliabilities move by at most 0.008.
+- **Two more reliability fits fail the gate, on s2_model only.** CoderUJB text and image12 with the
+  inverse-gamma prior (PSRF 1.14 and 1.16 after the rerun at 3 times the length); their other five
+  components pass. With the three DevEval fits of 2026-11-25, 11 of 16 fits pass. The rule is
+  one rerun, so they are reported as failed; the random-model G of those cells is not to be cited.
+  The simulation check was rerun on the 135-item design and covers all six components (on 136 it
+  missed s2_model_project); it is a wiring check, not a coverage claim.
+- **Left on all 136:** `results/full/`, `results/audit/`, `results/glmm/`, `results/layout/` and
+  `replies.json`. `results/block1/` and the D-study are unaffected: Jsoup 93 is not a block-1 item.
+
 ## 2026-11-25: the 13 harness-broken DevEval items are excluded
 
 The 12 items the harness check flags, and `alembic.testing.env.three_rev_fixture`, cannot be

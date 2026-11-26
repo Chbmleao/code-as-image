@@ -45,12 +45,13 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    (Gemma 4 12B, DevEval image10, against 11.8% in text) (`analysis`, scoring shares). A re-score of
    70 answers gave the same verdict for all 70 (`full`, Re-score). The checks in section 6 found
    13 DevEval items (1.5%) that could not be passed because of how answers are spliced in
-   (confirmed by a regrade of their references, then excluded), and an
+   (confirmed by a regrade of their references, then excluded), 1 CoderUJB item whose reference
+   does not survive the extraction (excluded), and an
    extraction rule that grades the first code block when a reply gives a corrected second one
    (4 of 40 hand-read failures). The hand read is on Claude Sonnet 5.5, not an open model.
-5. **Content coverage (1.2.1).** Partly. 136 Java methods from 14 Defects4J projects and 846 Python
+5. **Content coverage (1.2.1).** Partly. 135 Java methods from 13 Defects4J projects and 846 Python
    functions from 79 repositories (`analysis`, Gaps), every item used except the 13 DevEval items
-   the splice made unpassable (section 6). Not covered: debugging, code
+   and 1 CoderUJB item the splice made unpassable (section 6). Not covered: debugging, code
    review, multi-file edits, screenshots of real IDEs (`docs/methodology.md` 3.2). There is no
    blueprint by sub-domain and no expert review of the items (not computed).
 6. **Reliability (ch. 5).** Yes. Variance components with runs nested in cells and MCMC intervals;
@@ -63,7 +64,7 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    (`docs/methodology.md` 3.3).
 7. **Durable evaluator (11.9.1).** Partly; see section 5.
 8. **Claude extension.** Yes, exploratory. The copy flag over the other 6 models marks 126 (Sonnet)
-   and 106 (Opus) of 136 CoderUJB items and 673 and 492 of 846 DevEval items, so on CoderUJB the
+   and 106 (Opus) of 135 CoderUJB items and 673 and 492 of 846 DevEval items, so on CoderUJB the
    matched control is uninformative. 0 refusals and 0 request errors in 15,920 replies; 1 Sonnet
    max_tokens and 1 Opus over_budget, both DevEval text. No seed, temperature 1.0, 2 runs, and Opus
    thinks in 45 replies, at most 3.0% of output tokens (`claude`, Contamination and ceiling,
@@ -90,7 +91,7 @@ Numbering follows the notes (23 lines).
 4. IRT calibration on diverse models. No. Five models are too few, and many items are all-pass or
    all-fail (item 20); item effects are random terms in the GLMM.
 5. Item screening by item-total correlations and fit. No (not computed). Every item is used
-   except the 13 DevEval items the splice made unpassable (section 6).
+   except the 13 DevEval items and 1 CoderUJB item the splice made unpassable (section 6).
 6. DIF across families. Partly. No Mantel-Haenszel; the GLMM's item:model SD is 1.344 (CoderUJB)
    and 1.380 (DevEval) and the model x condition Wald test rejects equal contrasts (`analysis`).
 7. Audit item content for errors. Partly. Items were kept only if the reference passed our grader
@@ -130,7 +131,8 @@ Numbering follows the notes (23 lines).
 
 20. Saturation. Yes, at the floor: no model passes 52.2% to 62.5% of CoderUJB items and 50.6% to
     63.0% of DevEval items in an image condition, and 23.5% and 30.5% in text (`analysis`, floor
-    and ceiling), after excluding the 13 DevEval items the splice made unpassable (section 6).
+    and ceiling), after excluding the 13 DevEval items and 1 CoderUJB item the splice made
+    unpassable (section 6).
     Claude is at the ceiling on CoderUJB text, 97.4% (`claude`).
 21. Contamination monitoring. Partly. One-time copy flag (item 1.3).
 22. Recalibration. No. One-shot study.
@@ -225,6 +227,13 @@ about 1.4% of its size (arithmetic estimate before the rerun); the rerun without
 open models' gaps by 0.8% to 1.5% of their size, and every conclusion holds. The model answers on the 13 were not regraded, and
 the audit samples above were drawn from all 859.
 
+**CoderUJB Jsoup 93 (UFM-36, `docs/decisions.md` 2026-11-26).** Every CoderUJB reference was run
+through `extract` as a fenced reply: 135 come back equal up to whitespace, and Jsoup 93
+(`chompBalanced`) keeps the closing fence, because the char literal `'"'` flips the string toggle
+of the method-end scan. No answer passes it (0 of 56). It is excluded
+(`manifests/excluded/coderujb.txt`); CoderUJB has 135 items in 13 projects, Jsoup 93 being the only
+Jsoup item. The spliced file was not compiled, and `results/audit/` stays on all 136.
+
 ## 7. Draft limitations for the paper
 
 Each bullet points to the item that backs it. Draft only; UFM-14 writes the paper text.
@@ -240,10 +249,11 @@ Each bullet points to the item that backs it. Draft only; UFM-14 writes the pape
    the ceiling on CoderUJB text (items 1.3, 1.8, 13.5.6-20).
 5. Reading vs coding is not measured unless UFM-28 lands by 2026-11-28; the misreading evidence is
    an exploratory block-1 count (item 1.9).
-6. Item quality: 13 DevEval items could not be passed through our splice (confirmed by grading
-   their references) and are excluded, and 3 of the 10 never-passed items checked need behavior
-   the prompt does not give; the floor (51% to 63% of items not passed by any model in an image
-   condition) partly reflects the items (items 1.4, 13.5.2-7, 13.5.6-20).
+6. Item quality: 13 DevEval items and 1 CoderUJB item could not be passed through our splice
+   (confirmed by grading or round-tripping their references) and are excluded, and 3 of the 10
+   never-passed items checked need behavior the prompt does not give; the floor (51% to 63% of
+   items not passed by any model in an image condition) partly reflects the items (items 1.4,
+   13.5.2-7, 13.5.6-20).
 7. Item-level evidence: the item:condition variance is clear, but no single item survives BH,
    the hand read covers one model (Sonnet) and 40 answers, and its labels are not checked by a
    person (items 1.2, 1.4, section 6).
