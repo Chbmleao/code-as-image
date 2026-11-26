@@ -6,19 +6,70 @@ defines the target function (else the first block, else the whole reply) and kee
 statements after its docstring, located with ast. Blocks that do not parse fall back to a line
 scan: skip to the end of the signature and stop at the first line indented no deeper than the def.
 A reply with no def is taken as a bare body. The body is then re-indented with pass_k.py's
-adjust_indent.
+adjust_indent, except when a multi-line string has lines left of the code (see adjust_indent).
 """
 import ast
+import io
 import json
 import os
 import re
 import textwrap
+import tokenize
 
 FENCE = re.compile(r"```[A-Za-z0-9_+-]*[ \t]*\n(.*?)```", re.S)
 
+# Our copy of datasette/utils/asgi.py is 1 line longer than the file DevEval annotated before
+# line 94 and 2 lines longer after line 110, so these spans started at the def or decorator line
+# (set_cookie inside its signature). Corrected to the lines after the docstring (UFM-33).
+BODY_POSITION_FIX = {
+    "datasette.utils.asgi.Request.full_path": [96, 97],
+    "datasette.utils.asgi.Request.post_body": [116, 123],
+    "datasette.utils.asgi.Request.fake": [132, 144],
+    "datasette.utils.asgi.Response.asgi_send": [333, 352],
+    "datasette.utils.asgi.Response.set_cookie": [366, 383],
+    "datasette.utils.asgi.Response.html": [387, 392],
+    "datasette.utils.asgi.Response.text": [396, 401],
+    "datasette.utils.asgi.Response.json": [405, 410],
+    "datasette.utils.asgi.Response.redirect": [414, 416],
+}
+
+
+def _string_lines(code):
+    """Indexes of the lines that start inside a multi-line string (None if code does not
+    tokenize)."""
+    inside, fstring_starts = set(), []
+    try:
+        for tok in tokenize.generate_tokens(io.StringIO(code).readline):
+            name = tokenize.tok_name[tok.type]
+            if name == "FSTRING_START":
+                fstring_starts.append(tok.start[0])
+                continue
+            if name == "STRING":
+                first = tok.start[0]
+            elif name == "FSTRING_END":
+                first = fstring_starts.pop()
+            else:
+                continue
+            inside.update(range(first, tok.end[0]))
+    except (tokenize.TokenError, SyntaxError):
+        return None
+    return inside
+
 
 def adjust_indent(code, new_indent):
-    return textwrap.indent(textwrap.dedent(code), " " * new_indent)
+    # pass_k.py's version shifts string lines that sit left of the code (alembic's
+    # testing/env.py), which moves the code too deep and changes the string; leave those alone
+    out = textwrap.indent(textwrap.dedent(code), " " * new_indent)
+    inside = _string_lines(code)
+    if not inside:
+        return out
+    lines = code.split("\n")
+    code_lines = [x for i, x in enumerate(lines) if i not in inside and x.strip()]
+    margin = os.path.commonprefix([x[:len(x) - len(x.lstrip())] for x in code_lines])
+    if all(lines[i].startswith(margin) or not lines[i].strip() for i in inside):
+        return out
+    return "\n".join(x if i in inside else (" " * new_indent + x[len(margin):] if x.strip() else "")
+                     for i, x in enumerate(lines))
 
 
 def drop_docstring(body):
@@ -101,7 +152,11 @@ FIELDS = ("project_path", "completion_path", "body_position", "tests")
 
 def load_items(path):
     with open(path, encoding="utf-8") as f:
-        return {r["namespace"]: r for r in map(json.loads, f)}
+        items = {r["namespace"]: r for r in map(json.loads, f)}
+    for ns, span in BODY_POSITION_FIX.items():
+        if ns in items:
+            items[ns] = {**items[ns], "body_position": span}
+    return items
 
 
 def answer(g, it, key):

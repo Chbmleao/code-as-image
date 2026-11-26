@@ -175,14 +175,45 @@ def test_prep_rejects_a_missing_row(tmp_path, capsys):
 @needs_full
 @pytest.mark.parametrize("b", ds.BENCHES)
 def test_pooled_rates_of_the_answers_match_checks(b):
+    # checks.json pools the whole graded table, the excluded items included
     rows = ds.read_jsonl(os.path.join(FULL, f"{b}.collected.jsonl"))
-    out = rel.answers(b, rows, rel.design(b))
-    assert len(out) == len(rows)
     tally = defaultdict(lambda: [0, 0])
-    for m, _, _, c, _, y in out:
-        tally[(m, c)][0] += y
-        tally[(m, c)][1] += 1
+    for r in rows:
+        tally[(r["model"], r["condition"])][0] += int(r["passed"])
+        tally[(r["model"], r["condition"])][1] += 1
     with open(os.path.join(FULL, "checks.json")) as f:
         cells = json.load(f)[b]["cells"]
     for (m, c), (k, n) in tally.items():
         assert round(k / n, 4) == cells[m][c]["pass_rate"]
+
+
+def test_the_excluded_items_are_the_harness_suspects():
+    with open(os.path.join(ROOT, "results", "audit", "harness_suspects.csv")) as f:
+        suspects = [r["item"] for r in csv.DictReader(f)]
+    assert rel.excluded("deveval") == suspects
+    assert len(suspects) == 13
+    assert rel.excluded("coderujb") == []
+
+
+def test_an_unknown_excluded_id_stops(tmp_path):
+    (tmp_path / "excluded").mkdir()
+    (tmp_path / "excluded" / "deveval.txt").write_text("datasette.utils.asgi.Request.fake\nnope\n")
+    with pytest.raises(ValueError, match=r"not in the deveval item list: \['nope'\]"):
+        rel.excluded("deveval", manifests=str(tmp_path))
+    assert rel.excluded("coderujb", manifests=str(tmp_path)) == []
+
+
+def test_drop_excluded_ignores_ids_it_does_not_hold():
+    items = [("A", "p", 2), ("B", "p", 2)]
+    rows = [{"id": "A"}, {"id": "B"}, {"id": "B"}]
+    assert rel.drop_excluded(items, rows, ["B", "Z"]) == ([("A", "p", 2)], [{"id": "A"}], ["B"])
+
+
+@needs_full
+@pytest.mark.parametrize("b", ds.BENCHES)
+def test_the_answers_csv_leaves_the_excluded_items_out(b):
+    rows = ds.read_jsonl(os.path.join(FULL, f"{b}.collected.jsonl"))
+    gone = set(rel.excluded(b))
+    out = rel.answers(b, rows, rel.design(b))
+    assert not gone & {i for _, i, _, _, _, _ in out}
+    assert len(out) == sum(r["id"] not in gone for r in rows)

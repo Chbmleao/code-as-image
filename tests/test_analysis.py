@@ -171,8 +171,10 @@ def test_rates_match_the_reliability_results(real):
 def test_items_and_draws_are_the_reliability_ones(real):
     _, inputs = real
     for b, (data, _) in inputs.items():
-        design = rel.design(b)
-        assert data["items"] == [i for i, _, _ in design]
+        gone = rel.excluded(b)
+        assert len(gone) == (13 if b == "deveval" else 0)
+        assert data["items"] == [i for i, _, _ in rel.design(b) if i not in gone]
+        assert sorted(data["excluded"]) == sorted(gone)
         groups = rel.ds.clusters(b, data["items"], dict(zip(data["items"], data["projects"])))
         d = {m: an.differences(an.scores(data)[m], data["conditions"][1:], "text")
              for m in data["models"]}
@@ -496,7 +498,9 @@ def test_the_line_report_takes_its_counts_from_the_inputs():
     assert "other 6 models" in seven and "other 2 models" in three
     assert "on 6 df" in seven and "on 2 df" in three
     assert "runs 0 and 1 only" in seven and "use 123 joint cluster draws" in seven
-    assert "CoderUJB 0, DevEval 4" in seven and "859 items in 79 clusters, 4 dropped." in seven
+    dv = _main_reports()[1]["benchmarks"]["deveval"]
+    assert "CoderUJB 0, DevEval 4" in seven
+    assert f"{dv['n_items']} items in {dv['n_clusters']} clusters, 4 dropped." in seven
     assert "Item flags" not in seven
     assert "| M6 |" in seven and "| M6 |" not in three
     # the 5-model column comes from results/analysis
@@ -506,9 +510,10 @@ def test_the_line_report_takes_its_counts_from_the_inputs():
 def test_the_line_report_fails_when_its_inputs_disagree():
     need(os.path.join(ROOT, "results", "analysis", "glmm.json"))
     inputs = _line_report_inputs(["M0", "M1"])
+    n = inputs["glmm"]["benchmarks"]["deveval"]["n_items"]
     inputs["ranks"]["benchmarks"]["deveval"]["n_items"] -= 1
-    with pytest.raises(ValueError, match=r"glmm.json \(2 models, 859 items\) does not match "
-                                         r"ranks.json \(2 models, 858 items\)"):
+    with pytest.raises(ValueError, match=rf"glmm.json \(2 models, {n} items\) does not match "
+                                         rf"ranks.json \(2 models, {n - 1} items\)"):
         an.check_line(inputs)
     # a 5-model fit has the line's item count when nothing is dropped
     inputs = _line_report_inputs([f"M{k}" for k in range(7)])
@@ -591,11 +596,12 @@ def test_a_simulated_seven_model_line_runs_through_prep_and_ranks(tmp_path, monk
         csv = rel.read_csv(str(scratch / f"{b}_answers.csv"), rel.ANSWER_FIELDS)
         assert list(dict.fromkeys(r["model"] for r in csv)) == models
         assert {r["run"] for r in csv} == {"0", "1"}
-        n = len(rel.design(b)) - (b == "deveval")
+        n = len(rel.design(b)) - len(rel.excluded(b)) - (b == "deveval")
         v = rep["benchmarks"][b]
         assert v["n_items"] == n == len({r["item"] for r in csv})
         assert v["dropped"] == ({"count": 1, "items": [lost]} if b == "deveval"
                                 else {"count": 0, "items": []})
+        assert v["excluded"]["count"] == len(rel.excluded(b))
         assert all(len(x) == 7 for x in v["ranks"].values())
         assert len(v["swap"]) == 21
     assert lost not in {r["item"] for r in rel.read_csv(str(scratch / "deveval_answers.csv"),
@@ -608,14 +614,17 @@ def test_line_contamination_runs_through_the_command(tmp_path, monkeypatch):
     answers, out = tmp_path / "answers", tmp_path / "out"
     answers.mkdir()
     copied = None
+    gone = set(rel.excluded("deveval"))
     for b in rel.ds.BENCHES:
         for src, part in ((full, "block1"), (claude_full, "claude")):
             text = [r for r in rel.ds.read_jsonl(os.path.join(src, f"{b}.collected.jsonl"))
                     if r["condition"] == "text"]
             if b == "deveval" and part == "block1":
-                copied = next(r for r in text if r["run"] == 2)
+                copied = next(r for r in text if r["run"] == 2 and r["id"] not in gone)
+            # an exact copy of an excluded item must not be counted anywhere
+            excluded_copy = next((r for r in text if r["id"] in gone), None)
             replies = [{"key": r["key"], "task_id": r["key"], "model": r["model"], "id": r["id"],
-                        "completion": "x = 1" if r is copied else "y = 2",
+                        "completion": "x = 1" if r is copied or r is excluded_copy else "y = 2",
                         "source": "class X {}" if r is copied else "class Y {}"} for r in text]
             with open(answers / f"{part}_{b}_text.jsonl", "w") as f:
                 f.writelines(json.dumps(a) + "\n" for a in replies)
