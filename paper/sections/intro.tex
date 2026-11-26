@@ -1,9 +1,8 @@
 \section{Introdução}
-% 1. Motivação: renderizar o contexto como imagem economiza tokens de entrada (DeepSeek-OCR, Glyph, CodeOCR). Não se sabe quanto isso custa em código que precisa passar em testes.
-\todo{motivação e pergunta aberta}
-% 2. Lacuna: ninguém avalia no nível de repositório com testes de unidade, ninguém testou estas três famílias abertas e ninguém analisou a variância item:condição.
-\todo{lacuna}
-% 3. O que fazemos: intervenção atribuída por desenho, matriz de respostas pareada (livro 2.5) e GLMM com a condição como faceta (Rasch, cap. 3), sobre um construto estreito.
-\todo{o que fazemos}
-% 4. Contribuições: gaps por modelo (min e max); penalidade não uniforme entre itens; argumento de validade com todos os desvios reportados.
-\todo{contribuições}
+Modelos de visão e linguagem (VLMs) leem texto renderizado como imagem, e isso abre uma forma de comprimir o contexto. O DeepSeek-OCR decodifica com cerca de 97\% de precisão abaixo de 10x de compressão \citep{wei2025deepseekocr}, o Glyph usa a ideia em contexto longo \citep{cheng2025glyph} e o CodeOCR a leva para código \citep{shi2026codeocr}. Em nossos dados, o contexto em imagem usa de \tokenRatioMinAll{} a \tokenRatioMaxAll{} dos tokens de entrada do texto. Falta saber quanto isso custa quando o código gerado precisa passar em testes.
+
+A lacuna está no tipo de avaliação. \citet{liang2026rendered} corrigem com testes no nível de repositório, mas com um agente, 100 tarefas do SWE-bench Verified e uma execução por célula. Sem agente, nenhum trabalho que encontramos corrige a geração no nível de repositório com testes de unidade, nenhum avalia o Gemma 4 nem o Mistral Small 3.2, e nenhum testa com um modelo de efeitos mistos se o gap varia entre modelos e entre itens (Seção~\ref{sec:penalidade}).
+
+Neste trabalho a renderização é uma intervenção que nós atribuímos: cada item aparece nas quatro condições, em cada modelo, e a resposta é a aprovação nos testes do próprio benchmark. A matriz de respostas pareada \citep[Seção~2.5]{truong2026measurement} dá o gap de cada modelo com intervalo agrupado por projeto ou repositório (Seção~\ref{sec:gap}). Um GLMM com a condição como faceta \citep[cap.~3]{truong2026measurement} separa a variância do item da variância do item por condição (Seção~\ref{sec:penalidade}). O construto é estreito, completar uma função ou um método com o contexto do repositório, e os limites vêm na Seção~\ref{sec:limit}.
+
+As contribuições são três. Primeiro, o gap por modelo, de \gapMinUjb{} a \gapMaxUjb~pp no CoderUJB e de \gapMinDev{} a \gapMaxDev~pp no DevEval, com intervalos. Segundo, uma penalidade que não é igual entre itens no DevEval, com apoio mais fraco no CoderUJB e sem identificar itens individuais. Terceiro, um argumento de validade que reporta todos os desvios do plano.
