@@ -24,6 +24,7 @@ ROOT = HERE.parent
 BENCHES = ("coderujb", "deveval")
 BENCH_LABEL = {"coderujb": "CoderUJB (Java)", "deveval": "DevEval (Python)"}
 COLOR = {"coderujb": "#2468c8", "deveval": "#e0662e"}
+MODEL_COLORS = ("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00")
 GRID = "#dde3ea"
 INK = "#2b3440"
 SIZES_PX = (10, 12, 14)
@@ -38,10 +39,6 @@ def num(x: float, d: int = 1) -> str:
 
 def pp(frac: float) -> float:
     return 100 * frac
-
-
-def short(model: str) -> str:
-    return model.replace("Mistral Small 3.2 24B", "Mistral Small 24B")
 
 
 comma = FuncFormatter(lambda v, _: num(v, 0) if float(v).is_integer() else num(v, 1))
@@ -88,7 +85,7 @@ def fig_gap(gaps: dict):
     names = list(gaps["settings"]["models"])
     rows = [
         (
-            short(n),
+            n,
             {
                 b: main_row(gaps, b, n)["cluster"] | {"est": main_row(gaps, b, n)["est"]}
                 for b in BENCHES
@@ -140,6 +137,7 @@ def fig_size_tokens(gaps: dict):
     """Per-size gap against per-size token ratio, one line per model, one panel per benchmark."""
     names = list(gaps["settings"]["models"])
     markers = dict(zip(names, ("o", "s", "D", "^", "v")))
+    colors = dict(zip(names, MODEL_COLORS))
     fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 2.5), sharey=True)
     for ax, b in zip(axes, BENCHES):
         B = gaps["benchmarks"][b]
@@ -147,20 +145,9 @@ def fig_size_tokens(gaps: dict):
             xs = [B["token_ratio"][n][f"image{px}"] for px in SIZES_PX]
             by_size = {r["size"]: r for r in B["sizes"] if r["model"] == n}
             ys = [pp(by_size[f"image{px}"]["est"]) for px in SIZES_PX]
-            ax.plot(xs, ys, "-", color=COLOR[b], lw=0.9, alpha=0.6)
-            ax.plot(xs, ys, markers[n], color=COLOR[b], ms=4.6, mec="white", mew=0.5)
-            if n == names[0]:
-                for x, y, px in zip(xs, ys, SIZES_PX):
-                    ax.annotate(
-                        f"{px} px",
-                        (x, y),
-                        textcoords="offset points",
-                        xytext=(0, 5),
-                        ha="center",
-                        fontsize=6,
-                        color=INK,
-                    )
-        ax.set_title(BENCH_LABEL[b], fontsize=7.5, color=COLOR[b], loc="left")
+            ax.plot(xs, ys, "-", color=colors[n], lw=0.9, alpha=0.6)
+            ax.plot(xs, ys, markers[n], color=colors[n], ms=4.6, mec="white", mew=0.5)
+        ax.set_title(BENCH_LABEL[b], fontsize=7.5, color=INK, loc="left")
         ax.set_xlim(0.1, 0.95)
         ax.set_ylim(-46, 0)
         ax.axhline(0, color="#4a5563", lw=0.8)
@@ -175,12 +162,15 @@ def fig_size_tokens(gaps: dict):
             ax.spines[s].set_visible(False)
         ax.set_xlabel("Razão de tokens (imagem / texto)")
     axes[0].set_ylabel(f"Diferença imagem {MINUS} texto (pp)")
-    handles = [plt.Line2D([], [], color="#6b7684", marker=markers[n], lw=0, ms=4.6) for n in names]
+    handles = [
+        plt.Line2D([], [], color=colors[n], marker=markers[n], lw=0.9, ms=4.6, mec="white", mew=0.5)
+        for n in names
+    ]
     fig.legend(
         handles,
-        [short(n) for n in names],
+        names,
         frameon=False,
-        ncol=len(names),
+        ncol=3,
         loc="lower center",
         bbox_to_anchor=(0.5, 1.0),
         columnspacing=1.2,
