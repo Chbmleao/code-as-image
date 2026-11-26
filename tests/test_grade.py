@@ -23,7 +23,7 @@ PAIRS = [
     ("src/codeimg/answers/coderujb.py", "benchmarks/coderujb/make_answers.py",
      {"remove_line_comment", "clean_signature", "stop_at_function", "extract"}),
     ("src/codeimg/answers/deveval.py", "benchmarks/deveval/make_answers.py",
-     {"FENCE", "adjust_indent", "body_via_ast", "body_after_def", "extract"}),
+     {"FENCE", "body_via_ast", "body_after_def", "extract"}),
 ]
 
 

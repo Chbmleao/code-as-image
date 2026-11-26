@@ -9,7 +9,9 @@
                 not land as written: body_position starts at a decorator or the def line of the
                 target or inside the signature, or the body has column-0 lines that
                 re-indenting shifts. Writes <out>/harness_suspects.csv, with whether any of the
-                7 models passes the item.
+                7 models passes the item. It checks the main run's harness: the re-indent is
+                pinned here, but the spans come from --gold, so that file must be built with
+                the main run's deveval.py (before BODY_POSITION_FIX, commit bd045fc or earlier).
   summary       checks the labels of both files and writes their counts to <out>/summary.md.
 
 Neither draw overwrites an existing file, so labels are not lost by a rerun. Only ids, row facts
@@ -34,7 +36,6 @@ from collections import Counter
 from scipy.stats import binomtest
 
 from codeimg import config
-from codeimg.answers.deveval import adjust_indent
 
 ROOT = config.ROOT
 OUT = os.path.join(ROOT, "results", "audit")
@@ -151,6 +152,11 @@ def is_body(code):
     return True
 
 
+def main_run_reindent(code, new_indent):
+    # pass_k.py's adjust_indent, which the main run used: this check describes the main run
+    return textwrap.indent(textwrap.dedent(code), " " * new_indent)
+
+
 def harness_suspects(gold, items):
     """{item: pattern} for the reference bodies the answer path would not splice back as written.
 
@@ -165,7 +171,7 @@ def harness_suspects(gold, items):
         if re.match(r"\s*(@|(async\s+)?def\s+" + re.escape(name) + r"\b)", first) \
                 or not is_body(body):
             out[i] = "offset"
-        elif adjust_indent(body, int(items[i]["indent"])).splitlines() != body.splitlines() \
+        elif main_run_reindent(body, int(items[i]["indent"])).splitlines() != body.splitlines() \
                 and any(x and not x[0].isspace() for x in body.splitlines()):
             out[i] = "reindent"
     return out
