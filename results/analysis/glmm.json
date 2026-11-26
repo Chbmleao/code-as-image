@@ -311,72 +311,72 @@
       }
     },
     "deveval": {
-      "n_cells": 17180,
-      "n_items": 859,
+      "n_cells": 16920,
+      "n_items": 846,
       "n_clusters": 79,
       "models": ["cyankiwi/Qwen3.5-27B-AWQ-4bit", "google/gemma-4-12B-it", "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym", "Qwen/Qwen3.5-9B", "Qwen/Qwen2.5-VL-7B-Instruct"],
       "conditions": ["text", "image10", "image12", "image14"],
-      "loglik": -8842.797772,
+      "loglik": -8823.498996,
       "sd": {
-        "item": 4.445954,
-        "item:model": 1.380144,
-        "item:condition": 1.388061,
-        "project": 2.014734,
-        "project:condition": 6e-05,
-        "cell": 1.326213
+        "item": 4.430998,
+        "item:model": 1.379905,
+        "item:condition": 1.385597,
+        "project": 1.919328,
+        "project:condition": 7.5e-05,
+        "cell": 1.325733
       },
       "contrast": [
         {
           "model": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
-          "est": -4.343488,
-          "se": 0.179083,
-          "lo": -4.694484,
-          "hi": -3.992491
+          "est": -4.338256,
+          "se": 0.179192,
+          "lo": -4.689466,
+          "hi": -3.987046
         },
         {
           "model": "google/gemma-4-12B-it",
-          "est": -5.191003,
-          "se": 0.194383,
-          "lo": -5.571988,
-          "hi": -4.810019
+          "est": -5.182103,
+          "se": 0.194441,
+          "lo": -5.5632,
+          "hi": -4.801007
         },
         {
           "model": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
-          "est": -4.951724,
-          "se": 0.184281,
-          "lo": -5.312908,
-          "hi": -4.59054
+          "est": -4.950744,
+          "se": 0.184453,
+          "lo": -5.312266,
+          "hi": -4.589223
         },
         {
           "model": "Qwen/Qwen3.5-9B",
-          "est": -3.857634,
-          "se": 0.172275,
-          "lo": -4.195286,
-          "hi": -3.519982
+          "est": -3.85959,
+          "se": 0.172357,
+          "lo": -4.197404,
+          "hi": -3.521776
         },
         {
           "model": "Qwen/Qwen2.5-VL-7B-Instruct",
-          "est": -3.101982,
-          "se": 0.171891,
-          "lo": -3.438882,
-          "hi": -2.765083
+          "est": -3.087397,
+          "se": 0.171864,
+          "lo": -3.424244,
+          "hi": -2.750549
         }
       ],
       "wald": {
-        "stat": 126.858877,
+        "stat": 127.335315,
         "df": 4,
-        "p": 1.83e-26
+        "p": 1.45e-26
       },
       "item_condition_sd": {
-        "est": 1.388061,
-        "lo": 1.270486,
-        "hi": 1.511881,
+        "est": 1.385597,
+        "lo": 1.268074,
+        "hi": 1.509362,
         "method": "profile"
       },
       "lrt": {
-        "stat": 321.795918,
+        "stat": 320.752853,
         "df": 1,
-        "p": 2.94e-72
+        "p": 4.96e-72
       },
       "heldout": {
         "folds": [
@@ -384,204 +384,204 @@
             "fold": 1,
             "clusters": 8,
             "converged": true,
-            "full": -390.896619,
-            "reduced": -395.990828
+            "full": -379.663752,
+            "reduced": -383.70404
           },
           {
             "fold": 2,
             "clusters": 8,
             "converged": true,
-            "full": -1241.110951,
-            "reduced": -1265.094419
+            "full": -1241.008465,
+            "reduced": -1265.00386
           },
           {
             "fold": 3,
             "clusters": 8,
             "converged": true,
-            "full": -887.762098,
-            "reduced": -915.599682
+            "full": -887.855223,
+            "reduced": -915.751717
           },
           {
             "fold": 4,
             "clusters": 8,
             "converged": true,
-            "full": -1732.610691,
-            "reduced": -1767.57005
+            "full": -1732.46654,
+            "reduced": -1767.387003
           },
           {
             "fold": 5,
             "clusters": 8,
             "converged": true,
-            "full": -1705.45747,
-            "reduced": -1752.286612
+            "full": -1705.389098,
+            "reduced": -1752.838584
           },
           {
             "fold": 6,
             "clusters": 8,
             "converged": true,
-            "full": -834.708806,
-            "reduced": -839.858738
+            "full": -834.747313,
+            "reduced": -839.886355
           },
           {
             "fold": 7,
             "clusters": 8,
             "converged": true,
-            "full": -516.388334,
-            "reduced": -528.087101
+            "full": -516.386512,
+            "reduced": -528.093378
           },
           {
             "fold": 8,
             "clusters": 8,
             "converged": true,
-            "full": -699.043879,
-            "reduced": -710.044768
+            "full": -698.910504,
+            "reduced": -709.882443
           },
           {
             "fold": 9,
             "clusters": 8,
             "converged": true,
-            "full": -398.021278,
-            "reduced": -399.842673
+            "full": -398.023362,
+            "reduced": -399.836603
           },
           {
             "fold": 10,
             "clusters": 7,
             "converged": true,
-            "full": -481.175112,
-            "reduced": -494.98373
+            "full": -472.857382,
+            "reduced": -487.085222
           }
         ],
-        "full": -8887.175237,
-        "reduced": -9069.358601,
-        "diff": 182.183364,
-        "se": 46.553843,
+        "full": -8867.308152,
+        "reduced": -9049.469206,
+        "diff": 182.161054,
+        "se": 47.28763,
         "partial": false,
         "integration": "laplace"
       },
       "correlation": {
         "pearson": {
           "text~image10": {
-            "observed": 0.588866,
-            "lo": 0.74246,
-            "hi": 0.791066,
+            "observed": 0.586696,
+            "lo": 0.741692,
+            "hi": 0.791582,
             "percentile": 0
           },
           "text~image12": {
-            "observed": 0.654827,
-            "lo": 0.774634,
-            "hi": 0.817167,
+            "observed": 0.652777,
+            "lo": 0.774466,
+            "hi": 0.817517,
             "percentile": 0
           },
           "text~image14": {
-            "observed": 0.740008,
-            "lo": 0.814308,
-            "hi": 0.850405,
+            "observed": 0.738278,
+            "lo": 0.812279,
+            "hi": 0.849324,
             "percentile": 0
           },
           "image10~image12": {
-            "observed": 0.889896,
-            "lo": 0.87362,
-            "hi": 0.914739,
-            "percentile": 0.266
+            "observed": 0.889251,
+            "lo": 0.869997,
+            "hi": 0.913767,
+            "percentile": 0.319
           },
           "image10~image14": {
-            "observed": 0.851598,
-            "lo": 0.863872,
-            "hi": 0.905888,
-            "percentile": 0.002
+            "observed": 0.850746,
+            "lo": 0.860762,
+            "hi": 0.905881,
+            "percentile": 0.005
           },
           "image12~image14": {
-            "observed": 0.888565,
-            "lo": 0.877224,
-            "hi": 0.914553,
-            "percentile": 0.201
+            "observed": 0.887743,
+            "lo": 0.873629,
+            "hi": 0.913449,
+            "percentile": 0.208
           },
           "C": {
-            "observed": 0.215453,
-            "lo": 0.078603,
-            "hi": 0.107331,
+            "observed": 0.216663,
+            "lo": 0.076587,
+            "hi": 0.108212,
             "percentile": 1
           }
         },
         "spearman": {
           "text~image10": {
-            "observed": 0.601156,
-            "lo": 0.686878,
-            "hi": 0.793883,
+            "observed": 0.599737,
+            "lo": 0.685323,
+            "hi": 0.790886,
             "percentile": 0
           },
           "text~image12": {
-            "observed": 0.672806,
-            "lo": 0.729568,
-            "hi": 0.822847,
+            "observed": 0.671403,
+            "lo": 0.732866,
+            "hi": 0.82257,
             "percentile": 0
           },
           "text~image14": {
-            "observed": 0.752099,
-            "lo": 0.783238,
-            "hi": 0.856831,
+            "observed": 0.751262,
+            "lo": 0.783591,
+            "hi": 0.857241,
             "percentile": 0
           },
           "image10~image12": {
-            "observed": 0.852631,
-            "lo": 0.788504,
-            "hi": 0.866737,
-            "percentile": 0.88
+            "observed": 0.852692,
+            "lo": 0.783548,
+            "hi": 0.86632,
+            "percentile": 0.887
           },
           "image10~image14": {
-            "observed": 0.814677,
-            "lo": 0.777845,
-            "hi": 0.860834,
-            "percentile": 0.369
+            "observed": 0.814767,
+            "lo": 0.772094,
+            "hi": 0.857604,
+            "percentile": 0.431
           },
           "image12~image14": {
-            "observed": 0.86065,
-            "lo": 0.797302,
-            "hi": 0.873381,
-            "percentile": 0.885
+            "observed": 0.860727,
+            "lo": 0.796959,
+            "hi": 0.870863,
+            "percentile": 0.896
           },
           "C": {
-            "observed": 0.167299,
-            "lo": 0.020199,
-            "hi": 0.077673,
+            "observed": 0.168595,
+            "lo": 0.01988,
+            "hi": 0.078779,
             "percentile": 1
           }
         }
       },
       "common_slope": {
         "image10": {
-          "slope": 0.393441,
-          "r2": 0.308408,
-          "text_run_correlation": 0.926743,
-          "corrected": 0.424542
+          "slope": 0.394196,
+          "r2": 0.305528,
+          "text_run_correlation": 0.925457,
+          "corrected": 0.425947
         },
         "image12": {
-          "slope": 0.441281,
-          "r2": 0.368663,
-          "text_run_correlation": 0.926743,
-          "corrected": 0.476163
+          "slope": 0.442003,
+          "r2": 0.365464,
+          "text_run_correlation": 0.925457,
+          "corrected": 0.477605
         },
         "image14": {
-          "slope": 0.521292,
-          "r2": 0.469743,
-          "text_run_correlation": 0.926743,
-          "corrected": 0.562499
+          "slope": 0.522031,
+          "r2": 0.466388,
+          "text_run_correlation": 0.925457,
+          "corrected": 0.564079
         }
       },
       "probit": {
         "sd": {
-          "item": 2.44772,
-          "item:model": 0.765295,
-          "item:condition": 0.814219,
-          "project": 1.130192,
-          "project:condition": 4e-05,
-          "cell": 0.75418
+          "item": 2.441704,
+          "item:model": 0.765469,
+          "item:condition": 0.812906,
+          "project": 1.078993,
+          "project:condition": 3.5e-05,
+          "cell": 0.754451
         },
-        "ratio_logit": 0.312208,
-        "ratio_probit": 0.332644
+        "ratio_logit": 0.312705,
+        "ratio_probit": 0.332926
       },
       "item_flags": {
-        "n": 3436,
+        "n": 3384,
         "bh_flagged": 0,
         "raw_ci_excludes_zero": 38,
         "bh_flagged_loss": 0
@@ -593,7 +593,7 @@
         },
         "b": {
           "model": "Qwen/Qwen2.5-VL-7B-Instruct",
-          "est_abs_diff": 1e-06,
+          "est_abs_diff": 8e-06,
           "se_rel_diff": 1e-06,
           "ok": true
         },
@@ -602,8 +602,8 @@
           "ok": true
         },
         "d": {
-          "laplace": -8842.797773,
-          "fit": -8842.797772,
+          "laplace": -8823.498996,
+          "fit": -8823.498996,
           "ok": true
         }
       }

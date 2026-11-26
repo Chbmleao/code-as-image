@@ -48,9 +48,6 @@ deveval,alembic.command.stamp,Database/alembic
 deveval,alembic.command.upgrade,Database/alembic
 deveval,alembic.config.Config.print_stdout,Database/alembic
 deveval,alembic.operations.schemaobj.SchemaObjects.index,Database/alembic
-deveval,alembic.testing.env._no_sql_testing_config,Database/alembic
-deveval,alembic.testing.env.env_file_fixture,Database/alembic
-deveval,alembic.testing.env.multi_heads_fixture,Database/alembic
 deveval,alembic.testing.fixtures.capture_db,Database/alembic
 deveval,alembic.testing.fixtures.capture_engine_context_buffer,Database/alembic
 deveval,arctic.store._version_store_utils.checksum,Database/arctic-latest
@@ -94,15 +91,6 @@ deveval,datasette.facets.ColumnFacet.facet_results,Database/datasette
 deveval,datasette.facets.ColumnFacet.suggest,Database/datasette
 deveval,datasette.filters.where_filters,Database/datasette
 deveval,datasette.utils.actor_matches_allow,Database/datasette
-deveval,datasette.utils.asgi.Request.fake,Database/datasette
-deveval,datasette.utils.asgi.Request.full_path,Database/datasette
-deveval,datasette.utils.asgi.Request.post_body,Database/datasette
-deveval,datasette.utils.asgi.Response.asgi_send,Database/datasette
-deveval,datasette.utils.asgi.Response.html,Database/datasette
-deveval,datasette.utils.asgi.Response.json,Database/datasette
-deveval,datasette.utils.asgi.Response.redirect,Database/datasette
-deveval,datasette.utils.asgi.Response.set_cookie,Database/datasette
-deveval,datasette.utils.asgi.Response.text,Database/datasette
 deveval,datasette.utils.display_actor,Database/datasette
 deveval,datasette.utils.escape_css_string,Database/datasette
 deveval,datasette.utils.escape_fts,Database/datasette

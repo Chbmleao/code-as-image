@@ -325,86 +325,86 @@
       }
     },
     "deveval": {
-      "n_cells": 24052,
-      "n_items": 859,
+      "n_cells": 23688,
+      "n_items": 846,
       "n_clusters": 79,
       "models": ["cyankiwi/Qwen3.5-27B-AWQ-4bit", "google/gemma-4-12B-it", "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym", "Qwen/Qwen3.5-9B", "Qwen/Qwen2.5-VL-7B-Instruct", "claude-sonnet-5-5", "claude-opus-5-5"],
       "conditions": ["text", "image10", "image12", "image14"],
-      "loglik": -10733.656916,
+      "loglik": -10665.069818,
       "sd": {
-        "item": 4.911093,
-        "item:model": 2.466238,
-        "item:condition": 1.514029,
-        "project": 2.554795,
-        "project:condition": 8.3e-05,
-        "cell": 2.185033
+        "item": 4.746462,
+        "item:model": 2.441465,
+        "item:condition": 1.517985,
+        "project": 2.388073,
+        "project:condition": 8.4e-05,
+        "cell": 2.189171
       },
       "contrast": [
         {
           "model": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
-          "est": -4.992751,
-          "se": 0.222303,
-          "lo": -5.428456,
-          "hi": -4.557045
+          "est": -4.965157,
+          "se": 0.222114,
+          "lo": -5.400491,
+          "hi": -4.529822
         },
         {
           "model": "google/gemma-4-12B-it",
-          "est": -6.341063,
-          "se": 0.261768,
-          "lo": -6.854119,
-          "hi": -5.828007
+          "est": -6.297373,
+          "se": 0.261199,
+          "lo": -6.809314,
+          "hi": -5.785432
         },
         {
           "model": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
-          "est": -5.904467,
-          "se": 0.240982,
-          "lo": -6.376782,
-          "hi": -5.432152
+          "est": -5.875069,
+          "se": 0.240672,
+          "lo": -6.346777,
+          "hi": -5.40336
         },
         {
           "model": "Qwen/Qwen3.5-9B",
-          "est": -4.653502,
-          "se": 0.22842,
-          "lo": -5.101196,
-          "hi": -4.205807
+          "est": -4.6325,
+          "se": 0.228116,
+          "lo": -5.079599,
+          "hi": -4.185402
         },
         {
           "model": "Qwen/Qwen2.5-VL-7B-Instruct",
-          "est": -3.862998,
-          "se": 0.231664,
-          "lo": -4.317051,
-          "hi": -3.408945
+          "est": -3.824939,
+          "se": 0.231317,
+          "lo": -4.278312,
+          "hi": -3.371566
         },
         {
           "model": "claude-sonnet-5-5",
-          "est": -1.862965,
-          "se": 0.242185,
-          "lo": -2.337639,
-          "hi": -1.38829
+          "est": -1.882172,
+          "se": 0.244423,
+          "lo": -2.361232,
+          "hi": -1.403112
         },
         {
           "model": "claude-opus-5-5",
-          "est": -0.740413,
-          "se": 0.286015,
-          "lo": -1.300993,
-          "hi": -0.179833
+          "est": -0.762927,
+          "se": 0.288902,
+          "lo": -1.329164,
+          "hi": -0.19669
         }
       ],
       "wald": {
-        "stat": 348.726502,
+        "stat": 338.684376,
         "df": 6,
-        "p": 2.9e-72
+        "p": 4.14e-70
       },
       "item_condition_sd": {
-        "est": 1.514029,
-        "lo": 1.372158,
-        "hi": 1.661478,
+        "est": 1.517985,
+        "lo": 1.375132,
+        "hi": 1.666541,
         "method": "profile"
       },
       "lrt": {
-        "stat": 197.962045,
+        "stat": 196.87734,
         "df": 1,
-        "p": 2.91e-45
+        "p": 5.01e-45
       },
       "heldout": {
         "folds": [
@@ -412,204 +412,204 @@
             "fold": 1,
             "clusters": 8,
             "converged": true,
-            "full": -521.744365,
-            "reduced": -520.380684
+            "full": -487.25024,
+            "reduced": -484.827567
           },
           {
             "fold": 2,
             "clusters": 8,
             "converged": true,
-            "full": -1430.383447,
-            "reduced": -1446.727407
+            "full": -1429.352389,
+            "reduced": -1446.371202
           },
           {
             "fold": 3,
             "clusters": 8,
             "converged": true,
-            "full": -1052.852062,
-            "reduced": -1068.038069
+            "full": -1052.480417,
+            "reduced": -1067.798885
           },
           {
             "fold": 4,
             "clusters": 8,
             "converged": true,
-            "full": -2057.139948,
-            "reduced": -2077.612126
+            "full": -2058.137708,
+            "reduced": -2078.410485
           },
           {
             "fold": 5,
             "clusters": 8,
             "converged": true,
-            "full": -1861.227629,
-            "reduced": -1883.124264
+            "full": -1859.133237,
+            "reduced": -1881.094715
           },
           {
             "fold": 6,
             "clusters": 8,
             "converged": true,
-            "full": -986.994598,
-            "reduced": -995.262245
+            "full": -989.310919,
+            "reduced": -997.448272
           },
           {
             "fold": 7,
             "clusters": 8,
             "converged": true,
-            "full": -629.178369,
-            "reduced": -633.711445
+            "full": -629.702419,
+            "reduced": -634.370956
           },
           {
             "fold": 8,
             "clusters": 8,
             "converged": true,
-            "full": -879.940451,
-            "reduced": -884.584832
+            "full": -879.969416,
+            "reduced": -884.479562
           },
           {
             "fold": 9,
             "clusters": 8,
             "converged": true,
-            "full": -540.442872,
-            "reduced": -546.91149
+            "full": -540.964808,
+            "reduced": -547.526526
           },
           {
             "fold": 10,
             "clusters": 7,
             "converged": true,
-            "full": -838.73125,
-            "reduced": -856.392603
+            "full": -804.688875,
+            "reduced": -822.813398
           }
         ],
-        "full": -10798.634991,
-        "reduced": -10912.745166,
-        "diff": 114.110175,
-        "se": 24.951027,
+        "full": -10730.990427,
+        "reduced": -10845.141567,
+        "diff": 114.15114,
+        "se": 25.826692,
         "partial": false,
         "integration": "laplace"
       },
       "correlation": {
         "pearson": {
           "text~image10": {
-            "observed": 0.659335,
-            "lo": 0.802768,
-            "hi": 0.845717,
+            "observed": 0.636251,
+            "lo": 0.797764,
+            "hi": 0.839472,
             "percentile": 0
           },
           "text~image12": {
-            "observed": 0.71211,
-            "lo": 0.813349,
-            "hi": 0.854869,
+            "observed": 0.692579,
+            "lo": 0.806351,
+            "hi": 0.848162,
             "percentile": 0
           },
           "text~image14": {
-            "observed": 0.75856,
-            "lo": 0.824835,
-            "hi": 0.863619,
+            "observed": 0.741955,
+            "lo": 0.818064,
+            "hi": 0.858358,
             "percentile": 0
           },
           "image10~image12": {
-            "observed": 0.882515,
-            "lo": 0.843195,
-            "hi": 0.89038,
-            "percentile": 0.89
+            "observed": 0.87325,
+            "lo": 0.834573,
+            "hi": 0.884004,
+            "percentile": 0.867
           },
           "image10~image14": {
-            "observed": 0.866571,
-            "lo": 0.841597,
-            "hi": 0.886398,
-            "percentile": 0.533
+            "observed": 0.855642,
+            "lo": 0.834439,
+            "hi": 0.882811,
+            "percentile": 0.393
           },
           "image12~image14": {
-            "observed": 0.894799,
-            "lo": 0.849523,
-            "hi": 0.892908,
-            "percentile": 0.984
+            "observed": 0.885906,
+            "lo": 0.839661,
+            "hi": 0.887905,
+            "percentile": 0.966
           },
           "C": {
-            "observed": 0.171294,
-            "lo": 0.01314,
-            "hi": 0.054441,
+            "observed": 0.181338,
+            "lo": 0.011799,
+            "hi": 0.053073,
             "percentile": 1
           }
         },
         "spearman": {
           "text~image10": {
-            "observed": 0.71837,
-            "lo": 0.833187,
-            "hi": 0.880415,
+            "observed": 0.707559,
+            "lo": 0.826418,
+            "hi": 0.873907,
             "percentile": 0
           },
           "text~image12": {
-            "observed": 0.767859,
-            "lo": 0.843383,
-            "hi": 0.889739,
+            "observed": 0.759072,
+            "lo": 0.837036,
+            "hi": 0.881482,
             "percentile": 0
           },
           "text~image14": {
-            "observed": 0.818126,
-            "lo": 0.85479,
-            "hi": 0.895534,
+            "observed": 0.811744,
+            "lo": 0.846424,
+            "hi": 0.888708,
             "percentile": 0
           },
           "image10~image12": {
-            "observed": 0.869236,
-            "lo": 0.829738,
-            "hi": 0.882611,
-            "percentile": 0.801
+            "observed": 0.863116,
+            "lo": 0.821793,
+            "hi": 0.874112,
+            "percentile": 0.841
           },
           "image10~image14": {
-            "observed": 0.852952,
-            "lo": 0.830712,
-            "hi": 0.882036,
-            "percentile": 0.336
+            "observed": 0.846018,
+            "lo": 0.821288,
+            "hi": 0.875253,
+            "percentile": 0.376
           },
           "image12~image14": {
-            "observed": 0.88763,
-            "lo": 0.838835,
-            "hi": 0.890731,
-            "percentile": 0.956
+            "observed": 0.882328,
+            "lo": 0.82834,
+            "hi": 0.881753,
+            "percentile": 0.977
           },
           "C": {
-            "observed": 0.101821,
-            "lo": -0.020158,
-            "hi": 0.005595,
+            "observed": 0.104362,
+            "lo": -0.021168,
+            "hi": 0.005962,
             "percentile": 1
           }
         }
       },
       "common_slope": {
         "image10": {
-          "slope": 0.452942,
-          "r2": 0.413628,
-          "text_run_correlation": 0.916973,
-          "corrected": 0.493954
+          "slope": 0.438586,
+          "r2": 0.388026,
+          "text_run_correlation": 0.912126,
+          "corrected": 0.480839
         },
         "image12": {
-          "slope": 0.492193,
-          "r2": 0.47203,
-          "text_run_correlation": 0.916973,
-          "corrected": 0.536759
+          "slope": 0.478678,
+          "r2": 0.447752,
+          "text_run_correlation": 0.912126,
+          "corrected": 0.524794
         },
         "image14": {
-          "slope": 0.534741,
-          "r2": 0.530214,
-          "text_run_correlation": 0.916973,
-          "corrected": 0.583159
+          "slope": 0.521113,
+          "r2": 0.507352,
+          "text_run_correlation": 0.912126,
+          "corrected": 0.571317
         }
       },
       "probit": {
         "sd": {
-          "item": 2.672528,
-          "item:model": 1.34468,
-          "item:condition": 0.853031,
-          "project": 1.396135,
-          "project:condition": 4.7e-05,
-          "cell": 1.122307
+          "item": 2.580554,
+          "item:model": 1.333042,
+          "item:condition": 0.856868,
+          "project": 1.30667,
+          "project:condition": 3.6e-05,
+          "cell": 1.125639
         },
-        "ratio_logit": 0.308288,
-        "ratio_probit": 0.319185
+        "ratio_logit": 0.319814,
+        "ratio_probit": 0.332048
       },
       "item_flags": {
-        "n": 3436,
+        "n": 3384,
         "bh_flagged": 0,
         "raw_ci_excludes_zero": 13,
         "bh_flagged_loss": 0
@@ -621,8 +621,8 @@
         },
         "b": {
           "model": "claude-opus-5-5",
-          "est_abs_diff": 6e-06,
-          "se_rel_diff": 2e-06,
+          "est_abs_diff": 6.8e-05,
+          "se_rel_diff": 7e-06,
           "ok": true
         },
         "c": {
@@ -630,8 +630,8 @@
           "ok": true
         },
         "d": {
-          "laplace": -10733.656916,
-          "fit": -10733.656916,
+          "laplace": -10665.069818,
+          "fit": -10665.069818,
           "ok": true
         }
       }

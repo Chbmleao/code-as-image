@@ -129,8 +129,8 @@ Context length (exploratory; buckets of Qwen3.5 text tokens, [lo, hi); BH over t
 | Qwen3.5 27B | image12 | 4000-8000 | 48 | -33.7 | [-43.7, -23.7] | 3.24e-05 | 6.78e-05 |
 | Qwen3.5 27B | image14 | 4000-8000 | 48 | -24.0 | [-33.2, -14.7] | 0.000239 | 0.00043 |
 | Gemma 4 12B | image10 | 4000-8000 | 48 | -50.7 | [-59.5, -41.9] | 3.65e-07 | 9.67e-07 |
-| Gemma 4 12B | image12 | 4000-8000 | 48 | -50.7 | [-57.8, -43.6] | 6.06e-08 | 1.79e-07 |
-| Gemma 4 12B | image14 | 4000-8000 | 48 | -50.7 | [-57.8, -43.6] | 6.15e-08 | 1.79e-07 |
+| Gemma 4 12B | image12 | 4000-8000 | 48 | -50.7 | [-57.8, -43.6] | 6.06e-08 | 1.73e-07 |
+| Gemma 4 12B | image14 | 4000-8000 | 48 | -50.7 | [-57.8, -43.6] | 6.15e-08 | 1.73e-07 |
 | Mistral Small 3.2 24B | image10 | 4000-8000 | 48 | -44.1 | [-59.3, -28.9] | 0.000103 | 0.000193 |
 | Mistral Small 3.2 24B | image12 | 4000-8000 | 48 | -41.3 | [-54.6, -28.0] | 6.24e-05 | 0.00012 |
 | Mistral Small 3.2 24B | image14 | 4000-8000 | 48 | -29.5 | [-45.8, -13.3] | 0.00264 | 0.00383 |
@@ -197,103 +197,103 @@ Output tokens over all runs, median [q1, q3] and mean, and the image-to-text rat
 
 ### DevEval
 
-859 items in 79 clusters. No item is dropped: the grid check fails on any missing cell, so counting dropped items as failures changes nothing.
+846 items (13 excluded, see docs/decisions.md 2026-11-25) in 79 clusters. No other item is dropped: the grid check fails on any missing cell, so counting dropped items as failures changes nothing.
 
 | Model | Text % | Gap pp | Cluster 95% CI | Holm p | Item-level CI | Logit contrast | Logit 95% CI | Token ratio |
 |---|---|---|---|---|---|---|---|---|
-| Qwen3.5 27B | 53.5 | -27.9 | [-32.0, -23.7] | 9.14e-21 | [-30.6, -25.2] | -4.34 | [-4.69, -3.99] | 0.47 |
-| Gemma 4 12B | 46.1 | -30.3 | [-35.3, -25.3] | 1.41e-18 | [-33.3, -27.3] | -5.19 | [-5.57, -4.81] | 0.21 |
-| Mistral Small 3.2 24B | 48.3 | -31.1 | [-35.9, -26.3] | 4.93e-20 | [-33.8, -28.3] | -4.95 | [-5.31, -4.59] | 0.69 |
-| Qwen3.5 9B | 41.2 | -23.4 | [-27.8, -19.0] | 6.2e-16 | [-25.9, -20.9] | -3.86 | [-4.20, -3.52] | 0.47 |
-| Qwen2.5-VL 7B | 30.2 | -16.4 | [-20.1, -12.7] | 1.46e-12 | [-18.6, -14.1] | -3.10 | [-3.44, -2.77] | 0.65 |
-| Mean of models |  | -25.8 | [-29.7, -21.7] |  |  |  |  |  |
+| Qwen3.5 27B | 54.2 | -28.2 | [-32.3, -24.1] | 1.79e-21 | [-30.9, -25.5] | -4.34 | [-4.69, -3.99] | 0.47 |
+| Gemma 4 12B | 46.7 | -30.6 | [-35.5, -25.7] | 2.67e-19 | [-33.7, -27.6] | -5.18 | [-5.56, -4.80] | 0.21 |
+| Mistral Small 3.2 24B | 49.0 | -31.5 | [-36.1, -26.9] | 1.79e-21 | [-34.3, -28.7] | -4.95 | [-5.31, -4.59] | 0.69 |
+| Qwen3.5 9B | 41.8 | -23.8 | [-28.0, -19.5] | 5.99e-17 | [-26.3, -21.2] | -3.86 | [-4.20, -3.52] | 0.47 |
+| Qwen2.5-VL 7B | 30.5 | -16.5 | [-20.2, -12.8] | 9.78e-13 | [-18.8, -14.2] | -3.09 | [-3.42, -2.75] | 0.65 |
+| Mean of models |  | -26.1 | [-29.9, -22.1] |  |  |  |  |  |
 
 Rates by condition (%), item-weighted, with the rank in brackets:
 
 | Model | text | image10 | image12 | image14 | image |
 |---|---|---|---|---|---|
-| Qwen3.5 27B | 53.5 (1) | 20.9 (1) | 24.8 (1) | 31.1 (1) | 25.6 (1) |
-| Gemma 4 12B | 46.1 (3) | 15.6 (2) | 15.8 (4) | 16.1 (4) | 15.8 (4) |
-| Mistral Small 3.2 24B | 48.3 (2) | 15.1 (3) | 16.2 (3) | 20.4 (3) | 17.2 (3) |
-| Qwen3.5 9B | 41.2 (4) | 13.2 (4) | 18.0 (2) | 22.1 (2) | 17.8 (2) |
-| Qwen2.5-VL 7B | 30.2 (5) | 12.1 (5) | 13.8 (5) | 15.4 (5) | 13.8 (5) |
+| Qwen3.5 27B | 54.2 (1) | 21.2 (1) | 25.2 (1) | 31.6 (1) | 26.0 (1) |
+| Gemma 4 12B | 46.7 (3) | 15.8 (2) | 16.1 (4) | 16.3 (4) | 16.1 (4) |
+| Mistral Small 3.2 24B | 49.0 (2) | 15.3 (3) | 16.5 (3) | 20.7 (3) | 17.5 (3) |
+| Qwen3.5 9B | 41.8 (4) | 13.4 (4) | 18.3 (2) | 22.4 (2) | 18.1 (2) |
+| Qwen2.5-VL 7B | 30.5 (5) | 12.3 (5) | 14.0 (5) | 15.7 (5) | 14.0 (5) |
 
 Gap per image size (BH over the per-size family):
 
 | Model | Size | Gap pp | Cluster 95% CI | p | BH p |
 |---|---|---|---|---|---|
-| Qwen3.5 27B | image10 | -32.6 | [-37.6, -27.6] | 3.42e-21 | 3.42e-20 |
-| Qwen3.5 27B | image12 | -28.7 | [-33.4, -23.9] | 2.17e-19 | 9.29e-19 |
-| Qwen3.5 27B | image14 | -22.4 | [-25.7, -19.1] | 3.79e-22 | 1.14e-20 |
-| Gemma 4 12B | image10 | -30.5 | [-35.2, -25.8] | 3.37e-21 | 3.42e-20 |
-| Gemma 4 12B | image12 | -30.3 | [-35.8, -24.8] | 1.35e-17 | 4.51e-17 |
-| Gemma 4 12B | image14 | -30.0 | [-35.1, -24.9] | 7.62e-19 | 2.86e-18 |
-| Mistral Small 3.2 24B | image10 | -33.2 | [-38.4, -28.1] | 7.23e-21 | 5.42e-20 |
-| Mistral Small 3.2 24B | image12 | -32.1 | [-37.1, -27.0] | 1.19e-20 | 7.13e-20 |
-| Mistral Small 3.2 24B | image14 | -27.9 | [-32.4, -23.4] | 7.02e-20 | 3.51e-19 |
-| Qwen3.5 9B | image10 | -28.0 | [-33.1, -22.9] | 1.95e-17 | 5.86e-17 |
-| Qwen3.5 9B | image12 | -23.1 | [-28.0, -18.3] | 9.86e-15 | 2.47e-14 |
-| Qwen3.5 9B | image14 | -19.1 | [-22.8, -15.4] | 3.31e-16 | 9.03e-16 |
-| Qwen2.5-VL 7B | image10 | -18.0 | [-22.4, -13.7] | 3.39e-12 | 6.77e-12 |
-| Qwen2.5-VL 7B | image12 | -16.4 | [-20.0, -12.8] | 8.35e-14 | 1.93e-13 |
-| Qwen2.5-VL 7B | image14 | -14.7 | [-18.2, -11.2] | 1.58e-12 | 3.38e-12 |
+| Qwen3.5 27B | image10 | -33.0 | [-37.8, -28.1] | 3.61e-22 | 3.61e-21 |
+| Qwen3.5 27B | image12 | -29.0 | [-33.7, -24.3] | 5.84e-20 | 2.5e-19 |
+| Qwen3.5 27B | image14 | -22.6 | [-25.9, -19.3] | 2.32e-22 | 3.61e-21 |
+| Gemma 4 12B | image10 | -30.9 | [-35.5, -26.3] | 7.63e-22 | 4.58e-21 |
+| Gemma 4 12B | image12 | -30.6 | [-36.0, -25.3] | 2.54e-18 | 7.61e-18 |
+| Gemma 4 12B | image14 | -30.4 | [-35.4, -25.4] | 1.7e-19 | 6.38e-19 |
+| Mistral Small 3.2 24B | image10 | -33.7 | [-38.6, -28.8] | 2.67e-22 | 3.61e-21 |
+| Mistral Small 3.2 24B | image12 | -32.5 | [-37.3, -27.7] | 4.95e-22 | 3.72e-21 |
+| Mistral Small 3.2 24B | image14 | -28.3 | [-32.6, -23.9] | 3.95e-21 | 1.97e-20 |
+| Qwen3.5 9B | image10 | -28.4 | [-33.3, -23.5] | 1.82e-18 | 6.07e-18 |
+| Qwen3.5 9B | image12 | -23.5 | [-28.2, -18.8] | 1.55e-15 | 3.88e-15 |
+| Qwen3.5 9B | image14 | -19.4 | [-22.9, -15.8] | 3.79e-17 | 1.03e-16 |
+| Qwen2.5-VL 7B | image10 | -18.2 | [-22.5, -13.8] | 2.35e-12 | 4.71e-12 |
+| Qwen2.5-VL 7B | image12 | -16.5 | [-20.1, -12.9] | 4.81e-14 | 1.11e-13 |
+| Qwen2.5-VL 7B | image14 | -14.8 | [-18.3, -11.3] | 1.34e-12 | 2.86e-12 |
 
 Differences between sizes (BH over the size-difference family):
 
 | Model | Pair | Diff pp | Cluster 95% CI | p | BH p |
 |---|---|---|---|---|---|
-| Qwen3.5 27B | image12-image10 | +3.9 | [+2.4, +5.5] | 2.36e-06 | 1.53e-05 |
-| Qwen3.5 27B | image14-image10 | +10.2 | [+7.3, +13.2] | 9.67e-10 | 1.96e-08 |
-| Qwen3.5 27B | image14-image12 | +6.3 | [+3.5, +9.1] | 2.66e-05 | 0.000114 |
+| Qwen3.5 27B | image12-image10 | +4.0 | [+2.5, +5.5] | 1.62e-06 | 1.22e-05 |
+| Qwen3.5 27B | image14-image10 | +10.4 | [+7.5, +13.2] | 2.86e-10 | 8.58e-09 |
+| Qwen3.5 27B | image14-image12 | +6.4 | [+3.6, +9.2] | 2e-05 | 8.59e-05 |
 | Gemma 4 12B | image12-image10 | +0.2 | [-1.5, +1.9] | 0.802 | 0.802 |
-| Gemma 4 12B | image14-image10 | +0.5 | [-1.3, +2.2] | 0.6 | 0.692 |
-| Gemma 4 12B | image14-image12 | +0.3 | [-1.2, +1.7] | 0.735 | 0.76 |
-| Mistral Small 3.2 24B | image12-image10 | +1.2 | [-0.4, +2.7] | 0.142 | 0.237 |
-| Mistral Small 3.2 24B | image14-image10 | +5.3 | [+3.2, +7.4] | 2.55e-06 | 1.53e-05 |
-| Mistral Small 3.2 24B | image14-image12 | +4.2 | [+2.4, +5.9] | 8.2e-06 | 4.1e-05 |
-| Qwen3.5 9B | image12-image10 | +4.9 | [+3.1, +6.6] | 2.75e-07 | 2.75e-06 |
-| Qwen3.5 9B | image14-image10 | +8.9 | [+6.3, +11.5] | 1.3e-09 | 1.96e-08 |
-| Qwen3.5 9B | image14-image12 | +4.1 | [+1.8, +6.3] | 0.000616 | 0.00177 |
-| Qwen2.5-VL 7B | image12-image10 | +1.6 | [-0.0, +3.3] | 0.0523 | 0.112 |
-| Qwen2.5-VL 7B | image14-image10 | +3.3 | [+1.5, +5.1] | 0.000649 | 0.00177 |
-| Qwen2.5-VL 7B | image14-image12 | +1.7 | [-0.1, +3.5] | 0.0715 | 0.143 |
+| Gemma 4 12B | image14-image10 | +0.5 | [-1.3, +2.3] | 0.6 | 0.693 |
+| Gemma 4 12B | image14-image12 | +0.3 | [-1.2, +1.8] | 0.735 | 0.76 |
+| Mistral Small 3.2 24B | image12-image10 | +1.2 | [-0.4, +2.8] | 0.142 | 0.236 |
+| Mistral Small 3.2 24B | image14-image10 | +5.4 | [+3.3, +7.5] | 2.1e-06 | 1.26e-05 |
+| Mistral Small 3.2 24B | image14-image12 | +4.2 | [+2.5, +6.0] | 6.96e-06 | 3.48e-05 |
+| Qwen3.5 9B | image12-image10 | +4.9 | [+3.2, +6.7] | 2.56e-07 | 2.56e-06 |
+| Qwen3.5 9B | image14-image10 | +9.0 | [+6.5, +11.6] | 8.19e-10 | 1.23e-08 |
+| Qwen3.5 9B | image14-image12 | +4.1 | [+1.8, +6.4] | 0.000564 | 0.00155 |
+| Qwen2.5-VL 7B | image12-image10 | +1.7 | [-0.0, +3.3] | 0.052 | 0.111 |
+| Qwen2.5-VL 7B | image14-image10 | +3.3 | [+1.5, +5.2] | 0.000569 | 0.00155 |
+| Qwen2.5-VL 7B | image14-image12 | +1.7 | [-0.1, +3.5] | 0.0701 | 0.14 |
 
 Prompt tokens, run 0, median [q1, q3], and the median per-item ratio to text:
 
 | Model | text | image10 | image12 | image14 | ratio image10 | ratio image12 | ratio image14 |
 |---|---|---|---|---|---|---|---|
-| Qwen3.5 27B | 4260 [3132, 6304] | 1396 [1094, 2049] | 1903 [1485, 2886] | 2519 [1946, 3864] | 0.34 | 0.46 | 0.61 |
-| Gemma 4 12B | 4622 [3445, 6987] | 852 [729, 1042] | 1011 [799, 1294] | 1238 [986, 1562] | 0.18 | 0.21 | 0.25 |
-| Mistral Small 3.2 24B | 4694 [3571, 6689] | 2389 [1978, 3299] | 3100 [2521, 4448] | 3979 [3165, 5832] | 0.51 | 0.68 | 0.87 |
-| Qwen3.5 9B | 4260 [3132, 6304] | 1396 [1094, 2049] | 1903 [1485, 2886] | 2519 [1946, 3864] | 0.34 | 0.46 | 0.61 |
-| Qwen2.5-VL 7B | 3966 [2902, 5844] | 1758 [1376, 2634] | 2433 [1885, 3732] | 3252 [2489, 5027] | 0.46 | 0.64 | 0.85 |
+| Qwen3.5 27B | 4279 [3137, 6321] | 1403 [1096, 2058] | 1910 [1486, 2892] | 2541 [1948, 3880] | 0.34 | 0.46 | 0.61 |
+| Gemma 4 12B | 4647 [3445, 6997] | 864 [731, 1047] | 1011 [801, 1298] | 1241 [986, 1568] | 0.18 | 0.21 | 0.25 |
+| Mistral Small 3.2 24B | 4734 [3574, 6695] | 2396 [1978, 3321] | 3118 [2524, 4455] | 3995 [3165, 5874] | 0.51 | 0.68 | 0.87 |
+| Qwen3.5 9B | 4279 [3137, 6321] | 1403 [1096, 2058] | 1910 [1486, 2892] | 2541 [1948, 3880] | 0.34 | 0.46 | 0.61 |
+| Qwen2.5-VL 7B | 3984 [2904, 5855] | 1770 [1379, 2651] | 2462 [1887, 3746] | 3280 [2500, 5067] | 0.46 | 0.64 | 0.85 |
 
 Context length (exploratory; buckets of Qwen3.5 text tokens, [lo, hi); BH over the length family):
 
 | Model | Size | Bucket | Items | Gap pp | Cluster 95% CI | p | BH p |
 |---|---|---|---|---|---|---|---|
-| Qwen3.5 27B | image10 | 2000-4000 | 389 | -32.6 | [-38.4, -26.9] | 1.77e-16 | 1.6e-14 |
-| Qwen3.5 27B | image12 | 2000-4000 | 389 | -28.6 | [-34.2, -22.9] | 1.73e-14 | 3.11e-13 |
-| Qwen3.5 27B | image14 | 2000-4000 | 389 | -22.5 | [-27.6, -17.4] | 2.24e-12 | 3.35e-11 |
-| Gemma 4 12B | image10 | 2000-4000 | 389 | -26.5 | [-32.9, -20.1] | 1.62e-11 | 1.62e-10 |
-| Gemma 4 12B | image12 | 2000-4000 | 389 | -25.9 | [-32.2, -19.6] | 2.5e-11 | 2.25e-10 |
-| Gemma 4 12B | image14 | 2000-4000 | 389 | -25.6 | [-32.0, -19.2] | 5.74e-11 | 3.97e-10 |
-| Mistral Small 3.2 24B | image10 | 2000-4000 | 389 | -30.1 | [-35.7, -24.5] | 1.87e-15 | 4.2e-14 |
-| Mistral Small 3.2 24B | image12 | 2000-4000 | 389 | -29.5 | [-34.8, -24.1] | 6.26e-16 | 2.82e-14 |
-| Mistral Small 3.2 24B | image14 | 2000-4000 | 389 | -25.4 | [-30.2, -20.7] | 1.22e-15 | 3.67e-14 |
-| Qwen3.5 9B | image10 | 2000-4000 | 389 | -25.5 | [-31.6, -19.5] | 8.57e-12 | 1.1e-10 |
-| Qwen3.5 9B | image12 | 2000-4000 | 389 | -19.9 | [-25.0, -14.8] | 1.02e-10 | 5.73e-10 |
-| Qwen3.5 9B | image14 | 2000-4000 | 389 | -15.9 | [-20.2, -11.6] | 7.5e-10 | 3.12e-09 |
-| Qwen2.5-VL 7B | image10 | 2000-4000 | 389 | -17.7 | [-22.5, -12.8] | 7.63e-10 | 3.12e-09 |
-| Qwen2.5-VL 7B | image12 | 2000-4000 | 389 | -15.0 | [-19.9, -10.1] | 6.57e-08 | 1.85e-07 |
-| Qwen2.5-VL 7B | image14 | 2000-4000 | 389 | -13.9 | [-17.6, -10.1] | 6.17e-10 | 2.78e-09 |
-| Qwen3.5 27B | image10 | 4000-8000 | 350 | -34.0 | [-41.7, -26.2] | 1.16e-11 | 1.3e-10 |
-| Qwen3.5 27B | image12 | 4000-8000 | 350 | -31.0 | [-38.6, -23.5] | 8.67e-11 | 5.57e-10 |
-| Qwen3.5 27B | image14 | 4000-8000 | 350 | -23.2 | [-28.7, -17.7] | 3.89e-11 | 3.18e-10 |
-| Gemma 4 12B | image10 | 4000-8000 | 350 | -33.1 | [-41.0, -25.2] | 4.93e-11 | 3.7e-10 |
+| Qwen3.5 27B | image10 | 2000-4000 | 376 | -33.5 | [-39.1, -27.9] | 1.94e-17 | 1.74e-15 |
+| Qwen3.5 27B | image12 | 2000-4000 | 376 | -29.3 | [-34.9, -23.7] | 4.59e-15 | 8.26e-14 |
+| Qwen3.5 27B | image14 | 2000-4000 | 376 | -23.0 | [-28.1, -17.9] | 1.21e-12 | 1.69e-11 |
+| Gemma 4 12B | image10 | 2000-4000 | 376 | -27.1 | [-33.5, -20.8] | 6.72e-12 | 7.56e-11 |
+| Gemma 4 12B | image12 | 2000-4000 | 376 | -26.6 | [-32.8, -20.3] | 9.96e-12 | 9.96e-11 |
+| Gemma 4 12B | image14 | 2000-4000 | 376 | -26.2 | [-32.6, -19.8] | 2.45e-11 | 2.01e-10 |
+| Mistral Small 3.2 24B | image10 | 2000-4000 | 376 | -31.0 | [-36.4, -25.5] | 1.86e-16 | 4.18e-15 |
+| Mistral Small 3.2 24B | image12 | 2000-4000 | 376 | -30.4 | [-35.6, -25.2] | 5.02e-17 | 2.26e-15 |
+| Mistral Small 3.2 24B | image14 | 2000-4000 | 376 | -26.2 | [-30.8, -21.6] | 1.34e-16 | 4.03e-15 |
+| Qwen3.5 9B | image10 | 2000-4000 | 376 | -26.4 | [-32.3, -20.5] | 1.31e-12 | 1.69e-11 |
+| Qwen3.5 9B | image12 | 2000-4000 | 376 | -20.6 | [-25.6, -15.5] | 2.71e-11 | 2.04e-10 |
+| Qwen3.5 9B | image14 | 2000-4000 | 376 | -16.4 | [-20.8, -12.1] | 2.2e-10 | 1.04e-09 |
+| Qwen2.5-VL 7B | image10 | 2000-4000 | 376 | -18.0 | [-22.9, -13.1] | 5.88e-10 | 2.41e-09 |
+| Qwen2.5-VL 7B | image12 | 2000-4000 | 376 | -15.2 | [-20.2, -10.3] | 6.13e-08 | 1.73e-07 |
+| Qwen2.5-VL 7B | image14 | 2000-4000 | 376 | -14.1 | [-17.9, -10.3] | 4.84e-10 | 2.07e-09 |
+| Qwen3.5 27B | image10 | 4000-8000 | 350 | -34.0 | [-41.7, -26.2] | 1.16e-11 | 1.04e-10 |
+| Qwen3.5 27B | image12 | 4000-8000 | 350 | -31.0 | [-38.6, -23.5] | 8.67e-11 | 5.2e-10 |
+| Qwen3.5 27B | image14 | 4000-8000 | 350 | -23.2 | [-28.7, -17.7] | 3.89e-11 | 2.69e-10 |
+| Gemma 4 12B | image10 | 4000-8000 | 350 | -33.1 | [-41.0, -25.2] | 4.93e-11 | 3.17e-10 |
 | Gemma 4 12B | image12 | 4000-8000 | 350 | -33.6 | [-43.0, -24.1] | 4.5e-09 | 1.56e-08 |
-| Gemma 4 12B | image14 | 4000-8000 | 350 | -33.7 | [-42.4, -25.0] | 4.69e-10 | 2.22e-09 |
-| Mistral Small 3.2 24B | image10 | 4000-8000 | 350 | -36.1 | [-44.9, -27.3] | 9.47e-11 | 5.68e-10 |
+| Gemma 4 12B | image14 | 4000-8000 | 350 | -33.7 | [-42.4, -25.0] | 4.69e-10 | 2.07e-09 |
+| Mistral Small 3.2 24B | image10 | 4000-8000 | 350 | -36.1 | [-44.9, -27.3] | 9.47e-11 | 5.32e-10 |
 | Mistral Small 3.2 24B | image12 | 4000-8000 | 350 | -34.5 | [-43.0, -26.0] | 1.16e-10 | 6.15e-10 |
 | Mistral Small 3.2 24B | image14 | 4000-8000 | 350 | -30.5 | [-38.5, -22.4] | 8.5e-10 | 3.33e-09 |
 | Qwen3.5 9B | image10 | 4000-8000 | 350 | -30.4 | [-38.8, -22.0] | 3.04e-09 | 1.09e-08 |
@@ -322,40 +322,40 @@ Floor and ceiling: share of items (%) with no run passing / every run passing:
 
 | Model | text | image10 | image12 | image14 |
 |---|---|---|---|---|
-| Qwen3.5 27B | 41.0 / 47.6 | 73.3 / 15.0 | 68.6 / 18.6 | 61.8 / 23.6 |
-| Gemma 4 12B | 50.5 / 42.5 | 82.5 / 13.7 | 81.5 / 13.3 | 82.0 / 14.0 |
-| Mistral Small 3.2 24B | 44.1 / 40.4 | 80.9 / 11.1 | 78.6 / 11.2 | 72.6 / 13.7 |
-| Qwen3.5 9B | 50.6 / 33.1 | 81.3 / 7.9 | 75.2 / 11.5 | 69.4 / 13.9 |
-| Qwen2.5-VL 7B | 62.2 / 22.2 | 82.8 / 7.1 | 80.1 / 7.8 | 78.8 / 9.7 |
+| Qwen3.5 27B | 40.2 / 48.2 | 72.9 / 15.2 | 68.1 / 18.9 | 61.2 / 24.0 |
+| Gemma 4 12B | 49.9 / 43.0 | 82.3 / 13.9 | 81.2 / 13.5 | 81.7 / 14.2 |
+| Mistral Small 3.2 24B | 43.4 / 41.0 | 80.6 / 11.2 | 78.3 / 11.3 | 72.2 / 13.9 |
+| Qwen3.5 9B | 49.9 / 33.6 | 81.0 / 8.0 | 74.8 / 11.7 | 68.9 / 14.1 |
+| Qwen2.5-VL 7B | 61.7 / 22.5 | 82.5 / 7.2 | 79.8 / 7.9 | 78.5 / 9.8 |
 
 | Condition | Every model passes % | No model passes % |
 |---|---|---|
-| text | 15.0 | 31.4 |
-| image10 | 2.9 | 63.6 |
-| image12 | 2.9 | 58.3 |
-| image14 | 3.0 | 51.3 |
+| text | 15.2 | 30.5 |
+| image10 | 3.0 | 63.0 |
+| image12 | 3.0 | 57.7 |
+| image14 | 3.1 | 50.6 |
 
-254 items pass in no condition for any model (`never_passed.csv`).
+242 items pass in no condition for any model (`never_passed.csv`).
 
 Scoring shares (%): empty / truncated / no code / no def line of the target:
 
 | Model | text | image10 | image12 | image14 |
 |---|---|---|---|---|
-| Qwen3.5 27B | 0.0 / 3.4 / 0.0 / 0.0 | 0.0 / 0.9 / 0.0 / 1.9 | 0.0 / 1.1 / 0.0 / 2.0 | 0.0 / 0.9 / 0.0 / 1.9 |
-| Gemma 4 12B | 0.0 / 0.3 / 0.0 / 11.7 | 0.0 / 1.8 / 0.0 / 17.7 | 0.0 / 1.2 / 0.1 / 14.6 | 0.0 / 2.0 / 0.0 / 12.2 |
+| Qwen3.5 27B | 0.0 / 3.4 / 0.0 / 0.0 | 0.0 / 0.9 / 0.0 / 1.9 | 0.0 / 1.1 / 0.0 / 2.1 | 0.0 / 0.8 / 0.0 / 1.8 |
+| Gemma 4 12B | 0.0 / 0.3 / 0.0 / 11.8 | 0.0 / 1.8 / 0.0 / 17.8 | 0.0 / 1.2 / 0.1 / 14.6 | 0.0 / 2.0 / 0.0 / 12.2 |
 | Mistral Small 3.2 24B | 0.0 / 0.0 / 0.0 / 0.1 | 0.0 / 0.3 / 0.0 / 0.1 | 0.0 / 0.1 / 0.0 / 0.1 | 0.0 / 0.1 / 0.0 / 0.0 |
-| Qwen3.5 9B | 0.0 / 3.9 / 0.0 / 6.2 | 0.0 / 12.4 / 0.0 / 2.0 | 0.0 / 12.4 / 0.0 / 1.6 | 0.0 / 13.1 / 0.0 / 1.0 |
-| Qwen2.5-VL 7B | 0.0 / 1.6 / 0.0 / 0.6 | 0.0 / 1.9 / 0.5 / 3.6 | 0.0 / 1.8 / 0.4 / 4.0 | 0.0 / 1.5 / 0.3 / 3.7 |
+| Qwen3.5 9B | 0.0 / 4.0 / 0.0 / 6.2 | 0.0 / 12.5 / 0.0 / 2.0 | 0.0 / 12.4 / 0.0 / 1.6 | 0.0 / 13.2 / 0.0 / 1.1 |
+| Qwen2.5-VL 7B | 0.0 / 1.6 / 0.0 / 0.6 | 0.0 / 1.9 / 0.5 / 3.4 | 0.0 / 1.7 / 0.4 / 3.8 | 0.0 / 1.5 / 0.3 / 3.6 |
 
 Output tokens over all runs, median [q1, q3] and mean, and the image-to-text ratio of the means:
 
 | Model | text | image10 | image12 | image14 | ratio image10 | ratio image12 | ratio image14 |
 |---|---|---|---|---|---|---|---|
-| Qwen3.5 27B | 277 [175, 469], 426 | 233 [158, 350], 308 | 231 [160, 352], 312 | 226 [157, 356], 309 | 0.72 | 0.73 | 0.73 |
-| Gemma 4 12B | 216 [152, 334], 275 | 203 [148, 297], 278 | 218 [154, 318], 284 | 222 [157, 326], 303 | 1.01 | 1.03 | 1.10 |
-| Mistral Small 3.2 24B | 254 [172, 371], 294 | 254 [180, 382], 312 | 246 [173, 368], 301 | 244 [170, 366], 295 | 1.06 | 1.02 | 1.00 |
-| Qwen3.5 9B | 269 [166, 459], 424 | 510 [379, 892], 775 | 511 [381, 958], 781 | 498 [377, 917], 780 | 1.83 | 1.84 | 1.84 |
-| Qwen2.5-VL 7B | 390 [267, 536], 447 | 208 [144, 308], 280 | 207 [149, 302], 276 | 201 [143, 293], 269 | 0.63 | 0.62 | 0.60 |
+| Qwen3.5 27B | 277 [175, 469], 427 | 233 [158, 350], 307 | 231 [160, 350], 310 | 226 [157, 355], 307 | 0.72 | 0.73 | 0.72 |
+| Gemma 4 12B | 216 [151, 334], 275 | 204 [148, 298], 279 | 219 [155, 318], 285 | 223 [158, 328], 305 | 1.02 | 1.04 | 1.11 |
+| Mistral Small 3.2 24B | 253 [172, 371], 294 | 255 [180, 383], 312 | 246 [173, 370], 301 | 244 [170, 366], 295 | 1.06 | 1.02 | 1.00 |
+| Qwen3.5 9B | 269 [166, 459], 425 | 511 [379, 892], 776 | 512 [380, 961], 782 | 500 [377, 927], 782 | 1.83 | 1.84 | 1.84 |
+| Qwen2.5-VL 7B | 390 [267, 536], 448 | 209 [144, 308], 280 | 208 [149, 303], 276 | 202 [143, 293], 270 | 0.63 | 0.62 | 0.60 |
 
 ## GLMM
 
@@ -411,51 +411,51 @@ Common slope of image logits (run 1) on text logits (run 0):
 
 ### DevEval
 
-17180 cells, 859 items, 79 clusters, log-likelihood -8842.8.
+16920 cells, 846 items, 79 clusters, log-likelihood -8823.5.
 
 | Term | SD (logit) | SD (probit) |
 |---|---|---|
-| item | 4.446 | 2.448 |
+| item | 4.431 | 2.442 |
 | item:model | 1.380 | 0.765 |
-| item:condition | 1.388 | 0.814 |
-| project | 2.015 | 1.130 |
+| item:condition | 1.386 | 0.813 |
+| project | 1.919 | 1.079 |
 | project:condition | 0.000 | 0.000 |
 | cell | 1.326 | 0.754 |
 
-- Equal contrasts across models (Wald): chi2 126.86 on 4 df, p 1.83e-26.
-- item:condition SD 1.388, 95% CI [1.270, 1.512] (profile).
-- LRT against no item:condition: 321.80 on 1 df, halved p 2.94e-72.
-- Held-out log-likelihood (10 folds of whole clusters, laplace): full -8887.2, without item:condition -9069.4, difference 182.2 (SE 46.6). Per fold, full minus reduced: 5.1, 24.0, 27.8, 35.0, 46.8, 5.1, 11.7, 11.0, 1.8, 13.8. Folds hold unequal numbers of clusters and items, so the SE, which treats them as exchangeable, is a rough guide.
-- SD of item:condition over SD of item: logit 0.312, probit 0.333.
-- Item flags: 0 of 3436 item:condition modes with BH p < 0.05; 38 with a raw 95% interval excluding 0.
+- Equal contrasts across models (Wald): chi2 127.34 on 4 df, p 1.45e-26.
+- item:condition SD 1.386, 95% CI [1.268, 1.509] (profile).
+- LRT against no item:condition: 320.75 on 1 df, halved p 4.96e-72.
+- Held-out log-likelihood (10 folds of whole clusters, laplace): full -8867.3, without item:condition -9049.5, difference 182.2 (SE 47.3). Per fold, full minus reduced: 4.0, 24.0, 27.9, 34.9, 47.4, 5.1, 11.7, 11.0, 1.8, 14.2. Folds hold unequal numbers of clusters and items, so the SE, which treats them as exchangeable, is a rough guide.
+- SD of item:condition over SD of item: logit 0.313, probit 0.333.
+- Item flags: 0 of 3384 item:condition modes with BH p < 0.05; 38 with a raw 95% interval excluding 0.
 - Built-in checks: (a) ok, (b) ok, (c) ok, (d) ok.
 
 Item-logit correlations against the one-ability reference (simulated 2.5% to 97.5% and the percentile of the observed value). C = mean size-size minus mean text-size correlation:
 
 | Method | Pair | Observed | Reference | Percentile |
 |---|---|---|---|---|
-| pearson | text~image10 | 0.589 | [0.742, 0.791] | 0.000 |
-| pearson | text~image12 | 0.655 | [0.775, 0.817] | 0.000 |
-| pearson | text~image14 | 0.740 | [0.814, 0.850] | 0.000 |
-| pearson | image10~image12 | 0.890 | [0.874, 0.915] | 0.266 |
-| pearson | image10~image14 | 0.852 | [0.864, 0.906] | 0.002 |
-| pearson | image12~image14 | 0.889 | [0.877, 0.915] | 0.201 |
-| pearson | C | 0.215 | [0.079, 0.107] | 1.000 |
-| spearman | text~image10 | 0.601 | [0.687, 0.794] | 0.000 |
-| spearman | text~image12 | 0.673 | [0.730, 0.823] | 0.000 |
-| spearman | text~image14 | 0.752 | [0.783, 0.857] | 0.000 |
-| spearman | image10~image12 | 0.853 | [0.789, 0.867] | 0.880 |
-| spearman | image10~image14 | 0.815 | [0.778, 0.861] | 0.369 |
-| spearman | image12~image14 | 0.861 | [0.797, 0.873] | 0.885 |
-| spearman | C | 0.167 | [0.020, 0.078] | 1.000 |
+| pearson | text~image10 | 0.587 | [0.742, 0.792] | 0.000 |
+| pearson | text~image12 | 0.653 | [0.774, 0.818] | 0.000 |
+| pearson | text~image14 | 0.738 | [0.812, 0.849] | 0.000 |
+| pearson | image10~image12 | 0.889 | [0.870, 0.914] | 0.319 |
+| pearson | image10~image14 | 0.851 | [0.861, 0.906] | 0.005 |
+| pearson | image12~image14 | 0.888 | [0.874, 0.913] | 0.208 |
+| pearson | C | 0.217 | [0.077, 0.108] | 1.000 |
+| spearman | text~image10 | 0.600 | [0.685, 0.791] | 0.000 |
+| spearman | text~image12 | 0.671 | [0.733, 0.823] | 0.000 |
+| spearman | text~image14 | 0.751 | [0.784, 0.857] | 0.000 |
+| spearman | image10~image12 | 0.853 | [0.784, 0.866] | 0.887 |
+| spearman | image10~image14 | 0.815 | [0.772, 0.858] | 0.431 |
+| spearman | image12~image14 | 0.861 | [0.797, 0.871] | 0.896 |
+| spearman | C | 0.169 | [0.020, 0.079] | 1.000 |
 
 Common slope of image logits (run 1) on text logits (run 0):
 
 | Size | Slope | R^2 | Text run 0-1 r | Slope / r |
 |---|---|---|---|---|
-| image10 | 0.393 | 0.308 | 0.927 | 0.425 |
-| image12 | 0.441 | 0.369 | 0.927 | 0.476 |
-| image14 | 0.521 | 0.470 | 0.927 | 0.562 |
+| image10 | 0.394 | 0.306 | 0.925 | 0.426 |
+| image12 | 0.442 | 0.365 | 0.925 | 0.478 |
+| image14 | 0.522 | 0.466 | 0.925 | 0.564 |
 
 ## Contamination
 
@@ -524,53 +524,53 @@ Copy flag against the GLMM flag (item:model mode in the model's top 10%):
 
 | Model | Gap | Removed | All items pp | Without flagged pp | Cluster 95% CI | BH p |
 |---|---|---|---|---|---|---|
-| Qwen3.5 27B | mean | 142 | -27.9 | -26.4 | [-31.2, -21.7] | 1.25e-16 |
-| Qwen3.5 27B | image10 | 142 | -32.6 | -29.8 | [-35.1, -24.5] | 9.97e-17 |
-| Qwen3.5 27B | image12 | 142 | -28.7 | -26.8 | [-32.0, -21.6] | 1.53e-15 |
-| Qwen3.5 27B | image14 | 142 | -22.4 | -22.7 | [-27.0, -18.4] | 7.54e-16 |
-| Gemma 4 12B | mean | 141 | -30.3 | -25.7 | [-30.0, -21.3] | 1.49e-17 |
-| Gemma 4 12B | image10 | 141 | -30.5 | -25.6 | [-29.6, -21.6] | 5.91e-19 |
-| Gemma 4 12B | image12 | 141 | -30.3 | -25.6 | [-30.4, -20.9] | 2.52e-16 |
-| Gemma 4 12B | image14 | 141 | -30.0 | -25.8 | [-30.4, -21.1] | 9.97e-17 |
-| Mistral Small 3.2 24B | mean | 145 | -31.1 | -24.4 | [-28.9, -19.8] | 3.28e-16 |
-| Mistral Small 3.2 24B | image10 | 145 | -33.2 | -25.4 | [-29.8, -20.9] | 6.94e-17 |
-| Mistral Small 3.2 24B | image12 | 145 | -32.1 | -25.7 | [-30.6, -20.7] | 1.53e-15 |
-| Mistral Small 3.2 24B | image14 | 145 | -27.9 | -22.0 | [-26.6, -17.5] | 2.58e-14 |
-| Qwen3.5 9B | mean | 144 | -23.4 | -18.8 | [-23.2, -14.5] | 1.23e-12 |
-| Qwen3.5 9B | image10 | 144 | -28.0 | -22.2 | [-26.9, -17.5] | 5.83e-14 |
-| Qwen3.5 9B | image12 | 144 | -23.1 | -18.6 | [-23.3, -13.9] | 3.53e-11 |
-| Qwen3.5 9B | image14 | 144 | -19.1 | -15.8 | [-19.6, -11.9] | 1.76e-11 |
-| Qwen2.5-VL 7B | mean | 146 | -16.4 | -12.6 | [-15.5, -9.6] | 2.75e-12 |
-| Qwen2.5-VL 7B | image10 | 146 | -18.0 | -13.5 | [-16.9, -10.1] | 2.73e-11 |
-| Qwen2.5-VL 7B | image12 | 146 | -16.4 | -12.6 | [-15.5, -9.8] | 8.71e-13 |
-| Qwen2.5-VL 7B | image14 | 146 | -14.7 | -11.6 | [-14.5, -8.6] | 6.48e-11 |
+| Qwen3.5 27B | mean | 142 | -28.2 | -26.8 | [-31.5, -22.1] | 3.81e-17 |
+| Qwen3.5 27B | image10 | 142 | -33.0 | -30.2 | [-35.4, -25.0] | 2.32e-17 |
+| Qwen3.5 27B | image12 | 142 | -29.0 | -27.2 | [-32.3, -22.1] | 5.1e-16 |
+| Qwen3.5 27B | image14 | 142 | -22.6 | -23.0 | [-27.3, -18.7] | 3.99e-16 |
+| Gemma 4 12B | mean | 141 | -30.6 | -26.0 | [-30.3, -21.7] | 2.81e-18 |
+| Gemma 4 12B | image10 | 141 | -30.9 | -26.0 | [-29.9, -22.0] | 1.62e-19 |
+| Gemma 4 12B | image12 | 141 | -30.6 | -26.0 | [-30.6, -21.3] | 3.87e-17 |
+| Gemma 4 12B | image14 | 141 | -30.4 | -26.1 | [-30.6, -21.6] | 2.33e-17 |
+| Mistral Small 3.2 24B | mean | 145 | -31.5 | -24.7 | [-29.1, -20.3] | 3.87e-17 |
+| Mistral Small 3.2 24B | image10 | 145 | -33.7 | -25.7 | [-30.0, -21.5] | 4.33e-18 |
+| Mistral Small 3.2 24B | image12 | 145 | -32.5 | -26.1 | [-30.9, -21.2] | 2.55e-16 |
+| Mistral Small 3.2 24B | image14 | 145 | -28.3 | -22.4 | [-26.8, -17.9] | 5.14e-15 |
+| Qwen3.5 9B | mean | 144 | -23.8 | -19.2 | [-23.4, -15.0] | 2.49e-13 |
+| Qwen3.5 9B | image10 | 144 | -28.4 | -22.6 | [-27.2, -18.0] | 9.44e-15 |
+| Qwen3.5 9B | image12 | 144 | -23.5 | -18.9 | [-23.5, -14.3] | 9.73e-12 |
+| Qwen3.5 9B | image14 | 144 | -19.4 | -16.0 | [-19.9, -12.2] | 4.15e-12 |
+| Qwen2.5-VL 7B | mean | 146 | -16.5 | -12.7 | [-15.6, -9.7] | 2.72e-12 |
+| Qwen2.5-VL 7B | image10 | 146 | -18.2 | -13.6 | [-17.0, -10.2] | 2.76e-11 |
+| Qwen2.5-VL 7B | image12 | 146 | -16.5 | -12.7 | [-15.6, -9.9] | 6.21e-13 |
+| Qwen2.5-VL 7B | image14 | 146 | -14.8 | -11.6 | [-14.7, -8.6] | 7.75e-11 |
 
 Matched random removal (change of the mean-over-sizes gap when the same number of unflagged items is removed per bin). Where a bin has fewer unflagged items than flagged ones, a draw removes all it has, so it removes fewer items than the flag and its range sits closer to 0 than a full match would:
 
 | Model | Observed change pp | Random 95% range | Share <= observed | Removed per draw | Bins short of items |
 |---|---|---|---|---|---|
-| Qwen3.5 27B | +1.4 | [+1.7, +3.3] | 0.008 | 138 of 142 | bin (4, 2) short by 4 |
-| Gemma 4 12B | +4.6 | [+3.0, +4.9] | 0.896 | 141 of 141 | none |
-| Mistral Small 3.2 24B | +6.7 | [+2.8, +4.5] | 1.000 | 141 of 145 | bin (4, 2) short by 4 |
-| Qwen3.5 9B | +4.6 | [+2.6, +4.2] | 0.999 | 140 of 144 | bin (4, 2) short by 4 |
-| Qwen2.5-VL 7B | +3.8 | [+2.2, +3.7] | 0.990 | 146 of 146 | none |
+| Qwen3.5 27B | +1.4 | [+1.6, +3.4] | 0.009 | 138 of 142 | bin (4, 2) short by 4 |
+| Gemma 4 12B | +4.6 | [+3.0, +5.1] | 0.843 | 141 of 141 | none |
+| Mistral Small 3.2 24B | +6.8 | [+2.8, +4.6] | 1.000 | 141 of 145 | bin (4, 2) short by 4 |
+| Qwen3.5 9B | +4.6 | [+2.6, +4.2] | 0.998 | 140 of 144 | bin (4, 2) short by 4 |
+| Qwen2.5-VL 7B | +3.9 | [+2.1, +3.7] | 0.987 | 146 of 146 | none |
 
 Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, with the model's own text rate on each set. Flags come from the other models' text answers, so a higher text rate on flagged items says they lean easy in text:
 
 | Model | Flagged | Text % flagged | Text % rest | Gap flagged pp | Cluster 95% CI | Gap rest pp |
 |---|---|---|---|---|---|---|
-| Qwen3.5 27B | 142 | 85.6 | 47.1 | -35.1 | [-44.0, -26.2] | -26.4 |
-| Gemma 4 12B | 141 | 78.7 | 39.7 | -53.7 | [-66.9, -40.5] | -25.7 |
-| Mistral Small 3.2 24B | 145 | 92.5 | 39.3 | -64.1 | [-73.2, -55.1] | -24.4 |
-| Qwen3.5 9B | 144 | 76.5 | 34.1 | -46.0 | [-57.1, -34.9] | -18.8 |
-| Qwen2.5-VL 7B | 146 | 61.0 | 23.8 | -35.0 | [-44.4, -25.6] | -12.6 |
+| Qwen3.5 27B | 142 | 85.6 | 47.8 | -35.1 | [-44.0, -26.2] | -26.8 |
+| Gemma 4 12B | 141 | 78.7 | 40.3 | -53.7 | [-66.9, -40.5] | -26.0 |
+| Mistral Small 3.2 24B | 145 | 92.5 | 40.0 | -64.1 | [-73.2, -55.1] | -24.7 |
+| Qwen3.5 9B | 144 | 76.5 | 34.7 | -46.0 | [-57.1, -34.9] | -19.2 |
+| Qwen2.5-VL 7B | 146 | 61.0 | 24.1 | -35.0 | [-44.4, -25.6] | -12.7 |
 
 Copy flag against the GLMM flag (item:model mode in the model's top 10%):
 
 | Model | Both | Copy only | GLMM only | Neither |
 |---|---|---|---|---|
-| Qwen3.5 27B | 27 | 115 | 59 | 658 |
-| Gemma 4 12B | 14 | 127 | 72 | 646 |
-| Mistral Small 3.2 24B | 23 | 122 | 63 | 651 |
-| Qwen3.5 9B | 19 | 125 | 67 | 648 |
-| Qwen2.5-VL 7B | 22 | 124 | 64 | 649 |
+| Qwen3.5 27B | 27 | 115 | 58 | 646 |
+| Gemma 4 12B | 14 | 127 | 71 | 634 |
+| Mistral Small 3.2 24B | 23 | 122 | 62 | 639 |
+| Qwen3.5 9B | 19 | 125 | 66 | 636 |
+| Qwen2.5-VL 7B | 22 | 124 | 63 | 637 |

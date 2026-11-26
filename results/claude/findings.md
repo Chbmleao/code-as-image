@@ -29,7 +29,7 @@ Analysis deviations:
 | Model | Text % | Gap pp | Cluster 95% CI | Holm p | Item-level CI | Logit contrast | Logit 95% CI | Token ratio |
 |---|---|---|---|---|---|---|---|---|
 | Claude Sonnet 5.5 | 97.4 | -6.2 | [-10.8, -1.7] | 0.0323 | [-9.3, -3.2] | -3.08 | [-4.88, -1.27] | 0.42 |
-| Claude Opus 5.5 | 97.4 | -2.0 | [-3.7, -0.3] | 0.0402 | [-4.3, +0.4] | -1.07 | [-2.60, 0.46] | 0.42 |
+| Claude Opus 5.5 | 97.4 | -2.0 | [-3.7, -0.3] | 0.0394 | [-4.3, +0.4] | -1.07 | [-2.60, 0.46] | 0.42 |
 
 The five open models, for comparison: the 5-model confirmatory family (Holm over its 10 gaps, every run), with the logit contrast of the 5-model GLMM.
 
@@ -62,7 +62,7 @@ Differences between sizes (BH over the Claude set):
 | Claude Sonnet 5.5 | image14-image12 | -1.5 | [-6.2, +3.2] | 0.511 | 0.568 |
 | Claude Opus 5.5 | image12-image10 | +1.1 | [-3.5, +5.8] | 0.617 | 0.667 |
 | Claude Opus 5.5 | image14-image10 | -0.4 | [-4.2, +3.5] | 0.839 | 0.845 |
-| Claude Opus 5.5 | image14-image12 | -1.5 | [-3.2, +0.3] | 0.0933 | 0.143 |
+| Claude Opus 5.5 | image14-image12 | -1.5 | [-3.2, +0.3] | 0.0933 | 0.149 |
 
 Leave one project out (gap over sizes without that project):
 
@@ -93,59 +93,59 @@ Floor and ceiling: share of items (%) with no run passing / every run passing:
 
 ### DevEval
 
-859 items in 79 clusters. 0 request errors: every Claude cell has its 2 scored runs, so the sensitivity line that counts a request error as a failure equals the main line. The logit contrast is from the 7-model GLMM.
+846 items (13 excluded, see docs/decisions.md 2026-11-25) in 79 clusters. 0 request errors: every Claude cell has its 2 scored runs, so the sensitivity line that counts a request error as a failure equals the main line. The logit contrast is from the 7-model GLMM.
 
 | Model | Text % | Gap pp | Cluster 95% CI | Holm p | Item-level CI | Logit contrast | Logit 95% CI | Token ratio |
 |---|---|---|---|---|---|---|---|---|
-| Claude Sonnet 5.5 | 85.4 | -6.1 | [-8.1, -4.2] | 7.2e-08 | [-7.8, -4.4] | -1.86 | [-2.34, -1.39] | 0.42 |
-| Claude Opus 5.5 | 92.8 | -1.7 | [-3.2, -0.3] | 0.0402 | [-2.8, -0.6] | -0.74 | [-1.30, -0.18] | 0.42 |
+| Claude Sonnet 5.5 | 86.7 | -6.1 | [-8.1, -4.2] | 9.93e-08 | [-7.8, -4.5] | -1.88 | [-2.36, -1.40] | 0.42 |
+| Claude Opus 5.5 | 94.2 | -1.8 | [-3.2, -0.3] | 0.0394 | [-2.9, -0.6] | -0.76 | [-1.33, -0.20] | 0.42 |
 
 The five open models, for comparison: the 5-model confirmatory family (Holm over its 10 gaps, every run), with the logit contrast of the 5-model GLMM.
 
 | Model | Text % | Gap pp | Cluster 95% CI | Holm p | Item-level CI | Logit contrast | Logit 95% CI | Token ratio |
 |---|---|---|---|---|---|---|---|---|
-| Qwen3.5 27B | 53.5 | -27.9 | [-32.0, -23.7] | 9.14e-21 | [-30.6, -25.2] | -4.34 | [-4.69, -3.99] | 0.47 |
-| Gemma 4 12B | 46.1 | -30.3 | [-35.3, -25.3] | 1.41e-18 | [-33.3, -27.3] | -5.19 | [-5.57, -4.81] | 0.21 |
-| Mistral Small 3.2 24B | 48.3 | -31.1 | [-35.9, -26.3] | 4.93e-20 | [-33.8, -28.3] | -4.95 | [-5.31, -4.59] | 0.69 |
-| Qwen3.5 9B | 41.2 | -23.4 | [-27.8, -19.0] | 6.2e-16 | [-25.9, -20.9] | -3.86 | [-4.20, -3.52] | 0.47 |
-| Qwen2.5-VL 7B | 30.2 | -16.4 | [-20.1, -12.7] | 1.46e-12 | [-18.6, -14.1] | -3.10 | [-3.44, -2.77] | 0.65 |
-| Mean of models |  | -25.8 | [-29.7, -21.7] |  |  |  |  |  |
+| Qwen3.5 27B | 54.2 | -28.2 | [-32.3, -24.1] | 1.79e-21 | [-30.9, -25.5] | -4.34 | [-4.69, -3.99] | 0.47 |
+| Gemma 4 12B | 46.7 | -30.6 | [-35.5, -25.7] | 2.67e-19 | [-33.7, -27.6] | -5.18 | [-5.56, -4.80] | 0.21 |
+| Mistral Small 3.2 24B | 49.0 | -31.5 | [-36.1, -26.9] | 1.79e-21 | [-34.3, -28.7] | -4.95 | [-5.31, -4.59] | 0.69 |
+| Qwen3.5 9B | 41.8 | -23.8 | [-28.0, -19.5] | 5.99e-17 | [-26.3, -21.2] | -3.86 | [-4.20, -3.52] | 0.47 |
+| Qwen2.5-VL 7B | 30.5 | -16.5 | [-20.2, -12.8] | 9.78e-13 | [-18.8, -14.2] | -3.09 | [-3.42, -2.75] | 0.65 |
+| Mean of models |  | -26.1 | [-29.9, -22.1] |  |  |  |  |  |
 
 Gap per image size (BH over the Claude set):
 
 | Model | Size | Gap pp | Cluster 95% CI | p | BH p |
 |---|---|---|---|---|---|
-| Claude Sonnet 5.5 | image10 | -9.3 | [-11.6, -6.9] | 1.22e-11 | 4.89e-10 |
-| Claude Sonnet 5.5 | image12 | -6.1 | [-8.5, -3.7] | 2.68e-06 | 3.57e-05 |
-| Claude Sonnet 5.5 | image14 | -3.0 | [-4.9, -1.0] | 0.00354 | 0.0101 |
-| Claude Opus 5.5 | image10 | -2.5 | [-4.4, -0.6] | 0.00931 | 0.0233 |
-| Claude Opus 5.5 | image12 | -2.4 | [-4.0, -0.8] | 0.00344 | 0.0101 |
-| Claude Opus 5.5 | image14 | -0.3 | [-1.6, +1.0] | 0.664 | 0.699 |
+| Claude Sonnet 5.5 | image10 | -9.3 | [-11.7, -7.0] | 1.72e-11 | 6.88e-10 |
+| Claude Sonnet 5.5 | image12 | -6.1 | [-8.6, -3.7] | 3.69e-06 | 4.92e-05 |
+| Claude Sonnet 5.5 | image14 | -3.0 | [-4.9, -1.0] | 0.004 | 0.0114 |
+| Claude Opus 5.5 | image10 | -2.5 | [-4.4, -0.7] | 0.00897 | 0.0224 |
+| Claude Opus 5.5 | image12 | -2.4 | [-4.0, -0.8] | 0.00325 | 0.01 |
+| Claude Opus 5.5 | image14 | -0.3 | [-1.6, +1.1] | 0.664 | 0.699 |
 
 Differences between sizes (BH over the Claude set):
 
 | Model | Pair | Diff pp | Cluster 95% CI | p | BH p |
 |---|---|---|---|---|---|
-| Claude Sonnet 5.5 | image12-image10 | +3.1 | [+1.3, +5.0] | 0.00113 | 0.00563 |
-| Claude Sonnet 5.5 | image14-image10 | +6.3 | [+4.1, +8.5] | 1.49e-07 | 2.98e-06 |
-| Claude Sonnet 5.5 | image14-image12 | +3.1 | [+1.4, +4.9] | 0.000664 | 0.00443 |
+| Claude Sonnet 5.5 | image12-image10 | +3.2 | [+1.3, +5.1] | 0.00104 | 0.00519 |
+| Claude Sonnet 5.5 | image14-image10 | +6.4 | [+4.2, +8.6] | 1.6e-07 | 3.21e-06 |
+| Claude Sonnet 5.5 | image14-image12 | +3.2 | [+1.4, +5.0] | 0.00075 | 0.00428 |
 | Claude Opus 5.5 | image12-image10 | +0.1 | [-1.1, +1.3] | 0.845 | 0.845 |
-| Claude Opus 5.5 | image14-image10 | +2.2 | [+0.9, +3.5] | 0.00142 | 0.00632 |
-| Claude Opus 5.5 | image14-image12 | +2.1 | [+1.0, +3.2] | 0.000231 | 0.00185 |
+| Claude Opus 5.5 | image14-image10 | +2.2 | [+0.9, +3.6] | 0.00128 | 0.0057 |
+| Claude Opus 5.5 | image14-image12 | +2.1 | [+1.0, +3.2] | 0.000193 | 0.00154 |
 
 Prompt tokens, run 0, median [q1, q3], the median per-item ratio to text (primary, as for the open models) and the item mean ratio (the addendum's wording):
 
 | Model | text | image10 | image12 | image14 | ratio image10 | ratio image12 | ratio image14 | mean ratio image10 | mean ratio image12 | mean ratio image14 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Claude Sonnet 5.5 | 6145 [4522, 9406] | 1871 [1464, 2746] | 2554 [1999, 3843] | 3376 [2606, 5155] | 0.30 | 0.42 | 0.55 | 0.30 | 0.42 | 0.56 |
-| Claude Opus 5.5 | 6147 [4524, 9408] | 1873 [1466, 2748] | 2556 [2001, 3845] | 3378 [2608, 5157] | 0.30 | 0.42 | 0.55 | 0.30 | 0.42 | 0.56 |
+| Claude Sonnet 5.5 | 6220 [4526, 9430] | 1883 [1466, 2756] | 2583 [1999, 3851] | 3405 [2607, 5193] | 0.30 | 0.41 | 0.55 | 0.30 | 0.42 | 0.55 |
+| Claude Opus 5.5 | 6222 [4528, 9432] | 1885 [1468, 2758] | 2585 [2001, 3853] | 3407 [2609, 5195] | 0.30 | 0.42 | 0.55 | 0.30 | 0.42 | 0.55 |
 
 Floor and ceiling: share of items (%) with no run passing / every run passing:
 
 | Model | text | image10 | image12 | image14 |
 |---|---|---|---|---|
-| Claude Sonnet 5.5 | 12.0 / 82.9 | 21.1 / 73.5 | 18.2 / 76.8 | 14.7 / 79.6 |
-| Claude Opus 5.5 | 4.3 / 89.9 | 6.2 / 86.7 | 6.3 / 87.1 | 5.0 / 90.0 |
+| Claude Sonnet 5.5 | 10.8 / 84.2 | 19.9 / 74.6 | 16.9 / 78.0 | 13.4 / 80.9 |
+| Claude Opus 5.5 | 2.8 / 91.3 | 4.7 / 88.1 | 4.8 / 88.4 | 3.5 / 91.4 |
 
 ## Contamination and ceiling
 
@@ -165,11 +165,11 @@ Where the unflagged items run short, the control cannot match the flagged set: C
 | Claude Sonnet 5.5 | mean | 126 | -6.2 | -20.0 | [-36.1, -3.9] | 0.0439 |
 | Claude Sonnet 5.5 | image10 | 126 | -8.5 | -25.0 | [-44.9, -5.1] | 0.0439 |
 | Claude Sonnet 5.5 | image12 | 126 | -4.4 | -10.0 | [-20.5, +0.5] | 0.102 |
-| Claude Sonnet 5.5 | image14 | 126 | -5.9 | -25.0 | [-56.5, +6.5] | 0.143 |
+| Claude Sonnet 5.5 | image14 | 126 | -5.9 | -25.0 | [-56.5, +6.5] | 0.149 |
 | Claude Opus 5.5 | mean | 106 | -2.0 | -4.4 | [-11.4, +2.5] | 0.243 |
 | Claude Opus 5.5 | image10 | 106 | -2.2 | -6.7 | [-17.1, +3.8] | 0.243 |
 | Claude Opus 5.5 | image12 | 106 | -1.1 | -1.7 | [-5.9, +2.6] | 0.465 |
-| Claude Opus 5.5 | image14 | 106 | -2.6 | -5.0 | [-13.3, +3.3] | 0.26 |
+| Claude Opus 5.5 | image14 | 106 | -2.6 | -5.0 | [-13.3, +3.3] | 0.259 |
 
 Matched random removal (change of the mean-over-sizes gap when the same number of unflagged items is removed per bin). Where a bin has fewer unflagged items than flagged ones, a draw removes all it has, so it removes fewer items than the flag and its range sits closer to 0 than a full match would:
 
@@ -191,35 +191,35 @@ The flagged-only rows are the related-work check of decisions 2026-11-16.
 
 | Model | Text % | Text 2 of 2 % | Flagged items | Own copies (answers / items) |
 |---|---|---|---|---|
-| Claude Sonnet 5.5 | 85.4 | 82.9 | 673 of 859 | 916 / 487 |
-| Claude Opus 5.5 | 92.8 | 89.9 | 492 of 859 | 1262 / 670 |
+| Claude Sonnet 5.5 | 86.7 | 84.2 | 673 of 846 | 916 / 487 |
+| Claude Opus 5.5 | 94.2 | 91.3 | 492 of 846 | 1262 / 670 |
 
-Where the unflagged items run short, the control cannot match the flagged set: Claude Sonnet 5.5 has 186 unflagged items, so each draw removes 175 of the 673 it should; Claude Opus 5.5 has 367 unflagged items, so each draw removes 261 of the 492 it should. The control is not a match there.
+Where the unflagged items run short, the control cannot match the flagged set: Claude Sonnet 5.5 has 173 unflagged items, so each draw removes 168 of the 673 it should; Claude Opus 5.5 has 354 unflagged items, so each draw removes 256 of the 492 it should. The control is not a match there.
 
 | Model | Gap | Removed | All items pp | Without flagged pp | Cluster 95% CI | BH p |
 |---|---|---|---|---|---|---|
-| Claude Sonnet 5.5 | mean | 673 | -6.1 | -8.8 | [-14.3, -3.3] | 0.00839 |
-| Claude Sonnet 5.5 | image10 | 673 | -9.3 | -12.1 | [-17.9, -6.3] | 0.00117 |
-| Claude Sonnet 5.5 | image12 | 673 | -6.1 | -9.1 | [-15.6, -2.6] | 0.0185 |
-| Claude Sonnet 5.5 | image14 | 673 | -3.0 | -5.1 | [-11.0, +0.8] | 0.14 |
-| Claude Opus 5.5 | mean | 492 | -1.7 | -3.7 | [-6.0, -1.4] | 0.00821 |
-| Claude Opus 5.5 | image10 | 492 | -2.5 | -4.8 | [-7.8, -1.7] | 0.00946 |
-| Claude Opus 5.5 | image12 | 492 | -2.4 | -5.2 | [-8.2, -2.2] | 0.00561 |
-| Claude Opus 5.5 | image14 | 492 | -0.3 | -1.2 | [-3.2, +0.7] | 0.26 |
+| Claude Sonnet 5.5 | mean | 673 | -6.1 | -9.2 | [-15.0, -3.3] | 0.00952 |
+| Claude Sonnet 5.5 | image10 | 673 | -9.3 | -12.7 | [-18.8, -6.7] | 0.00113 |
+| Claude Sonnet 5.5 | image12 | 673 | -6.1 | -9.5 | [-16.5, -2.6] | 0.0224 |
+| Claude Sonnet 5.5 | image14 | 673 | -3.0 | -5.2 | [-11.5, +1.1] | 0.155 |
+| Claude Opus 5.5 | mean | 492 | -1.8 | -3.9 | [-6.2, -1.5] | 0.00627 |
+| Claude Opus 5.5 | image10 | 492 | -2.5 | -4.9 | [-8.0, -1.8] | 0.00818 |
+| Claude Opus 5.5 | image12 | 492 | -2.4 | -5.4 | [-8.4, -2.3] | 0.00428 |
+| Claude Opus 5.5 | image14 | 492 | -0.3 | -1.3 | [-3.3, +0.7] | 0.259 |
 
 Matched random removal (change of the mean-over-sizes gap when the same number of unflagged items is removed per bin). Where a bin has fewer unflagged items than flagged ones, a draw removes all it has, so it removes fewer items than the flag and its range sits closer to 0 than a full match would:
 
 | Model | Observed change pp | Random 95% range | Share <= observed | Removed per draw | Bins short of items |
 |---|---|---|---|---|---|
-| Claude Sonnet 5.5 | -2.7 | [+0.5, +1.0] | 0.000 | 175 of 673 | bin (0, 1) short by 5, bin (0, 2) short by 14, bin (1, 0) short by 30, bin (1, 1) short by 31, bin (1, 2) short by 59, bin (2, 0) short by 36, bin (2, 1) short by 57, bin (2, 2) short by 47, bin (3, 0) short by 51, bin (3, 1) short by 24, bin (3, 2) short by 15, bin (4, 0) short by 47, bin (4, 1) short by 53, bin (4, 2) short by 29 |
-| Claude Opus 5.5 | -2.0 | [+0.2, +1.1] | 0.000 | 261 of 492 | bin (1, 0) short by 10, bin (1, 1) short by 19, bin (1, 2) short by 41, bin (2, 0) short by 14, bin (2, 1) short by 31, bin (2, 2) short by 37, bin (3, 0) short by 11, bin (3, 1) short by 18, bin (3, 2) short by 7, bin (4, 0) short by 11, bin (4, 1) short by 25, bin (4, 2) short by 7 |
+| Claude Sonnet 5.5 | -3.0 | [+0.6, +1.0] | 0.000 | 168 of 673 | bin (0, 1) short by 14, bin (0, 2) short by 11, bin (1, 0) short by 31, bin (1, 1) short by 30, bin (1, 2) short by 62, bin (2, 0) short by 35, bin (2, 1) short by 58, bin (2, 2) short by 44, bin (3, 0) short by 52, bin (3, 1) short by 24, bin (3, 2) short by 17, bin (4, 0) short by 45, bin (4, 1) short by 54, bin (4, 2) short by 28 |
+| Claude Opus 5.5 | -2.1 | [+0.3, +1.3] | 0.000 | 256 of 492 | bin (1, 0) short by 15, bin (1, 1) short by 20, bin (1, 2) short by 44, bin (2, 0) short by 13, bin (2, 1) short by 32, bin (2, 2) short by 34, bin (3, 0) short by 10, bin (3, 1) short by 18, bin (3, 2) short by 7, bin (4, 0) short by 11, bin (4, 1) short by 24, bin (4, 2) short by 8 |
 
 Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, with the model's own text rate on each set. Flags come from the other models' text answers, so a higher text rate on flagged items says they lean easy in text:
 
 | Model | Flagged | Text % flagged | Text % rest | Gap flagged pp | Cluster 95% CI | Gap rest pp |
 |---|---|---|---|---|---|---|
-| Claude Sonnet 5.5 | 673 | 91.4 | 64.0 | -5.4 | [-7.0, -3.7] | -8.8 |
-| Claude Opus 5.5 | 492 | 97.9 | 86.0 | -0.2 | [-1.5, +1.0] | -3.7 |
+| Claude Sonnet 5.5 | 673 | 91.4 | 68.5 | -5.4 | [-7.0, -3.7] | -9.2 |
+| Claude Opus 5.5 | 492 | 97.9 | 89.1 | -0.2 | [-1.5, +1.0] | -3.9 |
 
 The flagged-only rows are the related-work check of decisions 2026-11-16.
 
@@ -272,7 +272,7 @@ Scoring shares (%): empty / truncated / no code / no def line of the target:
 | Model | text | image10 | image12 | image14 |
 |---|---|---|---|---|
 | Claude Sonnet 5.5 | 0.0 / 0.1 / 0.0 / 0.0 | 0.0 / 0.0 / 0.0 / 0.0 | 0.0 / 0.0 / 0.0 / 0.0 | 0.0 / 0.0 / 0.0 / 0.0 |
-| Claude Opus 5.5 | 0.0 / 0.0 / 0.0 / 1.2 | 0.0 / 0.0 / 0.0 / 0.4 | 0.0 / 0.0 / 0.0 / 0.4 | 0.0 / 0.0 / 0.0 / 0.4 |
+| Claude Opus 5.5 | 0.0 / 0.0 / 0.0 / 1.1 | 0.0 / 0.0 / 0.0 / 0.4 | 0.0 / 0.0 / 0.0 / 0.4 | 0.0 / 0.0 / 0.0 / 0.3 |
 
 Non-thinking output tokens, median [q1, q3] and mean, and the image-to-text ratio of the means (the related-work check of decisions 2026-11-16):
 
@@ -305,20 +305,20 @@ Every model uses runs 0 and 1 only; the 5-model column keeps every run. Items dr
 
 ### DevEval
 
-859 items in 79 clusters, 0 dropped.
+846 items (13 excluded, see docs/decisions.md 2026-11-25) in 79 clusters, 0 dropped.
 
 | Statistic | 5-model | 7-model |
 |---|---|---|
-| Equal contrasts (Wald) | chi2 126.86 on 4 df, p 1.83e-26 | chi2 348.73 on 6 df, p 2.9e-72 |
-| item:condition SD (logit) | 1.388 [1.270, 1.512] | 1.514 [1.372, 1.661] |
-| LRT against no item:condition | 321.80, halved p 2.94e-72 | 197.96, halved p 2.91e-45 |
-| Held-out difference (SE) | 182.2 (46.6) | 114.1 (25.0) |
-| SD item:condition / SD item, logit / probit | 0.312 / 0.333 | 0.308 / 0.319 |
-| C, pearson | 0.215 | 0.171 |
-| C, spearman | 0.167 | 0.102 |
-| Common slope / r, image10 | 0.425 | 0.494 |
-| Common slope / r, image12 | 0.476 | 0.537 |
-| Common slope / r, image14 | 0.562 | 0.583 |
+| Equal contrasts (Wald) | chi2 127.34 on 4 df, p 1.45e-26 | chi2 338.68 on 6 df, p 4.14e-70 |
+| item:condition SD (logit) | 1.386 [1.268, 1.509] | 1.518 [1.375, 1.667] |
+| LRT against no item:condition | 320.75, halved p 4.96e-72 | 196.88, halved p 5.01e-45 |
+| Held-out difference (SE) | 182.2 (47.3) | 114.2 (25.8) |
+| SD item:condition / SD item, logit / probit | 0.313 / 0.333 | 0.320 / 0.332 |
+| C, pearson | 0.217 | 0.181 |
+| C, spearman | 0.169 | 0.104 |
+| Common slope / r, image10 | 0.426 | 0.481 |
+| Common slope / r, image12 | 0.478 | 0.525 |
+| Common slope / r, image14 | 0.564 | 0.571 |
 | Built-in checks | (a) ok, (b) ok, (c) ok, (d) ok | (a) ok, (b) ok, (c) ok, (d) ok |
 
 ## 7-model GLMM detail
@@ -374,50 +374,50 @@ Common slope of image logits (run 1) on text logits (run 0):
 
 ### DevEval
 
-24052 cells, 859 items, 79 clusters, log-likelihood -10733.7.
+23688 cells, 846 items, 79 clusters, log-likelihood -10665.1.
 
 | Term | SD (logit) | SD (probit) |
 |---|---|---|
-| item | 4.911 | 2.673 |
-| item:model | 2.466 | 1.345 |
-| item:condition | 1.514 | 0.853 |
-| project | 2.555 | 1.396 |
+| item | 4.746 | 2.581 |
+| item:model | 2.441 | 1.333 |
+| item:condition | 1.518 | 0.857 |
+| project | 2.388 | 1.307 |
 | project:condition | 0.000 | 0.000 |
-| cell | 2.185 | 1.122 |
+| cell | 2.189 | 1.126 |
 
-- Equal contrasts across models (Wald): chi2 348.73 on 6 df, p 2.9e-72.
-- item:condition SD 1.514, 95% CI [1.372, 1.661] (profile).
-- LRT against no item:condition: 197.96 on 1 df, halved p 2.91e-45.
-- Held-out log-likelihood (10 folds of whole clusters, laplace): full -10798.6, without item:condition -10912.7, difference 114.1 (SE 25.0). Per fold, full minus reduced: -1.4, 16.3, 15.2, 20.5, 21.9, 8.3, 4.5, 4.6, 6.5, 17.7. Folds hold unequal numbers of clusters and items, so the SE, which treats them as exchangeable, is a rough guide.
-- SD of item:condition over SD of item: logit 0.308, probit 0.319.
+- Equal contrasts across models (Wald): chi2 338.68 on 6 df, p 4.14e-70.
+- item:condition SD 1.518, 95% CI [1.375, 1.667] (profile).
+- LRT against no item:condition: 196.88 on 1 df, halved p 5.01e-45.
+- Held-out log-likelihood (10 folds of whole clusters, laplace): full -10731.0, without item:condition -10845.1, difference 114.2 (SE 25.8). Per fold, full minus reduced: -2.4, 17.0, 15.3, 20.3, 22.0, 8.1, 4.7, 4.5, 6.6, 18.1. Folds hold unequal numbers of clusters and items, so the SE, which treats them as exchangeable, is a rough guide.
+- SD of item:condition over SD of item: logit 0.320, probit 0.332.
 - Built-in checks: (a) ok, (b) ok, (c) ok, (d) ok.
 
 Item-logit correlations against the one-ability reference (simulated 2.5% to 97.5% and the percentile of the observed value). C = mean size-size minus mean text-size correlation:
 
 | Method | Pair | Observed | Reference | Percentile |
 |---|---|---|---|---|
-| pearson | text~image10 | 0.659 | [0.803, 0.846] | 0.000 |
-| pearson | text~image12 | 0.712 | [0.813, 0.855] | 0.000 |
-| pearson | text~image14 | 0.759 | [0.825, 0.864] | 0.000 |
-| pearson | image10~image12 | 0.883 | [0.843, 0.890] | 0.890 |
-| pearson | image10~image14 | 0.867 | [0.842, 0.886] | 0.533 |
-| pearson | image12~image14 | 0.895 | [0.850, 0.893] | 0.984 |
-| pearson | C | 0.171 | [0.013, 0.054] | 1.000 |
-| spearman | text~image10 | 0.718 | [0.833, 0.880] | 0.000 |
-| spearman | text~image12 | 0.768 | [0.843, 0.890] | 0.000 |
-| spearman | text~image14 | 0.818 | [0.855, 0.896] | 0.000 |
-| spearman | image10~image12 | 0.869 | [0.830, 0.883] | 0.801 |
-| spearman | image10~image14 | 0.853 | [0.831, 0.882] | 0.336 |
-| spearman | image12~image14 | 0.888 | [0.839, 0.891] | 0.956 |
-| spearman | C | 0.102 | [-0.020, 0.006] | 1.000 |
+| pearson | text~image10 | 0.636 | [0.798, 0.839] | 0.000 |
+| pearson | text~image12 | 0.693 | [0.806, 0.848] | 0.000 |
+| pearson | text~image14 | 0.742 | [0.818, 0.858] | 0.000 |
+| pearson | image10~image12 | 0.873 | [0.835, 0.884] | 0.867 |
+| pearson | image10~image14 | 0.856 | [0.834, 0.883] | 0.393 |
+| pearson | image12~image14 | 0.886 | [0.840, 0.888] | 0.966 |
+| pearson | C | 0.181 | [0.012, 0.053] | 1.000 |
+| spearman | text~image10 | 0.708 | [0.826, 0.874] | 0.000 |
+| spearman | text~image12 | 0.759 | [0.837, 0.881] | 0.000 |
+| spearman | text~image14 | 0.812 | [0.846, 0.889] | 0.000 |
+| spearman | image10~image12 | 0.863 | [0.822, 0.874] | 0.841 |
+| spearman | image10~image14 | 0.846 | [0.821, 0.875] | 0.376 |
+| spearman | image12~image14 | 0.882 | [0.828, 0.882] | 0.977 |
+| spearman | C | 0.104 | [-0.021, 0.006] | 1.000 |
 
 Common slope of image logits (run 1) on text logits (run 0):
 
 | Size | Slope | R^2 | Text run 0-1 r | Slope / r |
 |---|---|---|---|---|
-| image10 | 0.453 | 0.414 | 0.917 | 0.494 |
-| image12 | 0.492 | 0.472 | 0.917 | 0.537 |
-| image14 | 0.535 | 0.530 | 0.917 | 0.583 |
+| image10 | 0.439 | 0.388 | 0.912 | 0.481 |
+| image12 | 0.479 | 0.448 | 0.912 | 0.525 |
+| image14 | 0.521 | 0.507 | 0.912 | 0.571 |
 
 ## Open vs closed
 
@@ -426,7 +426,7 @@ c = (1/2) sum of the Claude logit contrasts minus (1/5) sum of the open ones, fr
 | Benchmark | c (logit) | SE | 95% Wald CI | Reading |
 |---|---|---|---|---|
 | CoderUJB | 2.750 | 0.688 | [1.402, 4.098] | Claude loses less (interval above 0) |
-| DevEval | 3.849 | 0.234 | [3.390, 4.308] | Claude loses less (interval above 0) |
+| DevEval | 3.796 | 0.236 | [3.335, 4.258] | Claude loses less (interval above 0) |
 
 ## Ranks (7-model line)
 
@@ -486,19 +486,19 @@ Probability that a pair swaps order between text and image (ties count half):
 
 ### DevEval
 
-859 items in 79 clusters, 0 dropped.
+846 items (13 excluded, see docs/decisions.md 2026-11-25) in 79 clusters, 0 dropped.
 
 Rate % (rank) [95% rank interval], item-weighted:
 
 | Model | text | image | image10 | image12 | image14 |
 |---|---|---|---|---|---|
-| Qwen3.5 27B | 53.6 (3) [3, 3] | 25.7 (3) [3, 3] | 21.1 (3) [3, 3] | 24.9 (3) [3, 3] | 31.1 (3) [3, 3] |
-| Gemma 4 12B | 46.2 (5) [4, 5] | 15.8 (6) [5, 6] | 15.7 (4) [4, 5] | 15.7 (6) [5, 6] | 16.1 (6) [6, 7] |
-| Mistral Small 3.2 24B | 48.4 (4) [4, 5] | 17.3 (5) [4, 6] | 15.1 (5) [4, 5] | 16.3 (5) [4, 6] | 20.4 (5) [4, 5] |
-| Qwen3.5 9B | 41.1 (6) [6, 6] | 17.7 (4) [4, 5] | 13.2 (6) [6, 7] | 18.1 (4) [4, 5] | 21.8 (4) [4, 5] |
-| Qwen2.5-VL 7B | 30.3 (7) [7, 7] | 13.7 (7) [7, 7] | 11.9 (7) [6, 7] | 13.7 (7) [7, 7] | 15.4 (7) [6, 7] |
-| Claude Sonnet 5.5 | 85.4 (2) [2, 2] | 79.3 (2) [2, 2] | 76.2 (2) [2, 2] | 79.3 (2) [2, 2] | 82.5 (2) [2, 2] |
-| Claude Opus 5.5 | 92.8 (1) [1, 1] | 91.1 (1) [1, 1] | 90.3 (1) [1, 1] | 90.4 (1) [1, 1] | 92.5 (1) [1, 1] |
+| Qwen3.5 27B | 54.3 (3) [3, 3] | 26.1 (3) [3, 3] | 21.4 (3) [3, 3] | 25.3 (3) [3, 3] | 31.6 (3) [3, 3] |
+| Gemma 4 12B | 46.7 (5) [4, 5] | 16.1 (6) [5, 6] | 15.9 (4) [4, 5] | 15.9 (6) [5, 6] | 16.4 (6) [6, 7] |
+| Mistral Small 3.2 24B | 49.1 (4) [4, 5] | 17.5 (5) [4, 6] | 15.4 (5) [4, 5] | 16.5 (5) [4, 6] | 20.7 (5) [4, 5] |
+| Qwen3.5 9B | 41.7 (6) [6, 6] | 17.9 (4) [4, 5] | 13.4 (6) [6, 7] | 18.4 (4) [4, 5] | 22.1 (4) [4, 5] |
+| Qwen2.5-VL 7B | 30.7 (7) [7, 7] | 13.9 (7) [7, 7] | 12.1 (7) [6, 7] | 13.9 (7) [7, 7] | 15.7 (7) [6, 7] |
+| Claude Sonnet 5.5 | 86.7 (2) [2, 2] | 80.6 (2) [2, 2] | 77.4 (2) [2, 2] | 80.6 (2) [2, 2] | 83.7 (2) [2, 2] |
+| Claude Opus 5.5 | 94.2 (1) [1, 1] | 92.5 (1) [1, 1] | 91.7 (1) [1, 1] | 91.8 (1) [1, 1] | 93.9 (1) [1, 1] |
 
 Probability that a pair swaps order between text and image (ties count half):
 
@@ -510,7 +510,7 @@ Probability that a pair swaps order between text and image (ties count half):
 | Qwen3.5 27B / Qwen2.5-VL 7B | 0.000 |
 | Qwen3.5 27B / Claude Sonnet 5.5 | 0.000 |
 | Qwen3.5 27B / Claude Opus 5.5 | 0.000 |
-| Gemma 4 12B / Mistral Small 3.2 24B | 0.113 |
+| Gemma 4 12B / Mistral Small 3.2 24B | 0.109 |
 | Gemma 4 12B / Qwen3.5 9B | 0.981 |
 | Gemma 4 12B / Qwen2.5-VL 7B | 0.006 |
 | Gemma 4 12B / Claude Sonnet 5.5 | 0.000 |
@@ -538,7 +538,7 @@ Probability that a pair swaps order between text and image (ties count half):
 
 ## Contamination flags
 
-An item is flagged for model m when one of the other 6 models copies the reference token for token in any of its text runs. Flags cover every item, including dropped ones.
+An item is flagged for model m when one of the other 6 models copies the reference token for token in any of its text runs. Flags cover every item, including dropped ones, but not the excluded ones.
 
 | Model | CoderUJB | DevEval |
 |---|---|---|
@@ -554,4 +554,4 @@ CoderUJB: 600 text answers copy the reference, on 128 items, DevEval: 3112 text 
 
 ## Paper paragraph
 
-In an exploratory extension under a methodology addendum written before the first request, Claude Sonnet 5.5 and Claude Opus 5.5 answered the same items in the same four conditions, two runs each. They differ from the open-model run in three ways: the API takes no seed, it samples at temperature 1.0, and Opus cannot turn thinking off. Their text pass rates were CoderUJB 97.4% and 97.4%; DevEval 85.4% and 92.8%. Averaged over the three image sizes, the image-minus-text gaps (95% cluster intervals) were CoderUJB -6.2 pp [-10.8, -1.7] and -2.0 pp [-3.7, -0.3]; DevEval -6.1 pp [-8.1, -4.2] and -1.7 pp [-3.2, -0.3]; all 4 cluster intervals exclude 0. The item-level interval includes 0 for Claude Opus 5.5 on CoderUJB [-4.3, +0.4]. The open models' gaps ranged over CoderUJB -36.2 to -12.8 pp; DevEval -31.1 to -16.4 pp. The open vs closed logit contrast c (Claude mean minus open mean, 95% Wald interval) was CoderUJB 2.75 [1.40, 4.10], Claude loses less (interval above 0); DevEval 3.85 [3.39, 4.31], Claude loses less (interval above 0). With seven models the Wald test of equal contrasts on 6 df gave CoderUJB chi2 45.5, p 3.8e-08; DevEval chi2 348.7, p 2.9e-72. On CoderUJB, 97.1% and 95.6% of items pass both Claude text runs, and another model's text answer reproduces the reference token for token on 126 and 106 of its 136 items.
+In an exploratory extension under a methodology addendum written before the first request, Claude Sonnet 5.5 and Claude Opus 5.5 answered the same items in the same four conditions, two runs each. They differ from the open-model run in three ways: the API takes no seed, it samples at temperature 1.0, and Opus cannot turn thinking off. Their text pass rates were CoderUJB 97.4% and 97.4%; DevEval 86.7% and 94.2%. Averaged over the three image sizes, the image-minus-text gaps (95% cluster intervals) were CoderUJB -6.2 pp [-10.8, -1.7] and -2.0 pp [-3.7, -0.3]; DevEval -6.1 pp [-8.1, -4.2] and -1.8 pp [-3.2, -0.3]; all 4 cluster intervals exclude 0. The item-level interval includes 0 for Claude Opus 5.5 on CoderUJB [-4.3, +0.4]. The open models' gaps ranged over CoderUJB -36.2 to -12.8 pp; DevEval -31.5 to -16.5 pp. The open vs closed logit contrast c (Claude mean minus open mean, 95% Wald interval) was CoderUJB 2.75 [1.40, 4.10], Claude loses less (interval above 0); DevEval 3.80 [3.33, 4.26], Claude loses less (interval above 0). With seven models the Wald test of equal contrasts on 6 df gave CoderUJB chi2 45.5, p 3.8e-08; DevEval chi2 338.7, p 4.14e-70. On CoderUJB, 97.1% and 95.6% of items pass both Claude text runs, and another model's text answer reproduces the reference token for token on 126 and 106 of its 136 items.
