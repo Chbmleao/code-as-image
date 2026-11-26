@@ -79,9 +79,13 @@ def design(b):
     return gc.design(b, ids, block, labels)
 
 
+# The docs/decisions.md entry that excluded each benchmark's items.
+EXCLUDED_ON = {"deveval": "2026-11-25", "coderujb": "2026-11-26"}
+
+
 def excluded(b, manifests=MANIFESTS):
-    """Items left out of every analysis (manifests/excluded/<b>.txt): the 13 DevEval items whose
-    reference fails through the main run's answer path (docs/decisions.md 2026-11-25)."""
+    """Items left out of every analysis (manifests/excluded/<b>.txt): the items whose reference
+    fails through the main run's answer path (13 DevEval, 1 CoderUJB; see EXCLUDED_ON)."""
     path = os.path.join(manifests, "excluded", f"{b}.txt")
     if not os.path.exists(path):
         return []
@@ -434,10 +438,9 @@ def opt(x, digits=3):
 
 
 def excluded_note(rep):
-    parts = [f"{v['excluded']['count']} {ds.TITLES[b]}"
+    parts = [f"{v['excluded']['count']} {ds.TITLES[b]} ({EXCLUDED_ON[b]})"
              for b, v in rep["benchmarks"].items() if v.get("excluded", {}).get("count")]
-    return (f", minus the {' and '.join(parts)} items excluded in docs/decisions.md (2026-11-25)"
-            if parts else "")
+    return f", minus the {' and '.join(parts)} items excluded in docs/decisions.md" if parts else ""
 
 
 def to_markdown(rep):

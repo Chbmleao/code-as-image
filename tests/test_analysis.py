@@ -172,7 +172,7 @@ def test_items_and_draws_are_the_reliability_ones(real):
     _, inputs = real
     for b, (data, _) in inputs.items():
         gone = rel.excluded(b)
-        assert len(gone) == (13 if b == "deveval" else 0)
+        assert len(gone) == {"deveval": 13, "coderujb": 1}[b]
         assert data["items"] == [i for i, _, _ in rel.design(b) if i not in gone]
         assert sorted(data["excluded"]) == sorted(gone)
         groups = rel.ds.clusters(b, data["items"], dict(zip(data["items"], data["projects"])))
@@ -507,6 +507,14 @@ def test_the_line_report_takes_its_counts_from_the_inputs():
     assert "| 5-model | 7-model |" in seven and "5-model ranks, every run" in seven
 
 
+def test_the_excluded_note_cites_each_benchmark_decision():
+    assert an.excluded_note("deveval", {"excluded": {"count": 13}}) == (
+        " (13 excluded, see docs/decisions.md 2026-11-25)")
+    assert an.excluded_note("coderujb", {"excluded": {"count": 1}}) == (
+        " (1 excluded, see docs/decisions.md 2026-11-26)")
+    assert an.excluded_note("coderujb", {"excluded": {"count": 0}}) == ""
+
+
 def test_the_line_report_fails_when_its_inputs_disagree():
     need(os.path.join(ROOT, "results", "analysis", "glmm.json"))
     inputs = _line_report_inputs(["M0", "M1"])
@@ -519,7 +527,8 @@ def test_the_line_report_fails_when_its_inputs_disagree():
     inputs = _line_report_inputs([f"M{k}" for k in range(7)])
     for v in inputs["glmm"]["benchmarks"].values():
         v["models"] = v["models"][:5]
-    with pytest.raises(ValueError, match=r"\(5 models, 136 items\) does not match ranks.json "
+    n = inputs["glmm"]["benchmarks"]["coderujb"]["n_items"]
+    with pytest.raises(ValueError, match=rf"\(5 models, {n} items\) does not match ranks.json "
                                          r"\(7 models"):
         an.check_line(inputs)
     inputs = _line_report_inputs(["M0", "M1"])

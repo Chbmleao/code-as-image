@@ -1031,18 +1031,18 @@ def scoring_table(b, g, models):
                                   for v in g["scoring"][m].values()] for m in models])
 
 
-def excluded_note(v):
+def excluded_note(b, v):
     n = v.get("excluded", {}).get("count", 0)
-    return f" ({n} excluded, see docs/decisions.md 2026-11-25)" if n else ""
+    return f" ({n} excluded, see docs/decisions.md {rel.EXCLUDED_ON[b]})" if n else ""
 
 
 def gaps_sections(b, g, gl):
     conds = list(g["rates"])
     models = [r["model"] for r in g["main"]]
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           (f"{g['n_items']} items{excluded_note(g)} in {g['n_clusters']} clusters. No "
-            f"{'other ' if excluded_note(g) else ''}item is dropped: the grid check fails on any "
-            "missing cell, so counting dropped items as failures changes nothing."), ""]
+           (f"{g['n_items']} items{excluded_note(b, g)} in {g['n_clusters']} clusters. No "
+            f"{'other ' if excluded_note(b, g) else ''}item is dropped: the grid check fails on "
+            "any missing cell, so counting dropped items as failures changes nothing."), ""]
     out += main_table(g, gl)
     out += ["Rates by condition (%), item-weighted, with the rank in brackets:", ""]
     out += md_table(["Model"] + conds,
@@ -1198,7 +1198,7 @@ def findings(inputs):
 def rank_sections(b, v):
     conds = list(v["ranks"])
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           (f"{v['n_items']} items{excluded_note(v)} in {v['n_clusters']} clusters, "
+           (f"{v['n_items']} items{excluded_note(b, v)} in {v['n_clusters']} clusters, "
             f"{v['dropped']['count']} dropped."),
            "", "Rate % (rank) [95% rank interval], item-weighted:", ""]
     out += md_table(["Model"] + conds,
@@ -1289,7 +1289,7 @@ def claude_gap_sections(b, g, gl, g5, gl5):
     sizes = [c for c in g["rates"] if c not in ("text", "image")]
     errors = sum(n for x in g["request_errors"].values() for n in x.values())
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           (f"{g['n_items']} items{excluded_note(g)} in {g['n_clusters']} clusters. {errors} "
+           (f"{g['n_items']} items{excluded_note(b, g)} in {g['n_clusters']} clusters. {errors} "
             "request errors: every "
             "Claude cell has its 2 scored runs, so the sensitivity line that counts a request "
             "error as a failure equals the main line. The logit contrast is from the 7-model "
@@ -1394,7 +1394,7 @@ def line_sections(inputs, gl5):
         main = gl5["benchmarks"].get(b)
         rv = r["benchmarks"][b]
         out += [f"### {BENCH_TITLES.get(b, b)}", "",
-                (f"{rv['n_items']} items{excluded_note(rv)} in {rv['n_clusters']} clusters, "
+                (f"{rv['n_items']} items{excluded_note(b, rv)} in {rv['n_clusters']} clusters, "
                  f"{rv['dropped']['count']} dropped."), ""]
         mine = glmm_compare_rows(v)
         theirs = dict(glmm_compare_rows(main)) if main else {}

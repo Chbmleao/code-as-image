@@ -192,7 +192,38 @@ def test_the_excluded_items_are_the_harness_suspects():
         suspects = [r["item"] for r in csv.DictReader(f)]
     assert rel.excluded("deveval") == suspects
     assert len(suspects) == 13
-    assert rel.excluded("coderujb") == []
+
+
+JSOUP_93 = "979ad380fd344088d8ad0f815606df2034679d982d7ec44d391b8e74812ef9b7"
+
+
+def test_the_coderujb_exclusion_is_jsoup_93_alone_in_its_cluster():
+    assert rel.excluded("coderujb") == [JSOUP_93]
+    projects = {i: p for i, p, _ in rel.design("coderujb")}
+    assert projects[JSOUP_93] == "Jsoup"
+    assert [i for i, p in projects.items() if p == "Jsoup"] == [JSOUP_93]
+
+
+def test_every_exclusion_has_its_decision_date():
+    assert {b for b in ds.BENCHES if rel.excluded(b)} == set(rel.EXCLUDED_ON)
+
+
+@needs_full
+def test_no_answer_passes_jsoup_93():
+    rows = [r for r in ds.read_jsonl(os.path.join(FULL, "coderujb.collected.jsonl"))
+            if r["id"] == JSOUP_93]
+    assert len(rows) == 40
+    assert not any(r["passed"] for r in rows)
+
+
+def test_the_excluded_note_names_each_decision():
+    rep = {"benchmarks": {"coderujb": {"excluded": {"count": 1}},
+                          "deveval": {"excluded": {"count": 13}}}}
+    assert rel.excluded_note(rep) == (", minus the 1 CoderUJB (2026-11-26) and 13 DevEval "
+                                      "(2026-11-25) items excluded in docs/decisions.md")
+    rep["benchmarks"]["coderujb"]["excluded"]["count"] = 0
+    assert rel.excluded_note(rep) == (", minus the 13 DevEval (2026-11-25) items excluded in "
+                                      "docs/decisions.md")
 
 
 def test_an_unknown_excluded_id_stops(tmp_path):
