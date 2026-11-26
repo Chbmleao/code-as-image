@@ -20,61 +20,63 @@
  },
  "benchmarks": {
   "coderujb": {
-   "n_items": 136,
-   "n_clusters": 14,
+   "n_items": 135,
+   "n_clusters": 13,
    "dropped": {
     "count": 0,
     "items": []
    },
    "excluded": {
-    "count": 0,
-    "items": []
+    "count": 1,
+    "items": [
+     "979ad380fd344088d8ad0f815606df2034679d982d7ec44d391b8e74812ef9b7"
+    ]
    },
    "rates": {
     "text": {
-     "Qwen3.5 27B": 0.540441,
-     "Gemma 4 12B": 0.441176,
-     "Mistral Small 3.2 24B": 0.4375,
-     "Qwen3.5 9B": 0.408088,
-     "Qwen2.5-VL 7B": 0.224265,
-     "Claude Sonnet 5.5": 0.974265,
-     "Claude Opus 5.5": 0.974265
+     "Qwen3.5 27B": 0.544444,
+     "Gemma 4 12B": 0.444444,
+     "Mistral Small 3.2 24B": 0.440741,
+     "Qwen3.5 9B": 0.411111,
+     "Qwen2.5-VL 7B": 0.225926,
+     "Claude Sonnet 5.5": 0.981481,
+     "Claude Opus 5.5": 0.981481
     },
     "image": {
-     "Qwen3.5 27B": 0.223039,
-     "Gemma 4 12B": 0.084559,
-     "Mistral Small 3.2 24B": 0.122549,
-     "Qwen3.5 9B": 0.126225,
-     "Qwen2.5-VL 7B": 0.096814,
-     "Claude Sonnet 5.5": 0.911765,
-     "Claude Opus 5.5": 0.954657
+     "Qwen3.5 27B": 0.224691,
+     "Gemma 4 12B": 0.085185,
+     "Mistral Small 3.2 24B": 0.123457,
+     "Qwen3.5 9B": 0.12716,
+     "Qwen2.5-VL 7B": 0.097531,
+     "Claude Sonnet 5.5": 0.918519,
+     "Claude Opus 5.5": 0.961728
     },
     "image10": {
-     "Qwen3.5 27B": 0.205882,
-     "Gemma 4 12B": 0.088235,
-     "Mistral Small 3.2 24B": 0.088235,
-     "Qwen3.5 9B": 0.073529,
-     "Qwen2.5-VL 7B": 0.080882,
-     "Claude Sonnet 5.5": 0.889706,
-     "Claude Opus 5.5": 0.952206
+     "Qwen3.5 27B": 0.207407,
+     "Gemma 4 12B": 0.088889,
+     "Mistral Small 3.2 24B": 0.088889,
+     "Qwen3.5 9B": 0.074074,
+     "Qwen2.5-VL 7B": 0.081481,
+     "Claude Sonnet 5.5": 0.896296,
+     "Claude Opus 5.5": 0.959259
     },
     "image12": {
-     "Qwen3.5 27B": 0.183824,
-     "Gemma 4 12B": 0.095588,
-     "Mistral Small 3.2 24B": 0.132353,
-     "Qwen3.5 9B": 0.136029,
-     "Qwen2.5-VL 7B": 0.113971,
-     "Claude Sonnet 5.5": 0.930147,
-     "Claude Opus 5.5": 0.963235
+     "Qwen3.5 27B": 0.185185,
+     "Gemma 4 12B": 0.096296,
+     "Mistral Small 3.2 24B": 0.133333,
+     "Qwen3.5 9B": 0.137037,
+     "Qwen2.5-VL 7B": 0.114815,
+     "Claude Sonnet 5.5": 0.937037,
+     "Claude Opus 5.5": 0.97037
     },
     "image14": {
-     "Qwen3.5 27B": 0.279412,
-     "Gemma 4 12B": 0.069853,
-     "Mistral Small 3.2 24B": 0.147059,
-     "Qwen3.5 9B": 0.169118,
-     "Qwen2.5-VL 7B": 0.095588,
-     "Claude Sonnet 5.5": 0.915441,
-     "Claude Opus 5.5": 0.948529
+     "Qwen3.5 27B": 0.281481,
+     "Gemma 4 12B": 0.07037,
+     "Mistral Small 3.2 24B": 0.148148,
+     "Qwen3.5 9B": 0.17037,
+     "Qwen2.5-VL 7B": 0.096296,
+     "Claude Sonnet 5.5": 0.922222,
+     "Claude Opus 5.5": 0.955556
     }
    },
    "ranks": {
@@ -197,7 +199,7 @@
      },
      "Gemma 4 12B": {
       "rank": 7.0,
-      "lo": 4.0,
+      "lo": 4.5,
       "hi": 7.0
      },
      "Mistral Small 3.2 24B": {
@@ -208,7 +210,7 @@
      "Qwen3.5 9B": {
       "rank": 4.0,
       "lo": 4.0,
-      "hi": 6.5
+      "hi": 6.0
      },
      "Qwen2.5-VL 7B": {
       "rank": 6.0,
@@ -270,14 +272,14 @@
       "Qwen3.5 27B",
       "Gemma 4 12B"
      ],
-     "p": 0.0015
+     "p": 0.001
     },
     {
      "pair": [
       "Qwen3.5 27B",
       "Mistral Small 3.2 24B"
      ],
-     "p": 0.00475
+     "p": 0.004
     },
     {
      "pair": [
@@ -312,21 +314,21 @@
       "Gemma 4 12B",
       "Mistral Small 3.2 24B"
      ],
-     "p": 0.539
+     "p": 0.547
     },
     {
      "pair": [
       "Gemma 4 12B",
       "Qwen3.5 9B"
      ],
-     "p": 0.795
+     "p": 0.789
     },
     {
      "pair": [
       "Gemma 4 12B",
       "Qwen2.5-VL 7B"
      ],
-     "p": 0.69
+     "p": 0.695
     },
     {
      "pair": [
@@ -347,14 +349,14 @@
       "Mistral Small 3.2 24B",
       "Qwen3.5 9B"
      ],
-     "p": 0.645
+     "p": 0.652
     },
     {
      "pair": [
       "Mistral Small 3.2 24B",
       "Qwen2.5-VL 7B"
      ],
-     "p": 0.104
+     "p": 0.0953
     },
     {
      "pair": [
@@ -375,7 +377,7 @@
       "Qwen3.5 9B",
       "Qwen2.5-VL 7B"
      ],
-     "p": 0.0302
+     "p": 0.0248
     },
     {
      "pair": [
@@ -410,7 +412,7 @@
       "Claude Sonnet 5.5",
       "Claude Opus 5.5"
      ],
-     "p": 0.456
+     "p": 0.46
     }
    ]
   },
