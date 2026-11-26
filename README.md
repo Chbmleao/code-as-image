@@ -9,13 +9,15 @@ of a coding task arrives as an image instead of text, and how many input tokens 
 
 ## Design in one paragraph
 
-995 items from two repository-level benchmarks, CoderUJB (136 Java methods from Defects4J) and
-DevEval (859 Python functions from 79 repositories), each with a reference solution that passes
-its tests and a prompt of 2k to 12k tokens. Five open models served with vLLM: Qwen2.5-VL 7B,
-Qwen3.5 9B and 27B, Gemma 4 12B and Mistral Small 3.2 24B. Four conditions: text, and the context
-rendered as packed images at 10, 12 and 14 px, with the task itself always in text. Three runs per
-item, model and condition at temperature 0.7, scored pass/fail by the unit tests. The main result
-is the paired text-minus-image gap per model with a project-clustered interval. Full plan in
+981 items from two repository-level benchmarks, CoderUJB (135 Java methods from Defects4J) and
+DevEval (846 Python functions from 79 repositories), each with a reference solution that passes its
+tests and a prompt of 2k to 12k tokens. 14 more items were run but are excluded, because their
+reference cannot pass our answer path (`docs/decisions.md`, 2026-11-25 and 2026-11-26). Five open
+models served with vLLM: Qwen2.5-VL 7B, Qwen3.5 9B and 27B, Gemma 4 12B and Mistral Small 3.2 24B.
+Four conditions: text, and the context rendered as packed images at 10, 12 and 14 px, with the task
+itself always in text. Three runs per item, model and condition at temperature 0.7, scored pass/fail
+by the unit tests. The main result is the paired text-minus-image gap per model with a
+project-clustered interval. Full plan in
 [`docs/methodology.md`](docs/methodology.md).
 
 ## Layout

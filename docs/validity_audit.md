@@ -55,23 +55,24 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    review, multi-file edits, screenshots of real IDEs (`docs/methodology.md` 3.2). There is no
    blueprint by sub-domain and no expert review of the items (not computed).
 6. **Reliability (ch. 5).** Yes. Variance components with runs nested in cells and MCMC intervals;
-   the reliability of a model's item score at 2 runs is 0.741 to 0.807 (CoderUJB) and 0.803 to
-   0.862 (DevEval), and the observed run 0 vs run 1 correlation is 0.594 to 0.629 and 0.664 to
-   0.759. G for ranking the five models (finite set) is 0.846 to 0.944 on CoderUJB except 12 px,
-   0.606 [0.014, 0.856], and 0.920 to 0.984 on DevEval (`reliability`). 13 of 16 fits pass the
-   convergence gate; the other 3 (DevEval image12 and image14) fail on s2_model only, which none of
-   these numbers uses (`docs/decisions.md` 2026-11-25). No SEM per condition, by design
+   the reliability of a model's item score at 2 runs is 0.740 to 0.806 (CoderUJB) and 0.803 to
+   0.862 (DevEval), and the observed run 0 vs run 1 correlation is 0.594 to 0.628 and 0.664 to
+   0.759. G for ranking the five models (finite set) is 0.843 to 0.944 on CoderUJB except 12 px,
+   0.613 [0.016, 0.855], and 0.920 to 0.984 on DevEval (`reliability`). 11 of 16 fits pass the
+   convergence gate; the other 5 (DevEval image12 and image14, CoderUJB text and image12 with the
+   inverse-gamma prior) fail on s2_model only, which none of these numbers uses
+   (`docs/decisions.md` 2026-11-25 and 2026-11-26). No SEM per condition, by design
    (`docs/methodology.md` 3.3).
 7. **Durable evaluator (11.9.1).** Partly; see section 5.
 8. **Claude extension.** Yes, exploratory. The copy flag over the other 6 models marks 126 (Sonnet)
    and 106 (Opus) of 135 CoderUJB items and 673 and 492 of 846 DevEval items, so on CoderUJB the
-   matched control is uninformative. 0 refusals and 0 request errors in 15,920 replies; 1 Sonnet
-   max_tokens and 1 Opus over_budget, both DevEval text. No seed, temperature 1.0, 2 runs, and Opus
-   thinks in 45 replies, at most 3.0% of output tokens (`claude`, Contamination and ceiling,
-   Replies; addendum in `docs/methodology.md`).
-9. **Reading vs coding.** **Placeholder (UFM-28).** Planned in `docs/methodology.md` 3.3 (lines 212
-   to 218) with the transcription test (UFM-12); in the paper only if UFM-28 is done by 2026-11-28.
-   Until then the only evidence is exploratory: in block 1, answers with a missing name rise from
+   matched control is uninformative. 0 refusals and 0 request errors in 15,920 replies on all 995
+   items, before the exclusions; 1 Sonnet max_tokens and 1 Opus over_budget, both DevEval text. No
+   seed, temperature 1.0, 2 runs, and Opus thinks in 45 of those replies, at most 3.0% of output
+   tokens (`claude`, Contamination and ceiling, Replies; addendum in `docs/methodology.md`).
+9. **Reading vs coding.** No. Planned in `docs/methodology.md` 3.3 (lines 212 to 218) with the
+   transcription test (UFM-12), which was stopped on 2026-11-26 before it finished
+   (`docs/decisions.md`). The only evidence is exploratory: in block 1, answers with a missing name rise from
    8% to 31% of DevEval answers and 17% to 40% of CoderUJB answers from text to image, and about 400
    DevEval image answers use a context name with an underscore dropped or added (`block1`, Why
    image answers fail), from grader output that is not in the repo.
@@ -97,7 +98,8 @@ Numbering follows the notes (23 lines).
 7. Audit item content for errors. Partly. Items were kept only if the reference passed our grader
    (`benchmarks/*/results/gold_results.jsonl`), but that run tests the unmodified source and never
    goes through the answer splice. 10 items no model passes were desk-checked (section 6): 6 are
-   likely harness artifacts and 3 are under-specified. No full content review.
+   harness artifacts (confirmed by a regrade, then excluded) and 3 are under-specified. No full
+   content review.
 
 **13.5.3 Evaluation design**
 
@@ -193,15 +195,19 @@ person**; nothing was regraded, since the test environments are on /snfs2.
  the second block (UFM-33), 2 of the 4 pass. One wrong-logic answer
  (`mopidy.internal.log.get_verbosity_level`) is on an item the next check finds under-specified.
 
-**Items no model passes** (`results/audit/never_passed_check.csv`). 285 items are never passed by
-the five open models; the gold run passes all 285 and a Claude model passes 267, leaving 18 (1
-CoderUJB, 17 DevEval). Of 10 drawn, 9 are labeled test bug and 1 no bug:
+**Items no model passes** (`results/audit/never_passed_check.csv`, drawn on all 995 items before
+the exclusions). 285 items are never passed by the five open models; the gold run passes all 285
+and a Claude model passes 267, leaving 18 (1 CoderUJB, 17 DevEval). On the 981 analysed items the
+five open models never pass 272 (30 CoderUJB, 242 DevEval; `results/analysis/never_passed.csv`)
+and 5 DevEval items are passed by none of the 7: the other 13 of the 18 are excluded items (Jsoup
+93 and 12 of the 13 DevEval items), and so are 6 of the 10 drawn. Of the 10, 9 are labeled test
+bug and 1 no bug:
 
-- 6 look like harness artifacts (not regraded). In 4, `body_position` in our source copy starts at
-  the `def` or decorator line of the target, so a body answer overwrites the signature. In 2, the
-  body holds a triple-quoted string with lines at column 0, and `adjust_indent` (`textwrap.dedent`
-  then `textwrap.indent`) shifts them. The gold run cannot catch either: it runs the tests on the
-  unmodified source (`benchmarks/deveval/gold_check.py`).
+- 6 are harness artifacts, confirmed by the regrade below and excluded. In 4, `body_position` in
+  our source copy starts at the `def` or decorator line of the target, so a body answer overwrites
+  the signature. In 2, the body holds a triple-quoted string with lines at column 0, and
+  `adjust_indent` (`textwrap.dedent` then `textwrap.indent`) shifts them. The gold run cannot catch
+  either: it runs the tests on the unmodified source (`benchmarks/deveval/gold_check.py`).
 - 3 are under-specified: the tests need behavior the requirement does not state and the context
   does not show (a None config value read as 0, an execution state set around the run, a named
   string helper).
@@ -225,7 +231,7 @@ pass them in the main run. The 13 are excluded from every reported analysis
 (`manifests/excluded/deveval.txt`); DevEval has 846 items. Kept in, they shrank each DevEval gap by
 about 1.4% of its size (arithmetic estimate before the rerun); the rerun without them moves the 5
 open models' gaps by 0.8% to 1.5% of their size, and every conclusion holds. The model answers on the 13 were not regraded, and
-the audit samples above were drawn from all 859.
+the audit samples above were drawn before the exclusions.
 
 **CoderUJB Jsoup 93 (UFM-36, `docs/decisions.md` 2026-11-26).** Every CoderUJB reference was run
 through `extract` as a fenced reply: 135 come back equal up to whitespace, and Jsoup 93
@@ -247,8 +253,8 @@ Each bullet points to the item that backs it. Draft only; UFM-14 writes the pape
 4. Contamination and ceiling: other models copy the reference on 25 CoderUJB and 149 DevEval
    items; removing them leaves every gap negative but inflates absolute rates, and Claude is near
    the ceiling on CoderUJB text (items 1.3, 1.8, 13.5.6-20).
-5. Reading vs coding is not measured unless UFM-28 lands by 2026-11-28; the misreading evidence is
-   an exploratory block-1 count (item 1.9).
+5. Reading vs coding is not measured (the transcription test was stopped on 2026-11-26); the
+   misreading evidence is an exploratory block-1 count (item 1.9).
 6. Item quality: 13 DevEval items and 1 CoderUJB item could not be passed through our splice
    (confirmed by grading or round-tripping their references) and are excluded, and 3 of the 10
    never-passed items checked need behavior the prompt does not give; the floor (51% to 63% of

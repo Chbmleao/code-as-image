@@ -1,5 +1,8 @@
 # Main run findings
 
+Base: all 136 CoderUJB and 859 DevEval items, including the 1 CoderUJB and 13 DevEval items later
+excluded from the analysis (`docs/decisions.md`, 2026-11-26 and 2026-11-25).
+
 The whole main run (UFM-11): block 1 (UFM-20) plus the rest, 755 items (96 CoderUJB, 659 DevEval)
 not in block 1, at 2 runs per model and benchmark from the D-study. 5 models, 4 conditions,
 44,600 answers. The rest was generated Nov 10 and graded Nov 11 to 13; what happened on the
