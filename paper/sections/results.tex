@@ -1,61 +1,65 @@
 \section{Resultados}
 
 \subsection{Gap por modelo}
-% Os 10 gaps são negativos, com IC abaixo de 0 (asserção em build_numbers), e o maior p de Holm; média dos modelos (pooled).
-\todo{gaps por modelo, IC e maior p de Holm}
-% Tabela 1 (gerada): por modelo e benchmark, taxa em texto, gap [IC], contraste logit [IC] e razão de tokens.
-\todo{leitura da Tabela 1}
-% Leitura ordinal por causa do piso, com o Qwen2.5-VL (floor_ceiling); leave-one-project-out no CoderUJB, numa frase (lopo).
-\todo{piso e leave-one-project-out}
+\label{sec:gap}
+
+Os cinco modelos abertos passam menos testes com o contexto em imagem do que em texto, nos dois benchmarks (Fig.~\ref{fig:gap}, Tab.~\ref{tab:gaps}). Os 10 intervalos agrupados ficam abaixo de zero e o maior p de Holm é \holmMaxAll. A média dos modelos é \gapMeanUjb~pp \ci{\gapMeanUjbLo}{\gapMeanUjbHi} no CoderUJB e \gapMeanDev~pp \ci{\gapMeanDevLo}{\gapMeanDevHi} no DevEval. Por modelo, o gap vai de \gapMinUjb{} a \gapMaxUjb~pp no CoderUJB e de \gapMinDev{} a \gapMaxDev~pp no DevEval. A razão de tokens de entrada, imagem sobre texto, vai de \tokenRatioMinAll{} a \tokenRatioMaxAll. O Gemma tem a menor razão (\tokenRatioGemmaTwelveUjb{} e \tokenRatioGemmaTwelveDev) e gap de \gapGemmaTwelveUjb~pp no CoderUJB e de \gapGemmaTwelveDev~pp no DevEval.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_gap}
-  \caption{\todo{legenda da Figura 1: gap imagem menos texto por modelo aberto e média dos modelos, IC 95\% agrupado por projeto}}
+  \caption{Diferença na taxa de aprovação, imagem menos texto, por modelo aberto e na média dos modelos. As barras são o IC 95\% agrupado por projeto (CoderUJB) ou repositório (DevEval), exceto na média dos modelos, que usa o IC percentil de um bootstrap conjunto por agrupamento; valores à esquerda de zero indicam perda com a imagem.}
   \label{fig:gap}
 \end{figure}
 
 \begin{table}[t]
   \centering
-  \caption{\todo{legenda da Tabela 1}}
+  \caption{Taxa em texto, gap em pontos percentuais (IC 95\% agrupado por projeto ou repositório; na média dos modelos, IC percentil de bootstrap conjunto), contraste em logit do GLMM (IC 95\%) e razão de tokens (imagem sobre texto, média dos três tamanhos). Valores negativos indicam que a imagem é pior.}
   \label{tab:gaps}
   \resizebox{\linewidth}{!}{\input{tables/tab_gaps}}
 \end{table}
 
+Em pontos, o Qwen2.5-VL tem o menor gap (\gapQwenVLSevenUjb~pp no CoderUJB), mas parte disso é piso: nenhuma execução passa em \floorTextQwenVLSevenUjb{}\% dos itens do CoderUJB em texto e em \floorTenQwenVLSevenUjb{}\% a 10 px, e em \floorTextQwenVLSevenDev{}\% e \floorTenQwenVLSevenDev{}\% no DevEval. Com pouco a perder, o gap em pontos não é uma distância entre modelos. Por isso lemos os gaps como ordem e junto do contraste em logit do GLMM. Nessa leitura o Qwen2.5-VL também tem o menor valor absoluto dos cinco, nos dois benchmarks (\contrastQwenVLSevenUjb{} no CoderUJB, \ci{\contrastQwenVLSevenUjbLo}{\contrastQwenVLSevenUjbHi}). Tirar um projeto do CoderUJB por vez mantém todos os intervalos abaixo de zero, com gaps de \lopoMinUjb{} a \lopoMaxUjb~pp.
+
 \subsection{Fonte e tokens}
-% 14 px supera 12 px por 4,1 a 8,8 pp, com IC acima de 0, para o Qwen3.5 27B nos dois benchmarks e para o Mistral e o Qwen3.5 9B no DevEval (size_diffs; asserção sobre o conjunto); o Gemma economiza mais tokens e perde o mesmo em todo tamanho.
-\todo{efeito do tamanho da fonte e economia de tokens}
+\label{sec:fonte}
+
+Para o Qwen3.5 27B nos dois benchmarks e para o Mistral e o Qwen3.5 9B no DevEval, 14 px supera 12 px por \sizeDiffMinAll{} a \sizeDiffMaxAll~pp, com o IC agrupado acima de zero. Nos outros pares de modelo e benchmark o intervalo da diferença inclui zero. A Fig.~\ref{fig:size-tokens} põe o gap de cada tamanho contra a razão de tokens do mesmo tamanho, e a Tabela~\ref{tab:size-diffs} traz todas as diferenças. O Gemma tem a menor razão de tokens nos dois benchmarks e sem diferença detectável entre tamanhos.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_size_tokens}
-  \caption{\todo{legenda da Figura 2: gap por tamanho contra a razão de tokens por tamanho, uma linha por modelo}}
+  \caption{Gap, imagem menos texto, contra a razão de tokens (imagem sobre texto) nos tamanhos de 10, 12 e 14 px. Cada linha é um modelo e cada painel um benchmark; os pontos são estimativas, sem intervalo, e em cada linha vão de 10 a 14 px da esquerda para a direita. O Qwen3.5 27B e o 9B usam o mesmo tokenizador, então seus pontos têm o mesmo x. Mais à esquerda há mais economia, mais abaixo há mais perda.}
   \label{fig:size-tokens}
 \end{figure}
 
 \subsection{A penalidade é igual entre itens e modelos?}
-% Wald com 4 gl; DP item:condição com IC de perfil e razão sobre o DP de item; LRT como linha secundária; log-verossimilhança fora da amostra, positiva nas 10 dobras no DevEval e indistinguível de 0 no CoderUJB (asserção).
-\todo{Wald, DP item:condição, LRT e fora da amostra}
-% Correlação texto x imagem abaixo da referência e C de Pearson nos percentis 0,997 e 1,000; inclinação comum dividida por r e probit; nenhum item sobrevive ao BH (asserção); com 5 modelos não se estabelece uma segunda habilidade.
-\todo{correlações, inclinação comum, probit, BH e limite de 5 modelos}
+\label{sec:penalidade}
+
+Entre modelos, o teste de Wald de contrastes iguais entre os cinco modelos dá $\chi^2$~=~\waldStatUjb com \waldDfUjb{} gl (p~=~\waldPUjb) no CoderUJB e $\chi^2$~=~\waldStatDev com \waldDfDev{} gl (p~=~\waldPDev) no DevEval. Entre itens, o desvio padrão (DP) de item:condição do GLMM é \sdItemConditionUjb{} \ci{\sdItemConditionUjbLo}{\sdItemConditionUjbHi} no CoderUJB e \sdItemConditionDev{} \ci{\sdItemConditionDevLo}{\sdItemConditionDevHi} no DevEval (logit, IC de perfil), isto é, \sdRatioUjb{} e \sdRatioDev{} do DP de item. Como linha secundária, o teste da razão de verossimilhanças contra a ausência do termo dá \lrtStatUjb{} (p~=~\lrtPUjb) e \lrtStatDev{} (p~=~\lrtPDev). Fora da amostra, a log-verossimilhança do modelo completo menos a do reduzido é positiva nas \heldoutFoldsDev{} dobras do DevEval (soma \heldoutDiffDev, EP \heldoutSeDev) e indistinguível de zero no CoderUJB (\heldoutDiffUjb, EP \heldoutSeUjb; positiva em \heldoutPositiveFoldsUjb{} de \heldoutFoldsUjb). Sobre a variação entre itens, no DevEval as três evidências (intervalo de perfil, teste da razão de verossimilhanças e comparação fora da amostra) concordam; no CoderUJB só o componente de variância e o teste da razão de verossimilhanças apoiam a variação, e a comparação fora da amostra não.
+
+A correlação de Pearson entre a dificuldade dos itens em texto e em imagem fica abaixo da faixa esperada sob uma habilidade única em \corrBelowRefUjb{} dos 3 tamanhos no CoderUJB e em \corrBelowRefDev{} no DevEval (Fig.~\ref{fig:item-corr}). A exceção é o CoderUJB a 14 px (\corrFourteenUjb, faixa \ci{\corrFourteenUjbRefLo}{\corrFourteenUjbRefHi}). A estatística C, correlação média entre tamanhos menos a média entre texto e tamanho, fica acima da faixa nos dois benchmarks: \cPearsonUjb{} contra \ci{\cPearsonRefLoUjb}{\cPearsonRefHiUjb} no CoderUJB (percentil \cPearsonPercentileUjb) e \cPearsonDev{} contra \ci{\cPearsonRefLoDev}{\cPearsonRefHiDev} no DevEval (percentil \cPearsonPercentileDev). A razão do DP de item:condição sobre o de item em probit é parecida com a de logit (\sdRatioProbitUjb{} e \sdRatioProbitDev). Nenhum item sobrevive à correção de BH: \bhFlaggedUjb{} de \nItemFlagsUjb{} modos item:condição no CoderUJB (\rawFlaggedUjb{} com intervalo bruto fora de zero) e \bhFlaggedDev{} de \nItemFlagsDev{} no DevEval (\rawFlaggedDev). Com cinco modelos, uma segunda habilidade não pode ser estabelecida.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_item_corr}
-  \caption{\todo{legenda da Figura 3: correlação texto x imagem por tamanho contra a faixa de referência}}
+  \caption{Correlação de Pearson da dificuldade dos itens, em logit, entre texto e cada tamanho de imagem. Os pontos são os valores observados e a faixa clara é o intervalo de 2,5\% a 97,5\% simulado para uma penalidade igual em todo item. Pontos abaixo da faixa indicam que texto e imagem concordam menos do que esse caso prevê.}
   \label{fig:item-corr}
 \end{figure}
 
 \subsection{Confiabilidade e ordem}
-% Confiabilidade de 1 e de 2 execuções e o G finito; CoderUJB a 12 px é instável; os três modelos do meio trocam de lugar (reliability.json; docs/paper/reliability.md como rascunho).
-\todo{confiabilidade, G finito e troca de ordem}
+\label{sec:conf}
+
+A confiabilidade do escore de um item com 1 execução vai de \relOneMinUjb{} a \relOneMaxUjb{} no CoderUJB e de \relOneMinDev{} a \relOneMaxDev{} no DevEval, nas quatro condições. Com 2 execuções, pela fórmula de Spearman-Brown, vai de \relTwoMinUjb{} a \relTwoMaxUjb{} e de \relTwoMinDev{} a \relTwoMaxDev, e com 3 execuções, nos itens do primeiro bloco, de \relThreeMinUjb{} a \relThreeMaxUjb{} e de \relThreeMinDev{} a \relThreeMaxDev. Para ordenar os cinco modelos, o coeficiente G que os trata como conjunto fixo vai de \gFiniteMinDev{} a \gFiniteMaxDev{} no DevEval e de \gFiniteMinUjb{} a \gFiniteMaxUjb{} no CoderUJB, exceto a 12 px, onde cai a \gFiniteTwelveUjb{} \ci{\gFiniteTwelveUjbLo}{\gFiniteTwelveUjbHi}. O Qwen3.5 27B é o primeiro em todas as condições e o Qwen2.5-VL é o último em texto, nos dois benchmarks. O Gemma e o Qwen3.5 9B trocam de posição entre texto e imagem com probabilidade \swapGemmaQwenNineUjb{} no CoderUJB e \swapGemmaQwenNineDev{} no DevEval.
 
 \subsection{Contaminação}
-% 25 e 149 itens com cópia (copied_items); 39 de 40 gaps encolhem e todos seguem negativos; controle acima do percentil 97,5 em 3 de 5 modelos por benchmark; os itens marcados perdem mais (associação e checagem fora do plano); concordância das duas flags (flag2).
-\todo{contaminação: cópias, encolhimento, controle, itens marcados e flags}
+\label{sec:contam}
+
+Um item é marcado quando outro modelo reproduz a referência token a token em alguma execução de texto: são \copiedItemsUjb{} itens do CoderUJB e \copiedItemsDev{} do DevEval. Sem os itens marcados, \contamShrinking{} dos \contamGaps{} gaps ficam menos negativos e todos seguem negativos. Em \controlHighModelsUjb{} dos 5 modelos de cada benchmark, a mudança observada passa do percentil 97,5 das remoções ao acaso do mesmo número de itens sem cópia; nos outros 2, não. Onde falta item sem marca para o pareamento, o controle remove menos itens e sua faixa fica mais perto de 0. Os itens marcados perdem mais: o gap só neles vai de \flaggedGapMinUjb{} a \flaggedGapMaxUjb~pp no CoderUJB e de \flaggedGapMinDev{} a \flaggedGapMaxDev~pp no DevEval, e nesses itens os modelos também passam mais em texto. Isto é uma associação, não mostra que a cópia causa a perda. É também uma análise fora do plano. A marca de cópia e a marca do GLMM para item:modelo coincidem em poucos itens, de \flagBothMinUjb{} a \flagBothMaxUjb{} por modelo no CoderUJB e de \flagBothMinDev{} a \flagBothMaxDev{} no DevEval.
 
 \subsection{Exploratório}
-% Claude perde de 1,7 a 6,2 pp; contraste c; teto no CoderUJB; itens marcados (claude main, glmm, contamination). Marcar como exploratório.
-\todo{Claude, exploratório}
-% Bloco 1: os erros a mais são de nome, com o exemplo _determine_alterations; o piloto não teve gap (block1/findings.md). Marcar como exploratório.
-\todo{bloco 1, exploratório}
+\label{sec:explor}
+
+A rodada com o Claude é exploratória e difere das abertas: temperatura \claudeTemperature{} e sem semente, que a API não aceita. O Sonnet 5.5 e o Opus 5.5 perdem de \claudeLossMinAll{} a \claudeLossMaxAll~pp, e os 4 intervalos agrupados ficam abaixo de zero (Sonnet: \gapSonnetUjb~pp \ci{\gapSonnetUjbLo}{\gapSonnetUjbHi} no CoderUJB e \gapSonnetDev~pp \ci{\gapSonnetDevLo}{\gapSonnetDevHi} no DevEval; Opus: \gapOpusUjb~pp \ci{\gapOpusUjbLo}{\gapOpusUjbHi} e \gapOpusDev~pp \ci{\gapOpusDevLo}{\gapOpusDevHi}). O intervalo por item do Opus no CoderUJB inclui zero (\ci{\gapItemOpusUjbLo}{\gapItemOpusUjbHi}). O contraste $c$, Claude menos abertos no GLMM de sete modelos, é \openClosedCUjb{} \ci{\openClosedCUjbLo}{\openClosedCUjbHi} no CoderUJB e \openClosedCDev{} \ci{\openClosedCDevLo}{\openClosedCDevHi} no DevEval: o Claude perde menos. $c$ descreve só esses sete modelos, não tem p, e mistura o modelo com a temperatura e a API. No CoderUJB o texto já passa em \textRateSonnetUjb{}\% nos dois (ambas as execuções passam em \ceilingTextSonnetUjb{}\% e \ceilingTextOpusUjb{}\% dos itens), o que deixa pouco espaço para o gap. Outro modelo reproduz a referência em \flaggedSonnetUjb{} e \flaggedOpusUjb{} dos \nItemsUjb{} itens do CoderUJB (\flaggedSonnetDev{} e \flaggedOpusDev{} dos \nItemsDev{} do DevEval), e restam \unflaggedSonnetUjb{} e \unflaggedOpusUjb{} itens sem marca para o controle no CoderUJB.
+
+O primeiro bloco também é exploratório: \blockOneItemsDev{} itens do DevEval e \blockOneItemsUjb{} do CoderUJB, com taxas brutas e sem intervalo. Os erros a mais em imagem são de nome: os erros de nome vão de \nameDevText{}\% para \nameDevImage{}\% das respostas no DevEval e de \nameUjbText{}\% para \nameUjbImage{}\% no CoderUJB, um aumento de \nameErrorGrowthPoints{} pontos nos dois. No DevEval, cerca de \nameErrorNearCopies{} respostas em imagem usam um nome que difere do do contexto só por sublinhados (\texttt{determine\_alterations} no lugar de \texttt{\_determine\_alterations}), contra \nameErrorTextNearCopies{} em texto. A classificação rodou no cluster e não pode ser refeita com os arquivos do repositório. No DevEval a 14 px, itens de 1 a 2 páginas perdem \lengthGapShort{} pontos e itens de 3 ou mais perdem \lengthGapLong, uma associação com o comprimento. O piloto (Qwen2.5-VL, \pilotProblems{} problemas do HumanEval) não teve gap: \pilotTextPass{} de \pilotOf{} em texto e \pilotImagePass{} de \pilotOf{} em imagem. O contexto do piloto era código sem relação com a tarefa, que não precisava ser lido, ao contrário do primeiro bloco; não testamos essa explicação.
