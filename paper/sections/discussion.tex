@@ -1,23 +1,21 @@
 \section{Discussão}
 
 \subsection{Argumento de validade}
-% As 5 evidências de 1.2, cada uma com o que o estudo mostra e o que não mostra (VA seção 4; correlação); a contagem do checklist 13.5 numa frase (VA seção 2); leitura causal: o gap é um contraste intervencional; contaminação, comprimento e erros de nome são associações (cap. 9).
-\todo{evidências de validade e leitura causal}
-% Tabela 2 (escrita à mão): as 5 evidências de validade, compacta.
-\todo{Tabela 2: as 5 evidências de validade}
+\label{sec:validade}
+Seguimos as cinco evidências de \citealp[seç.~1.2]{truong2026measurement}. A evidência de construto é a principal: a renderização é atribuída por desenho a todo modelo e item, o resto fica fixo, e o gap é esse contraste. Ela não mostra por que a imagem perde, porque modalidade, tokens e layout mudam juntos. A de conteúdo é parcial: o construto é uma função ou método com contexto de repositório, não programar em geral, e o conteúdo dos itens não foi auditado por inteiro. A de critério é parcial: o texto serve de critério concorrente, e a dificuldade dos itens em texto e em imagem tem correlação moderada (Fig.~\ref{fig:item-corr}), mas os testes unitários são o desfecho, não um critério independente. A externa é limitada (Seção~\ref{sec:limit}). A consequencial não foi estudada. Pelo checklist de \citealp[seç.~13.5]{truong2026measurement}, \checklistYes{} são atendidos, \checklistPartly{} em parte, \checklistNo{} não e \checklistNA{} não se aplicam. Em termos causais (cap.~9), só o gap é um contraste intervencional. A contaminação, o comprimento e os erros de nome são associações, e não afirmamos que causem a perda.
 
 \subsection{Sensibilidade à fonte: validade ou confiabilidade?}
-% O efeito da fonte é sistemático e não cai com mais execuções, então é ameaça à validade (variância irrelevante ao construto, 1.3); só vira faceta de confiabilidade se a fonte for amostrada num estudo G (size_diffs; reliability).
-\todo{fonte como ameaça à validade}
+\label{sec:disc-fonte}
+O exercício 1.5 \#1 pergunta se a sensibilidade ao tamanho da fonte é um problema de validade ou de confiabilidade. O efeito de 14 px sobre 12 px em alguns pares (Seção~\ref{sec:fonte}) é sistemático: repetir a mesma condição mais vezes reduz o ruído entre execuções, mas não o move. Como o tamanho da fonte não faz parte do construto, é variância irrelevante ao construto \citep[seç.~1.3]{truong2026measurement}, uma ameaça à validade. Ela só viraria faceta de confiabilidade se o tamanho fosse amostrado de uma população de tamanhos num estudo G.
 
 \subsection{Contaminação ou variância irrelevante ao construto?}
-% Contaminação é um caminho que contorna a habilidade e depende do item e do modelo; o contraste pareado não a cancela quando ela interage com a modalidade.
-\todo{contaminação e contraste pareado}
+\label{sec:disc-contam}
+O exercício 1.5 \#3 pede para separar os dois casos. Chamamos de contaminação um caminho que contorna a habilidade: o modelo reproduz a referência por tê-la visto, e isso depende do item e do modelo. O contraste pareado cancela esse caminho se ele afeta texto e imagem do mesmo jeito. Não cancela se ele interage com a modalidade, por exemplo se a cópia for mais fácil de acionar em texto. Os itens marcados perdem mais com a imagem (Seção~\ref{sec:contam}), o que é compatível com essa interação, mas é uma associação fora do plano, e há outra leitura: nesses itens os modelos passam mais em texto e têm mais a perder. No nosso caso, portanto, é contaminação, e ela só vira variância irrelevante ao construto do contraste se interagir com a modalidade.
 
 \subsection{Quando o DIF é um problema a corrigir}
-% Aqui o DIF é a interação item:condição; corrigir quando a fonte é irrelevante ao construto (os \excludedDev itens que o corretor não deixa passar, já excluídos, e o layout); reportar quando reflete ler o contexto (A; U; L).
-\todo{DIF: corrigir ou reportar}
+\label{sec:disc-dif}
+O exercício 1.5 \#5 pergunta quando o funcionamento diferencial do item (DIF, \citealp[seç.~5.11]{truong2026measurement}) pede correção. Aqui o DIF é a interação item:condição, não uma comparação entre grupos de modelos. Corrige-se quando a fonte é irrelevante ao construto, como um corretor que falha em certos itens só no caminho de uma condição; os \excludedDev{} itens do DevEval cuja referência o nosso corretor não deixa passar eram falha do corretor em toda condição e foram excluídos em 25/11/2026. O layout não é DIF: age sobre a condição inteira e entra como variância irrelevante ao construto (Seção~\ref{sec:disc-fonte}). Reporta-se quando a variação pode refletir ler o contexto, o que não medimos. Essa variação é pouco estabelecida: fora da amostra ela se sustenta no DevEval, e no CoderUJB não.
 
 \subsection{Teste de transferência}
-% Exercício do cap. 11, com previsões fixadas antes: a replicação entre benchmarks, já observada; um renderizador sem indentação; a transcrição prevendo quais itens falham.
-\todo{previsões do teste de transferência}
+\label{sec:transferencia}
+Pelo cap.~11 de \citet{truong2026measurement}, o avaliador só é durável se o resultado se mantém fora das condições do estudo. A replicação entre benchmarks, com o gap abaixo de zero nos dois, já foi observada e não conta como previsão. Fixamos duas previsões antes de qualquer nova rodada. (i) Com um renderizador sem indentação, que libera cerca de \indentShareUjb{}\% e \indentShareDev{}\% dos caracteres, o intervalo do gap médio dos modelos abertos segue abaixo de zero; a previsão é refutada se ele incluir zero, o que atribuiria a perda ao layout. (ii) Os itens cuja transcrição do contexto tem erro passam menos em imagem que os de transcrição fiel; a previsão é refutada se o intervalo dessa diferença incluir zero. Um resultado a favor seria compatível com erro de leitura, sem separar leitura de programação. Nenhuma das duas foi testada: o renderizador não foi rodado, e a transcrição não foi concluída (Seção~\ref{sec:desvios}).
