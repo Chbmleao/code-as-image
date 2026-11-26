@@ -3,6 +3,23 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-26: checksum manifests for the laptop-only inputs
+
+Two inputs of committed results exist only on the laptop and are not copied anywhere else (UFM-37).
+Each folder now has a `MANIFEST.sha256` (one `sha256  path` line per file, checked with
+`shasum -a 256 -c MANIFEST.sha256` from inside the folder) and a `VERIFY.tsv` (path, line count
+for jsonl files, sha256).
+
+| Folder | What it holds | Files | sha256 of `MANIFEST.sha256` |
+|---|---|---|---|
+| `~/UFMG/ufm9-claude/` | every Claude reply, requests and page images (1.3 GB); input of `results/claude/` | 9861 | `baecd9932b9a21ad33aa7950cdaa588fd43d30b5d9326d3647963666e60bb528` |
+| `scratch/contamination/` | the copy-check input of `results/analysis/contamination*.json` and the Claude gaps (74 MB) | 8 | `4132ec13aff8c4c37446ff22b25cb50560fef4eff0b4dcd5043e849137862fd8` |
+
+- The Claude replies cannot be regenerated (temperature 1.0, no seed), so the manifest is the only
+  way to show the files the results were computed from have not changed.
+- The 8 contamination files match the earlier list in `scratch/ufm33/contamination_sha256.txt`.
+- `~/UFMG/ufm9-open/` already had both files, from the copy off the cluster.
+
 ## 2026-11-26: the transcription test is stopped
 
 The transcription test (UFM-12), and with it reading vs coding (UFM-28), will not finish before
