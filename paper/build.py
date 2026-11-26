@@ -5,7 +5,8 @@
 Runs build_numbers.py and build_figures.py, compiles main.tex with tectonic into paper/out/ and
 prints the build summary. The typography check and "Undefined control sequence" always fail the
 build. --final also fails on any \\todo, any undefined reference or citation, and a body that ends
-after page 8 (the references and the appendix do not count).
+after page 8 (the references and the appendix do not count). --overleaf also fills
+out/overleaf/ with the sources plus the generated numbers, tables and figures.
 """
 
 from __future__ import annotations
@@ -116,6 +117,31 @@ def final_failures(
     return out
 
 
+def overleaf_files() -> list[Path]:
+    """Everything main.tex needs to compile elsewhere, generated files included."""
+    return sorted(
+        [
+            HERE / "main.tex",
+            HERE / "numbers.tex",
+            HERE / "refs.bib",
+            HERE / "neurips_2025.sty",
+            HERE / "plainnat-pt.bst",
+            *(HERE / "sections").glob("*.tex"),
+            *(HERE / "tables").glob("*.tex"),
+            *(HERE / "figures").glob("*.pdf"),
+        ]
+    )
+
+
+def write_overleaf_dir(dest: Path) -> None:
+    # start empty so a file deleted here does not linger in the copy
+    shutil.rmtree(dest, ignore_errors=True)
+    for path in overleaf_files():
+        target = dest / path.relative_to(HERE)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, target)
+
+
 def run_generator(script: str) -> None:
     res = subprocess.run(
         [sys.executable, str(HERE / script)], capture_output=True, text=True, check=False
@@ -158,6 +184,7 @@ def compile_pdf() -> tuple[str, str, Path]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--final", action="store_true", help="fail on todo, undefined refs, page > 8")
+    ap.add_argument("--overleaf", action="store_true", help="also fill out/overleaf/")
     args = ap.parse_args(argv)
 
     run_generator("build_numbers.py")
@@ -189,6 +216,9 @@ def main(argv: list[str] | None = None) -> int:
         failures += final_failures(todos, refs, cites, page)
     for f in failures:
         print(f"FAIL {f}", file=sys.stderr)
+    if args.overleaf and not failures:
+        write_overleaf_dir(OUT / "overleaf")
+        print(f"overleaf: {OUT / 'overleaf'}")
     return 1 if failures else 0
 
 
