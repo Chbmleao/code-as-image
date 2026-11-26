@@ -30,7 +30,7 @@ EM_DASH = "\u2014"
 SOURCE_FILES = [
     "analysis/gaps.json", "analysis/glmm.json", "analysis/contamination.json",
     "claude/analysis/gaps.json", "claude/analysis/glmm.json", "claude/analysis/contamination.json",
-    "reliability/reliability.json", "layout/layout.json", "block1/findings.md",
+    "reliability/reliability.json", "layout/layout.json", "block1/findings.md", "claude/findings.md",
     "audit/summary.md", "audit/harness_suspects.csv", "audit/hand_read.csv",
     "audit/never_passed_check.csv",
 ]
@@ -242,13 +242,34 @@ def test_each_predicate_fails_on_its_own_violation():
     gaps = copy.deepcopy(src.json(bn.OPEN_GAPS))
     glmm = copy.deepcopy(src.json(bn.OPEN_GLMM))
     contam = copy.deepcopy(src.json(bn.OPEN_CONTAM))
+    rel = copy.deepcopy(src.json(bn.RELIABILITY))
+    claude = copy.deepcopy(src.json(bn.CLAUDE_GAPS))
     glmm["benchmarks"]["deveval"]["heldout"]["folds"][3]["full"] = -1e9
     glmm["benchmarks"]["coderujb"]["item_flags"]["bh_flagged"] = 1
     contam["benchmarks"]["deveval"]["gaps"][0]["est"] = -9
     contam["benchmarks"]["coderujb"]["control"]["Gemma 4 12B"]["share_at_or_below"] = 0.1
     gaps["benchmarks"]["coderujb"]["size_diffs"][5]["cluster"]["lo"] = 0.01
+    gaps["benchmarks"]["coderujb"]["lopo"][0]["cluster"]["hi"] = 0.02
+    glmm["benchmarks"]["coderujb"]["correlation"]["pearson"]["text~image14"]["lo"] = 0.9
+    glmm["benchmarks"]["deveval"]["correlation"]["pearson"]["C"]["hi"] = 0.9
+    rel["benchmarks"]["deveval"]["conditions"]["text"]["g_finite"]["main"]["median"] = 0.5
+    rel["benchmarks"]["coderujb"]["ranks"]["image10"]["Qwen3.5 27B"]["rank"] = 2.0
+    contam["benchmarks"]["coderujb"]["flagged_only"][0]["est"] = 0.0
+    claude["benchmarks"]["deveval"]["main"][1]["cluster"]["hi"] = 0.01
+    glmm["benchmarks"]["coderujb"]["item_condition_sd"]["lo"] = -0.1
+    claude["benchmarks"]["coderujb"]["rates"]["text"]["Claude Opus 5.5"] = 0.9
+    open_gaps = gaps["benchmarks"]["coderujb"]["main"]
+    top = max(open_gaps, key=lambda r: -r["est"])
+    top["est"] = 0.0
     broken = bn.Sources(
-        ROOT, {bn.OPEN_GAPS: gaps, bn.OPEN_GLMM: glmm, bn.OPEN_CONTAM: contam}
+        ROOT,
+        {
+            bn.OPEN_GAPS: gaps,
+            bn.OPEN_GLMM: glmm,
+            bn.OPEN_CONTAM: contam,
+            bn.RELIABILITY: rel,
+            bn.CLAUDE_GAPS: claude,
+        },
     )
     errors = " ".join(bn.generate(broken)[2])
     for sentence in (
@@ -257,8 +278,28 @@ def test_each_predicate_fails_on_its_own_violation():
         "39 of 40 contamination gaps",
         "3 of 5 models",
         "14 px beats 12 px",
+        "smallest gap and the smallest logit contrast",
+        "leave-one-project-out",
+        "under the reference band in 5 of 6 pairs",
+        "C (Pearson) is above its reference band",
+        "G (finite) is lowest at CoderUJB 12 px",
+        "ranks first in every condition",
+        "on flagged items all 10",
+        "all 4 Claude cluster intervals",
+        "item:condition SD profile interval is above 0",
+        "same CoderUJB text pass rate",
     ):
         assert sentence in errors, sentence
+
+
+def test_the_claude_contrast_predicate_fails_when_the_lower_limit_is_not_above_zero(tree):
+    path = tree / "results" / "claude" / "findings.md"
+    text = path.read_text()
+    assert "| CoderUJB | 2.750 | 0.688 | [1.402, 4.098] |" in text
+    path.write_text(text.replace("[1.402, 4.098]", "[-0.402, 4.098]"))
+    res = run_script("build_numbers.py", "--root", str(tree), "--out", str(tree / "out"))
+    assert res.returncode != 0
+    assert "contrast c has a lower limit above 0" in res.stderr
 
 
 def test_a_missing_source_names_the_macro_and_writes_nothing(tree):
@@ -343,3 +384,19 @@ def test_final_exit_code_follows_the_body_end_page(tmp_path, monkeypatch, page, 
     monkeypatch.setattr(bld, "sources", list)
     assert bld.main(["--final"]) == code
     assert bld.main([]) == 0
+
+
+def test_overleaf_dir_holds_every_file_main_tex_inputs(tmp_path):
+    names = {str(p.relative_to(bld.HERE)) for p in bld.overleaf_files()}
+    sources = [bld.HERE / "main.tex", *(bld.HERE / "sections").glob("*.tex")]
+    text = "\n".join(p.read_text(encoding="utf-8") for p in sources)
+    for target in re.findall(r"\\input\{([^}]+)\}", text):
+        assert target + ".tex" in names
+    for target in re.findall(r"\\includegraphics(?:\[[^]]*\])?\{([^}]+)\}", text):
+        assert target + ".pdf" in names
+    for target in re.findall(r"\\(?:bibliographystyle|bibliography)\{([^}]+)\}", text):
+        assert {target + ".bst", target + ".bib"} & names
+    (tmp_path / "stale.tex").write_text("old")
+    bld.write_overleaf_dir(tmp_path)
+    copied = {str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*") if p.is_file()}
+    assert copied == names
