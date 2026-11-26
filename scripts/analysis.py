@@ -161,13 +161,15 @@ def load_benchmark(b, rows, items, models, conds, parts):
     check_models(b, rows, models)
     rows = [r for r in rows if r["model"] in models]
     check_grid(b, rows, ft.expected_keys(models, conds, parts))
-    return build_cells(b, rows, items, models, conds)
+    items, rows, gone = rel.drop_excluded(items, rows, rel.excluded(b))
+    return {**build_cells(b, rows, items, models, conds), "excluded": gone}
 
 
 def load_line(b, open_rows, claude_rows, items, cfg):
     """The 7-model line. Each table is checked against its own full grid, then every model keeps
     runs 0 and 1, and an item with a Claude cell short of LINE_RUNS scored runs leaves the line in
-    every condition (DROP_RULE). rows keeps every checked row, for the copy check."""
+    every condition (DROP_RULE). The excluded items leave after the grid checks, before the
+    DROP_RULE. rows keeps every checked row of the kept items, for the copy check."""
     conds = conditions(cfg)
     opens, claude = model_set(cfg), claude_set(cfg)
     models = opens + claude
@@ -179,6 +181,8 @@ def load_line(b, open_rows, claude_rows, items, cfg):
     check_grid(b, [r for r in rows if r["model"] in claude],
                ft.expected_keys(claude, conds, [(ids, dict.fromkeys(claude, LINE_RUNS))]),
                claude=True)
+    items, rows, excluded = rel.drop_excluded(items, rows, rel.excluded(b))
+    ids = [i for i, _, _ in items]
     scored = [r for r in rows if r["run"] < LINE_RUNS and r["passed"] is not None]
     n = Counter((r["model"], r["condition"], r["id"]) for r in scored)
     dropped = [i for i in ids if any(n[(m, c, i)] < LINE_RUNS for m in claude for c in conds)]
@@ -188,7 +192,7 @@ def load_line(b, open_rows, claude_rows, items, cfg):
         raise ValueError(f"{b}: {len(keep)} item(s) left after dropping {len(dropped)} with a "
                          "short Claude cell")
     data = build_cells(b, [r for r in scored if r["id"] not in gone], keep, models, conds)
-    data.update(rows=rows, all_items=ids, dropped=dropped)
+    data.update(rows=rows, all_items=ids, dropped=dropped, excluded=excluded)
     return data
 
 
@@ -201,12 +205,13 @@ def load_claude(b, rows, items, cfg):
     ids = [i for i, _, _ in items]
     check_grid(b, rows, ft.expected_keys(models, conds, [(ids, dict.fromkeys(models, LINE_RUNS))]),
                claude=True)
+    items, rows, gone = rel.drop_excluded(items, rows, rel.excluded(b))
     short = sorted({(r["model"], r["condition"], r["id"]) for r in rows if r["passed"] is None})
     if short:
         m, c, i = short[0]
         raise ValueError(f"{b}: {len(short)} Claude cell(s) short of {LINE_RUNS} scored runs, "
                          f"first {name(m)} {c} {i}")
-    return build_cells(b, rows, items, models, conds)
+    return {**build_cells(b, rows, items, models, conds), "excluded": gone}
 
 
 def build_cells(b, rows, items, models, conds):
@@ -325,7 +330,8 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
     items, projects = data["items"], data["projects"]
     y = scores(data)
     groups = ds.clusters(b, items, dict(zip(items, projects)))
-    out = {"n_items": len(items), "n_clusters": len(groups)}
+    out = {"n_items": len(items), "n_clusters": len(groups),
+           "excluded": {"count": len(data["excluded"]), "items": data["excluded"]}}
 
     rates = {c: {name(m): mean(y[m][c]) for m in models} for c in conds}
     rates["image"] = {name(m): mean([rates[c][name(m)] for c in sizes]) for m in models}
@@ -575,6 +581,7 @@ def ranks_report(line, seed=rs.SEED, n_boot=None):
         rep["benchmarks"][b] = {
             "n_items": len(items), "n_clusters": len(groups),
             "dropped": {"count": len(data["dropped"]), "items": data["dropped"]},
+            "excluded": {"count": len(data["excluded"]), "items": data["excluded"]},
             "rates": {c: {shown[k]: v for k, v in x.items()} for c, x in res["rates"].items()},
             "ranks": {c: {shown[k]: v for k, v in x.items()} for c, x in res["ranks"].items()},
             "swap": [{"pair": [shown[k] for k in s["pair"]], "p": s["p"]} for s in res["swap"]]}
@@ -691,8 +698,9 @@ def run_of(key):
 
 def text_copies(b, answers_dir, parts=("block1", "rest")):
     """{(model, item, run): exact copy?} over the text answers of each part (block 1 and the rest;
-    `claude` for the Claude replies)."""
+    `claude` for the Claude replies), without the excluded items."""
     cont = _contamination_module()
+    gone = set(rel.excluded(b))
     out = {}
     for part in parts:
         path = os.path.join(answers_dir, f"{part}_{b}_text.jsonl")
@@ -705,7 +713,8 @@ def text_copies(b, answers_dir, parts=("block1", "rest")):
             condition, run = run_of(key)
             if condition != "text":
                 raise ValueError(f"{path}: {key} is not a text answer")
-            out[(model, item, run)] = ans == ref
+            if item not in gone:
+                out[(model, item, run)] = ans == ref
     return out
 
 
@@ -1022,12 +1031,18 @@ def scoring_table(b, g, models):
                                   for v in g["scoring"][m].values()] for m in models])
 
 
+def excluded_note(v):
+    n = v.get("excluded", {}).get("count", 0)
+    return f" ({n} excluded, see docs/decisions.md 2026-11-25)" if n else ""
+
+
 def gaps_sections(b, g, gl):
     conds = list(g["rates"])
     models = [r["model"] for r in g["main"]]
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           (f"{g['n_items']} items in {g['n_clusters']} clusters. No item is dropped: the grid check "
-           "fails on any missing cell, so counting dropped items as failures changes nothing."), ""]
+           (f"{g['n_items']} items{excluded_note(g)} in {g['n_clusters']} clusters. No "
+            f"{'other ' if excluded_note(g) else ''}item is dropped: the grid check fails on any "
+            "missing cell, so counting dropped items as failures changes nothing."), ""]
     out += main_table(g, gl)
     out += ["Rates by condition (%), item-weighted, with the rank in brackets:", ""]
     out += md_table(["Model"] + conds,
@@ -1183,7 +1198,8 @@ def findings(inputs):
 def rank_sections(b, v):
     conds = list(v["ranks"])
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           f"{v['n_items']} items in {v['n_clusters']} clusters, {v['dropped']['count']} dropped.",
+           (f"{v['n_items']} items{excluded_note(v)} in {v['n_clusters']} clusters, "
+            f"{v['dropped']['count']} dropped."),
            "", "Rate % (rank) [95% rank interval], item-weighted:", ""]
     out += md_table(["Model"] + conds,
                     [[m] + [f"{pp(v['rates'][c][m], False)} ({v['ranks'][c][m]['rank']:g}) "
@@ -1273,7 +1289,8 @@ def claude_gap_sections(b, g, gl, g5, gl5):
     sizes = [c for c in g["rates"] if c not in ("text", "image")]
     errors = sum(n for x in g["request_errors"].values() for n in x.values())
     out = [f"### {BENCH_TITLES.get(b, b)}", "",
-           (f"{g['n_items']} items in {g['n_clusters']} clusters. {errors} request errors: every "
+           (f"{g['n_items']} items{excluded_note(g)} in {g['n_clusters']} clusters. {errors} "
+            "request errors: every "
             "Claude cell has its 2 scored runs, so the sensitivity line that counts a request "
             "error as a failure equals the main line. The logit contrast is from the 7-model "
             "GLMM."), ""]
@@ -1377,7 +1394,7 @@ def line_sections(inputs, gl5):
         main = gl5["benchmarks"].get(b)
         rv = r["benchmarks"][b]
         out += [f"### {BENCH_TITLES.get(b, b)}", "",
-                (f"{rv['n_items']} items in {rv['n_clusters']} clusters, "
+                (f"{rv['n_items']} items{excluded_note(rv)} in {rv['n_clusters']} clusters, "
                  f"{rv['dropped']['count']} dropped."), ""]
         mine = glmm_compare_rows(v)
         theirs = dict(glmm_compare_rows(main)) if main else {}
@@ -1411,7 +1428,7 @@ def rank_and_flag_sections(inputs, g5):
     out += ["## Contamination flags", "",
             (f"An item is flagged for model m when one of the other {len(models) - 1} models "
              "copies the reference token for token in any of its text runs. Flags cover every "
-             "item, including dropped ones."), ""]
+             "item, including dropped ones, but not the excluded ones."), ""]
     out += md_table(["Model"] + [BENCH_TITLES.get(b, b) for b in flagged],
                     [[m] + [v["flagged"][m] for v in flagged.values()] for m in models])
     out += [", ".join(f"{BENCH_TITLES.get(b, b)}: {v['copy_answers']} text answers copy the "

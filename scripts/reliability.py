@@ -63,6 +63,9 @@ MCMC = {"nitt": 60000, "burnin": 10000, "thin": 25, "chains": 2, "max_psrf": 1.0
         "min_ess": 400, "rerun_scale": 3}
 
 
+MANIFESTS = os.path.join(ROOT, "manifests")
+
+
 def name(m):
     return ds.NAMES.get(m, m)
 
@@ -74,6 +77,27 @@ def design(b):
     ids = ds.read_ids(os.path.join(ROOT, gc.ID_LISTS[b]))
     block = ds.read_ids(os.path.join(ROOT, "manifests", "block1", f"{b}.txt"))
     return gc.design(b, ids, block, labels)
+
+
+def excluded(b, manifests=MANIFESTS):
+    """Items left out of every analysis (manifests/excluded/<b>.txt): the 13 DevEval items whose
+    reference fails through the main run's answer path (docs/decisions.md 2026-11-25)."""
+    path = os.path.join(manifests, "excluded", f"{b}.txt")
+    if not os.path.exists(path):
+        return []
+    ids = ds.read_ids(path)
+    unknown = sorted(set(ids) - {i for i, _, _ in design(b)})
+    if unknown:
+        raise ValueError(f"{path}: id(s) not in the {b} item list: {unknown}")
+    return ids
+
+
+def drop_excluded(items, rows, ids):
+    """items and rows without the excluded ids, and the ids that were in items. Run after the grid
+    check, which sees every item."""
+    gone = set(ids)
+    return ([it for it in items if it[0] not in gone], [r for r in rows if r["id"] not in gone],
+            [it[0] for it in items if it[0] in gone])
 
 
 def answers(b, rows, items):
@@ -89,6 +113,7 @@ def answers(b, rows, items):
         bad = {k: got[k][:3] for k in ("missing", "extra", "duplicates", "null_passed",
                                        "seed_not_run") if got[k]}
         raise ValueError(f"{b}: rows do not match the expected grid: {bad}")
+    items, rows, _ = drop_excluded(items, rows, excluded(b))
     project = {i: p for i, p, _ in items}
     pos = {i: j for j, (i, _, _) in enumerate(items)}
     morder = {m: k for k, m in enumerate(models)}
@@ -384,6 +409,8 @@ def build(scratch, out_dir, benches=ds.BENCHES):
             "conditions": {c: condition_report(data, c, draws, d) for c in ds.CONDITIONS},
             **rank_stability(data, groups, f"{rs.SEED}-{b}", rs.N_BOOT),
         }
+        gone = excluded(b)
+        report["benchmarks"][b]["excluded"] = {"count": len(gone), "items": gone}
     fits = defaultdict(set)
     for r in diag:
         fits[(r["benchmark"], r["condition"], r["prior"])].add(r["gate"])
@@ -406,12 +433,20 @@ def opt(x, digits=3):
     return "n/a" if x is None else f"{x:.{digits}f}"
 
 
+def excluded_note(rep):
+    parts = [f"{v['excluded']['count']} {ds.TITLES[b]}"
+             for b, v in rep["benchmarks"].items() if v.get("excluded", {}).get("count")]
+    return (f", minus the {' and '.join(parts)} items excluded in docs/decisions.md (2026-11-25)"
+            if parts else "")
+
+
 def to_markdown(rep):
     out = [
         "# Reliability",
         "",
         ("Methodology 3.3, on the full answer table (results/full, 3 runs for block-1 items and 2 "
-         "for the rest). Variance components come from one Gaussian mixed model per benchmark and "
+         "for the rest)" + excluded_note(rep) + ". Variance components come from one Gaussian "
+         "mixed model per benchmark and "
          "condition on the 0/1 pass of each run (analysis/reliability.R, MCMCglmm): model, "
          "project (CoderUJB) or repository (DevEval), item, model:project, model:item, and the "
          "run within a cell. Intervals are 95% equal-tailed (type-1 percentiles). Rerun with "
