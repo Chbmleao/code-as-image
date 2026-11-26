@@ -1,0 +1,435 @@
+{
+ "settings": {
+  "benchmark": "deveval",
+  "rule": "last fenced block in which body_via_ast finds the target, for replies with 2 or more such blocks",
+  "interval": "CR1 cluster t with G - 1 df, no multiplicity adjustment"
+ },
+ "models": {
+  "Qwen3.5 27B": {
+   "first_block": {
+    "model": "Qwen3.5 27B",
+    "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+    "est": -0.281849,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.020558,
+     "lo": -0.322778,
+     "hi": -0.24092,
+     "p": 1.79e-22
+    },
+    "item": {
+     "df": 845,
+     "se": 0.013794,
+     "lo": -0.308924,
+     "hi": -0.254775,
+     "p": 1.01e-75
+    }
+   },
+   "last_block": {
+    "model": "Qwen3.5 27B",
+    "repo": "cyankiwi/Qwen3.5-27B-AWQ-4bit",
+    "est": -0.282178,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.020541,
+     "lo": -0.323071,
+     "hi": -0.241284,
+     "p": 1.6e-22
+    },
+    "item": {
+     "df": 845,
+     "se": 0.013767,
+     "lo": -0.3092,
+     "hi": -0.255155,
+     "p": 4.25e-76
+    }
+   }
+  },
+  "Gemma 4 12B": {
+   "first_block": {
+    "model": "Gemma 4 12B",
+    "repo": "google/gemma-4-12B-it",
+    "est": -0.306212,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.024616,
+     "lo": -0.355218,
+     "hi": -0.257206,
+     "p": 3.34e-20
+    },
+    "item": {
+     "df": 845,
+     "se": 0.015446,
+     "lo": -0.336529,
+     "hi": -0.275895,
+     "p": 4.04e-72
+    }
+   },
+   "last_block": {
+    "model": "Gemma 4 12B",
+    "repo": "google/gemma-4-12B-it",
+    "est": -0.306541,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.024593,
+     "lo": -0.355502,
+     "hi": -0.25758,
+     "p": 3.01e-20
+    },
+    "item": {
+     "df": 845,
+     "se": 0.015428,
+     "lo": -0.336821,
+     "hi": -0.27626,
+     "p": 2.19e-72
+    }
+   }
+  },
+  "Mistral Small 3.2 24B": {
+   "first_block": {
+    "model": "Mistral Small 3.2 24B",
+    "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+    "est": -0.31488,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.02301,
+     "lo": -0.360689,
+     "hi": -0.269072,
+     "p": 1.98e-22
+    },
+    "item": {
+     "df": 845,
+     "se": 0.014172,
+     "lo": -0.342696,
+     "hi": -0.287065,
+     "p": 1.7e-86
+    }
+   },
+   "last_block": {
+    "model": "Mistral Small 3.2 24B",
+    "repo": "jeffcookio/Mistral-Small-3.2-24B-Instruct-2506-awq-sym",
+    "est": -0.31488,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.02301,
+     "lo": -0.360689,
+     "hi": -0.269072,
+     "p": 1.98e-22
+    },
+    "item": {
+     "df": 845,
+     "se": 0.014172,
+     "lo": -0.342696,
+     "hi": -0.287065,
+     "p": 1.7e-86
+    }
+   }
+  },
+  "Qwen3.5 9B": {
+   "first_block": {
+    "model": "Qwen3.5 9B",
+    "repo": "Qwen/Qwen3.5-9B",
+    "est": -0.237523,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.021322,
+     "lo": -0.279973,
+     "hi": -0.195073,
+     "p": 8.56e-18
+    },
+    "item": {
+     "df": 845,
+     "se": 0.012757,
+     "lo": -0.262562,
+     "hi": -0.212483,
+     "p": 4.25e-65
+    }
+   },
+   "last_block": {
+    "model": "Qwen3.5 9B",
+    "repo": "Qwen/Qwen3.5-9B",
+    "est": -0.228855,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.021178,
+     "lo": -0.271018,
+     "hi": -0.186692,
+     "p": 3.65e-17
+    },
+    "item": {
+     "df": 845,
+     "se": 0.012643,
+     "lo": -0.25367,
+     "hi": -0.204039,
+     "p": 3.85e-62
+    }
+   }
+  },
+  "Qwen2.5-VL 7B": {
+   "first_block": {
+    "model": "Qwen2.5-VL 7B",
+    "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "est": -0.165156,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.018541,
+     "lo": -0.202068,
+     "hi": -0.128245,
+     "p": 1.63e-13
+    },
+    "item": {
+     "df": 845,
+     "se": 0.01158,
+     "lo": -0.187885,
+     "hi": -0.142428,
+     "p": 1.64e-41
+    }
+   },
+   "last_block": {
+    "model": "Qwen2.5-VL 7B",
+    "repo": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "est": -0.165156,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.018541,
+     "lo": -0.202068,
+     "hi": -0.128245,
+     "p": 1.63e-13
+    },
+    "item": {
+     "df": 845,
+     "se": 0.01158,
+     "lo": -0.187885,
+     "hi": -0.142428,
+     "p": 1.64e-41
+    }
+   }
+  },
+  "Claude Sonnet 5.5": {
+   "first_block": {
+    "model": "Claude Sonnet 5.5",
+    "repo": "claude-sonnet-5-5",
+    "est": -0.061466,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.009911,
+     "lo": -0.081196,
+     "hi": -0.041735,
+     "p": 2.48e-08
+    },
+    "item": {
+     "df": 845,
+     "se": 0.00864,
+     "lo": -0.078423,
+     "hi": -0.044508,
+     "p": 2.4e-12
+    }
+   },
+   "last_block": {
+    "model": "Claude Sonnet 5.5",
+    "repo": "claude-sonnet-5-5",
+    "est": -0.061269,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.009885,
+     "lo": -0.080947,
+     "hi": -0.04159,
+     "p": 2.52e-08
+    },
+    "item": {
+     "df": 845,
+     "se": 0.008434,
+     "lo": -0.077823,
+     "hi": -0.044714,
+     "p": 8.52e-13
+    }
+   }
+  },
+  "Claude Opus 5.5": {
+   "first_block": {
+    "model": "Claude Opus 5.5",
+    "repo": "claude-opus-5-5",
+    "est": -0.017533,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.007363,
+     "lo": -0.032192,
+     "hi": -0.002875,
+     "p": 0.0197
+    },
+    "item": {
+     "df": 845,
+     "se": 0.005637,
+     "lo": -0.028597,
+     "hi": -0.00647,
+     "p": 0.00193
+    }
+   },
+   "last_block": {
+    "model": "Claude Opus 5.5",
+    "repo": "claude-opus-5-5",
+    "est": -0.018125,
+    "n": 846,
+    "cluster": {
+     "clusters": 79,
+     "df": 78,
+     "se": 0.007255,
+     "lo": -0.032569,
+     "hi": -0.00368,
+     "p": 0.0146
+    },
+    "item": {
+     "df": 845,
+     "se": 0.005624,
+     "lo": -0.029163,
+     "hi": -0.007086,
+     "p": 0.00132
+    }
+   }
+  }
+ },
+ "tallies": {
+  "Gemma 4 12B": {
+   "text": {
+    "in_scope": 23,
+    "truncated": 2,
+    "graded": 23,
+    "fail_to_pass": 4,
+    "pass_to_fail": 1,
+    "drift": 0
+   },
+   "image": {
+    "in_scope": 106,
+    "truncated": 3,
+    "same": 12,
+    "graded": 94,
+    "fail_to_pass": 6,
+    "pass_to_fail": 1,
+    "drift": 0
+   }
+  },
+  "Qwen2.5-VL 7B": {
+   "text": {
+    "in_scope": 9,
+    "truncated": 0,
+    "same": 8,
+    "graded": 1,
+    "fail_to_pass": 0,
+    "pass_to_fail": 0,
+    "drift": 0
+   },
+   "image": {
+    "in_scope": 1,
+    "truncated": 0,
+    "graded": 1,
+    "fail_to_pass": 0,
+    "pass_to_fail": 0,
+    "drift": 0
+   }
+  },
+  "Qwen3.5 27B": {
+   "image": {
+    "in_scope": 14,
+    "truncated": 7,
+    "same": 6,
+    "graded": 8,
+    "fail_to_pass": 0,
+    "pass_to_fail": 1,
+    "drift": 0
+   },
+   "text": {
+    "in_scope": 15,
+    "truncated": 4,
+    "graded": 11,
+    "fail_to_pass": 1,
+    "pass_to_fail": 1,
+    "drift": 0,
+    "same": 4
+   }
+  },
+  "Qwen3.5 9B": {
+   "image": {
+    "in_scope": 1362,
+    "truncated": 630,
+    "same": 258,
+    "graded": 1103,
+    "fail_to_pass": 66,
+    "pass_to_fail": 12,
+    "drift": 1,
+    "no_code": 1
+   },
+   "text": {
+    "in_scope": 6,
+    "truncated": 1,
+    "graded": 6,
+    "fail_to_pass": 2,
+    "pass_to_fail": 0,
+    "drift": 0
+   }
+  },
+  "Claude Opus 5.5": {
+   "text": {
+    "in_scope": 1,
+    "truncated": 0,
+    "graded": 1,
+    "fail_to_pass": 1,
+    "pass_to_fail": 0,
+    "drift": 0
+   },
+   "image": {
+    "in_scope": 5,
+    "truncated": 0,
+    "graded": 5,
+    "fail_to_pass": 0,
+    "pass_to_fail": 0,
+    "drift": 0
+   }
+  },
+  "Claude Sonnet 5.5": {
+   "image": {
+    "in_scope": 120,
+    "truncated": 0,
+    "graded": 116,
+    "fail_to_pass": 26,
+    "pass_to_fail": 7,
+    "drift": 0,
+    "same": 4
+   },
+   "text": {
+    "in_scope": 31,
+    "truncated": 0,
+    "graded": 26,
+    "fail_to_pass": 7,
+    "pass_to_fail": 1,
+    "drift": 0,
+    "same": 5
+   }
+  }
+ }
+}
