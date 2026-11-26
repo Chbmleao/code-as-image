@@ -25,6 +25,7 @@ usage: uv run python scripts/audit_sample.py {hand-read,never-passed,summary} [-
 import argparse
 import ast
 import csv
+import importlib.util
 import json
 import os
 import random
@@ -40,6 +41,7 @@ from codeimg import config
 ROOT = config.ROOT
 OUT = os.path.join(ROOT, "results", "audit")
 BENCHES = ("coderujb", "deveval")
+TITLES = {"coderujb": "CoderUJB", "deveval": "DevEval"}
 CONDITIONS = ("text", "image10", "image12", "image14")
 SEED = 20261123
 MODEL = "claude-sonnet-5-5"
@@ -183,7 +185,25 @@ def check_labels(rows, allowed, name):
             raise AuditError(f"{name} line {i}: label {r['label']!r} not in {', '.join(allowed)}")
 
 
-def summary(hand, check, counts, harness=()):
+def excluded_items():
+    """{benchmark: (count, date)} of the items manifests/excluded/ leaves out of the analysis,
+    read through scripts/reliability.py so the ids are checked against the item lists."""
+    spec = importlib.util.spec_from_file_location(
+        "reliability", os.path.join(ROOT, "scripts", "reliability.py"))
+    rel = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rel)
+    return {b: (len(rel.excluded(b)), rel.EXCLUDED_ON[b]) for b in BENCHES}
+
+
+def base_note(excluded):
+    """excluded: {benchmark: (count, date of its docs/decisions.md entry)}."""
+    parts = [f"{n} {TITLES[b]} ({day})" for b, (n, day) in (excluded or {}).items() if n]
+    tail = (f", including the {' and '.join(parts)} items excluded from the analysis in "
+            "docs/decisions.md" if parts else "")
+    return f"Base: every item of the main run{tail}."
+
+
+def summary(hand, check, counts, harness=(), excluded=None):
     """Markdown with the label counts. The false-fail share is pooled over every drawn answer,
     unclear included, since 10 per condition is too few for a rate."""
     check_labels(hand, HAND_LABELS, "hand_read.csv")
@@ -192,7 +212,8 @@ def summary(hand, check, counts, harness=()):
             "never_passed_check.csv and never_passed_pool.json; edit the labels, not this file.")
     sample = (f"Failed DevEval answers of {MODEL}, {N_PER_CONDITION} per condition, seed {SEED}. "
               "Labels by Claude Code, not checked by a person.")
-    lines = ["# Validity audit samples", "", head, "", "## Hand read", "", sample, "",
+    lines = ["# Validity audit samples", "", head, "", base_note(excluded), "", "## Hand read", "",
+             sample, "",
              "| Label | " + " | ".join(CONDITIONS) + " | All |",
              "|---|" + "---|" * (len(CONDITIONS) + 1)]
     for lab in HAND_LABELS:
@@ -286,7 +307,7 @@ def main(argv=None):
             harness = read_csv(harness_path) if os.path.exists(harness_path) else ()
             text = summary(read_csv(os.path.join(args.out, "hand_read.csv")),
                            read_csv(os.path.join(args.out, "never_passed_check.csv")), counts,
-                           harness)
+                           harness, excluded_items())
             with open(os.path.join(args.out, "summary.md"), "w") as f:
                 f.write(text)
             print(text)

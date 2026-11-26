@@ -159,3 +159,19 @@ def test_summary_adds_the_harness_counts():
                {"pattern": "reindent", "passed_by_none": "False"}]
     md = au.summary([], [], COUNTS, harness)
     assert "| offset | 1 | 1 |" in md and "| reindent | 1 | 0 |" in md
+
+
+def test_summary_names_the_excluded_items_with_their_decision_dates():
+    excluded = {"coderujb": (1, "2026-11-26"), "deveval": (13, "2026-11-25")}
+    md = au.summary([], [], COUNTS, (), excluded)
+    assert ("Base: every item of the main run, including the 1 CoderUJB (2026-11-26) and 13 "
+            "DevEval (2026-11-25) items excluded from the analysis in docs/decisions.md.") in md
+
+
+def test_summary_base_line_has_no_exclusion_clause_without_exclusions():
+    for excluded in (None, {"coderujb": (0, "2026-11-26"), "deveval": (0, "2026-11-25")}):
+        assert "Base: every item of the main run.\n" in au.summary([], [], COUNTS, (), excluded)
+
+
+def test_excluded_items_reads_the_manifests():
+    assert au.excluded_items() == {"coderujb": (1, "2026-11-26"), "deveval": (13, "2026-11-25")}
