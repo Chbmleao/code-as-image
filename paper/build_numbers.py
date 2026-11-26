@@ -84,6 +84,10 @@ def fmt_ci(lo: str, hi: str) -> str:
     return f"[{lo}; {hi}]"
 
 
+def _bad_version(x: Any) -> str:
+    raise ValueError(f"not a version string: {x}")
+
+
 FORMATS: dict[str, Callable[[Any], str]] = {
     "pp": lambda x: fmt_pp(float(x)),
     "pp_abs": lambda x: fmt_pp(abs(float(x))),
@@ -92,6 +96,7 @@ FORMATS: dict[str, Callable[[Any], str]] = {
     "dec3": lambda x: plain(float(x), 3),
     "int": lambda x: fmt_int(float(x)),
     "p": lambda x: fmt_p(float(x)),
+    "version": lambda x: str(x) if re.fullmatch(r"\d+(\.\d+)*", str(x)) else _bad_version(x),
 }
 
 
@@ -379,7 +384,7 @@ def glmm_macros(t: Table) -> None:
         t.add(f"slopeTextRunCorr{B}", g("common_slope", "image10", "text_run_correlation"), "dec2")
         for key, tag in (("observed", ""), ("lo", "RefLo"), ("hi", "RefHi")):
             t.add(f"cPearson{tag}{B}", g("correlation", "pearson", "C", key), "dec2")
-        t.add(f"cPearsonPercentile{B}", g("correlation", "pearson", "C", "percentile"), "dec3")
+        t.add(f"cPearsonPercentile{B}", g("correlation", "pearson", "C", "percentile"), "pp")
 
 
 def gap_detail_macros(t: Table) -> None:
@@ -435,7 +440,13 @@ def contamination_macros(t: Table) -> None:
         t.add(f"flagBothMax{B}", Fn("max(flag2[].both)", max, both), "int")
         t.add(f"copiedItemsClaude{B}", gaps(CLAUDE_CONTAM, bench, "copied_items"), "int")
         for name, M in CLAUDE_MODELS:
-            t.add(f"flagged{M}{B}", gaps(CLAUDE_CONTAM, bench, "flagged", name), "int")
+            flagged_n = gaps(CLAUDE_CONTAM, bench, "flagged", name)
+            t.add(f"flagged{M}{B}", flagged_n, "int")
+            t.add(
+                f"unflagged{M}{B}",
+                Fn("n_items - flagged", lambda n, f: n - f, gaps(CLAUDE_GAPS, bench, "n_items"), flagged_n),
+                "int",
+            )
     pairs = [
         s
         for b, _ in BENCHES
@@ -476,6 +487,18 @@ def file_macros(t: Table) -> None:
     )
     t.add("handReadAnswers", Csv("audit/hand_read.csv"), "int")
     t.add("neverPassedChecked", Csv("audit/never_passed_check.csv"), "int")
+    t.add("bootReps", J(OPEN_GAPS, "settings", "n_boot"), "int")
+    t.add("glmmTmbVersion", J(OPEN_GLMM, "settings", "glmmTMB"), "version")
+    t.add("rVersion", J(OPEN_GLMM, "settings", "R"), "version")
+    none_of_seven = [
+        Md("audit/summary.md", "Items no model passes", rf"^\| {b} \| \d+ \| \d+ \| \d+ \| (\d+) \|$")
+        for b, _ in BENCHES
+    ]
+    t.add(
+        "neverPassedAllSeven",
+        Fn("sum(passed by none of the 7)", lambda *xs: sum(int(x) for x in xs), *none_of_seven),
+        "int",
+    )
     t.add(
         "neverPassedTestBug", Csv("audit/never_passed_check.csv", (("label", "test_bug"),)), "int"
     )
@@ -504,6 +527,83 @@ def file_macros(t: Table) -> None:
     t.add("nameErrorNearCopies", Md(b1, why, r"About (\d+) DevEval image answers"), "int")
 
 
+def corr_pairs(bench: str) -> list[J]:
+    """Observed and reference lower limit of the text~image Pearson correlation, by size."""
+    out = []
+    for _, _, px in SIZES:
+        pair = ("correlation", "pearson", f"text~image{px}")
+        out += [gaps(OPEN_GLMM, bench, *pair, "observed"), gaps(OPEN_GLMM, bench, *pair, "lo")]
+    return out
+
+
+def count_below(*v: float) -> int:
+    return sum(obs < lo for obs, lo in zip(v[::2], v[1::2]))
+
+
+def missing_name_pattern(i: int) -> str:
+    cells = [r"\s*(\d+)%\s*" if j == i else r"\s*\d+%\s*" for j in range(4)]
+    return r"^\| Missing name [^|]*\|" + r"\|".join(cells) + r"\|$"
+
+
+def results_macros(t: Table) -> None:
+    """Ranges and one-off numbers that the results prose (section 4) quotes."""
+    diffs = [gaps(OPEN_GAPS, b, "size_diffs") for b, _ in BENCHES]
+    for name, pick in (("sizeDiffMinAll", min), ("sizeDiffMaxAll", max)):
+        label = f"{pick.__name__}(size_diffs[image14-image12, cluster.lo > 0].est), both benchmarks"
+        t.add(
+            name,
+            Fn(label, lambda *v, pick=pick: pick(x for rows in v for x in up_diffs(rows)), *diffs),
+            "pp",
+        )
+    for bench, B in BENCHES:
+        base = ("benchmarks", bench, "conditions")
+        for k, word in (("1", "One"), ("2", "Two"), ("3", "Three")):
+            rel = [J(RELIABILITY, *base, c, "reliability", k, "median") for c, _ in CONDITIONS]
+            t.add(f"rel{word}Min{B}", Fn(f"min(reliability[{k}].median)", lambda *v: min(v), *rel), "dec2")
+            t.add(f"rel{word}Max{B}", Fn(f"max(reliability[{k}].median)", lambda *v: max(v), *rel), "dec2")
+        conds = [c for c, _ in CONDITIONS if not (bench == "coderujb" and c == "image12")]
+        g = [J(RELIABILITY, *base, c, "g_finite", "main", "median") for c in conds]
+        scope = "all conditions but CoderUJB image12"
+        t.add(f"gFiniteMin{B}", Fn(f"min(g_finite.median), {scope}", lambda *v: min(v), *g), "dec2")
+        t.add(f"gFiniteMax{B}", Fn(f"max(g_finite.median), {scope}", lambda *v: max(v), *g), "dec2")
+        pair = Sel("pair", str(["Gemma 4 12B", "Qwen3.5 9B"]))
+        t.add(f"swapGemmaQwenNine{B}", J(RELIABILITY, "benchmarks", bench, "swap", pair, "p"), "dec2")
+        t.add(
+            f"corrBelowRef{B}",
+            Fn("count(pearson text~image observed < reference lo)", count_below, *corr_pairs(bench)),
+            "int",
+        )
+        for name, M in CLAUDE_MODELS:
+            ceiling = gaps(CLAUDE_GAPS, bench, "floor_ceiling", name, "text", "all")
+            t.add(f"ceilingText{M}{B}", ceiling, "pp")
+    t.add("claudeTemperature", Md("claude/findings.md", "", r"sample at temperature (\d\.\d)"), "dec1")
+    closed, cf = "Open vs closed", "claude/findings.md"
+    for title, B in (("CoderUJB", "Ujb"), ("DevEval", "Dev")):
+        row = rf"^\| {title} \| "
+        skip = r"-?[\d.]+ \| [\d.]+ \| "
+        t.add(f"openClosedC{B}", Md(cf, closed, row + r"(-?[\d.]+) \|"), "dec2")
+        t.add(f"openClosedC{B}Lo", Md(cf, closed, row + skip + r"\[(-?[\d.]+), "), "dec2")
+        t.add(f"openClosedC{B}Hi", Md(cf, closed, row + skip + r"\[-?[\d.]+, (-?[\d.]+)\]"), "dec2")
+    b1, why, pilot = "block1/findings.md", "Why image answers fail", "Why the pilot showed no gap"
+    head = r"^Block 1 of the main run \(UFM-20\): "
+    for name, section, pattern in (
+        ("blockOneItemsDev", "", head + r"(\d+) DevEval and \d+ CoderUJB items"),
+        ("blockOneItemsUjb", "", head + r"\d+ DevEval and (\d+) CoderUJB items"),
+        ("blockOneLossMin", "Pass rates", r"Every model loses (\d+) to \d+ points on images"),
+        ("blockOneLossMax", "Pass rates", r"Every model loses \d+ to (\d+) points on images"),
+        ("lengthGapShort", why, r"items of 1 to 2 pages lose (\d+) points"),
+        ("lengthGapLong", why, r"items of 3 or more pages lose (\d+)\."),
+        ("nameErrorTextNearCopies", why, r"only by underscores[\s\S]*?against (\d+) on text"),
+        ("pilotProblems", pilot, r"(\d+) HumanEval problems\) passed"),
+        ("pilotTextPass", pilot, r"passed (\d+) of \d+ on text and"),
+        ("pilotImagePass", pilot, r"on text and (\d+) of \d+ at packed"),
+        ("pilotOf", pilot, r"passed \d+ of (\d+) on text and"),
+    ):
+        t.add(name, Md(b1, section, pattern), "int")
+    for i, name in enumerate(("nameDevText", "nameDevImage", "nameUjbText", "nameUjbImage")):
+        t.add(name, Md(b1, why, missing_name_pattern(i)), "int")
+
+
 def macros(src: Sources) -> list[Macro]:
     t = Table()
     model_macros(t, repos(src))
@@ -513,6 +613,7 @@ def macros(src: Sources) -> list[Macro]:
     contamination_macros(t)
     reliability_macros(t)
     file_macros(t)
+    results_macros(t)
     return t.rows
 
 
@@ -599,6 +700,97 @@ def check_gemma_tokens(src: Sources) -> bool:
     return True
 
 
+def check_floor_smallest(src: Sources) -> bool:
+    """Qwen2.5-VL has the smallest gap and the smallest logit contrast of the 5 in both benchmarks."""
+    repo = repos(src)
+    for b, _ in BENCHES:
+        gap = {r["model"]: abs(r["est"]) for r in src.json(OPEN_GAPS)["benchmarks"][b]["main"]}
+        con = {c["model"]: abs(c["est"]) for c in src.json(OPEN_GLMM)["benchmarks"][b]["contrast"]}
+        vl = "Qwen2.5-VL 7B"
+        if min(gap, key=gap.get) != vl or min(con, key=con.get) != repo[vl]:
+            return False
+    return True
+
+
+def check_lopo_negative(src: Sources) -> bool:
+    rows = src.json(OPEN_GAPS)["benchmarks"]["coderujb"]["lopo"]
+    return len(rows) == 20 and all(r["cluster"]["hi"] < 0 for r in rows)
+
+
+def check_corr_below(src: Sources) -> bool:
+    """Observed text~image correlation under the reference band in 5 of 6 pairs; CoderUJB 14 px is not."""
+    out = {}
+    for b, _ in BENCHES:
+        corr = src.json(OPEN_GLMM)["benchmarks"][b]["correlation"]["pearson"]
+        for _, _, px in SIZES:
+            c = corr[f"text~image{px}"]
+            out[(b, px)] = c["observed"] < c["lo"]
+    return sum(out.values()) == 5 and not out[("coderujb", 14)]
+
+
+def check_c_above_reference(src: Sources) -> bool:
+    return all(
+        src.json(OPEN_GLMM)["benchmarks"][b]["correlation"]["pearson"]["C"]["observed"]
+        > src.json(OPEN_GLMM)["benchmarks"][b]["correlation"]["pearson"]["C"]["hi"]
+        for b, _ in BENCHES
+    )
+
+
+def check_g_finite(src: Sources) -> bool:
+    """CoderUJB 12 px has the lowest G of its benchmark; every DevEval G is above 0.9."""
+    cond = src.json(RELIABILITY)["benchmarks"]
+    ujb = {c: v["g_finite"]["main"]["median"] for c, v in cond["coderujb"]["conditions"].items()}
+    dev = [v["g_finite"]["main"]["median"] for v in cond["deveval"]["conditions"].values()]
+    return min(ujb, key=ujb.get) == "image12" and all(x > 0.9 for x in dev)
+
+
+def check_ranks(src: Sources) -> bool:
+    """Qwen3.5 27B is first in every condition; Qwen2.5-VL is last in text; both benchmarks."""
+    for b, _ in BENCHES:
+        ranks = src.json(RELIABILITY)["benchmarks"][b]["ranks"]
+        if any(ranks[c]["Qwen3.5 27B"]["rank"] != 1 for c in ("text", "image10", "image12", "image14")):
+            return False
+        if ranks["text"]["Qwen2.5-VL 7B"]["rank"] != 5:
+            return False
+    return True
+
+
+def check_item_variation_evidence(src: Sources) -> bool:
+    """The item:condition SD profile interval is above 0 and the LRT p is below 0.05 in both benchmarks."""
+    return all(
+        g["item_condition_sd"]["lo"] > 0 and g["lrt"]["p"] < 0.05
+        for g in (src.json(OPEN_GLMM)["benchmarks"][b] for b, _ in BENCHES)
+    )
+
+
+def check_claude_text_rates_equal(src: Sources) -> bool:
+    rates = src.json(CLAUDE_GAPS)["benchmarks"]["coderujb"]["rates"]["text"]
+    return fmt_pp(rates["Claude Sonnet 5.5"]) == fmt_pp(rates["Claude Opus 5.5"])
+
+
+def check_flagged_lose_more(src: Sources) -> bool:
+    """On flagged items every model loses more and passes more in text than on the rest."""
+    return all(
+        f["est"] < f["gap_rest"] and f["text_flagged"] > f["text_rest"]
+        for b, _ in BENCHES
+        for f in src.json(OPEN_CONTAM)["benchmarks"][b]["flagged_only"]
+    ) and all(len(src.json(OPEN_CONTAM)["benchmarks"][b]["flagged_only"]) == 5 for b, _ in BENCHES)
+
+
+def check_claude_gaps_negative(src: Sources) -> bool:
+    rows = [r for b, _ in BENCHES for r in src.json(CLAUDE_GAPS)["benchmarks"][b]["main"]]
+    return len(rows) == 4 and all(r["cluster"]["hi"] < 0 for r in rows)
+
+
+def check_claude_c_positive(src: Sources) -> bool:
+    cf, closed = "claude/findings.md", "Open vs closed"
+    for title in ("CoderUJB", "DevEval"):
+        pattern = rf"^\| {title} \| -?[\d.]+ \| [\d.]+ \| \[(-?[\d.]+), "
+        if float(src.value(Md(cf, closed, pattern))) <= 0:
+            return False
+    return True
+
+
 PREDICATES: tuple[tuple[str, Callable[[Sources], bool]], ...] = (
     ("all 10 main gaps have a cluster interval entirely below 0", check_main_gaps_negative),
     (
@@ -619,6 +811,44 @@ PREDICATES: tuple[tuple[str, Callable[[Sources], bool]], ...] = (
     (
         "Gemma has the lowest token ratio in both benchmarks and no size difference with an interval off 0",
         check_gemma_tokens,
+    ),
+    (
+        "Qwen2.5-VL has the smallest gap and the smallest logit contrast of the 5 in both benchmarks",
+        check_floor_smallest,
+    ),
+    (
+        "all 20 CoderUJB leave-one-project-out gaps have a cluster interval entirely below 0",
+        check_lopo_negative,
+    ),
+    (
+        "text~image correlation is under the reference band in 5 of 6 pairs, not CoderUJB 14 px",
+        check_corr_below,
+    ),
+    ("C (Pearson) is above its reference band in both benchmarks", check_c_above_reference),
+    (
+        "G (finite) is lowest at CoderUJB 12 px and above 0.9 in every DevEval condition",
+        check_g_finite,
+    ),
+    (
+        "Qwen3.5 27B ranks first in every condition and Qwen2.5-VL last in text, both benchmarks",
+        check_ranks,
+    ),
+    (
+        "on flagged items all 10 models-and-benchmarks lose more and pass more in text than the rest",
+        check_flagged_lose_more,
+    ),
+    ("all 4 Claude cluster intervals are entirely below 0", check_claude_gaps_negative),
+    (
+        "the item:condition SD profile interval is above 0 and the LRT p is below 0.05 in both benchmarks",
+        check_item_variation_evidence,
+    ),
+    (
+        "Sonnet and Opus have the same CoderUJB text pass rate at the printed precision",
+        check_claude_text_rates_equal,
+    ),
+    (
+        "the open-vs-closed contrast c has a lower limit above 0 in both benchmarks",
+        check_claude_c_positive,
     ),
 )
 
