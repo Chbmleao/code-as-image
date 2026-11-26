@@ -1,8 +1,15 @@
 \documentclass{article}
 
 \usepackage[main,final]{neurips_2025}
-\usepackage{fontspec}
-\setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+% tectonic is XeTeX and cannot load the style's ptm font; Overleaf defaults to pdfLaTeX
+\usepackage{iftex}
+\ifTUTeX
+  \usepackage{fontspec}
+  \setmainfont{texgyretermes}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\fi
 \usepackage[brazil]{babel}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -17,7 +24,8 @@
 \makeatother
 
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
-\newcommand{\ci}[2]{[#1; #2]}
+% \unskip drops the space \xspace leaves after a number macro
+\newcommand{\ci}[2]{[#1\unskip; #2\unskip]}
 
 \input{numbers}
 
@@ -43,7 +51,7 @@
 \input{sections/limitations}
 \input{sections/conclusion}
 
-\bibliographystyle{plainnat}
+\bibliographystyle{plainnat-pt}
 \bibliography{refs}
 
 \appendix
