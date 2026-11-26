@@ -3,6 +3,24 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-26: the transcription test is stopped
+
+The transcription test (UFM-12), and with it reading vs coding (UFM-28), will not finish before
+the paper is due (2026-11-30). This settles the bonus rule of 2026-11-23 early: the paper reports
+the test as planned in methods 3.3 and not finished.
+
+- **Why.** Every cluster GPU we can use failed again on 2026-11-26. On medusa4 the GPU failed
+  under Mistral Small 3.2 24B (job 92682, 08:53) and then under Qwen3.5 27B (92928, 08:59);
+  medusa5 and medusa6 fail every probe, and medusa3 is drained ("gpu fell off the bus"). Another
+  user's jobs now hold both medusa4 GPUs for about 2 days.
+- **Where it stopped.** Two of the five models have complete generations: Qwen2.5-VL 7B and
+  Qwen3.5 9B. On DevEval the other three stopped at 4735 (Qwen3.5 27B), 2523 (Mistral) and 1275
+  (Gemma 4 12B) of 5154 rows each.
+- **The partial work stays on branch `transcription-tests`** (the stage, the scorer and
+  `results/transcription/run_notes.md`) and does not go to main.
+- **Methods are left as written** (lines 196, 212 to 218 and 393 to 394). The only evidence on
+  misreading stays the exploratory block-1 check in `results/block1/findings.md`.
+
 ## 2026-11-26: last-block sensitivity regrade of DevEval
 
 A post hoc sensitivity analysis, added after the main gaps were seen (UFM-35). It changes nothing
@@ -126,7 +144,7 @@ methods 3.3, logged here as the freezing rule there asks.
 
 - **The transcription test (UFM-12) and reading vs coding (UFM-28) are a bonus.** They go into the
   paper only if UFM-28 is done by 2026-11-28. If not, the paper says they were planned and not
-  finished. Methods promised them in three places, left as written: line 196 (the item:condition
+  finished (superseded on 2026-11-26: the test is stopped). Methods promised them in three places, left as written: line 196 (the item:condition
   evidence is "strongest if" the items with the largest penalties are the ones the transcription
   test shows were misread), lines 212 to 218 ("Reading vs coding failures") and the addendum,
   lines 393 to 394. Without them the item:condition evidence rests on the variance component, the
@@ -142,9 +160,10 @@ methods 3.3, logged here as the freezing rule there asks.
 - **Test-bug check: 10 of the 18 items no model passes.** Of the 285 items no open model passes in
   any condition (31 CoderUJB, 254 DevEval), the gold solution passed all 285 in the gold run and a
   Claude model passes 267, which shows their tests can be passed. The 10 are drawn from the 18 left
-  (1 CoderUJB, 17 DevEval). The check reads the requirement, the reference, the gold time against
-  the grader budget and the models' answers; it does not regrade and does not see the test
-  bodies, which are on /snfs2.
+  (1 CoderUJB, 17 DevEval) (superseded on 2026-11-25 and 2026-11-26: 13 of the 18 are excluded; on
+  the analysed items the counts are 272 and 5). The check reads the requirement, the reference, the
+  gold time against the grader budget and the models' answers; it does not regrade and does not see
+  the test bodies, which are on /snfs2.
 - **The 12 DevEval items the harness check flags stay in, for now** (superseded on 2026-11-25:
   confirmed and excluded, with a 13th). The check (`audit_sample.py
   harness`, `results/audit/harness_suspects.csv`) finds 12 items no answer seems able to pass:
@@ -152,7 +171,8 @@ methods 3.3, logged here as the freezing rule there asks.
   inside the signature, and 3 in `alembic/testing/env.py`, where re-indenting shifts column-0
   string lines. They have not been regraded, so the cause is not confirmed, and every reported
   number still includes them. They shrink each DevEval gap by about 1.4% of its size and are
-  reported as a limitation (`docs/validity_audit.md`, section 6).
+  reported as a limitation (`docs/validity_audit.md`, section 6) (superseded on 2026-11-25:
+  excluded instead; the rerun moved the 5 open models' DevEval gaps by 0.8% to 1.5% of their size).
 - `scripts/audit_sample.py` draws both samples with seed 20261123 and counts the labels;
   `results/audit/` holds the ids, the labels and the counts, never reply text. The answers are in
   `docs/validity_audit.md`.
