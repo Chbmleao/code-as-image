@@ -266,7 +266,7 @@ re-indent fix in `59a9c12`), so the script needs a full clone, not a shallow one
 | `docs/validity_audit.md` | The validity checklist answered for this study |
 | `docs/paper/` | Draft paragraphs the paper uses |
 | `docs/notes/` | Reading notes on the course book and the literature behind the plan |
-| `presentations/` | Proposal and methodology slides (in Portuguese, as presented) |
+| `deliverables/presentations/` | Proposal and methodology slides (in Portuguese, as presented) |
 | `studies/pilot/` | First pilot: Qwen2.5-VL 7B on 20 HumanEval problems, text vs image |
 | `studies/model_panel/` | Model choice: fit on one RTX 5090, text floor screen, image token cost |
 | `benchmarks/` | Benchmark choice, item filters, gold checks, token counts, contamination check |
@@ -278,7 +278,7 @@ re-indent fix in `59a9c12`), so the script needs a full clone, not a shallow one
 | `scripts/` | Entry points of the analysis, the one-study scripts, checks, the rerun script and the cluster sync |
 | `slurm/` | Job templates for generation and grading |
 | `results/` | Outputs small enough to commit (no reply text) |
-| `banner/` | The poster and its build script |
+| `deliverables/banner/` | The poster and its build script |
 | `CLUSTER.md` | How to run jobs on the DCC cluster (Slurm) |
 
 The pipeline stages, each reading the previous one's files:
@@ -297,6 +297,6 @@ The pipeline stages, each reading the previous one's files:
 
 Apache-2.0 (`LICENSE`), for the code and documents written for this project. Not covered: JetBrains
 Mono (`src/codeimg/assets/` and `studies/pilot/fonts/`, SIL OFL, `OFL.txt` beside it), the banner
-fonts (`banner/fonts/`, each with its license file), the UFMG and PPGCC logos (`banner/assets/`),
-HumanEval (`studies/pilot/HumanEval.jsonl.gz`, MIT), and the benchmark code quoted in
-`benchmarks/*/results/`, which keeps the license of its source.
+fonts (`deliverables/banner/fonts/`, each with its license file), the UFMG and PPGCC logos
+(`deliverables/banner/assets/`), HumanEval (`studies/pilot/HumanEval.jsonl.gz`, MIT), and the
+benchmark code quoted in `benchmarks/*/results/`, which keeps the license of its source.

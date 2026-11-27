@@ -1,10 +1,11 @@
 """Build the presentation banner (UFM-16) from the result files on main.
 
-    uv run python banner/build.py
+    uv run python deliverables/banner/build.py
 
-Writes banner/out/banner.pdf (A4, vector, scales to A1/A0), banner/out/banner_60x90.pdf (2:3, scales
-to a 60 x 90 cm print) and a PNG of each. Every number on the page is read from results/ here; the
-template only holds wording. Needs Google Chrome (or CHROME=/path/to/chrome) and pdftoppm.
+Writes deliverables/banner/out/banner.pdf (A4, vector, scales to A1/A0),
+deliverables/banner/out/banner_60x90.pdf (2:3, scales to a 60 x 90 cm print) and a PNG of each.
+Every number on the page is read from results/ here; the template only holds wording. Needs Google
+Chrome (or CHROME=/path/to/chrome) and pdftoppm.
 """
 
 from __future__ import annotations
@@ -25,7 +26,7 @@ from matplotlib import font_manager
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
+ROOT = HERE.parents[1]
 RESULTS = ROOT / "results"
 FONTS = HERE / "fonts"
 ASSETS = HERE / "assets"

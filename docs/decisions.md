@@ -13,6 +13,8 @@ accident. The current plan is `docs/methodology.md`; this file explains how it g
 - **The finished one-off studies go under `studies/`**: the pilot and the model panel. Nothing in
   `src/`, `scripts/` or `results/` reads them, and the model panel runs only from its flat copy on
   the cluster (CLUSTER.md).
+- **The banner and the presentations go under `deliverables/`**, the things made to be shown
+  rather than run. `deliverables/banner/build.py` still reads `results/` from the repo root.
 - **Not a layout by study stage.** Moving `scripts/`, `analysis/`, `benchmarks/` or `results/`
   would change the paths the generated reports print, so the bytes of `results/` would change.
 
@@ -33,6 +35,8 @@ Old and new paths:
 | `scripts/analysis.py`: the subcommands and `main` | `src/codeimg/analysis/cli.py`; the script is the entry point |
 | `pilot` | `studies/pilot/` |
 | `model_panel` | `studies/model_panel/` |
+| `banner` | `deliverables/banner/` |
+| `presentations` | `deliverables/presentations/` |
 
 ## 2026-11-26: license, and the replies stay off the repo
 

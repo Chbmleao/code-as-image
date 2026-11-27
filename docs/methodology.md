@@ -1,10 +1,10 @@
 # Methods
 
-The written plan behind the methodology presentation (`presentations/methodology.pdf`). Section
-numbers follow the course's detailed-plan template. Last revised on Nov 5, 2026. The reasons for
-each revision are in `docs/decisions.md`, and the book and literature notes it draws on are in
-`docs/notes/`. The analysis is frozen against this text before any image-condition answer is
-graded (see "Reporting and freezing" in 3.3).
+The written plan behind the methodology presentation (`deliverables/presentations/methodology.pdf`).
+Section numbers follow the course's detailed-plan template. Last revised on Nov 5, 2026. The reasons
+for each revision are in `docs/decisions.md`, and the book and literature notes it draws on are in
+`docs/notes/`. The analysis is frozen against this text before any image-condition answer is graded
+(see "Reporting and freezing" in 3.3).
 
 ## 3. Methods
 
