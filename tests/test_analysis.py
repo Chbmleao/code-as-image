@@ -10,6 +10,7 @@ from conftest import ROOT, need
 
 from codeimg import config
 from codeimg.analysis import contamination as ctm
+from codeimg.analysis import figures as figs
 from codeimg.analysis import gaps as gp
 from codeimg.analysis import inputs as inp
 from codeimg.analysis import replies as rpl
@@ -964,7 +965,7 @@ def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatc
     monkeypatch.setattr(an, "read_report_inputs", lambda path, wanted: {"gaps": {}, "glmm": {}})
     monkeypatch.setattr(an, "read_cov", lambda path, glmm: got.update(cov=path))
     monkeypatch.setattr(an, "claude_findings", lambda *a: "text\n")
-    monkeypatch.setattr(an, "claude_figures", lambda g, g5, path: got.update(figures=path))
+    monkeypatch.setattr(figs, "claude_figures", lambda g, g5, path: got.update(figures=path))
     an.main(["report", "--models", "all", "--out", str(out)])
     assert (tmp_path / "claude" / "findings.md").read_text() == "text\n"
     assert not (out / "findings.md").exists()
