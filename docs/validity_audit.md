@@ -48,7 +48,8 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    (confirmed by a regrade of their references, then excluded), 1 CoderUJB item whose reference
    does not survive the extraction (excluded), and an
    extraction rule that grades the first code block when a reply gives a corrected second one
-   (4 of 40 hand-read failures). The hand read is on Claude Sonnet 5.5, not an open model.
+   (4 of 40 Sonnet hand-read failures, none of the 40 Qwen3.5 27B ones). The hand read covers
+   Claude Sonnet 5.5 and one open model, Qwen3.5 27B.
 5. **Content coverage (1.2.1).** Partly. 135 Java methods from 13 Defects4J projects and 846 Python
    functions from 79 repositories (`analysis`, Gaps), every item used except the 13 DevEval items
    and 1 CoderUJB item the splice made unpassable (section 6). Not covered: debugging, code
@@ -75,7 +76,8 @@ Results files are cited by short name: `analysis` = `results/analysis/findings.m
    (`docs/decisions.md`). The only evidence is exploratory: in block 1, answers with a missing name rise from
    8% to 31% of DevEval answers and 17% to 40% of CoderUJB answers from text to image, and about 400
    DevEval image answers use a context name with an underscore dropped or added (`block1`, Why
-   image answers fail), from grader output that is not in the repo.
+   image answers fail), from grader output that is not in the repo; and 3 of the 30 Qwen3.5 27B
+   image failures in the hand read look like misreadings (section 6, not counted).
 
 ## 2. Book 13.5 checklist
 
@@ -180,10 +182,11 @@ Count: Yes 6 (1, 3, 8, 11, 19, 20), Partly 9 (2, 6, 7, 12, 13, 16, 17, 18, 21), 
 
 ## 6. New checks
 
-Both samples are drawn by `scripts/audit_sample.py` with seed 20261123; ids, labels and short
-notes are in `results/audit/`, the counts in `audit`. The labels were drafted by Claude Code from
-the requirement, the reference, the answers and the extracted code, and are **not checked by a
-person**; nothing was regraded, since the test environments are on /snfs2.
+The three samples are drawn by `scripts/audit_sample.py` with seed 20261123; ids, labels and
+short notes are in `results/audit/`, the counts in `audit`. The labels were drafted by Claude Code
+from the requirement, the reference, the answers and the extracted code (for the Qwen3.5 27B read
+also the grader's output tail), and are **not checked by a person**; nothing was regraded, since
+the test environments are on /snfs2.
 
 **Hand read** (`results/audit/hand_read.csv`). 40 failed answers of Claude Sonnet 5.5 on DevEval, 10
  per condition. Labels: wrong logic 24, wrong or invented name 10, extraction 4, false fail 2,
@@ -194,6 +197,26 @@ person**; nothing was regraded, since the test environments are on /snfs2.
  the first block that parses and defines the target, and in all 4 the draft parses. Regraded with
  the second block (UFM-33), 2 of the 4 pass. One wrong-logic answer
  (`mopidy.internal.log.get_verbosity_level`) is on an item the next check finds under-specified.
+
+**Hand read of an open model** (`results/audit/hand_read_qwen35_27b.csv`, UFM-34,
+`docs/decisions.md` 2026-11-27). 40 failed answers of Qwen3.5 27B on DevEval, 10 per condition,
+drawn after the exclusions from the 846 analysed items. Labels: wrong logic 25, wrong or invented
+name 12, truncated 2, false fail 1, extraction, other function and unclear 0. False fails are 1 of
+40, 2.5% (exact 95% CI 0.1% to 13.2%); Sonnet's read cut to the same 846-item base (38 answers;
+both of its false fails were on excluded items) gives 0 of 38, 0.0% (0.0% to 9.3%). That cut is
+post hoc and shares the base, not the items. The false fail (`falcon.inspect.register_router`,
+12 px) raises the ValueError the requirement asks for, but the test matches a message text the
+requirement does not give (an over-strict test; borderline, since the answer also raises earlier
+than the reference). Wrong names are 0 in text, 8 at 10 px and 2 at 12 and 14 px, too few to compare
+conditions; 3 of the 12 look like misreadings of the page (a module name off by one letter, a
+dropped leading underscore twice), the rest call methods or modules that do not exist. Both
+truncated answers are text replies cut at 2048 tokens while the model reasons in comments inside
+the function. No extraction failure was drawn, and none of the 40 replies is in the scope of the
+last-block regrade (UFM-35, `results/last_block/`). One wrong-logic answer
+(`pyinfra.api.operations.run_ops`) is on an item the next check finds under-specified. Replies
+read from the laptop copy `~/UFMG/ufm9-open/{rest,block1}/deveval/gen/qwen35_27b.jsonl` (sha256
+`05a8ae85...` and `2751dbfc...`, both OK against `MANIFEST.sha256`); every drawn verdict matches
+the laptop grades.
 
 **Items no model passes** (`results/audit/never_passed_check.csv`, drawn on all 995 items before
 the exclusions). 285 items are never passed by the five open models; the gold run passes all 285
@@ -231,7 +254,7 @@ pass them in the main run. The 13 are excluded from every reported analysis
 (`manifests/excluded/deveval.txt`); DevEval has 846 items. Kept in, they shrank each DevEval gap by
 about 1.4% of its size (arithmetic estimate before the rerun); the rerun without them moves the 5
 open models' gaps by 0.8% to 1.5% of their size, and every conclusion holds. The model answers on the 13 were not regraded, and
-the audit samples above were drawn before the exclusions.
+the Sonnet hand read and the never-passed sample above were drawn before the exclusions.
 
 **CoderUJB Jsoup 93 (UFM-36, `docs/decisions.md` 2026-11-26).** Every CoderUJB reference was run
 through `extract` as a fenced reply: 135 come back equal up to whitespace, and Jsoup 93
@@ -254,15 +277,17 @@ Each bullet points to the item that backs it. Draft only; UFM-14 writes the pape
    items; removing them leaves every gap negative but inflates absolute rates, and Claude is near
    the ceiling on CoderUJB text (items 1.3, 1.8, 13.5.6-20).
 5. Reading vs coding is not measured (the transcription test was stopped on 2026-11-26); the
-   misreading evidence is an exploratory block-1 count (item 1.9).
+   misreading evidence is an exploratory block-1 count and the notes of the Qwen3.5 27B hand read
+   (3 of 30 image failures look misread, not counted by the script) (item 1.9).
 6. Item quality: 13 DevEval items and 1 CoderUJB item could not be passed through our splice
    (confirmed by grading or round-tripping their references) and are excluded, and 3 of the 10
    never-passed items checked need behavior the prompt does not give; the floor (51% to 63% of
    items not passed by any model in an image condition) partly reflects the items (items 1.4,
    13.5.2-7, 13.5.6-20).
 7. Item-level evidence: the item:condition variance is clear, but no single item survives BH,
-   the hand read covers one model (Sonnet) and 40 answers, and its labels are not checked by a
-   person (items 1.2, 1.4, section 6).
+   the hand read covers two models (Sonnet and Qwen3.5 27B, false fails 0 of 38 and 1 of 40 on
+   the analysed items) with 40 answers each, 10 per condition instead of the planned 30, and its
+   labels are not checked by a person (items 1.2, 1.4, section 6).
 8. Narrow construct and static items: one function or method with repository context, in Java and
    Python, from public benchmarks; ranking at CoderUJB 12 px is unreliable (G 0.606) (items 1.1,
    1.5, 1.6, section 5).

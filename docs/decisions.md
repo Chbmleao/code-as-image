@@ -3,6 +3,36 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-27: hand read of Qwen3.5 27B
+
+The hand read of one open model that methods 3.3 plan (`docs/methodology.md:239`) and the
+2026-11-23 entry put off, done from the laptop copy of the replies (UFM-34). A deviation from
+3.3, logged as the freezing rule asks.
+
+- **Sample.** 40 failed DevEval answers of Qwen3.5 27B (`cyankiwi/Qwen3.5-27B-AWQ-4bit`), 10 per
+  condition (text, image 10, 12 and 14 px), seed 20261123, one generator across the conditions
+  as for Sonnet: `audit_sample.py hand-read --model ... --input results/full/deveval.collected.jsonl
+  --file hand_read_qwen35_27b.csv --analysed` (`results/audit/hand_read_qwen35_27b.csv`). 10 per
+  condition, not 30, to fit before the paper.
+- **Base: the 846 analysed DevEval items.** The 13 excluded items (2026-11-25), the same 13 as
+  `results/audit/harness_suspects.csv`, leave the rows before the draw. The Sonnet sample stays on
+  all 859; `summary.md` adds Sonnet cut to the 846 (38 answers) next to the Qwen numbers. That cut
+  is post hoc and shares the base, not the items.
+- **Inputs.** Replies from `~/UFMG/ufm9-open/rest/deveval/gen/qwen35_27b.jsonl` (sha256
+  `05a8ae85e6c74795fd8f19f6b8292af118249b247d080eddb40fb1551bf99444`) and
+  `block1/deveval/gen/qwen35_27b.jsonl`
+  (`2751dbfc44260d41c968d68268ce2fb9e015e8d70821187d1e11fbe3c9b69dfc`), graded answers and grader
+  tails from `answers/answers.jsonl` and `grades.jsonl` in `{rest,block1}/deveval/`; all checked
+  OK against `MANIFEST.sha256`. For all 40 drawn answers the laptop grade gives the committed
+  verdict. The test bodies are not on the laptop, so the labels rest on the
+  requirement, the reference, the answer, the reply and the grader tail.
+- **Labels by Claude Code, not checked by a person**; a person check was dropped for this read.
+  Same 7 labels as Sonnet. Result (`results/audit/summary.md`): false fails 1 of 40, 2.5% (exact
+  95% CI 0.1% to 13.2%); Sonnet on the same base 0 of 38 (0.0% to 9.3%).
+- `audit_sample.py hand-read` gained `--model`, `--input`, `--file` and `--analysed`; without
+  them the Sonnet draw and `summary.md` come out as before (checked against the committed files
+  before the Qwen file was added).
+
 ## 2026-11-27: the analysis logic moves into the package
 
 - **The analysis code lives in `src/codeimg/analysis/`.** The scripts loaded each other by file
@@ -104,7 +134,8 @@ the test as planned in methods 3.3 and not finished.
 - **The partial work stays on branch `transcription-tests`** (the stage, the scorer and
   `results/transcription/run_notes.md`) and does not go to main.
 - **Methods are left as written** (lines 196, 212 to 218 and 393 to 394). The only evidence on
-  misreading stays the exploratory block-1 check in `results/block1/findings.md`.
+  misreading stays the exploratory block-1 check in `results/block1/findings.md` (and, from
+  2026-11-27, the notes of the Qwen3.5 27B hand read).
 
 ## 2026-11-26: last-block sensitivity regrade of DevEval
 
@@ -234,7 +265,8 @@ methods 3.3, logged here as the freezing rule there asks.
   test shows were misread), lines 212 to 218 ("Reading vs coding failures") and the addendum,
   lines 393 to 394. Without them the item:condition evidence rests on the variance component, the
   held-out log-likelihood and the correlation checks in `results/analysis/findings.md`, and the
-  only evidence on misreading is the exploratory block-1 check in `results/block1/findings.md`.
+  only evidence on misreading is the exploratory block-1 check in `results/block1/findings.md`
+  (see 2026-11-27 for the Qwen3.5 27B hand read).
 - **Hand read: Claude Sonnet 5.5 on DevEval, 10 failures per condition.** Methods lines 238 to 240
   plan 30 failures per condition of one model. The open models' image replies are on /snfs2, so
   they cannot be read now; Sonnet's replies in all four conditions are on the laptop. This entry is

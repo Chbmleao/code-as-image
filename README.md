@@ -132,7 +132,8 @@ Runs on: **laptop** (committed files only), **laptop + R** (the `codeimg-glmm` e
 | `results/full/rescore_keys.json`, `rescore.json` | `full_table.py sample`, then `rescore --grades F` after a cluster regrade | laptop, cluster |
 | `results/glmm/sim_*.csv`, `lme4_notes_*.csv`, `glmm.md` | `scripts/glmm_cells.py`, then `analysis/glmm_check.R` | laptop + R (not timed) |
 | `results/layout/items.csv`, `layout.json`, `findings.md` | `scripts/layout_share.py --requests DIR` | replies (needs the rendered pages) |
-| `results/audit/hand_read.csv`, `never_passed_check.csv`, `never_passed_pool.json` | `scripts/audit_sample.py hand-read`, `never-passed`, then labels by hand | laptop |
+| `results/audit/hand_read.csv`, `never_passed_check.csv`, `never_passed_pool.json` | `scripts/audit_sample.py hand-read`, `never-passed`, then labels by Claude Code | laptop |
+| `results/audit/hand_read_qwen35_27b.csv` | `audit_sample.py hand-read --model cyankiwi/Qwen3.5-27B-AWQ-4bit --input results/full/deveval.collected.jsonl --file hand_read_qwen35_27b.csv --analysed`, then labels by Claude Code | laptop (the labels need the replies) |
 | `results/audit/harness_suspects.csv` | `audit_sample.py harness --gold scratch/contamination/deveval_gold.jsonl --data scratch/ufm7/deveval/data.jsonl` | replies (the gold file is built with them) |
 | `results/audit/summary.md` | `audit_sample.py summary` | laptop |
 | `results/last_block/answers.csv` | `scripts/last_block.py answers` | replies |
@@ -185,7 +186,7 @@ The Claude requests send no temperature and no seed, so both models sample at 1.
 | GLMM held-out folds and simulations | 20261115 and 20261117 | `analysis/glmm_main.R:38-39` |
 | MCMC chains | 20261114 plus an offset per benchmark, condition, prior and chain | `analysis/reliability.R:37`, `:164` |
 | GLMM simulation check | 20261112 | `analysis/glmm_check.R:37` |
-| Audit samples | 20261123 | `scripts/audit_sample.py:46` |
+| Audit samples | 20261123 | `scripts/audit_sample.py:52` |
 
 ## Data
 
@@ -204,7 +205,8 @@ The per-item lists are committed: `benchmarks/coderujb/results/final_ids.txt` (1
 `benchmarks/deveval/results/inrange_ids.txt` (859), which still include the excluded items, the
 manifests under `manifests/`, and the 14 excluded items in `manifests/excluded/` (13 DevEval, 1 CoderUJB). The
 analysed sets are 846 DevEval and 135 CoderUJB items; `results/full/`, `results/audit/`,
-`results/glmm/` and `results/layout/` are on all 995 and say so.
+`results/glmm/` and `results/layout/` are on all 995 and say so, except
+`results/audit/hand_read_qwen35_27b.csv`, drawn from the 846 analysed DevEval items.
 
 The prompt files the requests were built from come from the same sources:
 `uv run --quiet benchmarks/coderujb/make_prompts.py complete.parquet
