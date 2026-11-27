@@ -25,6 +25,7 @@ import sys
 import warnings
 from collections import Counter
 
+from codeimg.analysis import inputs as inp
 from codeimg.answers import answer_key
 from codeimg.answers import deveval as dv
 from codeimg.collect import DEV_REASON
@@ -79,7 +80,7 @@ def last_block(g, it, key):
     return ("same" if last["completion"] == first["completion"] else "graded"), first, last
 
 
-def collected(full=an.FULL, claude_full=an.CLAUDE_FULL):
+def collected(full=inp.FULL, claude_full=inp.CLAUDE_FULL):
     """(open rows, Claude rows) of the DevEval collected tables."""
     return tuple(an.ds.read_jsonl(os.path.join(d, f"{B}.collected.jsonl"))
                  for d in (full, claude_full))
@@ -130,7 +131,7 @@ def answers(args):
         f.writelines(json.dumps(a) + "\n" for a in graded)
     print(f"{path}: {len(graded)} answers to grade")
     write_csv(os.path.join(OUT, "answers.csv"), ANSWER_FIELDS, picked)
-    counts = Counter((an.name(r["model"]), kind(r["condition"]), r["role"]) for r in picked)
+    counts = Counter((inp.name(r["model"]), kind(r["condition"]), r["role"]) for r in picked)
     for (m, k, role), n in sorted(counts.items()):
         print(f"  {m} {k} {role}: {n}")
     print(f"  in scope {len(picked)}; skipped {dict(skipped)}")
@@ -190,15 +191,15 @@ def gap_lines(tables):
     for data in tables:
         y, sizes = an.scores(data), data["conditions"][1:]
         for m in data["models"]:
-            out[an.name(m)] = an.test_row(m, an.differences(y[m], sizes, "text"), data["projects"])
+            out[inp.name(m)] = an.test_row(m, an.differences(y[m], sizes, "text"), data["projects"])
     return out
 
 
 def load_tables(open_rows, claude_rows, cfg):
-    models, design = an.model_set(cfg), rel.design(B)
-    return [an.load_benchmark(B, open_rows, design, models, an.conditions(cfg),
-                              an.grid_parts(B, cfg, models)),
-            an.load_claude(B, claude_rows, design, cfg)]
+    models, design = inp.model_set(cfg), rel.design(B)
+    return [inp.load_benchmark(B, open_rows, design, models, inp.conditions(cfg),
+                               inp.grid_parts(B, cfg, models)),
+            inp.load_claude(B, claude_rows, design, cfg)]
 
 
 def check_committed(lines, gaps_files):
@@ -207,7 +208,7 @@ def check_committed(lines, gaps_files):
         with open(path) as f:
             main = json.load(f)["benchmarks"][B]["main"]
         for r in main:
-            if an.rounded(lines[r["model"]]["est"]) != r["est"]:
+            if inp.rounded(lines[r["model"]]["est"]) != r["est"]:
                 raise ValueError(f"{path}: {r['model']} est {r['est']} is not the first-block "
                                  f"est {lines[r['model']]['est']}")
 
@@ -218,7 +219,7 @@ def tallies(picked, verdict, rows):
     by_key = {r["key"]: r for r in rows}
     out = {}
     for r in picked:
-        t = out.setdefault(an.name(r["model"]), {}).setdefault(kind(r["condition"]), Counter())
+        t = out.setdefault(inp.name(r["model"]), {}).setdefault(kind(r["condition"]), Counter())
         t["in_scope"] += 1
         t["truncated"] += bool(by_key[r["key"]]["truncated"])
         t[r["role"]] += 1
@@ -249,10 +250,10 @@ def report(args):
                         "interval": "CR1 cluster t with G - 1 df, no multiplicity adjustment"},
            "models": {m: {"first_block": first[m], "last_block": last[m]} for m in first},
            "tallies": tallies(picked, verdict, open_rows + claude_rows)}
-    an.write_json(os.path.join(args.out, "last_block.json"), rep)
+    inp.write_json(os.path.join(args.out, "last_block.json"), rep)
     path = os.path.join(args.out, "findings.md")
     with open(path, "w", encoding="utf-8") as f:
-        f.write(findings(an.rounded(rep)))
+        f.write(findings(inp.rounded(rep)))
     print(path)
 
 
@@ -312,10 +313,10 @@ def main(argv=None):
     p = sub.add_parser("report")
     p.add_argument("--answers", default=os.path.join(OUT, "answers.csv"))
     p.add_argument("--grades", default=os.path.join(OUT, "grades.csv"))
-    p.add_argument("--full", default=an.FULL)
-    p.add_argument("--claude-full", default=an.CLAUDE_FULL)
-    p.add_argument("--gaps", nargs=2, default=[os.path.join(an.OUT, "gaps.json"),
-                                               os.path.join(an.ALL_OUT, "gaps.json")])
+    p.add_argument("--full", default=inp.FULL)
+    p.add_argument("--claude-full", default=inp.CLAUDE_FULL)
+    p.add_argument("--gaps", nargs=2, default=[os.path.join(inp.OUT, "gaps.json"),
+                                               os.path.join(inp.ALL_OUT, "gaps.json")])
     p.add_argument("--out", default=OUT)
     args = ap.parse_args(argv)
     try:

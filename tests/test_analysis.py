@@ -9,6 +9,7 @@ import pytest
 from conftest import ROOT, need
 
 from codeimg import config
+from codeimg.analysis import inputs as inp
 from codeimg.answers import answer_key
 
 _spec = importlib.util.spec_from_file_location("analysis",
@@ -39,10 +40,10 @@ def toy(models, passes, projects):
 
 def test_model_set_follows_the_config_with_new_models_last():
     cfg = config.load()
-    assert an.model_set(cfg) == list(rel.ds.NAMES)
+    assert inp.model_set(cfg) == list(rel.ds.NAMES)
     cfg = copy.deepcopy(cfg)
     cfg["models"] = {"six": {"repo": SIXTH}, **cfg["models"]}
-    assert an.model_set(cfg) == list(rel.ds.NAMES) + [SIXTH]
+    assert inp.model_set(cfg) == list(rel.ds.NAMES) + [SIXTH]
 
 
 def test_each_item_weighs_the_same_and_the_gap_is_image_minus_text():
@@ -50,7 +51,7 @@ def test_each_item_weighs_the_same_and_the_gap_is_image_minus_text():
     passes = {"A": {"text": [1, 1, 0], **{c: [0, 0, 0] for c in CONDS[1:]}},
               "B": {"text": [0, 0], **{c: [1, 1] for c in CONDS[1:]}}}
     rows, items, parts = toy([m], passes, {"A": "p", "B": "q"})
-    data = an.load_benchmark("deveval", rows, items, [m], CONDS, parts)
+    data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
     y = an.scores(data)
     d = an.differences(y[m], CONDS[1:], "text")
     # item A loses 2/3, item B gains 1; pooling the 5 answers instead would give 0
@@ -85,7 +86,7 @@ def test_length_buckets_are_half_open():
 def _six_model_inputs(tmp_path):
     cfg = copy.deepcopy(config.load())
     cfg["models"]["six"] = {"repo": SIXTH}
-    models = an.model_set(cfg)
+    models = inp.model_set(cfg)
     inputs, dstudy = {}, {"rows": []}
     for b in ("coderujb", "deveval"):
         ids = [f"{b}{k}" for k in range(8)]
@@ -103,8 +104,8 @@ def _six_model_inputs(tmp_path):
         rows = [row(m, i, c, r, rng.random() < 0.5, b, 3000 + 1000 * k if c == "text" else 1500)
                 for j, m in enumerate(models) for k, (i, _, n) in enumerate(items)
                 for c in CONDS for r in range(n)]
-        parts = an.grid_parts(b, cfg, models, str(tmp_path), str(tmp_path / "dstudy.json"))
-        data = an.load_benchmark(b, rows, items, models, CONDS, parts)
+        parts = inp.grid_parts(b, cfg, models, str(tmp_path), str(tmp_path / "dstudy.json"))
+        data = inp.load_benchmark(b, rows, items, models, CONDS, parts)
         out[b] = (data, {i: 3000 + 1000 * k for k, i in enumerate(ids)})
     return cfg, out
 
@@ -116,8 +117,8 @@ def test_a_sixth_model_runs_through_gaps_and_prep(tmp_path):
     holm = [r["holm"] for v in rep["benchmarks"].values() for r in v["main"]]
     assert len(holm) == 12 and None not in holm
     assert [r["model"] for r in rep["benchmarks"]["deveval"]["main"]][-1] == SIXTH
-    rows = an.answer_rows(inputs["deveval"][0])
-    assert {r[0] for r in rows} == set(an.model_set(cfg))
+    rows = inp.answer_rows(inputs["deveval"][0])
+    assert {r[0] for r in rows} == set(inp.model_set(cfg))
     assert len(rows) == 6 * 4 * (3 * 3 + 5 * 2)
 
 
@@ -126,7 +127,7 @@ def test_an_incomplete_grid_fails():
     passes = {"A": {c: [1, 0] for c in CONDS}, "B": {c: [0, 1] for c in CONDS}}
     rows, items, parts = toy([m], passes, {"A": "p", "B": "q"})
     with pytest.raises(ValueError, match="expected grid"):
-        an.load_benchmark("deveval", rows[1:], items, [m], CONDS, parts)
+        inp.load_benchmark("deveval", rows[1:], items, [m], CONDS, parts)
 
 
 def test_a_model_without_rows_fails():
@@ -134,7 +135,7 @@ def test_a_model_without_rows_fails():
     passes = {"A": {c: [1, 0] for c in CONDS}}
     rows, items, parts = toy([m], passes, {"A": "p"})
     with pytest.raises(ValueError, match="no rows for"):
-        an.load_benchmark("deveval", rows, items, [m, other], CONDS, parts)
+        inp.load_benchmark("deveval", rows, items, [m, other], CONDS, parts)
 
 
 def test_an_item_without_a_prompt_count_fails(tmp_path):
@@ -149,7 +150,7 @@ def test_an_item_without_a_prompt_count_fails(tmp_path):
 def real():
     need(os.path.join(ROOT, "results", "full", "deveval.collected.jsonl"))
     cfg = config.load()
-    return cfg, an.read_inputs(cfg, an.FULL)
+    return cfg, inp.read_inputs(cfg, inp.FULL)
 
 
 def test_rates_match_the_reliability_results(real):
@@ -163,7 +164,7 @@ def test_rates_match_the_reliability_results(real):
             rate = {c: an.mean(y[m][c]) for c in data["conditions"]}
             rate["image"] = an.mean([rate[c] for c in sizes])
             for c, v in rate.items():
-                assert v == pytest.approx(rel_rates[b]["rates"][c][an.name(m)], abs=5e-7)
+                assert v == pytest.approx(rel_rates[b]["rates"][c][inp.name(m)], abs=5e-7)
             gap = an.mean(an.differences(y[m], sizes, "text"))
             assert gap == pytest.approx(rate["image"] - rate["text"], abs=1e-12)
 
@@ -200,7 +201,7 @@ def test_a_graded_text_answer_without_a_reply_fails():
     for r in rows:
         if r["id"] == "B" and r["condition"] == "text" and r["run"] == 0:
             r["reason"] = "no_code"
-    data = an.load_benchmark("deveval", rows, items, [m], CONDS, parts)
+    data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
     copies = {(m, "A", 0): False, (m, "A", 1): False, (m, "B", 1): False}
     an.check_answers("deveval", data, copies)
     del copies[(m, "A", 1)]
@@ -261,8 +262,8 @@ def test_output_lengths_cover_every_run():
     rows, items, parts = toy([m], passes, {"A": "p", "B": "q"})
     for k, r in enumerate(r for r in rows if r["condition"] == "text"):
         r["output_tokens"] = 10 * (k + 1)
-    data = an.load_benchmark("deveval", rows, items, [m], CONDS, parts)
-    got = an.output_lengths(data)[an.name(m)]
+    data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
+    got = an.output_lengths(data)[inp.name(m)]
     assert got["text"]["mean"] == pytest.approx(25)
     assert got["text"]["median"] == rel.quantile([10, 20, 30, 40], 0.5)
     assert got["image10"]["mean"] == 50
@@ -280,7 +281,7 @@ def test_flagged_items_get_their_own_gap(tmp_path):
                                   n_draws=5)
     rows = rep["benchmarks"]["deveval"]["flagged_only"]
     # the copying model's own items are not flagged for it, so it gets no row
-    assert [r["model"] for r in rows] == [an.name(m) for m in models[1:]]
+    assert [r["model"] for r in rows] == [inp.name(m) for m in models[1:]]
     y = an.scores(data)[models[1]]
     d = an.differences(y, CONDS[1:], "text")
     r = rows[0]
@@ -305,10 +306,10 @@ def claude_row(m, i, c, r, passed):
 def line_fixture(monkeypatch, open_pass, claude_pass):
     """Items A to D; open models have 3 runs on A and 2 elsewhere, Claude 2 runs everywhere.
     open_pass[m] and claude_pass[m] give each model's verdict for text and for the image sizes."""
-    opens = an.model_set(LINE_CFG)
+    opens = inp.model_set(LINE_CFG)
     items = [(i, "p" if i in "AB" else "q", 3 if i == "A" else 2) for i in "ABCD"]
     parts = [(["A"], dict.fromkeys(opens, 3)), (["B", "C", "D"], dict.fromkeys(opens, 2))]
-    monkeypatch.setattr(an, "grid_parts", lambda b, cfg, models: parts)
+    monkeypatch.setattr(inp, "grid_parts", lambda b, cfg, models: parts)
     open_rows = [row(m, i, c, r, open_pass[m][c != "text"]) for m in opens
                  for i, _, n in items for c in CONDS for r in range(n)]
     claude_rows = [claude_row(m, i, c, r, claude_pass[m][c != "text"]) for m in CLAUDE
@@ -317,7 +318,7 @@ def line_fixture(monkeypatch, open_pass, claude_pass):
 
 
 def plain_fixture(monkeypatch):
-    opens = an.model_set(LINE_CFG)
+    opens = inp.model_set(LINE_CFG)
     return line_fixture(monkeypatch, dict.fromkeys(opens, (1, 0)), dict.fromkeys(CLAUDE, (0, 1)))
 
 
@@ -325,35 +326,35 @@ def test_the_all_set_adds_the_claude_models_in_config_order():
     cfg = config.load()
     claude = [v["model"] for v in config.claude_models(cfg).values()]
     assert claude == ["claude-sonnet-5-5", "claude-opus-5-5"]
-    assert an.model_set(cfg, "all") == list(rel.ds.NAMES) + claude
-    assert an.model_set(cfg) == list(rel.ds.NAMES)
-    assert [an.name(m) for m in claude] == ["Claude Sonnet 5.5", "Claude Opus 5.5"]
-    assert an.name(SIXTH) == SIXTH
+    assert inp.model_set(cfg, "all") == list(rel.ds.NAMES) + claude
+    assert inp.model_set(cfg) == list(rel.ds.NAMES)
+    assert [inp.name(m) for m in claude] == ["Claude Sonnet 5.5", "Claude Opus 5.5"]
+    assert inp.name(SIXTH) == SIXTH
 
 
 def test_the_all_set_needs_a_claude_table():
     cfg = {k: v for k, v in LINE_CFG.items() if k != "claude"}
     with pytest.raises(ValueError, match=r"needs the \[claude\] table"):
-        an.model_set(cfg, "all")
+        inp.model_set(cfg, "all")
 
 
 def test_the_line_keeps_runs_0_and_1_of_every_model(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
-    data = an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
-    assert data["models"] == an.model_set(LINE_CFG) + CLAUDE
+    data = inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+    assert data["models"] == inp.model_set(LINE_CFG) + CLAUDE
     assert data["dropped"] == [] and data["items"] == list("ABCD")
     assert all(len(ys) == 2 for m in data["models"] for c in CONDS for ys in data["cells"][m][c])
-    assert {r[4] for r in an.answer_rows(data)} == {0, 1}
+    assert {r[4] for r in inp.answer_rows(data)} == {0, 1}
     # the copy check still sees run 2 of the open models
     assert any(r["run"] == 2 for r in data["rows"])
 
 
 def test_a_claude_null_seed_passes_and_an_open_seed_mismatch_fails(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
-    an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+    inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
     open_rows[0]["seed"] = None
     with pytest.raises(ValueError, match="seed_not_run"):
-        an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+        inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
 
 
 @pytest.mark.parametrize("change, problem", [
@@ -364,23 +365,23 @@ def test_a_claude_null_seed_passes_and_an_open_seed_mismatch_fails(monkeypatch):
 def test_a_claude_grid_problem_fails(monkeypatch, change, problem):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
     with pytest.raises(ValueError, match=problem):
-        an.load_line("deveval", open_rows, change(claude_rows), items, LINE_CFG)
+        inp.load_line("deveval", open_rows, change(claude_rows), items, LINE_CFG)
 
 
 def test_a_null_verdict_other_than_a_request_error_fails(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
     claude_rows[0]["passed"] = None
     with pytest.raises(ValueError, match="null_passed"):
-        an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+        inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
 
 
 def test_a_request_error_drops_its_item_from_every_condition_and_model(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
     r = next(r for r in claude_rows if (r["id"], r["condition"]) == ("B", "image12"))
     r.update(passed=None, reason="request_error")
-    data = an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+    data = inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
     assert data["dropped"] == ["B"] and data["items"] == ["A", "C", "D"]
-    assert {i for _, i, *_ in an.answer_rows(data)} == {"A", "C", "D"}
+    assert {i for _, i, *_ in inp.answer_rows(data)} == {"A", "C", "D"}
     assert "B" in data["all_items"]
 
 
@@ -390,11 +391,11 @@ def test_fewer_than_two_items_left_fails(monkeypatch):
         if r["id"] != "A" and r["run"] == 0 and r["condition"] == "text":
             r.update(passed=None, reason="request_error")
     with pytest.raises(ValueError, match="1 item"):
-        an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+        inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
 
 
 def test_line_ranks_and_swaps_match_a_known_order(monkeypatch):
-    opens = an.model_set(LINE_CFG)
+    opens = inp.model_set(LINE_CFG)
     # text order: opens[0] > CLAUDE[0] > CLAUDE[1] = opens[1]; image order reversed for the first
     # two, so that pair swaps in every draw and the tied pair counts half
     open_rows, claude_rows, items = line_fixture(
@@ -403,9 +404,9 @@ def test_line_ranks_and_swaps_match_a_known_order(monkeypatch):
     for r in claude_rows:
         if r["model"] == CLAUDE[0] and r["condition"] == "text" and r["run"] == 1:
             r["passed"] = False
-    line = {"deveval": an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)}
+    line = {"deveval": inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)}
     rep = an.ranks_report(line, n_boot=40)["benchmarks"]["deveval"]
-    n = [an.name(m) for m in opens + CLAUDE]
+    n = [inp.name(m) for m in opens + CLAUDE]
     assert (rep["n_items"], rep["n_clusters"], rep["dropped"]["count"]) == (4, 2, 0)
     assert rep["rates"]["text"] == {n[0]: 1, n[1]: 0, n[2]: 0.5, n[3]: 0}
     assert rep["rates"]["image"] == {n[0]: 0, n[1]: 0, n[2]: 1, n[3]: 0}
@@ -421,14 +422,14 @@ def test_line_ranks_and_swaps_match_a_known_order(monkeypatch):
 
 def test_line_flags_count_open_run_2_and_ignore_own_copies(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
-    line = {"deveval": an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)}
+    line = {"deveval": inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)}
     models = line["deveval"]["models"]
     copies = {(r["model"], r["id"], r["run"]): False for r in open_rows + claude_rows
               if r["condition"] == "text"}
     copies[(models[0], "A", 2)] = True
     copies[(CLAUDE[1], "D", 0)] = True
     rep = an.line_flags_report(line, {"deveval": copies})["benchmarks"]["deveval"]
-    flagged = {an.name(m): k for m, k in zip(models, [1, 2, 2, 1])}
+    flagged = {inp.name(m): k for m, k in zip(models, [1, 2, 2, 1])}
     assert rep["flagged"] == flagged
     assert (rep["copy_answers"], rep["copied_items"]) == (2, 2)
 
@@ -437,7 +438,7 @@ def test_a_claude_answer_that_never_reached_grading_needs_no_reply(monkeypatch):
     open_rows, claude_rows, items = plain_fixture(monkeypatch)
     r = next(r for r in claude_rows if r["condition"] == "text")
     r.update(passed=False, reason="over_budget", defines_target=None)
-    data = an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+    data = inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
     copies = {(r["model"], r["id"], r["run"]): False for r in open_rows + claude_rows
               if r["condition"] == "text"}
     del copies[(r["model"], r["id"], r["run"])]
@@ -462,7 +463,7 @@ def _line_report_inputs(models):
         v["wald"]["df"] = len(models) - 1
     ranked = {c: {m: {"rank": k + 1, "lo": 1, "hi": len(models)} for k, m in enumerate(models)}
               for c in ("text", "image", "image10", "image12", "image14")}
-    ranks = {"settings": {"models": models, "runs": [0, 1], "drop_rule": an.DROP_RULE,
+    ranks = {"settings": {"models": models, "runs": [0, 1], "drop_rule": inp.DROP_RULE,
                           "n_boot": 123, "interval": "95%"},
              "benchmarks": {b: {"n_items": v["n_items"], "n_clusters": v["n_clusters"],
                                 "dropped": {"count": 0, "items": []},
@@ -543,20 +544,20 @@ def test_an_open_grid_problem_fails_before_the_trim(monkeypatch):
     open_rows = [r for r in open_rows if not (r["id"] == "A" and r["run"] == 2
                                               and r["condition"] == "image10")]
     with pytest.raises(ValueError, match="missing"):
-        an.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
+        inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)
 
 
 @pytest.mark.parametrize("argv, key, want", [
-    (["prep"], "scratch", an.SCRATCH["main"]),
-    (["prep", "--models", "all"], "scratch", an.SCRATCH["all"]),
-    (["ranks"], "out", an.ALL_OUT),
-    (["report"], "out", an.OUT),
-    (["report", "--models", "all"], "out", an.ALL_OUT),
-    (["contamination", "--answers", "x"], "out", an.OUT),
-    (["contamination", "--answers", "x", "--models", "all"], "out", an.ALL_OUT),
-    (["gaps"], "out", an.OUT),
-    (["gaps", "--models", "claude", "--answers", "x"], "out", an.ALL_OUT),
-    (["replies", "--run-dir", "x"], "out", an.ALL_OUT),
+    (["prep"], "scratch", inp.SCRATCH["main"]),
+    (["prep", "--models", "all"], "scratch", inp.SCRATCH["all"]),
+    (["ranks"], "out", inp.ALL_OUT),
+    (["report"], "out", inp.OUT),
+    (["report", "--models", "all"], "out", inp.ALL_OUT),
+    (["contamination", "--answers", "x"], "out", inp.OUT),
+    (["contamination", "--answers", "x", "--models", "all"], "out", inp.ALL_OUT),
+    (["gaps"], "out", inp.OUT),
+    (["gaps", "--models", "claude", "--answers", "x"], "out", inp.ALL_OUT),
+    (["replies", "--run-dir", "x"], "out", inp.ALL_OUT),
 ])
 def test_default_folders_follow_the_model_set(monkeypatch, argv, key, want):
     got = {}
@@ -564,7 +565,7 @@ def test_default_folders_follow_the_model_set(monkeypatch, argv, key, want):
     an.main(argv)
     assert got[key] == want
     if argv[0] not in ("report", "replies"):
-        assert (got["full"], got["claude_full"]) == (an.FULL, an.CLAUDE_FULL)
+        assert (got["full"], got["claude_full"]) == (inp.FULL, inp.CLAUDE_FULL)
 
 
 def simulate_line(full, claude_full, seed=11):
@@ -572,7 +573,7 @@ def simulate_line(full, claude_full, seed=11):
     one Claude request_error on the first DevEval item. Returns that item."""
     rng = random.Random(seed)
     lost = None
-    for src, dst, claude in ((an.FULL, full, False), (an.CLAUDE_FULL, claude_full, True)):
+    for src, dst, claude in ((inp.FULL, full, False), (inp.CLAUDE_FULL, claude_full, True)):
         os.makedirs(dst, exist_ok=True)
         for b in rel.ds.BENCHES:
             rows = rel.ds.read_jsonl(need(os.path.join(src, f"{b}.collected.jsonl")))
@@ -597,9 +598,9 @@ def test_a_simulated_seven_model_line_runs_through_prep_and_ranks(tmp_path, monk
     an.main(["prep", "--models", "all", *src, "--scratch", str(scratch)])
     an.main(["ranks", *src, "--out", str(out)])
     cfg = config.load()
-    models = an.model_set(cfg, "all")
+    models = inp.model_set(cfg, "all")
     rep = json.loads((out / "ranks.json").read_text())
-    assert rep["settings"]["models"] == [an.name(m) for m in models]
+    assert rep["settings"]["models"] == [inp.name(m) for m in models]
     assert rep["settings"]["n_boot"] == 20
     for b in rel.ds.BENCHES:
         csv = rel.read_csv(str(scratch / f"{b}_answers.csv"), rel.ANSWER_FIELDS)
@@ -647,12 +648,12 @@ def test_line_contamination_runs_through_the_command(tmp_path, monkeypatch):
     an.main(["contamination", "--models", "all", "--full", full, "--claude-full", claude_full,
              "--answers", str(answers), "--out", str(out)])
     rep = json.loads((out / "contamination.json").read_text())
-    models = an.model_set(config.load(), "all")
+    models = inp.model_set(config.load(), "all")
     dv = rep["benchmarks"]["deveval"]
-    assert dv["flagged"] == {an.name(m): int(m != copied["model"]) for m in models}
+    assert dv["flagged"] == {inp.name(m): int(m != copied["model"]) for m in models}
     assert (dv["copy_answers"], dv["copied_items"]) == (1, 1)
     assert rep["benchmarks"]["coderujb"]["copy_answers"] == 0
-    flags = rel.read_csv(str(out / "contamination_flags.csv"), an.FLAG_FIELDS)
+    flags = rel.read_csv(str(out / "contamination_flags.csv"), inp.FLAG_FIELDS)
     assert [(r["item"], r["copied_by"], r["run"]) for r in flags] == [
         (copied["id"], copied["model"], "2")]
 
@@ -676,13 +677,13 @@ def claude_tables(seed=3):
 
 
 def claude_inputs(seed=3):
-    return {b: (an.load_claude(b, rows, ITEMS8, CLAUDE_CFG), {i: 100 for i, _, _ in ITEMS8})
+    return {b: (inp.load_claude(b, rows, ITEMS8, CLAUDE_CFG), {i: 100 for i, _, _ in ITEMS8})
             for b, rows in claude_tables(seed).items()}
 
 
 def claude_copies():
     """Open model A copies item A, Claude one copies B, and a model outside the seven copies C."""
-    seven = an.model_set(CLAUDE_CFG, "all")
+    seven = inp.model_set(CLAUDE_CFG, "all")
     out = {}
     for b in rel.ds.BENCHES:
         c = {(m, i, r): False for m in seven for i, _, _ in ITEMS8 for r in range(2)}
@@ -699,7 +700,7 @@ def claude_report():
 
 
 def test_the_claude_set_is_the_claude_models_alone():
-    assert an.model_set(CLAUDE_CFG, "claude") == CLAUDE
+    assert inp.model_set(CLAUDE_CFG, "claude") == CLAUDE
 
 
 def test_claude_gaps_have_their_own_holm_and_one_bh_set_of_40():
@@ -746,7 +747,7 @@ def test_a_short_claude_cell_stops_the_claude_gaps():
     rows = claude_tables()["deveval"]
     rows[5].update(passed=None, reason="request_error")
     with pytest.raises(ValueError, match="1 Claude cell"):
-        an.load_claude("deveval", rows, ITEMS8, CLAUDE_CFG)
+        inp.load_claude("deveval", rows, ITEMS8, CLAUDE_CFG)
 
 
 def test_a_claude_text_answer_without_a_reply_stops_the_claude_gaps():
@@ -762,9 +763,18 @@ def test_answers_goes_with_the_claude_gaps_only(argv):
         an.main(argv)
 
 
-def test_the_claude_gaps_write_no_figures(tmp_path, monkeypatch):
+@pytest.fixture
+def fresh_names():
+    """inp.name caches the Claude names of the first config it reads, so a test that patches
+    config.load starts and ends with an empty cache."""
+    inp._claude_names.cache_clear()
+    yield
+    inp._claude_names.cache_clear()
+
+
+def test_the_claude_gaps_write_no_figures(tmp_path, monkeypatch, fresh_names):
     monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
-    monkeypatch.setattr(an, "read_claude", lambda cfg, path: claude_inputs())
+    monkeypatch.setattr(inp, "read_claude", lambda cfg, path: claude_inputs())
     monkeypatch.setattr(an, "text_copies", lambda b, path, parts: claude_copies()[b])
     monkeypatch.setattr(an.rs, "N_BOOT", 20)
     an.main(["gaps", "--models", "claude", "--answers", "x", "--out", str(tmp_path)])
@@ -942,7 +952,7 @@ def test_the_claude_flag_counts_must_match_the_line_flags():
         an.check_claude_flags(g, line_c)
 
 
-def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatch):
+def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatch, fresh_names):
     out = tmp_path / "claude" / "analysis"
     out.mkdir(parents=True)
     got = {}

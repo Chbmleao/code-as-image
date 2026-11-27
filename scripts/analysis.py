@@ -42,7 +42,6 @@ also writes to results/claude/analysis. Gaps are image minus text, so a loss is 
 equal-tailed from type-1 percentiles.
 """
 import argparse
-import functools
 import importlib.util
 import json
 import math
@@ -52,6 +51,7 @@ import sys
 from collections import Counter, defaultdict
 from itertools import combinations
 
+from codeimg.analysis import inputs as inp
 from codeimg.analysis import reliability as rel
 from codeimg.analysis import stats as st
 
@@ -59,168 +59,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ds, gc, ft, rs = rel.ds, rel.gc, rel.ft, rel.rs
 config = ft.config
 
-OUT = os.path.join(ROOT, "results", "analysis")
-FULL = os.path.join(ROOT, "results", "full")
-ALL_OUT = os.path.join(ROOT, "results", "claude", "analysis")
-CLAUDE_FULL = os.path.join(ROOT, "results", "claude", "full")
-SCRATCH = {"main": os.path.join(ROOT, "scratch", "analysis"),
-           "all": os.path.join(ROOT, "scratch", "analysis_all")}
-# the 7-model line uses runs 0 and 1 of every model, and Claude has 2 runs on every item
-LINE_RUNS = 2
-DROP_RULE = ("an item with a Claude cell short of 2 scored runs leaves the line in all four "
-             "conditions for every model")
-GRID_KEYS = ("missing", "extra", "duplicates", "null_passed", "seed_not_run")
-MANIFESTS = os.path.join(ROOT, "manifests")
-DSTUDY = ft.DSTUDY
-PROMPT_COUNTS = "benchmarks/{b}/results/prompt_counts.jsonl"
-LENGTH_COLUMN = "qwen35"
-LOPO_BENCH, LOPO_N = "coderujb", 4
-NEVER_FIELDS = ("benchmark", "item", "project")
-FLAG_FIELDS = ("benchmark", "item", "copied_by", "run")
-P_KEYS = {"p", "holm", "bh"}
 # matched random removal: quintiles of the mean text score x terciles of length
 CONTROL = {"draws": 1000, "bins": (5, 3), "glmm_top": 0.10}
 CONTROL_SEED = 20261118
-
-
-@functools.cache
-def _claude_names():
-    claude = config.load().get("claude", {})
-    return {v["model"]: v.get("name", v["model"]) for v in claude.values() if isinstance(v, dict)}
-
-
-def name(m):
-    return ds.NAMES[m] if m in ds.NAMES else _claude_names().get(m, m)
-
-
-def claude_set(cfg):
-    if "claude" not in cfg:
-        raise ValueError("--models all or claude needs the [claude] table of the config")
-    return [m["model"] for m in config.claude_models(cfg).values()]
-
-
-def model_set(cfg, which="main"):
-    """Model ids of the config: the established order first, then new ones in config order, and
-    for `all` the [claude] models after them. `claude` is the [claude] models alone."""
-    if which == "claude":
-        return claude_set(cfg)
-    repos = [m["repo"] for m in cfg["models"].values()]
-    out = [m for m in ds.NAMES if m in repos] + [m for m in repos if m not in ds.NAMES]
-    return out + claude_set(cfg) if which == "all" else out
-
-
-def conditions(cfg):
-    return ["text"] + [f"image{s}" for s in cfg["experiment"]["sizes"]]
-
-
-def grid_parts(b, cfg, models, manifests=MANIFESTS, dstudy=DSTUDY):
-    """[(item ids, {model: runs})]: block 1 at experiment.runs, the rest at the D-study's runs."""
-    return [(ds.read_ids(os.path.join(manifests, "block1", f"{b}.txt")),
-             dict.fromkeys(models, cfg["experiment"]["runs"])),
-            (ds.read_ids(os.path.join(manifests, "rest", f"{b}.txt")),
-             config.runs_from(dstudy, b, models))]
-
-
-def read_lengths(b):
-    return {r["id"]: r[LENGTH_COLUMN]
-            for r in ds.read_jsonl(os.path.join(ROOT, PROMPT_COUNTS.format(b=b)))}
-
-
-def check_models(b, rows, models):
-    have = Counter(r["model"] for r in rows)
-    empty = [name(m) for m in models if not have[m]]
-    if empty:
-        raise ValueError(f"{b}: no rows for {', '.join(empty)}")
-
-
-def check_grid(b, rows, expected, claude=False):
-    """ft.check on one table. Claude rows carry no seed, since none is sent, and a request_error
-    has no verdict, since it is left out of scoring; for them those two checks are narrowed."""
-    got = ft.check(rows, expected)
-    if claude:
-        by_key = {r["key"]: r for r in rows}
-        got["seed_not_run"] = [k for k in got["seed_not_run"] if by_key[k]["seed"] is not None]
-        got["null_passed"] = [k for k in got["null_passed"]
-                              if by_key[k]["reason"] != "request_error"]
-    bad = {k: got[k][:3] for k in GRID_KEYS if got[k]}
-    if bad:
-        raise ValueError(f"{b}: rows do not match the expected grid: {bad}")
-
-
-def load_benchmark(b, rows, items, models, conds, parts):
-    """Checks rows against the expected grid and returns the cells of each model and condition:
-    cells[m][c][j] is item j's passes by run, tokens[m][c][j] its run-0 prompt tokens."""
-    check_models(b, rows, models)
-    rows = [r for r in rows if r["model"] in models]
-    check_grid(b, rows, ft.expected_keys(models, conds, parts))
-    items, rows, gone = rel.drop_excluded(items, rows, rel.excluded(b))
-    return {**build_cells(b, rows, items, models, conds), "excluded": gone}
-
-
-def load_line(b, open_rows, claude_rows, items, cfg):
-    """The 7-model line. Each table is checked against its own full grid, then every model keeps
-    runs 0 and 1, and an item with a Claude cell short of LINE_RUNS scored runs leaves the line in
-    every condition (DROP_RULE). The excluded items leave after the grid checks, before the
-    DROP_RULE. rows keeps every checked row of the kept items, for the copy check."""
-    conds = conditions(cfg)
-    opens, claude = model_set(cfg), claude_set(cfg)
-    models = opens + claude
-    rows = [r for r in open_rows + claude_rows if r["model"] in models]
-    check_models(b, rows, models)
-    check_grid(b, [r for r in rows if r["model"] in opens],
-               ft.expected_keys(opens, conds, grid_parts(b, cfg, opens)))
-    ids = [i for i, _, _ in items]
-    check_grid(b, [r for r in rows if r["model"] in claude],
-               ft.expected_keys(claude, conds, [(ids, dict.fromkeys(claude, LINE_RUNS))]),
-               claude=True)
-    items, rows, excluded = rel.drop_excluded(items, rows, rel.excluded(b))
-    ids = [i for i, _, _ in items]
-    scored = [r for r in rows if r["run"] < LINE_RUNS and r["passed"] is not None]
-    n = Counter((r["model"], r["condition"], r["id"]) for r in scored)
-    dropped = [i for i in ids if any(n[(m, c, i)] < LINE_RUNS for m in claude for c in conds)]
-    gone = set(dropped)
-    keep = [it for it in items if it[0] not in gone]
-    if len(keep) < 2:
-        raise ValueError(f"{b}: {len(keep)} item(s) left after dropping {len(dropped)} with a "
-                         "short Claude cell")
-    data = build_cells(b, [r for r in scored if r["id"] not in gone], keep, models, conds)
-    data.update(rows=rows, all_items=ids, dropped=dropped, excluded=excluded)
-    return data
-
-
-def load_claude(b, rows, items, cfg):
-    """The Claude table on its own, 2 runs on every item. A cell short of 2 scored runs stops,
-    since the addendum's per-condition drop is not built: the collected tables have none."""
-    conds, models = conditions(cfg), claude_set(cfg)
-    rows = [r for r in rows if r["model"] in models]
-    check_models(b, rows, models)
-    ids = [i for i, _, _ in items]
-    check_grid(b, rows, ft.expected_keys(models, conds, [(ids, dict.fromkeys(models, LINE_RUNS))]),
-               claude=True)
-    items, rows, gone = rel.drop_excluded(items, rows, rel.excluded(b))
-    short = sorted({(r["model"], r["condition"], r["id"]) for r in rows if r["passed"] is None})
-    if short:
-        m, c, i = short[0]
-        raise ValueError(f"{b}: {len(short)} Claude cell(s) short of {LINE_RUNS} scored runs, "
-                         f"first {name(m)} {c} {i}")
-    return {**build_cells(b, rows, items, models, conds), "excluded": gone}
-
-
-def build_cells(b, rows, items, models, conds):
-    pos = {i: j for j, (i, _, _) in enumerate(items)}
-    runs = defaultdict(list)
-    tokens = {m: {c: [None] * len(items) for c in conds} for m in models}
-    for r in rows:
-        if r["id"] not in pos:
-            raise ValueError(f"{b}: {r['key']}: item not in the item list")
-        runs[(r["model"], r["condition"], r["id"])].append((r["run"], int(r["passed"])))
-        if r["run"] == 0:
-            tokens[r["model"]][r["condition"]][pos[r["id"]]] = r["prompt_tokens"]
-    cells = {m: {c: [[y for _, y in sorted(runs[(m, c, i)])] for i, _, _ in items]
-                 for c in conds} for m in models}
-    return {"benchmark": b, "models": models, "conditions": conds,
-            "items": [i for i, _, _ in items], "projects": [p for _, p, _ in items],
-            "cells": cells, "tokens": tokens, "rows": rows}
 
 
 def scores(data):
@@ -242,7 +83,7 @@ def differences(y, a, b):
 def test_row(model, values, projects, **extra):
     c = st.cluster_t(values, projects)
     i = st.item_t(values)
-    return {"model": name(model), "repo": model, **extra, "est": c["est"], "n": c["n"],
+    return {"model": inp.name(model), "repo": model, **extra, "est": c["est"], "n": c["n"],
             "cluster": {k: c[k] for k in ("clusters", "df", "se", "lo", "hi", "p")},
             "item": {k: i[k] for k in ("df", "se", "lo", "hi", "p")}}
 
@@ -301,7 +142,7 @@ def scoring_shares(data):
         c["no_def_line"] += r["defines_target"] is False and r["reason"] != "no_code"
     keys = ["empty", "truncated", "no_code"] + (["no_def_line"] if data["benchmark"] == "deveval"
                                                  else [])
-    return {name(m): {c: {"answers": cells[(m, c)]["answers"],
+    return {inp.name(m): {c: {"answers": cells[(m, c)]["answers"],
                           **{k: cells[(m, c)][k] / cells[(m, c)]["answers"] for k in keys}}
                       for c in data["conditions"]} for m in data["models"]}
 
@@ -312,7 +153,7 @@ def output_lengths(data):
     toks = defaultdict(list)
     for r in data["rows"]:
         toks[(r["model"], r["condition"])].append(r["output_tokens"])
-    return {name(m): {c: {**spread(toks[(m, c)]), "mean": mean(toks[(m, c)])}
+    return {inp.name(m): {c: {**spread(toks[(m, c)]), "mean": mean(toks[(m, c)])}
                       for c in data["conditions"]} for m in data["models"]}
 
 
@@ -325,8 +166,8 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
     out = {"n_items": len(items), "n_clusters": len(groups),
            "excluded": {"count": len(data["excluded"]), "items": data["excluded"]}}
 
-    rates = {c: {name(m): mean(y[m][c]) for m in models} for c in conds}
-    rates["image"] = {name(m): mean([rates[c][name(m)] for c in sizes]) for m in models}
+    rates = {c: {inp.name(m): mean(y[m][c]) for m in models} for c in conds}
+    rates["image"] = {inp.name(m): mean([rates[c][inp.name(m)] for c in sizes]) for m in models}
     out["rates"] = rates
     out["ranks"] = {c: dict(zip(rates[c], rel.average_ranks(list(rates[c].values()))))
                     for c in ["text", "image"] + sizes}
@@ -340,17 +181,17 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
                          for m in models for s2, s1 in combinations(sizes, 2)]
 
     tok = data["tokens"]
-    out["tokens"] = {name(m): {c: spread(tok[m][c]) for c in conds} for m in models}
+    out["tokens"] = {inp.name(m): {c: spread(tok[m][c]) for c in conds} for m in models}
     out["token_ratio"] = {
-        name(m): {s: rel.quantile(sorted(a / t for a, t in zip(tok[m][s], tok[m]["text"])), 0.5)
+        inp.name(m): {s: rel.quantile(sorted(a / t for a, t in zip(tok[m][s], tok[m]["text"])), 0.5)
                   for s in sizes} for m in models}
     for m in models:
-        r = out["token_ratio"][name(m)]
+        r = out["token_ratio"][inp.name(m)]
         r["mean_over_sizes"] = mean([r[s] for s in sizes])
 
     out["lopo"] = []
-    if b == LOPO_BENCH:
-        for p in lopo_projects(projects, LOPO_N):
+    if b == inp.LOPO_BENCH:
+        for p in lopo_projects(projects, inp.LOPO_N):
             keep = [j for j, q in enumerate(projects) if q != p]
             for m in models:
                 out["lopo"].append(test_row(m, [d_main[m][j] for j in keep],
@@ -372,7 +213,7 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
 
     cells = data["cells"]
     out["floor_ceiling"] = {
-        name(m): {c: {"none": sum(max(ys) == 0 for ys in cells[m][c]) / len(items),
+        inp.name(m): {c: {"none": sum(max(ys) == 0 for ys in cells[m][c]) / len(items),
                       "all": sum(min(ys) == 1 for ys in cells[m][c]) / len(items)}
                   for c in conds} for m in models}
     out["all_none"] = {}
@@ -390,9 +231,9 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
 def gaps_report(cfg, inputs, seed=rs.SEED, n_boot=rs.N_BOOT):
     """inputs[b]: the load_benchmark output and the item lengths, per benchmark."""
     buckets = cfg["sample"]["deveval_buckets"]
-    rep = {"settings": {"models": [name(m) for m in model_set(cfg)], "seed": seed,
+    rep = {"settings": {"models": [inp.name(m) for m in inp.model_set(cfg)], "seed": seed,
                         "n_boot": n_boot, "level": st.LEVEL, "length_buckets": buckets,
-                        "length_column": LENGTH_COLUMN,
+                        "length_column": inp.LENGTH_COLUMN,
                         "interval": "CR1 cluster t with G - 1 df; item line: paired t",
                         "pooled_interval": "95% equal-tailed, type-1 percentiles"},
            "benchmarks": {}}
@@ -414,7 +255,7 @@ def token_ratio_mean(data):
     for m in data["models"]:
         r = {s: mean([a / t for a, t in zip(tok[m][s], tok[m]["text"])]) for s in sizes}
         r["mean_over_sizes"] = mean([r[s] for s in sizes])
-        out[name(m)] = r
+        out[inp.name(m)] = r
     return out
 
 
@@ -425,10 +266,10 @@ def claude_contamination(b, data, lengths, copies, seed, n_draws):
     check_answers(b, data, copies)
     models = data["models"]
     flags = flags_of(models, data["items"], copies)
-    own = {name(m): {"answers": sum(v for (mm, _, _), v in copies.items() if mm == m),
+    own = {inp.name(m): {"answers": sum(v for (mm, _, _), v in copies.items() if mm == m),
                      "items": len({i for (mm, i, _), v in copies.items() if mm == m and v})}
            for m in models}
-    return {"flagged": {name(m): len(flags[m]) for m in models}, "own_copies": own,
+    return {"flagged": {inp.name(m): len(flags[m]) for m in models}, "own_copies": own,
             **removal_checks(b, data, lengths, flags, seed, n_draws)}
 
 
@@ -439,9 +280,9 @@ def claude_gaps_report(cfg, inputs, copies_by_bench, seed=rs.SEED, n_boot=rs.N_B
     output and the item lengths; copies_by_bench[b] the text copies of every model."""
     n_draws = n_draws or CONTROL["draws"]
     buckets = cfg["sample"]["deveval_buckets"]
-    seven = set(model_set(cfg, "all"))
-    rep = {"settings": {"models": [name(m) for m in model_set(cfg, "claude")],
-                        "runs": list(range(LINE_RUNS)), "seed": seed, "n_boot": n_boot,
+    seven = set(inp.model_set(cfg, "all"))
+    rep = {"settings": {"models": [inp.name(m) for m in inp.model_set(cfg, "claude")],
+                        "runs": list(range(inp.LINE_RUNS)), "seed": seed, "n_boot": n_boot,
                         "level": st.LEVEL,
                         "interval": "CR1 cluster t with G - 1 df; item line: paired t",
                         "short_cell": "stops the command",
@@ -457,7 +298,7 @@ def claude_gaps_report(cfg, inputs, copies_by_bench, seed=rs.SEED, n_boot=rs.N_B
         v["token_ratio_mean"] = token_ratio_mean(data)
         errors = Counter((r["model"], r["condition"]) for r in data["rows"]
                          if r["reason"] == "request_error")
-        v["request_errors"] = {name(m): {c: errors[(m, c)] for c in data["conditions"]}
+        v["request_errors"] = {inp.name(m): {c: errors[(m, c)] for c in data["conditions"]}
                                for m in data["models"]}
         copies = {k: x for k, x in copies_by_bench[b].items() if k[0] in seven}
         v["contamination"] = claude_contamination(b, data, lengths, copies, f"{control_seed}-{b}",
@@ -473,83 +314,32 @@ def claude_gaps_report(cfg, inputs, copies_by_bench, seed=rs.SEED, n_boot=rs.N_B
     return rep
 
 
-def read_inputs(cfg, full, benches=ds.BENCHES):
-    models, conds = model_set(cfg), conditions(cfg)
-    out = {}
-    for b in benches:
-        rows = ds.read_jsonl(os.path.join(full, f"{b}.collected.jsonl"))
-        data = load_benchmark(b, rows, rel.design(b), models, conds, grid_parts(b, cfg, models))
-        out[b] = (data, read_lengths(b))
-    return out
-
-
-def read_claude(cfg, claude_full, benches=ds.BENCHES):
-    return {b: (load_claude(b, ds.read_jsonl(os.path.join(claude_full, f"{b}.collected.jsonl")),
-                            rel.design(b), cfg), read_lengths(b))
-            for b in benches}
-
-
-def read_line(cfg, full, claude_full, benches=ds.BENCHES):
-    return {b: load_line(b, ds.read_jsonl(os.path.join(full, f"{b}.collected.jsonl")),
-                         ds.read_jsonl(os.path.join(claude_full, f"{b}.collected.jsonl")),
-                         rel.design(b), cfg)
-            for b in benches}
-
-
-def rounded(x, key=None):
-    """6 decimals, except p-values, which keep 3 significant digits so a tiny p is not 0."""
-    if isinstance(x, float):
-        return float(f"{x:.3g}") if key in P_KEYS else round(x, 6)
-    if isinstance(x, dict):
-        return {k: rounded(v, k) for k, v in x.items()}
-    if isinstance(x, (list, tuple)):
-        return [rounded(v, key) for v in x]
-    return x
-
-
-def write_json(path, obj):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(rounded(obj), indent=1) + "\n")
-    print(path)
-
-
 def gaps(args):
     cfg = config.load()
     if args.models == "claude":
-        inputs = read_claude(cfg, args.claude_full)
+        inputs = inp.read_claude(cfg, args.claude_full)
         copies = {b: text_copies(b, args.answers, ("block1", "rest", "claude")) for b in inputs}
-        write_json(os.path.join(args.out, "gaps.json"), claude_gaps_report(cfg, inputs, copies))
+        inp.write_json(os.path.join(args.out, "gaps.json"), claude_gaps_report(cfg, inputs, copies))
         return
-    rep = gaps_report(cfg, read_inputs(cfg, args.full))
+    rep = gaps_report(cfg, inp.read_inputs(cfg, args.full))
     never = [row for v in rep["benchmarks"].values() for row in v.pop("never_passed")]
     for b, v in rep["benchmarks"].items():
         v["never_passed"] = sum(row[0] == b for row in never)
-    write_json(os.path.join(args.out, "gaps.json"), rep)
+    inp.write_json(os.path.join(args.out, "gaps.json"), rep)
     path = os.path.join(args.out, "never_passed.csv")
-    gc.write_csv(path, NEVER_FIELDS, never)
+    gc.write_csv(path, inp.NEVER_FIELDS, never)
     print(path)
-    figures(rounded(rep), os.path.join(args.out, "figures"))
-
-
-def answer_rows(data):
-    """The answers CSV of analysis/reliability.R's format, in model, condition, item, run order."""
-    out = []
-    for m in data["models"]:
-        for c in data["conditions"]:
-            for i, p, ys in zip(data["items"], data["projects"], data["cells"][m][c]):
-                out += [(m, i, p, c, r, y) for r, y in enumerate(ys)]
-    return out
+    figures(inp.rounded(rep), os.path.join(args.out, "figures"))
 
 
 def prep(args):
     cfg = config.load()
     if args.models == "all":
-        inputs = read_line(cfg, args.full, args.claude_full)
+        inputs = inp.read_line(cfg, args.full, args.claude_full)
     else:
-        inputs = {b: data for b, (data, _) in read_inputs(cfg, args.full).items()}
+        inputs = {b: data for b, (data, _) in inp.read_inputs(cfg, args.full).items()}
     for b, data in inputs.items():
-        out = answer_rows(data)
+        out = inp.answer_rows(data)
         path = os.path.join(args.scratch, f"{b}_answers.csv")
         gc.write_csv(path, rel.ANSWER_FIELDS, out)
         print(f"{path}: {len(out)} answers"
@@ -561,15 +351,15 @@ def ranks_report(line, seed=rs.SEED, n_boot=None):
     the reliability code and the scripts/resample.py draws, keyed by display name."""
     n_boot = n_boot or rs.N_BOOT
     models = next(iter(line.values()))["models"]
-    rep = {"settings": {"models": [name(m) for m in models], "runs": list(range(LINE_RUNS)),
-                        "drop_rule": DROP_RULE, "seed": seed, "n_boot": n_boot,
+    rep = {"settings": {"models": [inp.name(m) for m in models], "runs": list(range(inp.LINE_RUNS)),
+                        "drop_rule": inp.DROP_RULE, "seed": seed, "n_boot": n_boot,
                         "interval": "95% equal-tailed, type-1 percentiles"},
            "benchmarks": {}}
     for b, data in line.items():
         items, projects = data["items"], data["projects"]
         groups = ds.clusters(b, items, dict(zip(items, projects)))
         res = rel.rank_stability(data, groups, f"{seed}-{b}", n_boot)
-        shown = {rel.name(m): name(m) for m in models}
+        shown = {rel.name(m): inp.name(m) for m in models}
         rep["benchmarks"][b] = {
             "n_items": len(items), "n_clusters": len(groups),
             "dropped": {"count": len(data["dropped"]), "items": data["dropped"]},
@@ -581,8 +371,8 @@ def ranks_report(line, seed=rs.SEED, n_boot=None):
 
 
 def ranks(args):
-    rep = ranks_report(read_line(config.load(), args.full, args.claude_full))
-    write_json(os.path.join(args.out, "ranks.json"), rep)
+    rep = ranks_report(inp.read_line(config.load(), args.full, args.claude_full))
+    inp.write_json(os.path.join(args.out, "ranks.json"), rep)
 
 
 def reply_cell():
@@ -596,8 +386,8 @@ def replies_report(cfg, run_dir, collected, benches=ds.BENCHES):
     (benchmark, id, condition, run) to its one succeeded result in the run log, which holds the
     stop reason and the usage. collected[b] is the Claude collected table, which the gen rows must
     match key for key. Output tokens here leave thinking out."""
-    conds = conditions(cfg)
-    rep = {"settings": {"models": [name(m) for m in claude_set(cfg)],
+    conds = inp.conditions(cfg)
+    rep = {"settings": {"models": [inp.name(m) for m in inp.claude_set(cfg)],
                         "output_tokens": "output_tokens minus thinking_tokens, per reply",
                         "thinking_share": "thinking tokens over output tokens, summed"},
            "benchmarks": {b: {} for b in benches}}
@@ -613,7 +403,7 @@ def replies_report(cfg, run_dir, collected, benches=ds.BENCHES):
                    if r["model"] == model}
             keys = Counter((g["id"], g["condition"], g["run"]) for g in gen)
             if keys != Counter(col.keys()):
-                raise ValueError(f"{b}: the gen rows of {name(model)} ({len(gen)}) do not match "
+                raise ValueError(f"{b}: the gen rows of {inp.name(model)} ({len(gen)}) do not match "
                                  f"its collected rows ({len(col)}) key for key")
             cells = defaultdict(reply_cell)
             for g in gen:
@@ -652,7 +442,7 @@ def replies_report(cfg, run_dir, collected, benches=ds.BENCHES):
             stopped = sum(c["max_tokens"] for c in cells.values())
             truncated = sum(bool(r["truncated"]) for r in col.values())
             if stopped != truncated:
-                raise ValueError(f"{b}: {name(model)} has {stopped} replies at max_tokens but "
+                raise ValueError(f"{b}: {inp.name(model)} has {stopped} replies at max_tokens but "
                                  f"{truncated} truncated collected rows")
             out = {}
             for c in conds:
@@ -663,7 +453,7 @@ def replies_report(cfg, run_dir, collected, benches=ds.BENCHES):
                           "other_stops": dict(x["other_stops"]),
                           "thinking_share": thinking / output if output else None,
                           "output_tokens": {**spread(plain), "mean": mean(plain)}}
-            rep["benchmarks"][b][name(model)] = out
+            rep["benchmarks"][b][inp.name(model)] = out
     return rep
 
 
@@ -671,7 +461,7 @@ def replies(args):
     collected = {b: ds.read_jsonl(os.path.join(args.claude_full, f"{b}.collected.jsonl"))
                  for b in ds.BENCHES}
     rep = replies_report(config.load(), args.run_dir, collected)
-    write_json(os.path.join(args.out, "replies.json"), rep)
+    inp.write_json(os.path.join(args.out, "replies.json"), rep)
 
 
 def _contamination_module():
@@ -765,7 +555,7 @@ def flag2_overlap(models, items, modes, flags):
         got = sorted(((v, i) for (mm, i), v in modes.items() if mm == m), key=lambda t: (-t[0], t[1]))
         top = {i for _, i in got[:math.ceil(CONTROL["glmm_top"] * len(got))]}
         f = flags[m]
-        out[name(m)] = {"both": len(f & top), "copy_only": len(f - top),
+        out[inp.name(m)] = {"both": len(f & top), "copy_only": len(f - top),
                         "glmm_only": len(top - f), "neither": len(set(items) - f - top)}
     return out
 
@@ -788,14 +578,14 @@ def copy_flags(b, data, items, copies):
     flags = flags_of(models, items, copies)
     summary = {"copy_answers": sum(copies.values()),
                "copied_items": len({i for (_, i, _), v in copies.items() if v}),
-               "flagged": {name(m): len(flags[m]) for m in models}}
+               "flagged": {inp.name(m): len(flags[m]) for m in models}}
     return flags, summary, copies
 
 
 def line_flags_report(line, copies_by_bench):
     """The 7-model line's copy flags: over every item, not only those the line keeps, and from
     every text run of the other models, run 2 of the open models included."""
-    rep = {"settings": {"models": [name(m) for m in next(iter(line.values()))["models"]],
+    rep = {"settings": {"models": [inp.name(m) for m in next(iter(line.values()))["models"]],
                         "runs": "every text run"},
            "benchmarks": {}}
     for b, data in line.items():
@@ -831,7 +621,7 @@ def removal_checks(b, data, lengths, flags, seed, n_draws):
         d = differences(y[m], sizes, "text")
         flagged = [pos[i] for i in flags[m]]
         if not flagged:
-            out["control"][name(m)] = None
+            out["control"][inp.name(m)] = None
             continue
         flagged.sort()
         # flags come from the other models' text answers, so flagged items lean easy in text
@@ -847,7 +637,7 @@ def removal_checks(b, data, lengths, flags, seed, n_draws):
         total = math.fsum(d)
         changes = sorted((total - math.fsum(d[j] for j in dr)) / (len(d) - len(dr)) - base
                          for dr in draws)
-        out["control"][name(m)] = {
+        out["control"][inp.name(m)] = {
             "observed_change": observed, "lo": rel.quantile(changes, 0.025),
             "hi": rel.quantile(changes, 0.975),
             "share_at_or_below": sum(c <= observed for c in changes) / len(changes),
@@ -876,18 +666,18 @@ def contamination_report(inputs, copies_by_bench, modes, seed=CONTROL_SEED,
 def contamination(args):
     cfg = config.load()
     if args.models == "all":
-        line = read_line(cfg, args.full, args.claude_full)
+        line = inp.read_line(cfg, args.full, args.claude_full)
         copies = {b: text_copies(b, args.answers, ("block1", "rest", "claude")) for b in line}
         rep = line_flags_report(line, copies)
     else:
         modes = read_item_modes(os.path.join(args.out, "glmm_item_model.csv"))
-        inputs = read_inputs(cfg, args.full)
+        inputs = inp.read_inputs(cfg, args.full)
         copies = {b: text_copies(b, args.answers) for b in inputs}
         rep = contamination_report(inputs, copies, modes)
     rows = [r for v in rep["benchmarks"].values() for r in v.pop("flag_rows")]
-    write_json(os.path.join(args.out, "contamination.json"), rep)
+    inp.write_json(os.path.join(args.out, "contamination.json"), rep)
     path = os.path.join(args.out, "contamination_flags.csv")
-    gc.write_csv(path, FLAG_FIELDS, rows)
+    gc.write_csv(path, inp.FLAG_FIELDS, rows)
     print(path)
 
 
@@ -953,7 +743,7 @@ def read_report_inputs(out, wanted=None):
 
 
 def main_table(g, gl):
-    contrast = {name(r["model"]): r for r in gl["contrast"]}
+    contrast = {inp.name(r["model"]): r for r in gl["contrast"]}
     rows = []
     for r in g["main"]:
         m, c, it = r["model"], r["cluster"], r["item"]
@@ -1209,7 +999,7 @@ def check_line(inputs):
     models = r["settings"]["models"]
     for b, v in r["benchmarks"].items():
         g = gl["benchmarks"].get(b, {})
-        if [name(m) for m in g.get("models", [])] != models or g.get("n_items") != v["n_items"]:
+        if [inp.name(m) for m in g.get("models", [])] != models or g.get("n_items") != v["n_items"]:
             raise ValueError(f"{b}: glmm.json ({len(g.get('models', []))} models, "
                              f"{g.get('n_items')} items) does not match ranks.json ({len(models)} "
                              f"models, {v['n_items']} items); rerun prep --models all, "
@@ -1466,10 +1256,10 @@ def paper_paragraph(g, g5, gl, cs):
                      f"p {pval(gl['benchmarks'][b]['wald']['p'])}" for b, tb in zip(benches, t))
     df = next(iter(gl["benchmarks"].values()))["wald"]["df"]
     ceiling = ""
-    if LOPO_BENCH in g["benchmarks"]:
-        v = g["benchmarks"][LOPO_BENCH]
+    if inp.LOPO_BENCH in g["benchmarks"]:
+        v = g["benchmarks"][inp.LOPO_BENCH]
         k = v["contamination"]["flagged"]
-        ceiling = (f" On {BENCH_TITLES[LOPO_BENCH]}, "
+        ceiling = (f" On {BENCH_TITLES[inp.LOPO_BENCH]}, "
                    f"{per_model(lambda m: pp(v['floor_ceiling'][m]['text']['all'], False) + '%')} "
                    "of items pass both Claude text runs, and another model's text answer "
                    "reproduces the "
@@ -1569,9 +1359,9 @@ def claude_findings(inputs, main, cov, claude):
 def report(args):
     if args.models == "all":
         inputs = read_report_inputs(args.out, CLAUDE_REPORT_INPUTS)
-        main = read_report_inputs(OUT, {f: REPORT_INPUTS[f] for f in ("gaps.json", "glmm.json")})
+        main = read_report_inputs(inp.OUT, {f: REPORT_INPUTS[f] for f in ("gaps.json", "glmm.json")})
         cov = read_cov(os.path.join(args.out, "glmm_contrast_cov.csv"), inputs["glmm"])
-        text = claude_findings(inputs, main, cov, claude_set(config.load()))
+        text = claude_findings(inputs, main, cov, inp.claude_set(config.load()))
         path = os.path.join(os.path.dirname(os.path.abspath(args.out)), "findings.md")
         claude_figures(inputs["gaps"], main["gaps"], os.path.join(args.out, "figures"))
     else:
@@ -1693,21 +1483,21 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("gaps")
     p.add_argument("--models", choices=("main", "claude"), default="main")
-    p.add_argument("--full", default=FULL)
-    p.add_argument("--claude-full", default=CLAUDE_FULL)
+    p.add_argument("--full", default=inp.FULL)
+    p.add_argument("--claude-full", default=inp.CLAUDE_FULL)
     p.add_argument("--answers", help="with --models claude: the text answers of every model")
     p.add_argument("--out")
     p = sub.add_parser("replies")
     p.add_argument("--run-dir", required=True, help="the Claude run directory (gen/ and claude/)")
-    p.add_argument("--claude-full", default=CLAUDE_FULL)
+    p.add_argument("--claude-full", default=inp.CLAUDE_FULL)
     p.add_argument("--out")
     for cmd in ("prep", "contamination", "ranks", "report"):
         p = sub.add_parser(cmd)
         if cmd != "ranks":
             p.add_argument("--models", choices=("main", "all"), default="main")
         if cmd != "report":
-            p.add_argument("--full", default=FULL)
-            p.add_argument("--claude-full", default=CLAUDE_FULL)
+            p.add_argument("--full", default=inp.FULL)
+            p.add_argument("--claude-full", default=inp.CLAUDE_FULL)
         if cmd == "prep":
             p.add_argument("--scratch")
         else:
@@ -1720,9 +1510,9 @@ def main(argv=None):
         ap.error("gaps: --answers goes with --models claude, and only with it")
     line = args.cmd in ("ranks", "replies") or getattr(args, "models", "main") != "main"
     if args.cmd == "prep" and args.scratch is None:
-        args.scratch = SCRATCH["all" if line else "main"]
+        args.scratch = inp.SCRATCH["all" if line else "main"]
     if args.cmd != "prep" and args.out is None:
-        args.out = ALL_OUT if line else OUT
+        args.out = inp.ALL_OUT if line else inp.OUT
     try:
         COMMANDS[args.cmd](args)
     except (ValueError, OSError) as e:

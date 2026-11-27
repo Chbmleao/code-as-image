@@ -5,6 +5,7 @@ import os
 import pytest
 from conftest import ROOT
 
+from codeimg.analysis import inputs as inp
 from codeimg.answers import answer_key
 from codeimg.answers import deveval as dv
 
@@ -110,7 +111,7 @@ def toy_rows(models, passes):
 
 def toy_lines(rows, models, items):
     parts = [([i for i, _, _ in items], dict.fromkeys(models, 2))]
-    return lb.gap_lines([an.load_benchmark("deveval", rows, items, models, CONDS, parts)])
+    return lb.gap_lines([inp.load_benchmark("deveval", rows, items, models, CONDS, parts)])
 
 
 def test_one_flip_moves_one_model_by_one_answer():
@@ -127,16 +128,16 @@ def test_one_flip_moves_one_model_by_one_answer():
         grades = [grade(f"first__{flip}", "Error"), grade(f"last__{flip}", result)]
         last = toy_lines(lb.with_last(rows, picked, lb.verdicts(picked, grades)), models, items)
         # 1 / (2 runs x 3 sizes x 3 items)
-        assert last[an.name(models[0])]["est"] == pytest.approx(
-            first[an.name(models[0])]["est"] + step / 18, abs=1e-12)
-        assert last[an.name(models[1])] == first[an.name(models[1])]
+        assert last[inp.name(models[0])]["est"] == pytest.approx(
+            first[inp.name(models[0])]["est"] + step / 18, abs=1e-12)
+        assert last[inp.name(models[1])] == first[inp.name(models[1])]
     # a pass that turns into a fail lowers the gap by the same step
     flip = answer_key(models[0], "A", "image10", 1)
     picked = [{"key": flip, "role": "graded"}]
     grades = [grade(f"first__{flip}", "Pass"), grade(f"last__{flip}", "Error")]
     last = toy_lines(lb.with_last(rows, picked, lb.verdicts(picked, grades)), models, items)
-    assert last[an.name(models[0])]["est"] == pytest.approx(
-        first[an.name(models[0])]["est"] - 1 / 18, abs=1e-12)
+    assert last[inp.name(models[0])]["est"] == pytest.approx(
+        first[inp.name(models[0])]["est"] - 1 / 18, abs=1e-12)
 
 
 def test_the_first_block_line_must_be_the_committed_gap(tmp_path):
