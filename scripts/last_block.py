@@ -18,14 +18,16 @@ gap both ways, as analysis.py computes the main gap. The main analysis keeps the
 import argparse
 import csv
 import glob
-import importlib.util
 import json
 import os
 import sys
 import warnings
 from collections import Counter
 
+from codeimg import config
+from codeimg.analysis import dstudy as ds
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import reliability as rel
 from codeimg.analysis import report as rpt
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
@@ -33,17 +35,6 @@ from codeimg.answers import deveval as dv
 from codeimg.collect import DEV_REASON
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def _load(name):
-    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "scripts", f"{name}.py"))
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-an = _load("analysis")
-rel, config = an.rel, an.config
 
 B = "deveval"
 OUT = os.path.join(ROOT, "results", "last_block")
@@ -84,7 +75,7 @@ def last_block(g, it, key):
 
 def collected(full=inp.FULL, claude_full=inp.CLAUDE_FULL):
     """(open rows, Claude rows) of the DevEval collected tables."""
-    return tuple(an.ds.read_jsonl(os.path.join(d, f"{B}.collected.jsonl"))
+    return tuple(ds.read_jsonl(os.path.join(d, f"{B}.collected.jsonl"))
                  for d in (full, claude_full))
 
 
@@ -92,7 +83,7 @@ def generations(patterns=GENS):
     for pattern in patterns:
         for path in sorted(glob.glob(pattern)):
             if not path.endswith(".probe.jsonl"):
-                yield from an.ds.read_jsonl(path)
+                yield from ds.read_jsonl(path)
 
 
 def kind(condition):
@@ -154,7 +145,7 @@ def read_csv(path):
 
 
 def grades(args):
-    write_csv(os.path.join(OUT, "grades.csv"), GRADE_FIELDS, an.ds.read_jsonl(args.grades))
+    write_csv(os.path.join(OUT, "grades.csv"), GRADE_FIELDS, ds.read_jsonl(args.grades))
 
 
 def verdicts(picked, grade_rows):

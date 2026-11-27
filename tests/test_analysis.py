@@ -1,5 +1,4 @@
 import copy
-import importlib.util
 import json
 import os
 import random
@@ -9,20 +8,17 @@ import pytest
 from conftest import ROOT, need
 
 from codeimg import config
+from codeimg.analysis import cli
 from codeimg.analysis import contamination as ctm
 from codeimg.analysis import figures as figs
 from codeimg.analysis import gaps as gp
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import reliability as rel
 from codeimg.analysis import replies as rpl
 from codeimg.analysis import report as rpt
+from codeimg.analysis import resample as rs
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
-
-_spec = importlib.util.spec_from_file_location("analysis",
-                                               os.path.join(ROOT, "scripts", "analysis.py"))
-an = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(an)
-rel, rs = an.rel, an.rs
 
 CONDS = ["text", "image10", "image12", "image14"]
 SIXTH = "toy/Model-6"
@@ -567,8 +563,8 @@ def test_an_open_grid_problem_fails_before_the_trim(monkeypatch):
 ])
 def test_default_folders_follow_the_model_set(monkeypatch, argv, key, want):
     got = {}
-    monkeypatch.setitem(an.COMMANDS, argv[0], lambda args: got.update(vars(args)))
-    an.main(argv)
+    monkeypatch.setitem(cli.COMMANDS, argv[0], lambda args: got.update(vars(args)))
+    cli.main(argv)
     assert got[key] == want
     if argv[0] not in ("report", "replies"):
         assert (got["full"], got["claude_full"]) == (inp.FULL, inp.CLAUDE_FULL)
@@ -601,8 +597,8 @@ def test_a_simulated_seven_model_line_runs_through_prep_and_ranks(tmp_path, monk
     monkeypatch.setattr(rs, "N_BOOT", 20)
     scratch, out = tmp_path / "scratch", tmp_path / "out"
     src = ["--full", full, "--claude-full", claude_full]
-    an.main(["prep", "--models", "all", *src, "--scratch", str(scratch)])
-    an.main(["ranks", *src, "--out", str(out)])
+    cli.main(["prep", "--models", "all", *src, "--scratch", str(scratch)])
+    cli.main(["ranks", *src, "--out", str(out)])
     cfg = config.load()
     models = inp.model_set(cfg, "all")
     rep = json.loads((out / "ranks.json").read_text())
@@ -651,7 +647,7 @@ def test_line_contamination_runs_through_the_command(tmp_path, monkeypatch):
         name = "deveval_gold.jsonl" if b == "deveval" else "coderujb_items.jsonl"
         with open(answers / name, "w") as f:
             f.writelines(json.dumps(r) + "\n" for r in refs)
-    an.main(["contamination", "--models", "all", "--full", full, "--claude-full", claude_full,
+    cli.main(["contamination", "--models", "all", "--full", full, "--claude-full", claude_full,
              "--answers", str(answers), "--out", str(out)])
     rep = json.loads((out / "contamination.json").read_text())
     models = inp.model_set(config.load(), "all")
@@ -766,7 +762,7 @@ def test_a_claude_text_answer_without_a_reply_stops_the_claude_gaps():
 @pytest.mark.parametrize("argv", [["gaps", "--models", "claude"], ["gaps", "--answers", "x"]])
 def test_answers_goes_with_the_claude_gaps_only(argv):
     with pytest.raises(SystemExit):
-        an.main(argv)
+        cli.main(argv)
 
 
 @pytest.fixture
@@ -779,11 +775,11 @@ def fresh_names():
 
 
 def test_the_claude_gaps_write_no_figures(tmp_path, monkeypatch, fresh_names):
-    monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
+    monkeypatch.setattr(config, "load", lambda: CLAUDE_CFG)
     monkeypatch.setattr(inp, "read_claude", lambda cfg, path: claude_inputs())
     monkeypatch.setattr(ctm, "text_copies", lambda b, path, parts: claude_copies()[b])
-    monkeypatch.setattr(an.rs, "N_BOOT", 20)
-    an.main(["gaps", "--models", "claude", "--answers", "x", "--out", str(tmp_path)])
+    monkeypatch.setattr(rs, "N_BOOT", 20)
+    cli.main(["gaps", "--models", "claude", "--answers", "x", "--out", str(tmp_path)])
     assert os.listdir(tmp_path) == ["gaps.json"]
 
 
@@ -962,12 +958,12 @@ def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatc
     out = tmp_path / "claude" / "analysis"
     out.mkdir(parents=True)
     got = {}
-    monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
+    monkeypatch.setattr(config, "load", lambda: CLAUDE_CFG)
     monkeypatch.setattr(rpt, "read_report_inputs", lambda path, wanted: {"gaps": {}, "glmm": {}})
     monkeypatch.setattr(rpt, "read_cov", lambda path, glmm: got.update(cov=path))
     monkeypatch.setattr(rpt, "claude_findings", lambda *a: "text\n")
     monkeypatch.setattr(figs, "claude_figures", lambda g, g5, path: got.update(figures=path))
-    an.main(["report", "--models", "all", "--out", str(out)])
+    cli.main(["report", "--models", "all", "--out", str(out)])
     assert (tmp_path / "claude" / "findings.md").read_text() == "text\n"
     assert not (out / "findings.md").exists()
     assert got == {"cov": str(out / "glmm_contrast_cov.csv"), "figures": str(out / "figures")}

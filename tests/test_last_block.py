@@ -5,6 +5,7 @@ import os
 import pytest
 from conftest import ROOT
 
+from codeimg.analysis import dstudy as ds
 from codeimg.analysis import inputs as inp
 from codeimg.answers import answer_key
 from codeimg.answers import deveval as dv
@@ -13,7 +14,6 @@ _spec = importlib.util.spec_from_file_location("last_block",
                                                os.path.join(ROOT, "scripts", "last_block.py"))
 lb = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(lb)
-an = lb.an
 
 M = "toy/Model"
 ITEM = {"project_path": "p", "completion_path": "p/m.py", "body_position": [3, 4], "tests": [],
@@ -115,7 +115,7 @@ def toy_lines(rows, models, items):
 
 
 def test_one_flip_moves_one_model_by_one_answer():
-    models = list(an.ds.NAMES)[:2]
+    models = list(ds.NAMES)[:2]
     passes = {"A": {"text": [1, 1], **{c: [0, 1] for c in CONDS[1:]}},
               "B": {"text": [1, 0], **{c: [0, 0] for c in CONDS[1:]}},
               "C": {"text": [0, 1], **{c: [1, 0] for c in CONDS[1:]}}}
