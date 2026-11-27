@@ -1,5 +1,4 @@
 import csv
-import importlib.util
 import json
 import os
 from collections import defaultdict
@@ -7,10 +6,8 @@ from collections import defaultdict
 import pytest
 from conftest import ROOT
 
-_spec = importlib.util.spec_from_file_location("reliability",
-                                               os.path.join(ROOT, "scripts", "reliability.py"))
-rel = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(rel)
+from codeimg.analysis import reliability as rel
+
 ds = rel.ds
 
 M0, M1 = list(ds.NAMES)[:2]

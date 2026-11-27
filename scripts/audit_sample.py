@@ -25,7 +25,6 @@ usage: uv run python scripts/audit_sample.py {hand-read,never-passed,summary} [-
 import argparse
 import ast
 import csv
-import importlib.util
 import json
 import os
 import random
@@ -37,6 +36,7 @@ from collections import Counter
 from scipy.stats import binomtest
 
 from codeimg import config
+from codeimg.analysis import reliability as rel
 
 ROOT = config.ROOT
 OUT = os.path.join(ROOT, "results", "audit")
@@ -188,10 +188,6 @@ def check_labels(rows, allowed, name):
 def excluded_items():
     """{benchmark: (count, date)} of the items manifests/excluded/ leaves out of the analysis,
     read through scripts/reliability.py so the ids are checked against the item lists."""
-    spec = importlib.util.spec_from_file_location(
-        "reliability", os.path.join(ROOT, "scripts", "reliability.py"))
-    rel = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(rel)
     return {b: (len(rel.excluded(b)), rel.EXCLUDED_ON[b]) for b in BENCHES}
 
 

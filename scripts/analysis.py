@@ -52,19 +52,10 @@ import sys
 from collections import Counter, defaultdict
 from itertools import combinations
 
+from codeimg.analysis import reliability as rel
 from codeimg.analysis import stats as st
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def _load(name):
-    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "scripts", f"{name}.py"))
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-rel = _load("reliability")
 ds, gc, ft, rs = rel.ds, rel.gc, rel.ft, rel.rs
 config = ft.config
 

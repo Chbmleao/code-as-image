@@ -15,7 +15,6 @@ usage: uv run python scripts/layout_share.py --requests DIR [--out DIR]
 import argparse
 import csv
 import hashlib
-import importlib.util
 import json
 import os
 import statistics
@@ -23,6 +22,7 @@ import sys
 from collections import defaultdict
 
 from codeimg import config
+from codeimg.analysis import reliability as rel
 from codeimg.prompts import SPLITTERS, PromptError
 from codeimg.render import NEWLINE_MARK, PAD, PAGE_W, capacity, layout, line_height, render
 
@@ -32,16 +32,6 @@ NAMES = {"coderujb": "CoderUJB", "deveval": "DevEval"}
 OUT = os.path.join(ROOT, "results", "layout")
 MANIFESTS = os.path.join(ROOT, "manifests", "pages")
 ITEM_FIELDS = ["benchmark", "id", "px", "chars", "leading", "pages", "pages2", "area", "area2"]
-
-
-def _load(name):
-    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "scripts", f"{name}.py"))
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-rel = _load("reliability")
 
 
 class Mismatch(Exception):
