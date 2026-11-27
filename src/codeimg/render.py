@@ -1,4 +1,4 @@
-"""Packed rendering of the repository context, as in pilot/run_pilot.py (render_packed).
+"""Packed rendering of the repository context, as in studies/pilot/run_pilot.py (render_packed).
 
 Lines flow across rows of 616 px with a visible marker for each line break, and leading spaces are
 kept, so indentation survives. A page holds at most 1540 px of rows; when the context needs more

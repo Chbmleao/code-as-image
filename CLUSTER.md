@@ -19,7 +19,7 @@ The cluster directories are not git checkouts.
 
 | Path | Holds |
 |---|---|
-| `/sonic_home/carlosleao/ufm8` | Model panel code (flat copy of `model_panel/` plus `run_pilot.py`, `HumanEval.jsonl.gz`, `fonts/` from `pilot/`) and its `logs/` |
+| `/sonic_home/carlosleao/ufm8` | Model panel code (flat copy of `studies/model_panel/` plus `run_pilot.py`, `HumanEval.jsonl.gz`, `fonts/` from `studies/pilot/`) and its `logs/` |
 | `/sonic_home/carlosleao/ufm7` | Benchmark code, same layout as `benchmarks/` |
 | `/snfs2/carlosleao/ufm8` | `venv/` (vLLM 0.32.0, torch 2.13, transformers 5.19), `hf/` (HF_HOME), `home/` and `cache/` for the GPU jobs |
 | `/snfs2/carlosleao/ufm7` | Benchmark data and outputs (`coderujb`, `deveval`, `deveval_calib`, `d4j`) and `logs/` |
@@ -32,7 +32,7 @@ Big files (models, datasets, outputs) go on `/snfs2`, code on `/sonic_home`.
 
 1. Copy the edited files over, for example:
    ```
-   scp model_panel/text_baseline.py phocus4:/sonic_home/carlosleao/ufm8/
+   scp studies/model_panel/text_baseline.py phocus4:/sonic_home/carlosleao/ufm8/
    scp benchmarks/shared/generate.py phocus4:/sonic_home/carlosleao/ufm7/shared/
    ```
 2. On `phocus4`, download what the job needs. The GPU nodes run with `HF_HUB_OFFLINE=1`, so a

@@ -6,7 +6,7 @@ Pages per item and image-to-text token ratios at 10, 12 and 14 px for the 5-mode
 
 - Source: `benchmarks/*/results/prompt_counts.jsonl`, written by `benchmarks/shared/count_tokens.py`, filtered to the final item ids (`final_ids.txt`, `inrange_ids.txt`). The file holds text token counts per model and page counts at 10, 12 and 14 px only.
 - Layout: the pilot packed layout, 616x1540 pages. Page capacities in `count_tokens.py` are 12700, 8686 and 6300 characters per page at 10, 12 and 14 px.
-- Image tokens per item and model = pages x the cost of one full 616x1540 page in `model_panel/README.md`: Mistral 1265, Qwen2.5-VL 1212, Qwen3.5 (9B and 27B) 914, Gemma 4 12B 262.
+- Image tokens per item and model = pages x the cost of one full 616x1540 page in `studies/model_panel/README.md`: Mistral 1265, Qwen2.5-VL 1212, Qwen3.5 (9B and 27B) 914, Gemma 4 12B 262.
 - This overstates Qwen and Mistral cost when the last page is cropped (their cost scales with area). Gemma also shrinks a tall page to fit its budget of about 256 tokens, so its effective letter size is smaller than the nominal px (not measured).
 - Page counts will be rechecked on the final renderer (packed, context only) before the image limit per prompt is set.
 

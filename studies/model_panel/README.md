@@ -172,8 +172,8 @@ that passed, so that file has 59 rows and 49 passes, while the job's own count w
 
 ## Reproducing
 
-See `../CLUSTER.md` for how to use the cluster. The cluster runs from a flat directory, `/sonic_home/carlosleao/ufm8`, holding the four files
-above plus `run_pilot.py`, `HumanEval.jsonl.gz` and `fonts/` from `pilot/`, which
+See `../../CLUSTER.md` for how to use the cluster. The cluster runs from a flat directory, `/sonic_home/carlosleao/ufm8`, holding the four files
+above plus `run_pilot.py`, `HumanEval.jsonl.gz` and `fonts/` from `studies/pilot/`, which
 `text_baseline.py` imports. The venv and HF cache live in `/snfs2/carlosleao/ufm8`. On the login
 node:
 

@@ -36,12 +36,12 @@ The task part is the benchmark's own text, unchanged, so it is identical in all 
 only the form of the context varies. This matches how context-to-image tools are used (the request
 stays text, the context becomes image), and it keeps "finding the task" out of the gap: in the Oct 5
 rebuilt pilot, image answers mostly completed the wrong function, and the failures went away once
-the prompt named it (pilot/README.md). On 30 calibration items per benchmark the task part is a
-median of 3 to 4% of the prompt (about 150 to 180 tokens, at most 12%), estimated from its share of
-characters. The fixed sentence, "The code context for this task is in the images. In the images, ⏎
-marks a line break.", opens every image-condition prompt and is identical for every item. Each
-context code block is replaced by its pages in place, so in DevEval the pages of the code above and
-below the target sit under their own headers, as the text prompt has them.
+the prompt named it (studies/pilot/README.md). On 30 calibration items per benchmark the task part
+is a median of 3 to 4% of the prompt (about 150 to 180 tokens, at most 12%), estimated from its
+share of characters. The fixed sentence, "The code context for this task is in the images. In the
+images, ⏎ marks a line break.", opens every image-condition prompt and is identical for every item.
+Each context code block is replaced by its pages in place, so in DevEval the pages of the code above
+and below the target sit under their own headers, as the text prompt has them.
 
 Images are rendered packed in JetBrains Mono: lines flow across rows of 616 px with a visible newline
 marker, and leading spaces are kept, so indentation survives. Pages are 616 px wide and at most

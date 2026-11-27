@@ -1,5 +1,5 @@
 scratch/
 .DS_Store
 __pycache__/
-pilot/img/
-pilot/run.log
+studies/pilot/img/
+studies/pilot/run.log

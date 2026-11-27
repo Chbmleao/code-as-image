@@ -13,7 +13,7 @@ concurrency = 8
 sentence = "The code context for this task is in the images. In the images, ⏎ marks a line break."
 
 # Sent on every request. vLLM fills any field left out from the repo's generation_config, which
-# would give each model different settings (model_panel/README.md, sampling table).
+# would give each model different settings (studies/model_panel/README.md, sampling table).
 [sampling]
 temperature = 0.7
 top_p = 0.95

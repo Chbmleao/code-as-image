@@ -143,8 +143,8 @@ Runs on: **laptop** (committed files only), **laptop + R** (the `codeimg-glmm` e
 
 The paper's tables and figures (`paper/build_figures.py` for `fig_gap.pdf`, `fig_item_corr.pdf`
 and `fig_size_tokens.pdf`, `paper/build_numbers.py` for `numbers.tex`, `paper/build.py` for the
-PDF) are on the paper branch `paper/base`, not on main yet. `pilot/`, `model_panel/` and
-`benchmarks/` have their own READMEs for what each of their scripts writes.
+PDF) are on the paper branch `paper/base`, not on main yet. `studies/pilot/`, `studies/model_panel/`
+and `benchmarks/` have their own READMEs for what each of their scripts writes.
 
 ## Versions
 
@@ -198,7 +198,7 @@ was checked against the main run's inputs the same day (`docs/decisions.md` 2026
 | Defects4J | github.com/rjust/defects4j, v2.0.1 | MIT (`license.txt` in the repo). The projects inside keep their own licenses (`benchmarks/README.md`, Licenses) |
 | DevEval items and prompts | github.com/seketeam/DevEval at `02e768c`: `data.tar.gz` (`data.jsonl`) and `Experiments/prompt/local_infilling/gpt-4-1106_prompt.jsonl` | The GitHub repo has no LICENSE file and its README states none |
 | DevEval source code | HF dataset `LJ0815/DevEval` at `16ff740`, `Source_Code.tar.gz` | CC BY 4.0 (dataset card metadata, huggingface.co/datasets/LJ0815/DevEval). Each repository inside keeps its own license |
-| HumanEval (pilot only) | github.com/openai/human-eval, committed as `pilot/HumanEval.jsonl.gz` | MIT (LICENSE in the repo) |
+| HumanEval (pilot only) | github.com/openai/human-eval, committed as `studies/pilot/HumanEval.jsonl.gz` | MIT (LICENSE in the repo) |
 
 The per-item lists are committed: `benchmarks/coderujb/results/final_ids.txt` (136 items) and
 `benchmarks/deveval/results/inrange_ids.txt` (859), which still include the excluded items, the
@@ -267,8 +267,8 @@ re-indent fix in `59a9c12`), so the script needs a full clone, not a shallow one
 | `docs/paper/` | Draft paragraphs the paper uses |
 | `docs/notes/` | Reading notes on the course book and the literature behind the plan |
 | `presentations/` | Proposal and methodology slides (in Portuguese, as presented) |
-| `pilot/` | First pilot: Qwen2.5-VL 7B on 20 HumanEval problems, text vs image |
-| `model_panel/` | Model choice: fit on one RTX 5090, text floor screen, image token cost |
+| `studies/pilot/` | First pilot: Qwen2.5-VL 7B on 20 HumanEval problems, text vs image |
+| `studies/model_panel/` | Model choice: fit on one RTX 5090, text floor screen, image token cost |
 | `benchmarks/` | Benchmark choice, item filters, gold checks, token counts, contamination check |
 | `src/codeimg/` | The experiment pipeline, `python -m codeimg <stage>` |
 | `src/codeimg/analysis/` | The analysis logic behind `scripts/analysis.py`, `dstudy.py`, `full_table.py`, `glmm_cells.py` and `reliability.py` |
@@ -296,7 +296,7 @@ The pipeline stages, each reading the previous one's files:
 ## License
 
 Apache-2.0 (`LICENSE`), for the code and documents written for this project. Not covered: JetBrains
-Mono (`src/codeimg/assets/` and `pilot/fonts/`, SIL OFL, `OFL.txt` beside it), the banner fonts (`banner/fonts/`, each
-with its license file), the UFMG and PPGCC logos (`banner/assets/`), HumanEval
-(`pilot/HumanEval.jsonl.gz`, MIT), and the benchmark code quoted in `benchmarks/*/results/`, which
-keeps the license of its source.
+Mono (`src/codeimg/assets/` and `studies/pilot/fonts/`, SIL OFL, `OFL.txt` beside it), the banner
+fonts (`banner/fonts/`, each with its license file), the UFMG and PPGCC logos (`banner/assets/`),
+HumanEval (`studies/pilot/HumanEval.jsonl.gz`, MIT), and the benchmark code quoted in
+`benchmarks/*/results/`, which keeps the license of its source.
