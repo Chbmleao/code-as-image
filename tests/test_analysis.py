@@ -14,6 +14,7 @@ from codeimg.analysis import figures as figs
 from codeimg.analysis import gaps as gp
 from codeimg.analysis import inputs as inp
 from codeimg.analysis import replies as rpl
+from codeimg.analysis import report as rpt
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
 
@@ -248,17 +249,17 @@ def test_contamination_needs_the_glmm_modes(tmp_path):
 def test_report_names_the_command_of_a_missing_input(tmp_path):
     (tmp_path / "gaps.json").write_text("{}")
     with pytest.raises(ValueError, match="glmm.json is missing: run analysis/glmm_main.R first"):
-        an.read_report_inputs(str(tmp_path))
+        rpt.read_report_inputs(str(tmp_path))
     (tmp_path / "glmm.json").write_text("{}")
     with pytest.raises(ValueError, match="run scripts/analysis.py contamination first"):
-        an.read_report_inputs(str(tmp_path))
+        rpt.read_report_inputs(str(tmp_path))
 
 
 def test_report_formats_points_and_missing_values():
-    assert an.pp(-0.316585) == "-31.7"
-    assert an.pp(0.540441, False) == "54.0"
-    assert an.interval(None, None) == "n/a"
-    assert an.pval(None) == "n/a" and an.pval(3.38e-06) == "3.38e-06"
+    assert rpt.pp(-0.316585) == "-31.7"
+    assert rpt.pp(0.540441, False) == "54.0"
+    assert rpt.interval(None, None) == "n/a"
+    assert rpt.pval(None) == "n/a" and rpt.pval(3.38e-06) == "3.38e-06"
 
 
 def test_output_lengths_cover_every_run():
@@ -492,8 +493,8 @@ def _main_reports():
 
 def _line_text(inputs):
     gaps5, glmm5 = _main_reports()
-    an.check_line(inputs)
-    return "\n".join(an.line_sections(inputs, glmm5) + an.rank_and_flag_sections(inputs, gaps5))
+    rpt.check_line(inputs)
+    return "\n".join(rpt.line_sections(inputs, glmm5) + rpt.rank_and_flag_sections(inputs, gaps5))
 
 
 def test_the_line_report_takes_its_counts_from_the_inputs():
@@ -514,11 +515,11 @@ def test_the_line_report_takes_its_counts_from_the_inputs():
 
 
 def test_the_excluded_note_cites_each_benchmark_decision():
-    assert an.excluded_note("deveval", {"excluded": {"count": 13}}) == (
+    assert rpt.excluded_note("deveval", {"excluded": {"count": 13}}) == (
         " (13 excluded, see docs/decisions.md 2026-11-25)")
-    assert an.excluded_note("coderujb", {"excluded": {"count": 1}}) == (
+    assert rpt.excluded_note("coderujb", {"excluded": {"count": 1}}) == (
         " (1 excluded, see docs/decisions.md 2026-11-26)")
-    assert an.excluded_note("coderujb", {"excluded": {"count": 0}}) == ""
+    assert rpt.excluded_note("coderujb", {"excluded": {"count": 0}}) == ""
 
 
 def test_the_line_report_fails_when_its_inputs_disagree():
@@ -528,7 +529,7 @@ def test_the_line_report_fails_when_its_inputs_disagree():
     inputs["ranks"]["benchmarks"]["deveval"]["n_items"] -= 1
     with pytest.raises(ValueError, match=rf"glmm.json \(2 models, {n} items\) does not match "
                                          rf"ranks.json \(2 models, {n - 1} items\)"):
-        an.check_line(inputs)
+        rpt.check_line(inputs)
     # a 5-model fit has the line's item count when nothing is dropped
     inputs = _line_report_inputs([f"M{k}" for k in range(7)])
     for v in inputs["glmm"]["benchmarks"].values():
@@ -536,11 +537,11 @@ def test_the_line_report_fails_when_its_inputs_disagree():
     n = inputs["glmm"]["benchmarks"]["coderujb"]["n_items"]
     with pytest.raises(ValueError, match=rf"\(5 models, {n} items\) does not match ranks.json "
                                          r"\(7 models"):
-        an.check_line(inputs)
+        rpt.check_line(inputs)
     inputs = _line_report_inputs(["M0", "M1"])
     del inputs["contamination"]["benchmarks"]["coderujb"]["flagged"]["M1"]
     with pytest.raises(ValueError, match="contamination.json does not flag"):
-        an.check_line(inputs)
+        rpt.check_line(inputs)
 
 
 def test_an_open_grid_problem_fails_before_the_trim(monkeypatch):
@@ -905,28 +906,28 @@ def c_cov(ses=(0.1, 0.2, 0.3, 0.4, 0.5), off=0.001):
 
 
 def test_c_is_the_claude_mean_minus_the_open_mean():
-    c = an.open_closed(c_glmm(), c_cov(), {"c1", "c2"})
+    c = rpt.open_closed(c_glmm(), c_cov(), {"c1", "c2"})
     # (-0.5 - 0.1) / 2 - (-1 - 2 - 3) / 3
     assert c["est"] == pytest.approx(1.7)
     w = [-1 / 3] * 3 + [1 / 2] * 2
     want = st.wald_contrast([-1.0, -2.0, -3.0, -0.5, -0.1],
                             [[c_cov()[(a, b)] for b in C_MODELS] for a in C_MODELS], w)
     assert c["se"] == pytest.approx(want["se"]) and (c["closed"], c["open"]) == (2, 3)
-    assert an.c_reading(c) == "Claude loses less (interval above 0)"
+    assert rpt.c_reading(c) == "Claude loses less (interval above 0)"
 
 
 def test_c_needs_every_contrast_and_both_kinds_of_model():
     v = c_glmm()
     v["contrast"].pop()
     with pytest.raises(ValueError, match="no logit contrast for c2"):
-        an.open_closed(v, c_cov(), {"c1", "c2"})
+        rpt.open_closed(v, c_cov(), {"c1", "c2"})
     with pytest.raises(ValueError, match="needs Claude and open models"):
-        an.open_closed(c_glmm(), c_cov(), set())
+        rpt.open_closed(c_glmm(), c_cov(), set())
 
 
 def write_cov(path, cov):
     rows = [("coderujb", a, b, x) for (a, b), x in cov.items()]
-    rel.gc.write_csv(str(path), an.COV_FIELDS, rows)
+    rel.gc.write_csv(str(path), rpt.COV_FIELDS, rows)
 
 
 @pytest.mark.parametrize("change, problem", [
@@ -938,23 +939,23 @@ def test_a_bad_covariance_file_stops_the_report(tmp_path, change, problem):
     glmm = {"benchmarks": {"coderujb": c_glmm()}}
     cov = c_cov()
     write_cov(tmp_path / "cov.csv", cov)
-    assert an.read_cov(str(tmp_path / "cov.csv"), glmm)["coderujb"] == cov
+    assert rpt.read_cov(str(tmp_path / "cov.csv"), glmm)["coderujb"] == cov
     change(cov)
     write_cov(tmp_path / "cov.csv", cov)
     with pytest.raises(ValueError, match=problem):
-        an.read_cov(str(tmp_path / "cov.csv"), glmm)
+        rpt.read_cov(str(tmp_path / "cov.csv"), glmm)
     with pytest.raises(ValueError, match="is missing; rerun analysis/glmm_main.R"):
-        an.read_cov(str(tmp_path / "none.csv"), glmm)
+        rpt.read_cov(str(tmp_path / "none.csv"), glmm)
 
 
 def test_the_claude_flag_counts_must_match_the_line_flags():
     g = claude_report()
     line_c = {"benchmarks": {b: {"flagged": {CLAUDE[0]: 1, CLAUDE[1]: 2, "M0": 9}}
                              for b in g["benchmarks"]}}
-    an.check_claude_flags(g, line_c)
+    rpt.check_claude_flags(g, line_c)
     line_c["benchmarks"]["deveval"]["flagged"][CLAUDE[1]] = 3
     with pytest.raises(ValueError, match="deveval: the Claude flag counts of gaps.json"):
-        an.check_claude_flags(g, line_c)
+        rpt.check_claude_flags(g, line_c)
 
 
 def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatch, fresh_names):
@@ -962,9 +963,9 @@ def test_the_claude_findings_go_next_to_the_analysis_folder(tmp_path, monkeypatc
     out.mkdir(parents=True)
     got = {}
     monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
-    monkeypatch.setattr(an, "read_report_inputs", lambda path, wanted: {"gaps": {}, "glmm": {}})
-    monkeypatch.setattr(an, "read_cov", lambda path, glmm: got.update(cov=path))
-    monkeypatch.setattr(an, "claude_findings", lambda *a: "text\n")
+    monkeypatch.setattr(rpt, "read_report_inputs", lambda path, wanted: {"gaps": {}, "glmm": {}})
+    monkeypatch.setattr(rpt, "read_cov", lambda path, glmm: got.update(cov=path))
+    monkeypatch.setattr(rpt, "claude_findings", lambda *a: "text\n")
     monkeypatch.setattr(figs, "claude_figures", lambda g, g5, path: got.update(figures=path))
     an.main(["report", "--models", "all", "--out", str(out)])
     assert (tmp_path / "claude" / "findings.md").read_text() == "text\n"
@@ -979,18 +980,18 @@ def test_the_paper_paragraph_takes_its_values_and_directions_from_the_inputs():
                          for b in g["benchmarks"]}}
 
     def text(c):
-        return an.paper_paragraph(g, g5, gl, {b: dict(c) for b in g["benchmarks"]})
+        return rpt.paper_paragraph(g, g5, gl, {b: dict(c) for b in g["benchmarks"]})
 
     up = text({"est": 0.5, "lo": 0.2, "hi": 0.8})
     r = g["benchmarks"]["deveval"]["main"][1]
-    assert f"{an.pp(r['est'])} pp" in up and "0.50 [0.20, 0.80]" in up
+    assert f"{rpt.pp(r['est'])} pp" in up and "0.50 [0.20, 0.80]" in up
     assert "-30.0 to -12.0 pp" in up and "on 6 df" in up and "chi2 12.3, p 0.0123" in up
     assert "Claude loses less" in up and "loses more" not in up
     down = text({"est": -0.5, "lo": -0.8, "hi": -0.2})
     assert "Claude loses more" in down and "loses less" not in down
     both = text({"est": 0.1, "lo": -0.2, "hi": 0.4})
     assert "the interval includes 0" in both and "loses" not in both
-    k = sum(an.excludes_zero(r["cluster"]["lo"], r["cluster"]["hi"])
+    k = sum(rpt.excludes_zero(r["cluster"]["lo"], r["cluster"]["hi"])
             for v in g["benchmarks"].values() for r in v["main"])
     assert ("all 4 cluster intervals exclude 0" if k == 4
             else f"{k} of the 4 cluster intervals exclude 0") in up
@@ -1029,8 +1030,8 @@ def test_claude_removal_checks_bin_on_the_claude_text_score():
 
 def test_a_control_with_one_possible_draw_says_it_carries_no_information():
     c = {"flagged": 126, "removed_per_draw": 10}
-    assert "carry no information" in an.control_note("S", c, 136)
-    assert "carry no information" not in an.control_note("S", {**c, "removed_per_draw": 9}, 136)
+    assert "carry no information" in rpt.control_note("S", c, 136)
+    assert "carry no information" not in rpt.control_note("S", {**c, "removed_per_draw": 9}, 136)
 
 
 def test_the_paper_paragraph_names_item_level_intervals_that_include_zero():
@@ -1041,9 +1042,9 @@ def test_the_paper_paragraph_names_item_level_intervals_that_include_zero():
     for v in g["benchmarks"].values():
         for r in v["main"]:
             r["item"] = {**r["item"], "lo": -0.04, "hi": -0.01}
-    assert "item-level interval includes 0" not in an.paper_paragraph(g, g5, gl, cs)
+    assert "item-level interval includes 0" not in rpt.paper_paragraph(g, g5, gl, cs)
     r = g["benchmarks"]["deveval"]["main"][1]
     r["item"] = {**r["item"], "lo": -0.043, "hi": 0.004}
-    text = an.paper_paragraph(g, g5, gl, cs)
+    text = rpt.paper_paragraph(g, g5, gl, cs)
     assert (f"item-level interval includes 0 for {r['model']} on DevEval "
-            f"{an.interval(-0.043, 0.004)}.") in text
+            f"{rpt.interval(-0.043, 0.004)}.") in text

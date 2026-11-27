@@ -26,6 +26,7 @@ import warnings
 from collections import Counter
 
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import report as rpt
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
 from codeimg.answers import deveval as dv
@@ -260,7 +261,7 @@ def report(args):
 
 def gap_cell(r):
     c = r["cluster"]
-    return f"{an.pp(r['est'])} {an.interval(c['lo'], c['hi'])}"
+    return f"{rpt.pp(r['est'])} {rpt.interval(c['lo'], c['hi'])}"
 
 
 def findings(rep):
@@ -286,10 +287,10 @@ def findings(rep):
            "## Gaps (image minus text, percentage points)", "",
            ("The main gap of each model, item-weighted with every run, and the same gap with the "
             "last-block verdicts; 95% project-clustered t intervals, no Holm adjustment."), ""]
-    out += an.md_table(["Model", "First block (main)", "Last block", "Change"],
-                       [[m, gap_cell(v["first_block"]), gap_cell(v["last_block"]),
-                         f"{100 * (v['last_block']['est'] - v['first_block']['est']):+.2f}"]
-                        for m, v in rep["models"].items()])
+    out += rpt.md_table(["Model", "First block (main)", "Last block", "Change"],
+                        [[m, gap_cell(v["first_block"]), gap_cell(v["last_block"]),
+                          f"{100 * (v['last_block']['est'] - v['first_block']['est']):+.2f}"]
+                         for m, v in rep["models"].items()])
     out += ["## Replies", "",
             "Graded replies, flips within the job and drift from the main run, by condition type.",
             ""]
@@ -299,8 +300,8 @@ def findings(rep):
             c = t.get(m, {}).get(k, {})
             rows.append([m, k, c.get("in_scope", 0), c.get("graded", 0),
                          c.get("fail_to_pass", 0), c.get("pass_to_fail", 0), c.get("drift", 0)])
-    out += an.md_table(["Model", "Condition", "In scope", "Graded", "Fail to pass",
-                        "Pass to fail", "Drift"], rows)
+    out += rpt.md_table(["Model", "Condition", "In scope", "Graded", "Fail to pass",
+                         "Pass to fail", "Drift"], rows)
     return "\n".join(out).rstrip("\n") + "\n"
 
 

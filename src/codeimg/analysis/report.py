@@ -1,0 +1,685 @@
+"""The findings markdown: results/analysis/findings.md from gaps.json, glmm.json and
+contamination.json, and the Claude extension report."""
+import json
+import math
+import os
+from collections import defaultdict
+from itertools import combinations
+
+from codeimg.analysis import inputs as inp
+from codeimg.analysis import reliability as rel
+from codeimg.analysis import stats as st
+
+REPORT_INPUTS = {"gaps.json": "scripts/analysis.py gaps",
+                 "glmm.json": "analysis/glmm_main.R",
+                 "contamination.json": "scripts/analysis.py contamination"}
+LINE_REPORT_INPUTS = {"ranks.json": "scripts/analysis.py ranks",
+                      "glmm.json": ("analysis/glmm_main.R --in scratch/analysis_all --out "
+                                    "results/claude/analysis"),
+                      "contamination.json": "scripts/analysis.py contamination --models all"}
+CLAUDE_REPORT_INPUTS = {"gaps.json": ("scripts/analysis.py gaps --models claude --answers "
+                                      "scratch/contamination"),
+                        "replies.json": "scripts/analysis.py replies --run-dir <Claude run dir>",
+                        **LINE_REPORT_INPUTS}
+COV_FIELDS = ("benchmark", "model_a", "model_b", "cov")
+# the CSV keeps 15 significant digits and glmm.json rounds the SE to 6 decimals
+COV_TOL = {"symmetry": 1e-9, "se": 2e-6}
+# bias of the size-averaged logit penalty toward 0 in the UFM-21 simulation
+# (results/glmm/glmm.md, decisions 2026-11-13)
+LOGIT_BIAS = (0.03, 0.13)
+BENCH_TITLES = {"coderujb": "CoderUJB", "deveval": "DevEval"}
+
+
+def pp(x, sign=True):
+    """A fraction as percentage points with one decimal."""
+    if x is None:
+        return "n/a"
+    return f"{100 * x:+.1f}" if sign else f"{100 * x:.1f}"
+
+
+def num(x, digits=3):
+    return "n/a" if x is None else f"{x:.{digits}f}"
+
+
+def pval(p):
+    return "n/a" if p is None else f"{p:.3g}"
+
+
+def interval(lo, hi, fmt=pp):
+    return "n/a" if lo is None else f"[{fmt(lo)}, {fmt(hi)}]"
+
+
+def md_table(header, rows):
+    out = ["| " + " | ".join(header) + " |", "|" + "---|" * len(header)]
+    out += ["| " + " | ".join(str(c) for c in r) + " |" for r in rows]
+    return out + [""]
+
+
+def gap_cells(r):
+    c = r["cluster"]
+    return [pp(r["est"]), interval(c["lo"], c["hi"]), pval(c["p"])]
+
+
+def read_report_inputs(out, wanted=None):
+    got = {}
+    for f, cmd in (wanted or REPORT_INPUTS).items():
+        path = os.path.join(out, f)
+        if not os.path.exists(path):
+            raise ValueError(f"{path} is missing: run {cmd} first")
+        with open(path, encoding="utf-8") as fh:
+            got[f.split(".")[0]] = json.load(fh)
+    return got
+
+
+def main_table(g, gl):
+    contrast = {inp.name(r["model"]): r for r in gl["contrast"]}
+    rows = []
+    for r in g["main"]:
+        m, c, it = r["model"], r["cluster"], r["item"]
+        lg = contrast.get(m)
+        rows.append([m, pp(g["rates"]["text"][m], False), pp(r["est"]),
+                     interval(c["lo"], c["hi"]), pval(r["holm"]), interval(it["lo"], it["hi"]),
+                     num(lg["est"], 2) if lg else "n/a",
+                     interval(lg["lo"], lg["hi"], lambda x: num(x, 2)) if lg else "n/a",
+                     num(g["token_ratio"][m]["mean_over_sizes"], 2)])
+    if "pooled" in g:
+        p = g["pooled"]
+        rows.append(["Mean of models", "", pp(p["est"]), interval(p["lo"], p["hi"]), "", "", "",
+                     "", ""])
+    return md_table(["Model", "Text %", "Gap pp", "Cluster 95% CI", "Holm p", "Item-level CI",
+                     "Logit contrast", "Logit 95% CI", "Token ratio"], rows)
+
+
+def size_tables(g, sizes_note, diffs_note):
+    out = [f"Gap per image size ({sizes_note}):", ""]
+    out += md_table(["Model", "Size", "Gap pp", "Cluster 95% CI", "p", "BH p"],
+                    [[r["model"], r["size"]] + gap_cells(r) + [pval(r["bh"])] for r in g["sizes"]])
+    out += [f"Differences between sizes ({diffs_note}):", ""]
+    out += md_table(["Model", "Pair", "Diff pp", "Cluster 95% CI", "p", "BH p"],
+                    [[r["model"], r["pair"]] + gap_cells(r) + [pval(r["bh"])]
+                     for r in g["size_diffs"]])
+    return out
+
+
+def token_table(g, models, sizes, ratio_note, extra=None):
+    """Prompt tokens per condition and the median token ratio, plus extra[m][s] columns."""
+    conds = list(g["tokens"][models[0]])
+    out = [f"Prompt tokens, run 0, median [q1, q3], {ratio_note}:", ""]
+    head = ["Model"] + conds + [f"ratio {s}" for s in sizes]
+    if extra:
+        head += [f"mean ratio {s}" for s in sizes]
+    return out + md_table(head, [[m] + [f"{t['median']:g} [{t['q1']:g}, {t['q3']:g}]"
+                                        for t in g["tokens"][m].values()]
+                                 + [num(g["token_ratio"][m][s], 2) for s in sizes]
+                                 + ([num(extra[m][s], 2) for s in sizes] if extra else [])
+                                 for m in models])
+
+
+def lopo_table(g):
+    if not g["lopo"]:
+        return []
+    out = ["Leave one project out (gap over sizes without that project):", ""]
+    return out + md_table(["Model", "Left out", "Items", "Gap pp", "Cluster 95% CI", "p"],
+                          [[r["model"], r["left_out"], r["n"]] + gap_cells(r) for r in g["lopo"]])
+
+
+def floor_table(g, models):
+    out = ["Floor and ceiling: share of items (%) with no run passing / every run passing:", ""]
+    fc = g["floor_ceiling"]
+    conds = list(fc[models[0]])
+    return out + md_table(["Model"] + conds,
+                          [[m] + [f"{pp(v['none'], False)} / {pp(v['all'], False)}"
+                                  for v in fc[m].values()] for m in models])
+
+
+def scoring_table(b, g, models):
+    out = ["Scoring shares (%): empty / truncated / no code"
+           + (" / no def line of the target" if b == "deveval" else "") + ":", ""]
+    keys = ["empty", "truncated", "no_code"] + (["no_def_line"] if b == "deveval" else [])
+    conds = list(g["scoring"][models[0]])
+    return out + md_table(["Model"] + conds,
+                          [[m] + [" / ".join(pp(v[k], False) for k in keys)
+                                  for v in g["scoring"][m].values()] for m in models])
+
+
+def excluded_note(b, v):
+    n = v.get("excluded", {}).get("count", 0)
+    return f" ({n} excluded, see docs/decisions.md {rel.EXCLUDED_ON[b]})" if n else ""
+
+
+def gaps_sections(b, g, gl):
+    conds = list(g["rates"])
+    models = [r["model"] for r in g["main"]]
+    out = [f"### {BENCH_TITLES.get(b, b)}", "",
+           (f"{g['n_items']} items{excluded_note(b, g)} in {g['n_clusters']} clusters. No "
+            f"{'other ' if excluded_note(b, g) else ''}item is dropped: the grid check fails on "
+            "any missing cell, so counting dropped items as failures changes nothing."), ""]
+    out += main_table(g, gl)
+    out += ["Rates by condition (%), item-weighted, with the rank in brackets:", ""]
+    out += md_table(["Model"] + conds,
+                    [[m] + [f"{pp(g['rates'][c][m], False)} ({g['ranks'][c][m]:g})" for c in conds]
+                     for m in models])
+    out += size_tables(g, "BH over the per-size family", "BH over the size-difference family")
+    sizes = [c for c in conds if c not in ("text", "image")]
+    out += token_table(g, models, sizes, "and the median per-item ratio to text")
+    out += lopo_table(g)
+    out += [("Context length (exploratory; buckets of Qwen3.5 text tokens, [lo, hi); BH over the "
+            "length family):"), ""]
+    out += md_table(["Model", "Size", "Bucket", "Items", "Gap pp", "Cluster 95% CI", "p", "BH p"],
+                    [[r["model"], r["size"], r["bucket"], r["n"]] + gap_cells(r) + [pval(r["bh"])]
+                     for r in g["length"]])
+    out += floor_table(g, models)
+    out += md_table(["Condition", "Every model passes %", "No model passes %"],
+                    [[c, pp(v["all_models_pass"], False), pp(v["no_model_passes"], False)]
+                     for c, v in g["all_none"].items()])
+    out += [(f"{g['never_passed']} items pass in no condition for any model "
+            "(`never_passed.csv`)."), ""]
+    out += scoring_table(b, g, models)
+    out += [("Output tokens over all runs, median [q1, q3] and mean, and the image-to-text ratio "
+             "of the means:"), ""]
+    ot = g["output_tokens"]
+    out += md_table(["Model"] + [c for c in conds if c != "image"] + [f"ratio {s}" for s in sizes],
+                    [[m] + [f"{t['median']:g} [{t['q1']:g}, {t['q3']:g}], {t['mean']:.0f}"
+                            for t in ot[m].values()]
+                     + [num(ot[m][s]["mean"] / ot[m]["text"]["mean"], 2) for s in sizes]
+                     for m in models])
+    return out
+
+
+def glmm_sections(b, v, item_flags=True):
+    out = [f"### {BENCH_TITLES.get(b, b)}", "",
+           (f"{v['n_cells']} cells, {v['n_items']} items, {v['n_clusters']} clusters, "
+           f"log-likelihood {num(v['loglik'], 1)}."), ""]
+    out += md_table(["Term", "SD (logit)", "SD (probit)"],
+                    [[t, num(s), num(v["probit"]["sd"][t])] for t, s in v["sd"].items()])
+    w, ic, lrt, ho = v["wald"], v["item_condition_sd"], v["lrt"], v["heldout"]
+    out += [(f"- Equal contrasts across models (Wald): chi2 {num(w['stat'], 2)} on {w['df']} df, "
+            f"p {pval(w['p'])}."),
+            (f"- item:condition SD {num(ic['est'])}, 95% CI {interval(ic['lo'], ic['hi'], num)} "
+            f"({ic['method']})."),
+            (f"- LRT against no item:condition: {num(lrt['stat'], 2)} on {lrt['df']} df, halved p "
+            f"{pval(lrt['p'])}."),
+            f"- Held-out log-likelihood ({len(ho['folds'])} folds of whole clusters, "
+            f"{ho['integration']}): full {num(ho['full'], 1)}, without item:condition "
+            f"{num(ho['reduced'], 1)}, difference {num(ho['diff'], 1)} (SE {num(ho['se'], 1)})"
+            + ("; some folds did not converge" if ho["partial"] else "") + ". Per fold, full "
+            "minus reduced: " + ", ".join(num(f["full"] - f["reduced"], 1) for f in ho["folds"]
+                                         if f["converged"])
+            + ". Folds hold unequal numbers of clusters and items, so the SE, which treats them as "
+            "exchangeable, is a rough guide.",
+            (f"- SD of item:condition over SD of item: logit {num(v['probit']['ratio_logit'])}, "
+            f"probit {num(v['probit']['ratio_probit'])}.")]
+    if item_flags:
+        out.append(f"- Item flags: {v['item_flags']['bh_flagged']} of {v['item_flags']['n']} "
+                   "item:condition modes with BH p < 0.05; "
+                   f"{v['item_flags']['raw_ci_excludes_zero']} with a raw 95% interval "
+                   "excluding 0.")
+    out += ["- Built-in checks: " + ", ".join(f"({k}) {'ok' if c['ok'] else 'FAILED'}"
+                                              for k, c in v["checks"].items()) + ".", ""]
+    out += [("Item-logit correlations against the one-ability reference (simulated 2.5% to 97.5% "
+            "and the percentile of the observed value). C = mean size-size minus mean text-size "
+            "correlation:"), ""]
+    rows = []
+    for method, pairs in v["correlation"].items():
+        rows += [[method, k, num(x["observed"]), interval(x["lo"], x["hi"], num),
+                  num(x["percentile"])] for k, x in pairs.items()]
+    out += md_table(["Method", "Pair", "Observed", "Reference", "Percentile"], rows)
+    out += ["Common slope of image logits (run 1) on text logits (run 0):", ""]
+    out += md_table(["Size", "Slope", "R^2", "Text run 0-1 r", "Slope / r"],
+                    [[s, num(x["slope"]), num(x["r2"]), num(x["text_run_correlation"]),
+                      num(x["corrected"])] for s, x in v["common_slope"].items()])
+    return out
+
+
+def contamination_sections(b, v, top):
+    out = [f"### {BENCH_TITLES.get(b, b)}", "",
+           (f"{v['copy_answers']} text answers copy the reference exactly, on "
+           f"{v['copied_items']} items."), ""]
+    out += removal_tables(v)
+    out += [(f"Copy flag against the GLMM flag (item:model mode in the model's top "
+            f"{100 * top:g}%):"), ""]
+    out += md_table(["Model", "Both", "Copy only", "GLMM only", "Neither"],
+                    [[m, x["both"], x["copy_only"], x["glmm_only"], x["neither"]]
+                     for m, x in v["flag2"].items()])
+    return out
+
+
+def removal_tables(v):
+    """Gaps without flagged items, the matched random removal and the flagged items alone."""
+    out = md_table(["Model", "Gap", "Removed", "All items pp", "Without flagged pp",
+                     "Cluster 95% CI", "BH p"],
+                    [[r["model"], r["gap"], r["removed"], pp(r["all_items"]), pp(r["est"]),
+                      interval(r["cluster"]["lo"], r["cluster"]["hi"]), pval(r["bh"])]
+                     for r in v["gaps"]])
+    rows = []
+    for m, c in v["control"].items():
+        if c is None:
+            rows.append([m, "nothing flagged", "", "", "", ""])
+            continue
+        short = ", ".join(f"bin {k} short by {n}" for k, n in c["shortfall"].items())
+        rows.append([m, pp(c["observed_change"]), interval(c["lo"], c["hi"]),
+                     num(c["share_at_or_below"]), f"{c['removed_per_draw']} of {c['flagged']}",
+                     short or "none"])
+    out += [("Matched random removal (change of the mean-over-sizes gap when the same number of "
+             "unflagged items is removed per bin). Where a bin has fewer unflagged items than "
+             "flagged ones, a draw removes all it has, so it removes fewer items than the flag "
+             "and its range sits closer to 0 than a full match would:"), ""]
+    out += md_table(["Model", "Observed change pp", "Random 95% range", "Share <= observed",
+                     "Removed per draw", "Bins short of items"], rows)
+    out += [("Flagged items alone (mean-over-sizes gap with its cluster interval) against the rest, "
+             "with the model's own text rate on each set. Flags come from the other models' text "
+             "answers, so a higher text rate on flagged items says they lean easy in text:"), ""]
+    out += md_table(["Model", "Flagged", "Text % flagged", "Text % rest", "Gap flagged pp",
+                     "Cluster 95% CI", "Gap rest pp"],
+                    [[r["model"], r["n"], pp(r["text_flagged"], False), pp(r["text_rest"], False),
+                      pp(r["est"]), interval(r["cluster"]["lo"], r["cluster"]["hi"]),
+                      pp(r["gap_rest"])] for r in v["flagged_only"]])
+    return out
+
+
+def findings(inputs):
+    g, gl, c = inputs["gaps"], inputs["glmm"], inputs["contamination"]
+    s = g["settings"]
+    out = ["# Main analysis findings", "",
+           ("Generated by `uv run python scripts/analysis.py report` from gaps.json, glmm.json and "
+           "contamination.json; edit the scripts, not this file."), "",
+           f"Models: {', '.join(s['models'])}. Gap = image minus text, mean over the image "
+           "sizes, in percentage points. Intervals: " + s["interval"] + f"; Holm over the "
+           f"{sum(len(v['main']) for v in g['benchmarks'].values())} main gaps. The mean of models "
+           f"uses {s['pooled_interval']} of {s['n_boot']} joint cluster draws.", "",
+           ("The logit contrast (GLMM, mean over sizes of the image-text difference in fixed "
+           f"effects) is biased toward 0 by {LOGIT_BIAS[0]} to {LOGIT_BIAS[1]} logit in the "
+           "UFM-21 simulation."), "",
+           "## Gaps", ""]
+    for b, v in g["benchmarks"].items():
+        out += gaps_sections(b, v, gl["benchmarks"].get(b, {"contrast": []}))
+    out += ["## GLMM", "", (f"`{gl['settings']['formula']}`, glmmTMB {gl['settings']['glmmTMB']}, "
+            f"R {gl['settings']['R']}."), ""]
+    for b, v in gl["benchmarks"].items():
+        out += glmm_sections(b, v)
+    out += ["## Contamination", "",
+            ("An item is flagged for model m when another model copies the reference token for "
+            "token in a text run. This is a sensitivity check, not a corrected gap. "
+            f"{c['settings']['control_draws']} matched random removals per model."), ""]
+    for b, v in c["benchmarks"].items():
+        out += contamination_sections(b, v, c["settings"]["glmm_top"])
+    return "\n".join(out).rstrip("\n") + "\n"
+
+
+def rank_sections(b, v):
+    conds = list(v["ranks"])
+    out = [f"### {BENCH_TITLES.get(b, b)}", "",
+           (f"{v['n_items']} items{excluded_note(b, v)} in {v['n_clusters']} clusters, "
+            f"{v['dropped']['count']} dropped."),
+           "", "Rate % (rank) [95% rank interval], item-weighted:", ""]
+    out += md_table(["Model"] + conds,
+                    [[m] + [f"{pp(v['rates'][c][m], False)} ({v['ranks'][c][m]['rank']:g}) "
+                            f"[{v['ranks'][c][m]['lo']:g}, {v['ranks'][c][m]['hi']:g}]"
+                            for c in conds] for m in v["ranks"][conds[0]]])
+    out += ["Probability that a pair swaps order between text and image (ties count half):", ""]
+    out += md_table(["Pair", "P(swap)"],
+                    [[f"{s['pair'][0]} / {s['pair'][1]}", num(s["p"])] for s in v["swap"]])
+    return out
+
+
+def check_line(inputs):
+    """The ranks, the GLMM fit and the copy flags must come from the same 7-model table."""
+    r, gl, c = inputs["ranks"], inputs["glmm"], inputs["contamination"]
+    models = r["settings"]["models"]
+    for b, v in r["benchmarks"].items():
+        g = gl["benchmarks"].get(b, {})
+        if [inp.name(m) for m in g.get("models", [])] != models or g.get("n_items") != v["n_items"]:
+            raise ValueError(f"{b}: glmm.json ({len(g.get('models', []))} models, "
+                             f"{g.get('n_items')} items) does not match ranks.json ({len(models)} "
+                             f"models, {v['n_items']} items); rerun prep --models all, "
+                             "glmm_main.R and ranks on the same table")
+        if list(c["benchmarks"].get(b, {}).get("flagged", {})) != models:
+            raise ValueError(f"{b}: contamination.json does not flag the models of ranks.json; "
+                             "rerun contamination --models all")
+
+
+def read_cov(path, glmm):
+    """{benchmark: {(model_a, model_b): cov}} from glmm_contrast_cov.csv, checked against
+    glmm.json: every pair of its models, symmetric, and sqrt of the diagonal equal to its SEs."""
+    rerun = f"; rerun {LINE_REPORT_INPUTS['glmm.json']}"
+    if not os.path.exists(path):
+        raise ValueError(f"{path} is missing{rerun}")
+    cov = defaultdict(dict)
+    for r in rel.read_csv(path, COV_FIELDS):
+        cov[r["benchmark"]][(r["model_a"], r["model_b"])] = float(r["cov"])
+    for b, v in glmm["benchmarks"].items():
+        s, models = cov[b], v["models"]
+        missing = [(x, y) for x in models for y in models if (x, y) not in s]
+        if missing:
+            raise ValueError(f"{path}: {b} has no entry for {missing[0]}{rerun}")
+        for x, y in combinations(models, 2):
+            if abs(s[(x, y)] - s[(y, x)]) > COV_TOL["symmetry"] * max(abs(s[(x, y)]),
+                                                                      abs(s[(y, x)])):
+                raise ValueError(f"{path}: {b} is not symmetric at {x}, {y}{rerun}")
+        for r in v["contrast"]:
+            if abs(math.sqrt(s[(r["model"], r["model"])]) - r["se"]) > COV_TOL["se"]:
+                raise ValueError(f"{path}: {b} {r['model']}: sqrt of the variance does not match "
+                                 f"the glmm.json SE {r['se']}{rerun}")
+    return cov
+
+
+def open_closed(v, cov, claude):
+    """c of the addendum on one benchmark: the mean Claude logit contrast minus the mean open one,
+    with its Wald interval. v is the benchmark's glmm.json entry, cov its contrast covariance."""
+    models = v["models"]
+    est = {r["model"]: r["est"] for r in v["contrast"]}
+    missing = [m for m in models if m not in est]
+    if missing:
+        raise ValueError(f"no logit contrast for {', '.join(missing)}")
+    closed = [m for m in models if m in claude]
+    opens = [m for m in models if m not in claude]
+    if not closed or not opens:
+        raise ValueError(f"c needs Claude and open models, got {len(closed)} and {len(opens)}")
+    w = [1 / len(closed) if m in claude else -1 / len(opens) for m in models]
+    if abs(math.fsum(w)) > 1e-12:
+        raise ValueError(f"the weights of c sum to {math.fsum(w)}, not 0")
+    out = st.wald_contrast([est[m] for m in models], [[cov[(a, b)] for b in models]
+                                                       for a in models], w)
+    return {**out, "closed": len(closed), "open": len(opens)}
+
+
+def excludes_zero(lo, hi):
+    return lo is not None and hi is not None and (lo > 0 or hi < 0)
+
+
+def c_reading(c):
+    if c["lo"] > 0:
+        return "Claude loses less (interval above 0)"
+    if c["hi"] < 0:
+        return "Claude loses more (interval below 0)"
+    return "the interval includes 0"
+
+
+def claude_gap_sections(b, g, gl, g5, gl5):
+    models = [r["model"] for r in g["main"]]
+    sizes = [c for c in g["rates"] if c not in ("text", "image")]
+    errors = sum(n for x in g["request_errors"].values() for n in x.values())
+    out = [f"### {BENCH_TITLES.get(b, b)}", "",
+           (f"{g['n_items']} items{excluded_note(b, g)} in {g['n_clusters']} clusters. {errors} "
+            "request errors: every "
+            "Claude cell has its 2 scored runs, so the sensitivity line that counts a request "
+            "error as a failure equals the main line. The logit contrast is from the 7-model "
+            "GLMM."), ""]
+    out += main_table(g, gl)
+    out += [("The five open models, for comparison: the 5-model confirmatory family (Holm over "
+             "its 10 gaps, every run), with the logit contrast of the 5-model GLMM."), ""]
+    out += main_table(g5, gl5)
+    out += size_tables(g, "BH over the Claude set", "BH over the Claude set")
+    out += lopo_table(g)
+    out += token_table(g, models, sizes, ("the median per-item ratio to text (primary, as for the "
+                                          "open models) and the item mean ratio (the addendum's "
+                                          "wording)"), extra=g["token_ratio_mean"])
+    out += floor_table(g, models)
+    return out
+
+
+def claude_contamination_sections(b, g):
+    k = g["contamination"]
+    rows = [[m, pp(g["rates"]["text"][m], False), pp(g["floor_ceiling"][m]["text"]["all"], False),
+             f"{k['flagged'][m]} of {g['n_items']}",
+             f"{k['own_copies'][m]['answers']} / {k['own_copies'][m]['items']}"]
+            for m in k["flagged"]]
+    out = [f"### {BENCH_TITLES.get(b, b)}", ""]
+    out += md_table(["Model", "Text %", "Text 2 of 2 %", "Flagged items",
+                     "Own copies (answers / items)"], rows)
+    short = [(m, c) for m, c in k["control"].items() if c and c["shortfall"]]
+    if short:
+        out += ["Where the unflagged items run short, the control cannot match the flagged set: "
+                + "; ".join(control_note(m, c, g["n_items"]) for m, c in short)
+                + ". The control is not a match there.", ""]
+    out += removal_tables(k)
+    out += ["The flagged-only rows are the related-work check of decisions 2026-11-16.", ""]
+    return out
+
+
+def control_note(m, c, n_items):
+    pool = n_items - c["flagged"]
+    note = (f"{m} has {pool} unflagged items, so each draw removes {c['removed_per_draw']} of "
+            f"the {c['flagged']} it should")
+    if c["removed_per_draw"] == pool:
+        note += (", every draw removes the same items, and its range and share carry no "
+                 "information")
+    return note
+
+
+def count_cell(counts):
+    return ", ".join(f"{k} {n}" for k, n in sorted(counts.items())) or "0"
+
+
+def reply_sections(b, rp, g):
+    models = list(rp)
+    conds = list(rp[models[0]])
+    out = [f"### {BENCH_TITLES.get(b, b)}", ""]
+    out += md_table(["Model", "Condition", "Replies", "Request errors", "Refusals",
+                     "max_tokens", "over_budget", "Other stops", "Thinking share %",
+                     "With thinking", "Cache tokens (write / read)"],
+                    [[m, c, x["replies"], x["request_errors"], count_cell(x["refusals"]),
+                      x["max_tokens"], x["over_budget"], count_cell(x["other_stops"]),
+                      pp(x["thinking_share"], False), x["with_thinking"],
+                      f"{x['cache_creation_tokens']} / {x['cache_read_tokens']}"]
+                     for m in models for c, x in rp[m].items()])
+    out += scoring_table(b, g, models)
+    sizes = conds[1:]
+    out += [("Non-thinking output tokens, median [q1, q3] and mean, and the image-to-text ratio of "
+             "the means (the related-work check of decisions 2026-11-16):"), ""]
+    out += md_table(["Model"] + conds + [f"ratio {s}" for s in sizes],
+                    [[m] + [f"{t['median']:g} [{t['q1']:g}, {t['q3']:g}], {t['mean']:.0f}"
+                            for t in (rp[m][c]["output_tokens"] for c in conds)]
+                     + [num(rp[m][s]["output_tokens"]["mean"]
+                            / rp[m]["text"]["output_tokens"]["mean"], 2) for s in sizes]
+                     for m in models])
+    return out
+
+
+def glmm_compare_rows(v):
+    w, ic, lrt, ho, pr = v["wald"], v["item_condition_sd"], v["lrt"], v["heldout"], v["probit"]
+    rows = [("Equal contrasts (Wald)",
+             f"chi2 {num(w['stat'], 2)} on {w['df']} df, p {pval(w['p'])}"),
+            ("item:condition SD (logit)", f"{num(ic['est'])} {interval(ic['lo'], ic['hi'], num)}"),
+            ("LRT against no item:condition", f"{num(lrt['stat'], 2)}, halved p {pval(lrt['p'])}"),
+            ("Held-out difference (SE)", f"{num(ho['diff'], 1)} ({num(ho['se'], 1)})"),
+            ("SD item:condition / SD item, logit / probit",
+             f"{num(pr['ratio_logit'])} / {num(pr['ratio_probit'])}")]
+    rows += [(f"C, {method}", num(pairs["C"]["observed"])) for method, pairs in
+             v["correlation"].items()]
+    rows += [(f"Common slope / r, {s}", num(x["corrected"])) for s, x in v["common_slope"].items()]
+    rows.append(("Built-in checks", ", ".join(f"({k}) {'ok' if c['ok'] else 'FAILED'}"
+                                              for k, c in v["checks"].items())))
+    return rows
+
+
+def line_sections(inputs, gl5):
+    r, gl = inputs["ranks"], inputs["glmm"]
+    s = r["settings"]
+    dropped = ", ".join(f"{BENCH_TITLES.get(b, b)} {v['dropped']['count']}"
+                        for b, v in r["benchmarks"].items())
+    out = [f"## {len(s['models'])}-model line", "",
+           (f"Every model uses runs {' and '.join(str(k) for k in s['runs'])} only; the 5-model "
+            f"column keeps every run. Items dropped ({s['drop_rule']}): {dropped}."), ""]
+    for b, v in gl["benchmarks"].items():
+        main = gl5["benchmarks"].get(b)
+        rv = r["benchmarks"][b]
+        out += [f"### {BENCH_TITLES.get(b, b)}", "",
+                (f"{rv['n_items']} items{excluded_note(b, rv)} in {rv['n_clusters']} clusters, "
+                 f"{rv['dropped']['count']} dropped."), ""]
+        mine = glmm_compare_rows(v)
+        theirs = dict(glmm_compare_rows(main)) if main else {}
+        out += md_table(["Statistic", f"{len(main['models'])}-model" if main else "5-model",
+                         f"{len(v['models'])}-model"],
+                        [[k, theirs.get(k, "n/a"), x] for k, x in mine])
+    out += [f"## {len(s['models'])}-model GLMM detail", "",
+            (f"`{gl['settings']['formula']}`, glmmTMB {gl['settings']['glmmTMB']}, "
+             f"R {gl['settings']['R']}."), ""]
+    for b, v in gl["benchmarks"].items():
+        out += glmm_sections(b, v, item_flags=False)
+    return out
+
+
+def rank_and_flag_sections(inputs, g5):
+    r, c = inputs["ranks"], inputs["contamination"]
+    s = r["settings"]
+    models = s["models"]
+    out = [f"## Ranks ({len(models)}-model line)", "",
+           (f"Rank intervals and swap probabilities use {s['n_boot']} joint cluster draws "
+            f"({s['interval']})."), ""]
+    for b, v in r["benchmarks"].items():
+        out += rank_sections(b, v)
+        main = g5["benchmarks"].get(b)
+        if main:
+            conds = [k for k in v["ranks"] if k in main["ranks"]]
+            out += ["5-model ranks, every run (results/analysis/gaps.json):", ""]
+            out += md_table(["Model"] + conds, [[m] + [f"{main['ranks'][k][m]:g}" for k in conds]
+                                                for m in main["ranks"][conds[0]]])
+    flagged = c["benchmarks"]
+    out += ["## Contamination flags", "",
+            (f"An item is flagged for model m when one of the other {len(models) - 1} models "
+             "copies the reference token for token in any of its text runs. Flags cover every "
+             "item, including dropped ones, but not the excluded ones."), ""]
+    out += md_table(["Model"] + [BENCH_TITLES.get(b, b) for b in flagged],
+                    [[m] + [v["flagged"][m] for v in flagged.values()] for m in models])
+    out += [", ".join(f"{BENCH_TITLES.get(b, b)}: {v['copy_answers']} text answers copy the "
+                      f"reference, on {v['copied_items']} items" for b, v in flagged.items())
+            + "."]
+    return out
+
+
+def paper_paragraph(g, g5, gl, cs):
+    """The Claude result in a few sentences for the paper; every direction word comes from the
+    values."""
+    benches = list(g["benchmarks"])
+    models = g["settings"]["models"]
+    t = [BENCH_TITLES.get(b, b) for b in benches]
+
+    def per_model(f):
+        return " and ".join(f(m) for m in models)
+
+    def text_rates(b):
+        return per_model(lambda m: pp(g["benchmarks"][b]["rates"]["text"][m], False) + "%")
+
+    rates = "; ".join(f"{tb} {text_rates(b)}" for b, tb in zip(benches, t))
+    rows = [(b, r) for b in benches for r in g["benchmarks"][b]["main"]]
+    gaps = "; ".join(f"{tb} " + " and ".join(
+        f"{pp(r['est'])} pp {interval(r['cluster']['lo'], r['cluster']['hi'])}"
+        for r in g["benchmarks"][b]["main"]) for b, tb in zip(benches, t))
+    k = sum(excludes_zero(r["cluster"]["lo"], r["cluster"]["hi"]) for _, r in rows)
+    excl = (f"all {len(rows)} cluster intervals exclude 0" if k == len(rows) else
+            f"{k} of the {len(rows)} cluster intervals exclude 0")
+    loose = [(tb, r) for b, tb in zip(benches, t) for r in g["benchmarks"][b]["main"]
+             if not excludes_zero(r["item"]["lo"], r["item"]["hi"])]
+    item_note = ("" if not loose else " The item-level interval includes 0 for "
+                 + "; ".join(f"{r['model']} on {tb} {interval(r['item']['lo'], r['item']['hi'])}"
+                             for tb, r in loose) + ".")
+    opens = "; ".join(
+        f"{tb} {pp(min(r['est'] for r in g5['benchmarks'][b]['main']))} to "
+        f"{pp(max(r['est'] for r in g5['benchmarks'][b]['main']))} pp"
+        for b, tb in zip(benches, t) if b in g5["benchmarks"])
+    c_text = "; ".join(f"{tb} {num(cs[b]['est'], 2)} "
+                       f"{interval(cs[b]['lo'], cs[b]['hi'], lambda x: num(x, 2))}, "
+                       f"{c_reading(cs[b])}" for b, tb in zip(benches, t))
+    wald = "; ".join(f"{tb} chi2 {num(gl['benchmarks'][b]['wald']['stat'], 1)}, "
+                     f"p {pval(gl['benchmarks'][b]['wald']['p'])}" for b, tb in zip(benches, t))
+    df = next(iter(gl["benchmarks"].values()))["wald"]["df"]
+    ceiling = ""
+    if inp.LOPO_BENCH in g["benchmarks"]:
+        v = g["benchmarks"][inp.LOPO_BENCH]
+        k = v["contamination"]["flagged"]
+        ceiling = (f" On {BENCH_TITLES[inp.LOPO_BENCH]}, "
+                   f"{per_model(lambda m: pp(v['floor_ceiling'][m]['text']['all'], False) + '%')} "
+                   "of items pass both Claude text runs, and another model's text answer "
+                   "reproduces the "
+                   f"reference token for token on {per_model(lambda m: str(k[m]))} of its "
+                   f"{v['n_items']} items.")
+    return (f"In an exploratory extension under a methodology addendum written before the first "
+            f"request, {per_model(lambda m: m)} answered the same items in the same four "
+            "conditions, two runs each. They differ from the open-model run in three ways: the "
+            "API takes no seed, it samples at temperature 1.0, and Opus cannot turn thinking "
+            f"off. Their text pass rates were {rates}. Averaged over the three image sizes, the "
+            f"image-minus-text gaps (95% cluster intervals) were {gaps}; {excl}.{item_note} The "
+            f"open models' "
+            f"gaps ranged over {opens}. The open vs closed logit contrast c (Claude mean minus "
+            f"open mean, 95% Wald interval) was {c_text}. With seven models the Wald test of equal "
+            f"contrasts on {df} df gave {wald}.{ceiling}")
+
+
+def check_claude_flags(g, line_c):
+    """gaps.json and the line's contamination.json flag the Claude models from the same copies."""
+    for b, v in g["benchmarks"].items():
+        mine = v["contamination"]["flagged"]
+        theirs = {m: line_c["benchmarks"].get(b, {}).get("flagged", {}).get(m) for m in mine}
+        if mine != theirs:
+            raise ValueError(f"{b}: the Claude flag counts of gaps.json {mine} differ from "
+                             f"contamination.json {theirs}; rerun both on the same answers")
+
+
+def claude_findings(inputs, main, cov, claude):
+    g, rp, gl = inputs["gaps"], inputs["replies"], inputs["glmm"]
+    g5, gl5 = main["gaps"], main["glmm"]
+    check_line(inputs)
+    check_claude_flags(g, inputs["contamination"])
+    cs = {b: open_closed(v, cov[b], claude) for b, v in gl["benchmarks"].items()}
+    s = g["settings"]
+    out = ["# Claude extension findings", "",
+           ("Generated by `uv run python scripts/analysis.py report --models all` from "
+            "results/claude/analysis/{gaps,replies,ranks,glmm,contamination}.json, "
+            "glmm_contrast_cov.csv and results/analysis/{gaps,glmm}.json; edit the scripts, not "
+            "this file."), "",
+           (f"Every number here is exploratory (methodology addendum, 2026-11-14). Models: "
+            f"{', '.join(s['models'])}, runs {' and '.join(str(k) for k in s['runs'])} on every "
+            "item. Gap = image minus text, mean over the image sizes, in percentage points. "
+            f"Intervals: {s['interval']}. Holm over the {s['holm_rows']} Claude size-averaged "
+            f"gaps; one BH set over {s['bh_set']['covers']} ({s['bh_set']['rows']} rows). The "
+            "logit contrast is biased toward 0 by "
+            f"{LOGIT_BIAS[0]} to {LOGIT_BIAS[1]} logit in the UFM-21 simulation."), "",
+           "Run differences from the open models (addendum):", "",
+           "- No seed is sent, since the API takes none.",
+           "- No temperature or top_p is sent, so both models sample at temperature 1.0.",
+           "- Opus cannot turn thinking off and runs adaptive thinking at low effort.",
+           ("- An Opus reply over 2,048 non-thinking tokens fails before grading "
+            "(`over_budget`)."),
+           "- 2 runs on every item, where the open models have 3 on block-1 items.",
+           "- Closed weights and training data: the copy flags are the only contamination check.",
+           "", "Analysis deviations:", "",
+           ("- The 7-model line drops an item with a short Claude cell in all four conditions "
+            "(decisions 2026-11-17)."),
+           ("- A short Claude cell stops `gaps --models claude` instead of leaving its condition; "
+            "the collected tables have none."),
+           ("- The token ratio is the median per-item ratio, as for the open models; the item "
+            "mean that the addendum names is shown beside it."),
+           "- Claude output tokens leave thinking out.", "",
+           "## Claude gaps", ""]
+    for b, v in g["benchmarks"].items():
+        out += claude_gap_sections(b, v, gl["benchmarks"].get(b, {"contrast": []}),
+                                   g5["benchmarks"][b], gl5["benchmarks"].get(b, {"contrast": []}))
+    out += ["## Contamination and ceiling", "",
+            ("An item is flagged for a Claude model when one of the other 6 models copies the "
+             "reference token for token in any text run. A model's own copies never flag it and "
+             "are counted apart. This is a sensitivity check, not a corrected gap. "
+             f"{s['control_draws']} matched random removals per model."), ""]
+    for b, v in g["benchmarks"].items():
+        out += claude_contamination_sections(b, v)
+    out += ["## Replies", "",
+            ("From the Claude run log joined to the collected rows (`replies`). Thinking share is "
+             "thinking tokens over output tokens, summed."), ""]
+    for b, v in rp["benchmarks"].items():
+        out += reply_sections(b, v, g["benchmarks"][b])
+    out += line_sections(inputs, gl5)
+    k = next(iter(cs.values()))
+    out += ["## Open vs closed", "",
+            (f"c = (1/{k['closed']}) sum of the Claude logit contrasts minus (1/{k['open']}) sum "
+             "of the open ones, from the 7-model GLMM, with a 95% Wald interval from the "
+             "contrasts' covariance (glmm_contrast_cov.csv). No p-value, outside every correction "
+             "family, and it describes these 7 models only. c > 0 means the Claude models lose "
+             "less from images than the open models. The per-model contrasts are biased toward 0 "
+             f"by {LOGIT_BIAS[0]} to {LOGIT_BIAS[1]} logit in the UFM-21 simulation; c itself was "
+             "not simulated."), ""]
+    out += md_table(["Benchmark", "c (logit)", "SE", "95% Wald CI", "Reading"],
+                    [[BENCH_TITLES.get(b, b), num(c["est"]), num(c["se"]),
+                      interval(c["lo"], c["hi"], num), c_reading(c)] for b, c in cs.items()])
+    out += rank_and_flag_sections(inputs, g5)
+    out += ["", "## Paper paragraph", "", paper_paragraph(g, g5, gl, cs)]
+    return "\n".join(out).rstrip("\n") + "\n"
