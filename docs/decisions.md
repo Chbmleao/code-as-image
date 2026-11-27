@@ -3,6 +3,39 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-26: license, and the replies stay off the repo
+
+For the code repo deliverable (UFM-15).
+
+- **The repo is public under Apache-2.0** (`LICENSE`). It covers the code and documents written
+  for the project. The fonts, the banner logos, HumanEval and the benchmark code quoted in
+  `benchmarks/*/results/` keep their own licenses (README, License).
+- **The model replies are not distributed.** Neither the CoderUJB dataset on Hugging Face nor the
+  DevEval GitHub repo declares a license, and the replies quote their code, as do the prompts
+  and page images, which were never committed. The committed results hold ids, verdicts and
+  counts. The reply folders keep their `MANIFEST.sha256` (entry below), so the six outputs that
+  need the replies (the contamination files, the Claude gaps and `replies.json`) can be checked
+  against the exact inputs by anyone who gets the folders from us.
+- **`scratch/contamination/` gets a rebuild script** (`scripts/contamination_inputs.py`) instead
+  of a copy. It checks each file against the sha256 the results used. DevEval goes through
+  `deveval.py` at `bd045fc`, the main run's version: with the UFM-33 span and re-indent fix, 16
+  Claude answers and 9 references come out different.
+- **Where the public inputs come from, checked on 2026-11-26.** Each file below was downloaded
+  again and compared with the main run's input; all match.
+
+  | Input | Source and revision | sha256 |
+  |---|---|---|
+  | CoderUJB parquet | HF `ZHENGRAN/code_ucb_complete` at `78cb042ad6abab321de85fe159f0c65b8aa47d36` | `38db89f4bd41a45c7644642b02474d055cf87309dd2cfe9a8e6099784b4fa412` |
+  | CoderUJB `items.jsonl` | `make_items.py` on that parquet | `46a002dc1b4479eec0c03e8ea569cde602a50eff42ae1a36f4029a8067abee80` |
+  | CoderUJB prompts | `make_prompts.py` on the parquet and `gold_pass_ids.txt` | `35a539f0...` (`results/full/run_log.md`) |
+  | DevEval `data.jsonl` | `data.tar.gz` of `seketeam/DevEval` at `02e768c172171fc17c96e5366381232cab77d6c4` | `f3e52e7e3bec871fa185661a10b07f00135c3b49a0b4fc357834b3b3daab6178` |
+  | DevEval prompts | `Experiments/prompt/local_infilling/gpt-4-1106_prompt.jsonl`, same commit | `cc3b88ed...` (`results/full/run_log.md`) |
+  | DevEval `Source_Code.tar.gz` | HF `LJ0815/DevEval` at `16ff740d87f5fa97567d6dffd4bcbf299231211c` | `c7e501a0a812197d227fee189740bc22a323011d2251e46d53e4bb854af4555f` |
+
+  With these files in place of `scratch/ufm7`, `scripts/contamination_inputs.py` writes all 8
+  files with the expected sha256. The layout control's run time, 1,243 s on the laptop, is from
+  the UFM-30 report of 2026-11-18; it was not rerun.
+
 ## 2026-11-26: checksum manifests for the laptop-only inputs
 
 Two inputs of committed results exist only on the laptop and are not copied anywhere else (UFM-37).
