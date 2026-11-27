@@ -1,0 +1,41 @@
+benchmark,model,id,condition,run,reason,label,note
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,boltons.formatutils.split_format_str,text,1,error,truncated,cut at 2048 tokens inside its own comments; graded draft reads a nonexistent Formatter._parse_field_end
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,boto.utils.get_instance_userdata,text,0,error,wrong_logic,"calls retry_url without retry_on_404=False, splits on newlines not on sep"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bplustree.node.Node._find_entry_index,text,0,error,wrong_logic,"raises KeyError for a missing key, the reference raises ValueError"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mrjob.logs.history._parse_pre_yarn_history_log,text,2,error,wrong_logic,reads errors from Task records; the reference uses Map/ReduceAttempt records and TASK_ATTEMPT_ID
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,msticpy.analysis.anomalous_sequence.utils.cmds_params_only.rarest_window_session,text,0,error,wrong_logic,"slices a copy with the end token appended, so the window holds the END command"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,oletools.ppt_record_parser.is_ppt,text,1,error,wrong_logic,looks for a stream named DocumentContainer; the reference walks the streams and records
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,pyinfra.api.arguments.pop_global_arguments,text,1,error,truncated,"cut at 2048 tokens while deliberating; code only pops kwargs, never applies defaults or host data"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,pytube.cli._print_available_captions,text,0,error,wrong_logic,"prints a multi-line caption list, the reference prints one line of codes"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,wikipediaapi.WikipediaPage.text,text,0,error,wrong_logic,"passes section.level to full_text and adds newlines, so heading levels differ"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,zulipterminal.ui_tools.buttons.TopButton.update_widget,text,1,error,wrong_logic,"passes a plain string to set_text, never builds the prefix list or pads the suffix"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,alembic.command.merge,image10,1,error,wrong_name,"calls RevisionContext.generate_revision and revision.filename, which do not exist"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bentoml._internal.runner.container.PandasDataFrameContainer.to_payload,image10,1,error,wrong_name,uses ext.PdSeries but ext is not imported in the module; also an invented cls._to_payload_bytes
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,boltons.funcutils.FunctionBuilder.get_defaults_dict,image10,0,error,wrong_logic,"treats self.defaults as a dict by arg name, it is a tuple aligned to the last args"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bplustree.memory.WAL.rollback,image10,0,error,wrong_name,"uses self._uncommitted_pages, the class stores self._not_committed_pages"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,exodus_bundler.bundling.resolve_file_path,image10,1,error,wrong_name,"imports FileNotFoundError from exodus_bundler.errors, which does not define it"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mingus.containers.note.Note.to_shorthand,image10,1,error,wrong_logic,invented octave arithmetic that ignores the Helmholtz comma/apostrophe scheme
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mingus.core.intervals.is_perfect_consonant,image10,1,error,wrong_name,imports from minius.core (mingus misspelled) and a nonexistent get_val; possible misreading
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mopidy.config.types.String.deserialize,image10,0,error,wrong_name,"calls validators.required and validators.choice, the module has validate_required/validate_choice"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,tools.cgrep.compare_ip_token,image10,0,error,wrong_name,"calls db.getNet, which Naming lacks; also returns a fixed string"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,tools.cgrep.compare_tokens,image10,1,error,wrong_name,calls db.get_net and options.obj1/obj2; the API is db.GetNet and options.cmp
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,asyncssh.auth_keys.SSHAuthorizedKeys.validate,image12,0,error,wrong_name,"uses self.ca_entries/user_entries, the class stores _ca_entries/_user_entries; possible misreading"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bentoml._internal.resource.get_resource,image12,0,error,wrong_logic,"calls validate on the class variable, not on the built resource, and in every branch"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bentoml._internal.runner.container.NdarrayContainer.batch_to_payloads,image12,0,error,wrong_logic,"calls cls.from_payload on the subbatches instead of to_payload, skips batch_to_batches"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,boltons.mathutils.ceil,image12,0,error,wrong_logic,"uses bisect_right where the reference uses bisect_left, so an exact match is skipped"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,falcon.inspect.register_router,image12,0,error,false_fail,registers and raises ValueError on a duplicate as asked; the test matches a message text the requirement omits
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,hl7.parser._ParsePlan.next,image12,0,error,wrong_name,"uses self.level, which _ParsePlan does not have"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,jinja2.bccache.MemcachedBytecodeCache.load_bytecode,image12,0,error,wrong_logic,sets bucket.code with bytes.fromhex on bytes instead of bytecode_from_string
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mrjob.util.to_lines,image12,2,timeout,wrong_logic,"inner loop never ends once the rest is empty, so the test times out"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,zulipterminal.config.themes.validate_colors,image12,0,error,wrong_logic,"treats THEMES values as dicts with a styles key, they are modules"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,zxcvbn.matching.dictionary_match,image12,0,error,wrong_logic,"iterates dictionary words not substrings, exclusive end index, no rank or matched_word"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,bentoml._internal.resource.CpuResource.from_spec,image14,1,error,wrong_logic,milli suffix multiplies by 1000 instead of dividing
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,boto.dynamodb.types.Dynamizer.encode,image14,1,error,wrong_name,"calls self.get_dynamodb_type, the method is _get_dynamodb_type; possible misreading"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,datasette.utils.to_css_class,image14,1,error,wrong_logic,truncates and hashes the string instead of stripping invalid characters
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,faker.providers.misc.Provider.binary,image14,1,error,wrong_name,"calls self.generator.binary, which Generator does not have"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,fs.path.recursepath,image14,0,error,wrong_logic,"absolute paths come out as //a; the reference yields /, /a, /a/b"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,mackup.utils.is_process_running,image14,1,error,wrong_logic,"uses pgrep -x (exact name), the reference and test use pgrep pattern matching; borderline"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,pyinfra.api.operations.run_ops,image14,1,error,wrong_logic,default branch runs _run_single_op(state) without the op order loop or op hash
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,pymc.gp.cov.handle_args,image14,0,error,wrong_logic,"does not wrap a non-tuple argument before unpacking it, so func(input, *args) raises"
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,telethon.helpers.generate_key_data_from_nonce,image14,1,error,wrong_logic,uses sha256 and 8-byte nonces where the reference uses sha1 over 16/32-byte values
+deveval,cyankiwi/Qwen3.5-27B-AWQ-4bit,ydata_profiling.model.pandas.describe_categorical_pandas.word_summary_vc,image14,0,error,wrong_logic,"counts words from the joined index text, ignores the value counts"

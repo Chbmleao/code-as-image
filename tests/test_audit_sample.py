@@ -1,5 +1,8 @@
 import importlib.util
+import json
 import os
+import shutil
+from collections import Counter
 
 import pytest
 from conftest import ROOT
@@ -175,3 +178,82 @@ def test_summary_base_line_has_no_exclusion_clause_without_exclusions():
 
 def test_excluded_items_reads_the_manifests():
     assert au.excluded_items() == {"coderujb": (1, "2026-11-26"), "deveval": (13, "2026-11-25")}
+
+
+EXCLUDED_ID = "alembic.testing.env.env_file_fixture"
+DRAWN = ["benchmark", "model", "id", "condition", "run", "reason"]
+
+
+def test_hand_read_options_draw_another_model_from_another_file(tmp_path):
+    rows = answers(model="open/m") + [answer("open/m", EXCLUDED_ID, c, 0, False) for c in CONDS]
+    src = tmp_path / "collected.jsonl"
+    src.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    au.main(["hand-read", "--model", "open/m", "--input", str(src), "--file", "hand_read_m.csv",
+             "--analysed", "--out", str(tmp_path)])
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["collected.jsonl", "hand_read_m.csv"]
+    out = au.read_csv(str(tmp_path / "hand_read_m.csv"))
+    assert len(out) == 4 * au.N_PER_CONDITION and {r["model"] for r in out} == {"open/m"}
+    assert EXCLUDED_ID in au.rel.excluded("deveval")
+    kept = au.draw_hand_read([r for r in rows if r["id"] != EXCLUDED_ID], "open/m")
+    assert kept != au.draw_hand_read(rows, "open/m")
+    assert [[r[c] for c in DRAWN] for r in out] == [[str(r[c]) for c in DRAWN] for r in kept]
+
+
+@pytest.mark.parametrize("flag", [["--model", "m"], ["--input", "x"], ["--file", "x.csv"],
+                                  ["--analysed"]])
+def test_hand_read_options_are_refused_in_other_modes(flag, tmp_path):
+    with pytest.raises(SystemExit, match="only for hand-read"):
+        au.main(["summary", "--out", str(tmp_path)] + flag)
+
+
+def extra_rows(labels=("false_fail", "wrong_logic")):
+    return [{"model": "open/m", "id": f"pkg.f{i}", "condition": c, "label": lab}
+            for c in CONDS for i, lab in enumerate(labels)]
+
+
+def test_summary_adds_another_models_hand_read_after_the_sonnet_one():
+    hand = [{"id": i, "condition": "text", "label": "false_fail"} for i in ("a", "x")]
+    plain = au.summary(hand, [], COUNTS, (), None)
+    md = au.summary(hand, [], COUNTS, (), None, [("hand_read_m.csv", extra_rows())], {"x"}, 100)
+    section = md[md.index("\n## Hand read: open/m\n"):md.index("\n## Items no model passes")]
+    assert ("drawn from the 100 analysed items (the main run's items minus the 1 in "
+            "manifests/excluded/deveval.txt)") in section
+    assert "| false_fail | 1 | 1 | 1 | 1 | 4 |" in section
+    assert "False fails: 4 of 8, 50.0%" in section
+    assert ("On the same 100-item base, claude-sonnet-5-5 (its hand read minus the 1 answers on "
+            "excluded items): 1 of 1, 100.0%") in section
+    assert md.index("## Hand read\n") < md.index("## Hand read: open/m")
+    back = (md.replace(section, "").replace("hand_read.csv, hand_read_m.csv,", "hand_read.csv,")
+            .replace(" The hand reads of other models below give their own base.", ""))
+    assert back == plain
+
+
+def test_summary_rejects_a_bad_label_in_another_models_file():
+    with pytest.raises(au.AuditError, match="hand_read_m.csv line 3"):
+        au.summary([], [], COUNTS, (), None, [("hand_read_m.csv", extra_rows(("wrong_logic", "")))],
+                   set(), 100)
+
+
+COMMITTED = {"hand_read.csv": [],
+             "hand_read_qwen35_27b.csv": ["--model", "cyankiwi/Qwen3.5-27B-AWQ-4bit", "--input",
+                                          "results/full/deveval.collected.jsonl", "--analysed"]}
+
+
+@pytest.mark.parametrize("name", sorted(COMMITTED))
+def test_committed_hand_reads_are_the_seeded_draws(name, tmp_path):
+    au.main(["hand-read", "--file", name, "--out", str(tmp_path)] + COMMITTED[name])
+    drawn = au.read_csv(str(tmp_path / name))
+    committed = au.read_csv(os.path.join(au.OUT, name))
+    assert [[r[c] for c in DRAWN] for r in drawn] == [[r[c] for c in DRAWN] for r in committed]
+    assert all(r["note"].isascii() and len(r["note"]) <= 120 for r in committed)
+    if COMMITTED[name]:
+        assert Counter(r["condition"] for r in committed) == {c: au.N_PER_CONDITION for c in CONDS}
+        assert not {r["id"] for r in committed} & set(au.rel.excluded("deveval"))
+
+
+def test_committed_summary_is_up_to_date(tmp_path):
+    out = tmp_path / "audit"
+    shutil.copytree(au.OUT, out)
+    au.main(["summary", "--out", str(out)])
+    with open(os.path.join(au.OUT, "summary.md")) as f:
+        assert (out / "summary.md").read_text() == f.read()
