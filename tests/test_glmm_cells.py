@@ -1,15 +1,12 @@
 import csv
-import importlib.util
 import json
 import os
 
 import pytest
 from conftest import ROOT
 
-_spec = importlib.util.spec_from_file_location(
-    "glmm_cells", os.path.join(ROOT, "scripts", "glmm_cells.py"))
-gc = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(gc)
+from codeimg.analysis import glmm_cells as gc
+
 ds = gc.ds
 
 COUNTS = {"coderujb": (136, 40), "deveval": (859, 200)}

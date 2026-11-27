@@ -18,7 +18,6 @@ Every interval is a 95% equal-tailed interval from type-1 percentiles (no interp
 """
 import argparse
 import csv
-import importlib.util
 import json
 import math
 import os
@@ -28,19 +27,10 @@ from collections import Counter, defaultdict
 from itertools import combinations
 
 from codeimg.analysis import full_table as ft
+from codeimg.analysis import glmm_cells as gc
 from codeimg.analysis import resample as rs
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def _load(name):
-    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "scripts", f"{name}.py"))
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-gc = _load("glmm_cells")
 ds = gc.ds
 
 COMPONENTS = ("s2_model", "s2_project", "s2_item", "s2_model_project", "s2_model_item", "s2_run")
