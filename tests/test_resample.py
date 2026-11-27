@@ -1,13 +1,6 @@
-import importlib.util
-import os
 from collections import Counter
 
-from conftest import ROOT
-
-_spec = importlib.util.spec_from_file_location("resample",
-                                               os.path.join(ROOT, "scripts", "resample.py"))
-rs = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(rs)
+from codeimg.analysis import resample as rs
 
 GROUPS = [[0, 1], [2], [3, 4, 5]]
 

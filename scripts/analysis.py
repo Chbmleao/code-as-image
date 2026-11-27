@@ -52,6 +52,8 @@ import sys
 from collections import Counter, defaultdict
 from itertools import combinations
 
+from codeimg.analysis import stats as st
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -63,7 +65,6 @@ def _load(name):
 
 
 rel = _load("reliability")
-st = _load("analysis_stats")
 ds, gc, ft, rs = rel.ds, rel.gc, rel.ft, rel.rs
 config = ft.config
 

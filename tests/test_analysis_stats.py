@@ -1,15 +1,9 @@
-import importlib.util
 import math
-import os
 
 import pytest
-from conftest import ROOT
 from scipy import stats
 
-_spec = importlib.util.spec_from_file_location("analysis_stats",
-                                               os.path.join(ROOT, "scripts", "analysis_stats.py"))
-st = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(st)
+from codeimg.analysis import stats as st
 
 
 def test_cluster_t_by_hand_with_unequal_clusters():

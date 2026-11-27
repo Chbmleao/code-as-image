@@ -27,6 +27,8 @@ import textwrap
 from collections import Counter, defaultdict
 from itertools import combinations
 
+from codeimg.analysis import resample as rs
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -40,7 +42,6 @@ def _load(name):
 gc = _load("glmm_cells")
 ds = gc.ds
 ft = _load("full_table")
-rs = _load("resample")
 
 COMPONENTS = ("s2_model", "s2_project", "s2_item", "s2_model_project", "s2_model_item", "s2_run")
 LABELS = {"s2_model": "model", "s2_project": "project", "s2_item": "item",
