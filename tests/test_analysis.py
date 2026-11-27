@@ -10,6 +10,7 @@ from conftest import ROOT, need
 
 from codeimg import config
 from codeimg.analysis import contamination as ctm
+from codeimg.analysis import gaps as gp
 from codeimg.analysis import inputs as inp
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
@@ -114,7 +115,7 @@ def _six_model_inputs(tmp_path):
 
 def test_a_sixth_model_runs_through_gaps_and_prep(tmp_path):
     cfg, inputs = _six_model_inputs(tmp_path)
-    rep = an.gaps_report(cfg, inputs, n_boot=50)
+    rep = gp.gaps_report(cfg, inputs, n_boot=50)
     assert rep["settings"]["models"][-1] == SIXTH
     holm = [r["holm"] for v in rep["benchmarks"].values() for r in v["main"]]
     assert len(holm) == 12 and None not in holm
@@ -145,7 +146,7 @@ def test_an_item_without_a_prompt_count_fails(tmp_path):
     data, lengths = inputs["deveval"]
     del lengths[data["items"][0]]
     with pytest.raises(ValueError, match="no prompt count"):
-        an.gaps_report(cfg, {"deveval": (data, lengths)}, n_boot=10)
+        gp.gaps_report(cfg, {"deveval": (data, lengths)}, n_boot=10)
 
 
 @pytest.fixture(scope="module")
@@ -265,7 +266,7 @@ def test_output_lengths_cover_every_run():
     for k, r in enumerate(r for r in rows if r["condition"] == "text"):
         r["output_tokens"] = 10 * (k + 1)
     data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
-    got = an.output_lengths(data)[inp.name(m)]
+    got = gp.output_lengths(data)[inp.name(m)]
     assert got["text"]["mean"] == pytest.approx(25)
     assert got["text"]["median"] == rel.quantile([10, 20, 30, 40], 0.5)
     assert got["image10"]["mean"] == 50
@@ -407,7 +408,7 @@ def test_line_ranks_and_swaps_match_a_known_order(monkeypatch):
         if r["model"] == CLAUDE[0] and r["condition"] == "text" and r["run"] == 1:
             r["passed"] = False
     line = {"deveval": inp.load_line("deveval", open_rows, claude_rows, items, LINE_CFG)}
-    rep = an.ranks_report(line, n_boot=40)["benchmarks"]["deveval"]
+    rep = gp.ranks_report(line, n_boot=40)["benchmarks"]["deveval"]
     n = [inp.name(m) for m in opens + CLAUDE]
     assert (rep["n_items"], rep["n_clusters"], rep["dropped"]["count"]) == (4, 2, 0)
     assert rep["rates"]["text"] == {n[0]: 1, n[1]: 0, n[2]: 0.5, n[3]: 0}
@@ -697,7 +698,7 @@ def claude_copies():
 
 
 def claude_report():
-    return an.claude_gaps_report(CLAUDE_CFG, claude_inputs(), claude_copies(), n_boot=20,
+    return gp.claude_gaps_report(CLAUDE_CFG, claude_inputs(), claude_copies(), n_boot=20,
                                  n_draws=10)
 
 
@@ -716,7 +717,7 @@ def test_claude_gaps_have_their_own_holm_and_one_bh_set_of_40():
     assert len(family) == rep["settings"]["bh_set"]["rows"] == 40
     assert [r["bh"] for r in family] == st.bh([r["cluster"]["p"] for r in family])
     for v in found:
-        assert not set(an.CLAUDE_DROPPED) & set(v)
+        assert not set(gp.CLAUDE_DROPPED) & set(v)
 
 
 def test_the_claude_token_ratio_mean_is_the_item_mean():
@@ -756,7 +757,7 @@ def test_a_claude_text_answer_without_a_reply_stops_the_claude_gaps():
     copies = claude_copies()
     del copies["deveval"][(CLAUDE[1], "D", 1)]
     with pytest.raises(ValueError, match="1 graded text answer"):
-        an.claude_gaps_report(CLAUDE_CFG, claude_inputs(), copies, n_boot=20, n_draws=10)
+        gp.claude_gaps_report(CLAUDE_CFG, claude_inputs(), copies, n_boot=20, n_draws=10)
 
 
 @pytest.mark.parametrize("argv", [["gaps", "--models", "claude"], ["gaps", "--answers", "x"]])
