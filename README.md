@@ -128,7 +128,7 @@ Runs on: **laptop** (committed files only), **laptop + R** (the `codeimg-glmm` e
 | `results/reliability/sim_check.csv` | `analysis/reliability.R --sim` | laptop + R (not timed) |
 | `results/block1/*.collected.jsonl` | `codeimg collect` | cluster |
 | `results/block1/dstudy.json`, `dstudy.md` | `scripts/dstudy.py` | laptop |
-| `results/full/*.collected.jsonl`, `checks.json` | `scripts/full_table.py build --rest ~/UFMG/ufm9-open/rest` | replies |
+| `results/full/*.collected.jsonl`, `checks.json` | `scripts/full_table.py build --rest DIR`, where DIR holds `coderujb.collected.jsonl` and `deveval.collected.jsonl` (in `~/UFMG/ufm9-open/rest` they are `<b>/collected.jsonl`: link them under those names) | replies |
 | `results/full/rescore_keys.json`, `rescore.json` | `full_table.py sample`, then `rescore --grades F` after a cluster regrade | laptop, cluster |
 | `results/glmm/sim_*.csv`, `lme4_notes_*.csv`, `glmm.md` | `scripts/glmm_cells.py`, then `analysis/glmm_check.R` | laptop + R (not timed) |
 | `results/layout/items.csv`, `layout.json`, `findings.md` | `scripts/layout_share.py --requests DIR` | replies (needs the rendered pages) |
