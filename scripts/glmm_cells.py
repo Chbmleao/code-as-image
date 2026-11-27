@@ -11,14 +11,12 @@ repository (dstudy.CLUSTERS). Block-1 rows are validated by dstudy.cells.
 """
 import argparse
 import csv
-import importlib.util
 import os
 import sys
 
+from codeimg.analysis import dstudy as ds
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_spec = importlib.util.spec_from_file_location("dstudy", os.path.join(ROOT, "scripts", "dstudy.py"))
-ds = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(ds)
 
 ID_LISTS = {"coderujb": "benchmarks/coderujb/results/final_ids.txt",
             "deveval": "benchmarks/deveval/results/inrange_ids.txt"}

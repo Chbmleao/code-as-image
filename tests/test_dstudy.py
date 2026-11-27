@@ -1,4 +1,3 @@
-import importlib.util
 import json
 import math
 import os
@@ -9,9 +8,7 @@ from fractions import Fraction as F
 import pytest
 from conftest import ROOT
 
-_spec = importlib.util.spec_from_file_location("dstudy", os.path.join(ROOT, "scripts", "dstudy.py"))
-ds = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(ds)
+from codeimg.analysis import dstudy as ds
 
 M0, M1 = list(ds.NAMES)[:2]
 
