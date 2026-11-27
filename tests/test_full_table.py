@@ -1,15 +1,7 @@
-import importlib.util
-import os
-
 import pytest
-from conftest import ROOT
 
+from codeimg.analysis import full_table as ft
 from codeimg.answers import answer_key
-
-_spec = importlib.util.spec_from_file_location(
-    "full_table", os.path.join(ROOT, "scripts", "full_table.py"))
-ft = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(ft)
 
 M = "org/m"
 
