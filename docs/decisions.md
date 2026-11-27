@@ -3,6 +3,32 @@
 Newest first. Each entry says what was decided and why, so a settled question is not reopened by
 accident. The current plan is `docs/methodology.md`; this file explains how it got there.
 
+## 2026-11-27: the analysis logic moves into the package
+
+- **The analysis code lives in `src/codeimg/analysis/`.** The scripts loaded each other by file
+  path and `scripts/analysis.py` mixed inputs, statistics, markdown and figures in one module.
+  Each script with a command line stays at its path as a five-line entry point, so every command
+  in the README and every `scripts/...` literal the reports print stays true, and the committed
+  results are byte for byte the same. Function bodies moved unchanged.
+- **Not a layout by study stage.** Moving `scripts/`, `analysis/`, `benchmarks/` or `results/`
+  would change the paths the generated reports print, so the bytes of `results/` would change.
+
+Old and new paths:
+
+| Old path | New path |
+|---|---|
+| `scripts/resample.py` | `src/codeimg/analysis/resample.py` |
+| `scripts/analysis_stats.py` | `src/codeimg/analysis/stats.py` |
+| `scripts/dstudy.py`, `full_table.py`, `glmm_cells.py`, `reliability.py` | `src/codeimg/analysis/` under the same name; the script is the entry point |
+| `scripts/analysis.py`: grid, config and input readers | `src/codeimg/analysis/inputs.py` |
+| `scripts/analysis.py`: `scores`, `mean`, `differences`, `test_row`, `adjust`, `pooled`, `bucket_of`, `check_lengths`, `spread` | `src/codeimg/analysis/stats.py` |
+| `scripts/analysis.py`: copy flags and the matched random removal | `src/codeimg/analysis/contamination.py` |
+| `scripts/analysis.py`: gaps, Claude gaps and ranks | `src/codeimg/analysis/gaps.py` |
+| `scripts/analysis.py`: reply measures | `src/codeimg/analysis/replies.py` |
+| `scripts/analysis.py`: figures | `src/codeimg/analysis/figures.py` |
+| `scripts/analysis.py`: findings markdown | `src/codeimg/analysis/report.py` |
+| `scripts/analysis.py`: the subcommands and `main` | `src/codeimg/analysis/cli.py`; the script is the entry point |
+
 ## 2026-11-26: license, and the replies stay off the repo
 
 For the code repo deliverable (UFM-15).

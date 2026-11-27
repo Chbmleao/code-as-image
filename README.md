@@ -178,10 +178,10 @@ The Claude requests send no temperature and no seed, so both models sample at 1.
 | Block-1 and smoke samples | 20261105 | `configs/experiment.toml:5`, used in `src/codeimg/sample.py:89` |
 | Generation, open models | run number r is sent as the vLLM seed | `src/codeimg/generate.py:92` |
 | Generation, Claude | none (the API takes no seed) | `src/codeimg/claude.py` docstring |
-| D-study bootstrap | 20261110 | `scripts/dstudy.py:41` |
-| Re-score sample | 20261111 | `scripts/full_table.py:31` |
-| Cluster resample (gaps, ranks, reliability ranks) | 20261114, stream `f"{SEED}-{benchmark}"` | `scripts/resample.py:10` |
-| Matched random removal (contamination control) | 20261118 | `scripts/analysis.py:91` |
+| D-study bootstrap | 20261110 | `src/codeimg/analysis/dstudy.py:43` |
+| Re-score sample | 20261111 | `src/codeimg/analysis/full_table.py:31` |
+| Cluster resample (gaps, ranks, reliability ranks) | 20261114, stream `f"{SEED}-{benchmark}"` | `src/codeimg/analysis/resample.py:10` |
+| Matched random removal (contamination control) | 20261118 | `src/codeimg/analysis/contamination.py:19` |
 | GLMM held-out folds and simulations | 20261115 and 20261117 | `analysis/glmm_main.R:38-39` |
 | MCMC chains | 20261114 plus an offset per benchmark, condition, prior and chain | `analysis/reliability.R:37`, `:164` |
 | GLMM simulation check | 20261112 | `analysis/glmm_check.R:37` |
@@ -271,10 +271,11 @@ re-indent fix in `59a9c12`), so the script needs a full clone, not a shallow one
 | `model_panel/` | Model choice: fit on one RTX 5090, text floor screen, image token cost |
 | `benchmarks/` | Benchmark choice, item filters, gold checks, token counts, contamination check |
 | `src/codeimg/` | The experiment pipeline, `python -m codeimg <stage>` |
+| `src/codeimg/analysis/` | The analysis logic behind `scripts/analysis.py`, `dstudy.py`, `full_table.py`, `glmm_cells.py` and `reliability.py` |
 | `configs/experiment.toml` | Every setting of the main study: sizes, runs, seed, sampling, image limit, models |
 | `manifests/` | Item ids of the smoke sample, block 1, the rest and the excluded items, and page counts |
 | `analysis/` | R scripts (GLMM, reliability) and the pinned R environment |
-| `scripts/` | Analysis, checks, the rerun script and the cluster sync |
+| `scripts/` | Entry points of the analysis, the one-study scripts, checks, the rerun script and the cluster sync |
 | `slurm/` | Job templates for generation and grading |
 | `results/` | Outputs small enough to commit (no reply text) |
 | `banner/` | The poster and its build script |

@@ -374,10 +374,11 @@ runs, then the mean over items).
   tokens, they are added to input_tokens.
 - 7-model line, shown beside the 5-model results in the same tables: the model x condition test
   (6 df), item order correlations, the item x condition variance with checks 1 and 2, and the rank
-  table with rank intervals and pair swap probabilities from the `scripts/resample.py` draws. In
-  this line every model uses runs 0 and 1 only, so the design is balanced; the 5-model numbers
-  keep all runs. An item with a Claude cell short of 2 scored runs leaves this line for every
-  model in that condition (all four conditions for delta_mb), and the count is reported.
+  table with rank intervals and pair swap probabilities from the
+  `src/codeimg/analysis/resample.py` draws. In this line every model uses runs 0 and 1 only, so
+  the design is balanced; the 5-model numbers keep all runs. An item with a Claude cell short of
+  2 scored runs leaves this line for every model in that condition (all four conditions for
+  delta_mb), and the count is reported.
   Contamination flags in this line and for the Claude gaps come from all text runs of the other 6
   models; the 5-model results keep the flags from the other 4.
 - Open vs closed. Per benchmark, in the 7-model GLMM: c = (1/2) sum over the Claude models of P_m

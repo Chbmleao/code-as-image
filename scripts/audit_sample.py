@@ -187,7 +187,8 @@ def check_labels(rows, allowed, name):
 
 def excluded_items():
     """{benchmark: (count, date)} of the items manifests/excluded/ leaves out of the analysis,
-    read through scripts/reliability.py so the ids are checked against the item lists."""
+    read through src/codeimg/analysis/reliability.py so the ids are checked against the item
+    lists."""
     return {b: (len(rel.excluded(b)), rel.EXCLUDED_ON[b]) for b in BENCHES}
 
 

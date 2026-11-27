@@ -9,7 +9,7 @@
           scores for 1 to 3 runs, the empirical run-to-run correlation, the two G coefficients for
           ranking the models, the share of items passed by every model and by none, and rank
           intervals and text/image swap probabilities from the joint cluster resample
-          (scripts/resample.py).
+          (src/codeimg/analysis/resample.py).
 
 usage: uv run python scripts/reliability.py prep [--full DIR] [--scratch DIR] [--bench B]
        uv run python scripts/reliability.py report [--scratch DIR] [--out DIR]

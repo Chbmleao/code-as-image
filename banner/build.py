@@ -47,7 +47,7 @@ GRID = "#dde3ea"
 # Design facts that no result file holds as a number, with where they are stated.
 SIZES_PX = (10, 12, 14)  # docs/methodology.md 3.1, Conditions
 OPEN_TEMPERATURE = 0.7  # docs/decisions.md, Claude addendum (open models at 0.7)
-LINE_RUNS = 2  # scripts/analysis.py: the 7-model line uses runs 0 and 1 of every model
+LINE_RUNS = 2  # src/codeimg/analysis/inputs.py: the 7-model line uses runs 0 and 1 of every model
 GLMM_FORMULA = (
     "cbind(k, n - k) ~ model * condition + (1 | item) + (1 | item:model) + (1 | item:condition)"
     " + (1 | project) + (1 | project:condition) + (1 | cell)"

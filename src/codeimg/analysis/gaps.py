@@ -189,7 +189,7 @@ def claude_gaps_report(cfg, inputs, copies_by_bench, seed=rs.SEED, n_boot=rs.N_B
 
 def ranks_report(line, seed=rs.SEED, n_boot=None):
     """Rates, ranks with resample intervals and pair swap probabilities of the 7-model line, from
-    the reliability code and the scripts/resample.py draws, keyed by display name."""
+    the reliability code and the src/codeimg/analysis/resample.py draws, keyed by display name."""
     n_boot = n_boot or rs.N_BOOT
     models = next(iter(line.values()))["models"]
     rep = {"settings": {"models": [inp.name(m) for m in models], "runs": list(range(inp.LINE_RUNS)),
