@@ -64,66 +64,6 @@ CONTROL = {"draws": 1000, "bins": (5, 3), "glmm_top": 0.10}
 CONTROL_SEED = 20261118
 
 
-def scores(data):
-    """Y[m][c][j]: the mean of item j's runs."""
-    return {m: {c: [sum(ys) / len(ys) for ys in data["cells"][m][c]] for c in data["conditions"]}
-            for m in data["models"]}
-
-
-def mean(xs):
-    return math.fsum(xs) / len(xs)
-
-
-def differences(y, a, b):
-    """Per item, Y(a) - Y(b); a may be a list of conditions, averaged."""
-    a = a if isinstance(a, list) else [a]
-    return [mean([y[c][j] for c in a]) - y[b][j] for j in range(len(y[b]))]
-
-
-def test_row(model, values, projects, **extra):
-    c = st.cluster_t(values, projects)
-    i = st.item_t(values)
-    return {"model": inp.name(model), "repo": model, **extra, "est": c["est"], "n": c["n"],
-            "cluster": {k: c[k] for k in ("clusters", "df", "se", "lo", "hi", "p")},
-            "item": {k: i[k] for k in ("df", "se", "lo", "hi", "p")}}
-
-
-def adjust(rows, how, key):
-    ps = [r["cluster"]["p"] for r in rows]
-    for r, q in zip(rows, (st.holm if how == "holm" else st.bh)(ps)):
-        r[key] = q
-
-
-def pooled(d_by_model, groups, seed, n_boot):
-    """Mean of the model gaps, with the resample interval: each draw keeps the same items for
-    every model."""
-    models = list(d_by_model)
-    est = mean([mean(d_by_model[m]) for m in models])
-    per_draw = [mean([mean([d_by_model[m][j] for j in idx]) for m in models])
-                for idx in rs.cluster_draws(groups, n_boot, seed)]
-    s = rel.summarize(per_draw)
-    return {"est": est, "lo": s["lo"], "hi": s["hi"], "n_boot": n_boot}
-
-
-def bucket_of(n, buckets):
-    for k, (lo, hi) in enumerate(buckets):
-        if lo <= n < hi:
-            return k
-    raise ValueError(f"{n} tokens is outside every length bucket {buckets}")
-
-
-def check_lengths(b, items, lengths):
-    missing = [i for i in items if i not in lengths]
-    if missing:
-        raise ValueError(f"{b}: no prompt count for {len(missing)} item(s), first {missing[0]}")
-
-
-def spread(values):
-    v = sorted(values)
-    return {"median": rel.quantile(v, 0.5), "q1": rel.quantile(v, 0.25),
-            "q3": rel.quantile(v, 0.75)}
-
-
 def lopo_projects(projects, n):
     """The n largest projects by item count, ties by name."""
     return [p for p, _ in sorted(Counter(projects).items(), key=lambda kv: (-kv[1], kv[0]))[:n]]
@@ -153,7 +93,7 @@ def output_lengths(data):
     toks = defaultdict(list)
     for r in data["rows"]:
         toks[(r["model"], r["condition"])].append(r["output_tokens"])
-    return {inp.name(m): {c: {**spread(toks[(m, c)]), "mean": mean(toks[(m, c)])}
+    return {inp.name(m): {c: {**st.spread(toks[(m, c)]), "mean": st.mean(toks[(m, c)])}
                       for c in data["conditions"]} for m in data["models"]}
 
 
@@ -161,44 +101,44 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
     b, models, conds = data["benchmark"], data["models"], data["conditions"]
     sizes = conds[1:]
     items, projects = data["items"], data["projects"]
-    y = scores(data)
+    y = st.scores(data)
     groups = ds.clusters(b, items, dict(zip(items, projects)))
     out = {"n_items": len(items), "n_clusters": len(groups),
            "excluded": {"count": len(data["excluded"]), "items": data["excluded"]}}
 
-    rates = {c: {inp.name(m): mean(y[m][c]) for m in models} for c in conds}
-    rates["image"] = {inp.name(m): mean([rates[c][inp.name(m)] for c in sizes]) for m in models}
+    rates = {c: {inp.name(m): st.mean(y[m][c]) for m in models} for c in conds}
+    rates["image"] = {inp.name(m): st.mean([rates[c][inp.name(m)] for c in sizes]) for m in models}
     out["rates"] = rates
     out["ranks"] = {c: dict(zip(rates[c], rel.average_ranks(list(rates[c].values()))))
                     for c in ["text", "image"] + sizes}
 
-    d_main = {m: differences(y[m], sizes, "text") for m in models}
-    out["main"] = [test_row(m, d_main[m], projects) for m in models]
-    out["pooled"] = pooled(d_main, groups, seed, n_boot)
-    out["sizes"] = [test_row(m, differences(y[m], s, "text"), projects, size=s)
+    d_main = {m: st.differences(y[m], sizes, "text") for m in models}
+    out["main"] = [st.test_row(m, d_main[m], projects) for m in models]
+    out["pooled"] = st.pooled(d_main, groups, seed, n_boot)
+    out["sizes"] = [st.test_row(m, st.differences(y[m], s, "text"), projects, size=s)
                     for m in models for s in sizes]
-    out["size_diffs"] = [test_row(m, differences(y[m], s1, s2), projects, pair=f"{s1}-{s2}")
+    out["size_diffs"] = [st.test_row(m, st.differences(y[m], s1, s2), projects, pair=f"{s1}-{s2}")
                          for m in models for s2, s1 in combinations(sizes, 2)]
 
     tok = data["tokens"]
-    out["tokens"] = {inp.name(m): {c: spread(tok[m][c]) for c in conds} for m in models}
+    out["tokens"] = {inp.name(m): {c: st.spread(tok[m][c]) for c in conds} for m in models}
     out["token_ratio"] = {
         inp.name(m): {s: rel.quantile(sorted(a / t for a, t in zip(tok[m][s], tok[m]["text"])), 0.5)
                   for s in sizes} for m in models}
     for m in models:
         r = out["token_ratio"][inp.name(m)]
-        r["mean_over_sizes"] = mean([r[s] for s in sizes])
+        r["mean_over_sizes"] = st.mean([r[s] for s in sizes])
 
     out["lopo"] = []
     if b == inp.LOPO_BENCH:
         for p in lopo_projects(projects, inp.LOPO_N):
             keep = [j for j, q in enumerate(projects) if q != p]
             for m in models:
-                out["lopo"].append(test_row(m, [d_main[m][j] for j in keep],
+                out["lopo"].append(st.test_row(m, [d_main[m][j] for j in keep],
                                             [projects[j] for j in keep], left_out=p))
 
-    check_lengths(b, items, lengths)
-    bucket = [bucket_of(lengths[i], buckets) for i in items]
+    st.check_lengths(b, items, lengths)
+    bucket = [st.bucket_of(lengths[i], buckets) for i in items]
     out["length"] = []
     for k, (lo, hi) in enumerate(buckets):
         keep = [j for j in range(len(items)) if bucket[j] == k]
@@ -206,8 +146,8 @@ def benchmark_gaps(data, lengths, buckets, seed, n_boot):
             continue
         for m in models:
             for s in sizes:
-                d = differences(y[m], s, "text")
-                out["length"].append(test_row(m, [d[j] for j in keep],
+                d = st.differences(y[m], s, "text")
+                out["length"].append(st.test_row(m, [d[j] for j in keep],
                                               [projects[j] for j in keep],
                                               size=s, bucket=f"{lo}-{hi}"))
 
@@ -240,7 +180,7 @@ def gaps_report(cfg, inputs, seed=rs.SEED, n_boot=rs.N_BOOT):
     for b, (data, lengths) in inputs.items():
         rep["benchmarks"][b] = benchmark_gaps(data, lengths, buckets, f"{seed}-{b}", n_boot)
     for key, how in (("main", "holm"), ("sizes", "bh"), ("size_diffs", "bh"), ("length", "bh")):
-        adjust([r for v in rep["benchmarks"].values() for r in v[key]], how, how)
+        st.adjust([r for v in rep["benchmarks"].values() for r in v[key]], how, how)
     return rep
 
 
@@ -253,8 +193,8 @@ def token_ratio_mean(data):
     tok, sizes = data["tokens"], data["conditions"][1:]
     out = {}
     for m in data["models"]:
-        r = {s: mean([a / t for a, t in zip(tok[m][s], tok[m]["text"])]) for s in sizes}
-        r["mean_over_sizes"] = mean([r[s] for s in sizes])
+        r = {s: st.mean([a / t for a, t in zip(tok[m][s], tok[m]["text"])]) for s in sizes}
+        r["mean_over_sizes"] = st.mean([r[s] for s in sizes])
         out[inp.name(m)] = r
     return out
 
@@ -305,10 +245,10 @@ def claude_gaps_report(cfg, inputs, copies_by_bench, seed=rs.SEED, n_boot=rs.N_B
                                                   n_draws)
         rep["benchmarks"][b] = v
     found = rep["benchmarks"].values()
-    adjust([r for v in found for r in v["main"]], "holm", "holm")
+    st.adjust([r for v in found for r in v["main"]], "holm", "holm")
     family = ([r for k in ("sizes", "size_diffs") for v in found for r in v[k]]
               + [r for v in found for r in v["contamination"]["gaps"]])
-    adjust(family, "bh", "bh")
+    st.adjust(family, "bh", "bh")
     rep["settings"]["holm_rows"] = sum(len(v["main"]) for v in found)
     rep["settings"]["bh_set"] = {"rows": len(family), "covers": CLAUDE_BH}
     return rep
@@ -452,7 +392,7 @@ def replies_report(cfg, run_dir, collected, benches=ds.BENCHES):
                 out[c] = {**x, "refusals": dict(x["refusals"]),
                           "other_stops": dict(x["other_stops"]),
                           "thinking_share": thinking / output if output else None,
-                          "output_tokens": {**spread(plain), "mean": mean(plain)}}
+                          "output_tokens": {**st.spread(plain), "mean": st.mean(plain)}}
             rep["benchmarks"][b][inp.name(model)] = out
     return rep
 
@@ -599,39 +539,39 @@ def removal_checks(b, data, lengths, flags, seed, n_draws):
     """Per model of data: the gaps without its flagged items, the matched random removal and the
     flagged items alone. The rate bins come from the mean text score of data's models."""
     models, items, projects = data["models"], data["items"], data["projects"]
-    y = scores(data)
+    y = st.scores(data)
     sizes = data["conditions"][1:]
     pos = {i: j for j, i in enumerate(items)}
-    text_mean = [mean([y[m]["text"][j] for m in models]) for j in range(len(items))]
+    text_mean = [st.mean([y[m]["text"][j] for m in models]) for j in range(len(items))]
     q, t = CONTROL["bins"]
     rate_bin = equal_groups(text_mean, items, q)
-    check_lengths(b, items, lengths)
+    st.check_lengths(b, items, lengths)
     len_bin = equal_groups([lengths[i] for i in items], items, t)
     bins = [(rate_bin[j], len_bin[j]) for j in range(len(items))]
     out = {"gaps": [], "control": {}, "flagged_only": []}
     for m in models:
         keep = [j for j, i in enumerate(items) if i not in flags[m]]
         for label, cond in [("mean", sizes)] + [(s, s) for s in sizes]:
-            d = differences(y[m], cond, "text")
+            d = st.differences(y[m], cond, "text")
             full = st.cluster_t(d, projects)
-            row = test_row(m, [d[j] for j in keep], [projects[j] for j in keep],
+            row = st.test_row(m, [d[j] for j in keep], [projects[j] for j in keep],
                            gap=label, removed=len(items) - len(keep))
             row["all_items"] = full["est"]
             out["gaps"].append(row)
-        d = differences(y[m], sizes, "text")
+        d = st.differences(y[m], sizes, "text")
         flagged = [pos[i] for i in flags[m]]
         if not flagged:
             out["control"][inp.name(m)] = None
             continue
         flagged.sort()
         # flags come from the other models' text answers, so flagged items lean easy in text
-        row = test_row(m, [d[j] for j in flagged], [projects[j] for j in flagged])
-        row["text_flagged"] = mean([y[m]["text"][j] for j in flagged])
-        row["text_rest"] = mean([y[m]["text"][j] for j in keep])
-        row["gap_rest"] = mean([d[j] for j in keep])
+        row = st.test_row(m, [d[j] for j in flagged], [projects[j] for j in flagged])
+        row["text_flagged"] = st.mean([y[m]["text"][j] for j in flagged])
+        row["text_rest"] = st.mean([y[m]["text"][j] for j in keep])
+        row["gap_rest"] = st.mean([d[j] for j in keep])
         out["flagged_only"].append(row)
-        base = mean(d)
-        observed = mean([d[j] for j in keep]) - base
+        base = st.mean(d)
+        observed = st.mean([d[j] for j in keep]) - base
         pool = set(keep)
         draws, short = matched_removals(flagged, bins, pool, n_draws, f"{seed}-{m}")
         total = math.fsum(d)
@@ -659,7 +599,7 @@ def contamination_report(inputs, copies_by_bench, modes, seed=CONTROL_SEED,
         out["flag2"] = flag2_overlap(models, items, modes[b], flags)
         out["flag_rows"] = sorted((b, i, mm, r) for (mm, i, r), v in copies.items() if v)
         rep["benchmarks"][b] = out
-    adjust([r for v in rep["benchmarks"].values() for r in v["gaps"]], "bh", "bh")
+    st.adjust([r for v in rep["benchmarks"].values() for r in v["gaps"]], "bh", "bh")
     return rep
 
 

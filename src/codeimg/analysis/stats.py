@@ -3,11 +3,17 @@
 cluster_t is the clustered (CR1) t interval for a mean of item-level values: the residuals
 are summed within each cluster, the variance gets the G / (G - 1) factor, and the t reference has
 G - 1 df. item_t is the same with every item its own cluster, which is the ordinary paired t.
+The item scores, paired differences and test rows after them are shared by the gaps and the
+contamination checks.
 """
 import math
 from collections import defaultdict
 
 from scipy import stats
+
+from codeimg.analysis import inputs as inp
+from codeimg.analysis import reliability as rel
+from codeimg.analysis import resample as rs
 
 LEVEL = 0.95
 
@@ -78,3 +84,63 @@ def bh(ps):
         running = min(running, ps[k] * m / (rank + 1))
         out[k] = running
     return out
+
+
+def scores(data):
+    """Y[m][c][j]: the mean of item j's runs."""
+    return {m: {c: [sum(ys) / len(ys) for ys in data["cells"][m][c]] for c in data["conditions"]}
+            for m in data["models"]}
+
+
+def mean(xs):
+    return math.fsum(xs) / len(xs)
+
+
+def differences(y, a, b):
+    """Per item, Y(a) - Y(b); a may be a list of conditions, averaged."""
+    a = a if isinstance(a, list) else [a]
+    return [mean([y[c][j] for c in a]) - y[b][j] for j in range(len(y[b]))]
+
+
+def test_row(model, values, projects, **extra):
+    c = cluster_t(values, projects)
+    i = item_t(values)
+    return {"model": inp.name(model), "repo": model, **extra, "est": c["est"], "n": c["n"],
+            "cluster": {k: c[k] for k in ("clusters", "df", "se", "lo", "hi", "p")},
+            "item": {k: i[k] for k in ("df", "se", "lo", "hi", "p")}}
+
+
+def adjust(rows, how, key):
+    ps = [r["cluster"]["p"] for r in rows]
+    for r, q in zip(rows, (holm if how == "holm" else bh)(ps)):
+        r[key] = q
+
+
+def pooled(d_by_model, groups, seed, n_boot):
+    """Mean of the model gaps, with the resample interval: each draw keeps the same items for
+    every model."""
+    models = list(d_by_model)
+    est = mean([mean(d_by_model[m]) for m in models])
+    per_draw = [mean([mean([d_by_model[m][j] for j in idx]) for m in models])
+                for idx in rs.cluster_draws(groups, n_boot, seed)]
+    s = rel.summarize(per_draw)
+    return {"est": est, "lo": s["lo"], "hi": s["hi"], "n_boot": n_boot}
+
+
+def bucket_of(n, buckets):
+    for k, (lo, hi) in enumerate(buckets):
+        if lo <= n < hi:
+            return k
+    raise ValueError(f"{n} tokens is outside every length bucket {buckets}")
+
+
+def check_lengths(b, items, lengths):
+    missing = [i for i in items if i not in lengths]
+    if missing:
+        raise ValueError(f"{b}: no prompt count for {len(missing)} item(s), first {missing[0]}")
+
+
+def spread(values):
+    v = sorted(values)
+    return {"median": rel.quantile(v, 0.5), "q1": rel.quantile(v, 0.25),
+            "q3": rel.quantile(v, 0.75)}

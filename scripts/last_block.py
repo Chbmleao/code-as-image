@@ -26,6 +26,7 @@ import warnings
 from collections import Counter
 
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
 from codeimg.answers import deveval as dv
 from codeimg.collect import DEV_REASON
@@ -189,9 +190,9 @@ def gap_lines(tables):
     load_benchmark or load_claude outputs, as benchmark_gaps computes `main`."""
     out = {}
     for data in tables:
-        y, sizes = an.scores(data), data["conditions"][1:]
+        y, sizes = st.scores(data), data["conditions"][1:]
         for m in data["models"]:
-            out[inp.name(m)] = an.test_row(m, an.differences(y[m], sizes, "text"), data["projects"])
+            out[inp.name(m)] = st.test_row(m, st.differences(y[m], sizes, "text"), data["projects"])
     return out
 
 

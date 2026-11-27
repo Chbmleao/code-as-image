@@ -10,6 +10,7 @@ from conftest import ROOT, need
 
 from codeimg import config
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
 
 _spec = importlib.util.spec_from_file_location("analysis",
@@ -52,17 +53,17 @@ def test_each_item_weighs_the_same_and_the_gap_is_image_minus_text():
               "B": {"text": [0, 0], **{c: [1, 1] for c in CONDS[1:]}}}
     rows, items, parts = toy([m], passes, {"A": "p", "B": "q"})
     data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
-    y = an.scores(data)
-    d = an.differences(y[m], CONDS[1:], "text")
+    y = st.scores(data)
+    d = st.differences(y[m], CONDS[1:], "text")
     # item A loses 2/3, item B gains 1; pooling the 5 answers instead would give 0
     assert d == pytest.approx([-2 / 3, 1])
-    assert an.mean(d) == pytest.approx(1 / 6)
+    assert st.mean(d) == pytest.approx(1 / 6)
 
 
 def test_pooled_interval_is_the_mean_gap_per_draw():
     d = {"m1": [-1, 0, -0.5, 1, -1, 0], "m2": [0, -0.5, -1, -1, 0.5, 0]}
     groups = [[0, 1], [2], [3, 4, 5]]
-    got = an.pooled(d, groups, "toy-seed", 200)
+    got = st.pooled(d, groups, "toy-seed", 200)
     per_draw = []
     for idx in rs.cluster_draws(groups, 200, "toy-seed"):
         per_draw.append(sum(sum(d[m][j] for j in idx) / len(idx) for m in d) / 2)
@@ -74,13 +75,13 @@ def test_pooled_interval_is_the_mean_gap_per_draw():
 
 def test_length_buckets_are_half_open():
     buckets = [[2000, 4000], [4000, 8000], [8000, 12000]]
-    assert an.bucket_of(2000, buckets) == 0
-    assert an.bucket_of(3999, buckets) == 0
-    assert an.bucket_of(4000, buckets) == 1
-    assert an.bucket_of(11999, buckets) == 2
+    assert st.bucket_of(2000, buckets) == 0
+    assert st.bucket_of(3999, buckets) == 0
+    assert st.bucket_of(4000, buckets) == 1
+    assert st.bucket_of(11999, buckets) == 2
     for n in (1999, 12000):
         with pytest.raises(ValueError, match="outside every length bucket"):
-            an.bucket_of(n, buckets)
+            st.bucket_of(n, buckets)
 
 
 def _six_model_inputs(tmp_path):
@@ -158,14 +159,14 @@ def test_rates_match_the_reliability_results(real):
     with open(os.path.join(ROOT, "results", "reliability", "reliability.json")) as f:
         rel_rates = json.load(f)["benchmarks"]
     for b, (data, _) in inputs.items():
-        y = an.scores(data)
+        y = st.scores(data)
         sizes = data["conditions"][1:]
         for m in data["models"]:
-            rate = {c: an.mean(y[m][c]) for c in data["conditions"]}
-            rate["image"] = an.mean([rate[c] for c in sizes])
+            rate = {c: st.mean(y[m][c]) for c in data["conditions"]}
+            rate["image"] = st.mean([rate[c] for c in sizes])
             for c, v in rate.items():
                 assert v == pytest.approx(rel_rates[b]["rates"][c][inp.name(m)], abs=5e-7)
-            gap = an.mean(an.differences(y[m], sizes, "text"))
+            gap = st.mean(st.differences(y[m], sizes, "text"))
             assert gap == pytest.approx(rate["image"] - rate["text"], abs=1e-12)
 
 
@@ -177,11 +178,11 @@ def test_items_and_draws_are_the_reliability_ones(real):
         assert data["items"] == [i for i, _, _ in rel.design(b) if i not in gone]
         assert sorted(data["excluded"]) == sorted(gone)
         groups = rel.ds.clusters(b, data["items"], dict(zip(data["items"], data["projects"])))
-        d = {m: an.differences(an.scores(data)[m], data["conditions"][1:], "text")
+        d = {m: st.differences(st.scores(data)[m], data["conditions"][1:], "text")
              for m in data["models"]}
-        got = an.pooled(d, groups, f"{rs.SEED}-{b}", 20)
+        got = st.pooled(d, groups, f"{rs.SEED}-{b}", 20)
         draws = rs.cluster_draws(groups, 20, f"{rs.SEED}-{b}")
-        per = sorted(an.mean([an.mean([d[m][j] for j in idx]) for m in d]) for idx in draws)
+        per = sorted(st.mean([st.mean([d[m][j] for j in idx]) for m in d]) for idx in draws)
         assert (got["lo"], got["hi"]) == (rel.quantile(per, 0.025), rel.quantile(per, 0.975))
 
 
@@ -282,13 +283,13 @@ def test_flagged_items_get_their_own_gap(tmp_path):
     rows = rep["benchmarks"]["deveval"]["flagged_only"]
     # the copying model's own items are not flagged for it, so it gets no row
     assert [r["model"] for r in rows] == [inp.name(m) for m in models[1:]]
-    y = an.scores(data)[models[1]]
-    d = an.differences(y, CONDS[1:], "text")
+    y = st.scores(data)[models[1]]
+    d = st.differences(y, CONDS[1:], "text")
     r = rows[0]
     assert (r["n"], r["est"]) == (1, pytest.approx(d[0]))
     assert r["text_flagged"] == pytest.approx(y["text"][0])
-    assert r["text_rest"] == pytest.approx(an.mean(y["text"][1:]))
-    assert r["gap_rest"] == pytest.approx(an.mean(d[1:]))
+    assert r["text_rest"] == pytest.approx(st.mean(y["text"][1:]))
+    assert r["gap_rest"] == pytest.approx(st.mean(d[1:]))
 
 
 CLAUDE = ["cl/one", "cl/two"]
@@ -708,11 +709,11 @@ def test_claude_gaps_have_their_own_holm_and_one_bh_set_of_40():
     found = list(rep["benchmarks"].values())
     main = [r for v in found for r in v["main"]]
     assert len(main) == rep["settings"]["holm_rows"] == 4
-    assert [r["holm"] for r in main] == an.st.holm([r["cluster"]["p"] for r in main])
+    assert [r["holm"] for r in main] == st.holm([r["cluster"]["p"] for r in main])
     family = ([r for k in ("sizes", "size_diffs") for v in found for r in v[k]]
               + [r for v in found for r in v["contamination"]["gaps"]])
     assert len(family) == rep["settings"]["bh_set"]["rows"] == 40
-    assert [r["bh"] for r in family] == an.st.bh([r["cluster"]["p"] for r in family])
+    assert [r["bh"] for r in family] == st.bh([r["cluster"]["p"] for r in family])
     for v in found:
         assert not set(an.CLAUDE_DROPPED) & set(v)
 
@@ -904,8 +905,8 @@ def test_c_is_the_claude_mean_minus_the_open_mean():
     # (-0.5 - 0.1) / 2 - (-1 - 2 - 3) / 3
     assert c["est"] == pytest.approx(1.7)
     w = [-1 / 3] * 3 + [1 / 2] * 2
-    want = an.st.wald_contrast([-1.0, -2.0, -3.0, -0.5, -0.1],
-                               [[c_cov()[(a, b)] for b in C_MODELS] for a in C_MODELS], w)
+    want = st.wald_contrast([-1.0, -2.0, -3.0, -0.5, -0.1],
+                            [[c_cov()[(a, b)] for b in C_MODELS] for a in C_MODELS], w)
     assert c["se"] == pytest.approx(want["se"]) and (c["closed"], c["open"]) == (2, 3)
     assert an.c_reading(c) == "Claude loses less (interval above 0)"
 
@@ -997,9 +998,9 @@ def test_claude_removal_checks_bin_on_the_claude_text_score():
     assert sum(len(v["contamination"]["gaps"]) for v in rep.values()) == 16
     for b, (data, lengths) in inputs.items():
         k = rep[b]["contamination"]
-        y = an.scores(data)
+        y = st.scores(data)
         items = data["items"]
-        text = [an.mean([y[m]["text"][j] for m in CLAUDE]) for j in range(len(items))]
+        text = [st.mean([y[m]["text"][j] for m in CLAUDE]) for j in range(len(items))]
         bins = list(zip(an.equal_groups(text, items, an.CONTROL["bins"][0]),
                         an.equal_groups([lengths[i] for i in items], items,
                                         an.CONTROL["bins"][1])))
@@ -1011,14 +1012,14 @@ def test_claude_removal_checks_bin_on_the_claude_text_score():
         c = k["control"][m]
         assert (c["flagged"], c["shortfall"]) == (2, short)
         assert c["removed_per_draw"] == 2 - sum(short.values())
-        d = an.differences(y[m], data["conditions"][1:], "text")
+        d = st.differences(y[m], data["conditions"][1:], "text")
         row = next(r for r in k["flagged_only"] if r["model"] == m)
-        assert row["text_flagged"] == pytest.approx(an.mean([y[m]["text"][j] for j in flagged]))
-        assert row["text_rest"] == pytest.approx(an.mean([y[m]["text"][j] for j in rest]))
-        assert row["gap_rest"] == pytest.approx(an.mean([d[j] for j in rest]))
+        assert row["text_flagged"] == pytest.approx(st.mean([y[m]["text"][j] for j in flagged]))
+        assert row["text_rest"] == pytest.approx(st.mean([y[m]["text"][j] for j in rest]))
+        assert row["gap_rest"] == pytest.approx(st.mean([d[j] for j in rest]))
         mean_row = next(r for r in k["gaps"] if r["model"] == m and r["gap"] == "mean")
-        assert mean_row["all_items"] == pytest.approx(an.mean(d))
-        assert mean_row["est"] == pytest.approx(an.mean([d[j] for j in rest]))
+        assert mean_row["all_items"] == pytest.approx(st.mean(d))
+        assert mean_row["est"] == pytest.approx(st.mean([d[j] for j in rest]))
         assert mean_row["removed"] == 2
 
 
