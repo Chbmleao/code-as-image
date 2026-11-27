@@ -12,6 +12,7 @@ from codeimg import config
 from codeimg.analysis import contamination as ctm
 from codeimg.analysis import gaps as gp
 from codeimg.analysis import inputs as inp
+from codeimg.analysis import replies as rpl
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
 
@@ -835,7 +836,7 @@ def write_run(path, gens, logs):
 
 
 def replies_of(path, collected):
-    return an.replies_report(LINE_CFG, str(path), {"deveval": collected}, benches=("deveval",))
+    return rpl.replies_report(LINE_CFG, str(path), {"deveval": collected}, benches=("deveval",))
 
 
 def test_replies_count_each_event_per_model_and_condition(tmp_path):
