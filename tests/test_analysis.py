@@ -9,6 +9,7 @@ import pytest
 from conftest import ROOT, need
 
 from codeimg import config
+from codeimg.analysis import contamination as ctm
 from codeimg.analysis import inputs as inp
 from codeimg.analysis import stats as st
 from codeimg.answers import answer_key
@@ -190,7 +191,7 @@ def test_only_another_models_text_copy_flags_an_item():
     m1, m2 = list(rel.ds.NAMES)[:2]
     copies = {(m1, "A", 0): True, (m1, "A", 1): False, (m2, "A", 0): False,
               (m2, "B", 1): True, (m1, "C", 0): False}
-    flags = an.flags_of([m1, m2], ["A", "B", "C", "D"], copies)
+    flags = ctm.flags_of([m1, m2], ["A", "B", "C", "D"], copies)
     # m1's own copy of A flags A for m2 only; D has no answer at all (no_code) and is not flagged
     assert flags == {m1: {"B"}, m2: {"A"}}
 
@@ -204,41 +205,41 @@ def test_a_graded_text_answer_without_a_reply_fails():
             r["reason"] = "no_code"
     data = inp.load_benchmark("deveval", rows, items, [m], CONDS, parts)
     copies = {(m, "A", 0): False, (m, "A", 1): False, (m, "B", 1): False}
-    an.check_answers("deveval", data, copies)
+    ctm.check_answers("deveval", data, copies)
     del copies[(m, "A", 1)]
     with pytest.raises(ValueError, match="1 graded text answer"):
-        an.check_answers("deveval", data, copies)
+        ctm.check_answers("deveval", data, copies)
 
 
 def test_matched_removals_draw_from_the_pool_by_bin():
     bins = [(k % 3, 0) for k in range(30)]
     flagged = [0, 1, 3, 4]
     pool = set(range(30)) - set(flagged) - {2}
-    draws, short = an.matched_removals(flagged, bins, pool, 200, "toy")
+    draws, short = ctm.matched_removals(flagged, bins, pool, 200, "toy")
     assert short == {}
     for dr in draws:
         assert len(dr) == len(set(dr)) == 4
         assert set(dr) <= pool
         assert sorted(bins[j] for j in dr) == sorted(bins[j] for j in flagged)
-    assert draws == an.matched_removals(flagged, bins, pool, 200, "toy")[0]
-    assert draws != an.matched_removals(flagged, bins, pool, 200, "other")[0]
+    assert draws == ctm.matched_removals(flagged, bins, pool, 200, "toy")[0]
+    assert draws != ctm.matched_removals(flagged, bins, pool, 200, "other")[0]
 
 
 def test_a_short_bin_draws_what_it_has_and_says_so():
     bins = [(0, 0)] * 3 + [(1, 0)] * 3
-    draws, short = an.matched_removals([0, 1], bins, {2, 3}, 5, "toy")
+    draws, short = ctm.matched_removals([0, 1], bins, {2, 3}, 5, "toy")
     assert short == {"(0, 0)": 1}
     assert all(dr == [2] for dr in draws)
 
 
 def test_equal_groups_break_ties_by_id():
-    assert an.equal_groups([1, 1, 1, 1, 0, 0], ["f", "e", "d", "c", "b", "a"], 3) == [2, 2, 1, 1, 0,
-                                                                                        0]
+    assert ctm.equal_groups([1, 1, 1, 1, 0, 0], ["f", "e", "d", "c", "b", "a"], 3) == [
+        2, 2, 1, 1, 0, 0]
 
 
 def test_contamination_needs_the_glmm_modes(tmp_path):
     with pytest.raises(ValueError, match="run analysis/glmm_main.R first"):
-        an.read_item_modes(str(tmp_path / "glmm_item_model.csv"))
+        ctm.read_item_modes(str(tmp_path / "glmm_item_model.csv"))
 
 
 def test_report_names_the_command_of_a_missing_input(tmp_path):
@@ -278,8 +279,8 @@ def test_flagged_items_get_their_own_gap(tmp_path):
               if r["condition"] == "text"}
     copies[(models[0], items[0], 0)] = True
     modes = {"deveval": {(m, i): float(k) for m in models for k, i in enumerate(items)}}
-    rep = an.contamination_report({"deveval": (data, lengths)}, {"deveval": copies}, modes,
-                                  n_draws=5)
+    rep = ctm.contamination_report({"deveval": (data, lengths)}, {"deveval": copies}, modes,
+                                   n_draws=5)
     rows = rep["benchmarks"]["deveval"]["flagged_only"]
     # the copying model's own items are not flagged for it, so it gets no row
     assert [r["model"] for r in rows] == [inp.name(m) for m in models[1:]]
@@ -429,7 +430,7 @@ def test_line_flags_count_open_run_2_and_ignore_own_copies(monkeypatch):
               if r["condition"] == "text"}
     copies[(models[0], "A", 2)] = True
     copies[(CLAUDE[1], "D", 0)] = True
-    rep = an.line_flags_report(line, {"deveval": copies})["benchmarks"]["deveval"]
+    rep = ctm.line_flags_report(line, {"deveval": copies})["benchmarks"]["deveval"]
     flagged = {inp.name(m): k for m, k in zip(models, [1, 2, 2, 1])}
     assert rep["flagged"] == flagged
     assert (rep["copy_answers"], rep["copied_items"]) == (2, 2)
@@ -443,15 +444,15 @@ def test_a_claude_answer_that_never_reached_grading_needs_no_reply(monkeypatch):
     copies = {(r["model"], r["id"], r["run"]): False for r in open_rows + claude_rows
               if r["condition"] == "text"}
     del copies[(r["model"], r["id"], r["run"])]
-    an.check_answers("deveval", data, copies)
+    ctm.check_answers("deveval", data, copies)
     del copies[(CLAUDE[1], "A", 0)]
     with pytest.raises(ValueError, match="1 graded text answer"):
-        an.check_answers("deveval", data, copies)
+        ctm.check_answers("deveval", data, copies)
 
 
 def test_the_claude_replies_file_is_required(tmp_path):
     with pytest.raises(ValueError, match="claude_deveval_text.jsonl is missing"):
-        an.text_copies("deveval", str(tmp_path), ("claude",))
+        ctm.text_copies("deveval", str(tmp_path), ("claude",))
 
 
 def _line_report_inputs(models):
@@ -776,7 +777,7 @@ def fresh_names():
 def test_the_claude_gaps_write_no_figures(tmp_path, monkeypatch, fresh_names):
     monkeypatch.setattr(an.config, "load", lambda: CLAUDE_CFG)
     monkeypatch.setattr(inp, "read_claude", lambda cfg, path: claude_inputs())
-    monkeypatch.setattr(an, "text_copies", lambda b, path, parts: claude_copies()[b])
+    monkeypatch.setattr(ctm, "text_copies", lambda b, path, parts: claude_copies()[b])
     monkeypatch.setattr(an.rs, "N_BOOT", 20)
     an.main(["gaps", "--models", "claude", "--answers", "x", "--out", str(tmp_path)])
     assert os.listdir(tmp_path) == ["gaps.json"]
@@ -1001,9 +1002,9 @@ def test_claude_removal_checks_bin_on_the_claude_text_score():
         y = st.scores(data)
         items = data["items"]
         text = [st.mean([y[m]["text"][j] for m in CLAUDE]) for j in range(len(items))]
-        bins = list(zip(an.equal_groups(text, items, an.CONTROL["bins"][0]),
-                        an.equal_groups([lengths[i] for i in items], items,
-                                        an.CONTROL["bins"][1])))
+        bins = list(zip(ctm.equal_groups(text, items, ctm.CONTROL["bins"][0]),
+                        ctm.equal_groups([lengths[i] for i in items], items,
+                                         ctm.CONTROL["bins"][1])))
         m = CLAUDE[1]
         flagged, rest = [0, 1], list(range(2, 8))
         need = Counter(bins[j] for j in flagged)
